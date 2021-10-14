@@ -3,10 +3,39 @@
 <script src="{% static 'js/formplugins/validate/jquery.validate.min.js' %}"></script>
 <script src="{% static 'js/notifications/sweetalert2/sweetalert2.bundle.js' %}"></script>
 <script src="{% static 'js/datagrid/datatables/datatables.bundle.js' %}"></script>
-
+{#<script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>#}
 
 
 <script type="text/javascript">
+
+    function get_values(user_id,id_ass,nome,codigo,qtd,valFim, user_info, espelho_info)
+    {
+
+
+        document.getElementById('text_nome').innerHTML = nome
+        document.getElementById('text_code').innerHTML = codigo
+        document.getElementById('text_quantidade').innerHTML = qtd
+        document.getElementById('text_valor_financeiro').innerHTML = valFim
+        document.getElementById('emai_text').value = document.getElementById('email_body').innerHTML;
+        document.getElementById('remete').value = user_id;
+        document.getElementById('enviado_por').value = user_id;
+        document.getElementById('responsavel').value = id_ass;
+
+
+        $(document).ready(function(){
+
+             if (id_ass === user_id){
+            {#document.getElementById('remetente').innerHTML = '<option value="'+id_ass+'" selected>cu</option>'#}
+                $( '#remetente' ).html('<option value="'+user_id+'" selected>'+user_info+'</option>');
+            }else{
+                $('#remetente').html('<option value="'+user_id+'" selected>A'+user_info+'</option>'+'<option value="'+id_ass+'">'+espelho_info+'</option>');
+            }
+
+        });
+
+    }
+
+
     /* Activate smart panels */
     $('#js-page-content').smartPanel({
         collapseButton: true,
@@ -21,6 +50,46 @@
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
+    });
+
+    $(document).ready(function()
+    {
+        // initialize datatable
+        $('#ceo').dataTable(
+        {
+            order: [[ 1, "asc" ]],
+            searching: false,
+            paging: false,
+            responsive: {
+            breakpoints: [
+                { name: 'desktop', width: Infinity },
+                { name: 'tablet',  width: 1024 },
+                { name: 'fablet',  width: 768 },
+                { name: 'phone',   width: 480 }
+            ]
+        },
+            columnDefs: [
+
+            { details: true, targets: 0,  },
+
+            ],
+        });
+
+        $('.js-thead-colors a').on('click', function()
+        {
+            var theadColor = $(this).attr("data-bg");
+            console.log(theadColor);
+            $('#dt-basic-example thead').removeClassPrefix('bg-').addClass(theadColor);
+        });
+
+        $('.js-tbody-colors a').on('click', function()
+        {
+            var theadColor = $(this).attr("data-bg");
+            console.log(theadColor);
+            $('#dt-basic-example').removeClassPrefix('bg-').addClass(theadColor);
+        });
+
+
     });
 
     $(document).ready(function()
@@ -72,26 +141,17 @@
     {# CHNAGE REMETENTE #}
     {#  -----------------------------------------------------------------------------  #}
         $('#remetente').on('change', function() {
-            var infos = this.value.split('-', 3)
-            document.getElementById('email_from').value = infos[2]
+            var infos = this.value.split('-', 2)
+            {#document.getElementById('email_from').value = infos[2]#}
             {#document.getElementById('remetente_name').value = #}
             $('#remetente_name').html(infos[1]);
+            document.getElementById('emai_text').value = document.getElementById('email_body').innerHTML;
+            document.getElementById('remete').value = this.value;
+
           {#alert( this.value );#}
         });
 
     {# METHODS TO POPULATE EMAIL BODY #}
-
-    {#  -----------------------------------------------------------------------------  #}
-
-
-    function putCodigo() {
-       document.getElementById('text_code').innerHTML = document.getElementById('codigo').value;
-    }
-
-    function putNome() {
-       document.getElementById('text_nome').innerHTML = document.getElementById('nome').value;
-    }
-
 
     {#  -----------------------------------------------------------------------------  #}
 
@@ -119,132 +179,11 @@
 
     {#  -----------------------------------------------------------------------------  #}
 
-    {# METHODS TO CHECK CLIENT CODE #}
-    {#  -----------------------------------------------------------------------------  #}
-
-
-    {#  -----------------------------------------------------------------------------  #}
-
     {# METHODS TO VALIDATE FORM #}
-    {#  -----------------------------------------------------------------------------  #}
-
-    $(document).ready(function(){
-         $("#form").validate({
-             rules: {
-                codigo:{required:true},
-                nome:{required:true},
-                email:{required:true},
-                quantidade:{required:true},
-             },
-             messages:{
-                codigo:{required:"Este campo é obrigatório!",},
-                nome:{required:"Este campo é obrigatório!",},
-                email:{required:"Este campo é obrigatório!",email:"Digite um e-mail válido"},
-                quantidade:{required:"Este campo é obrigatório!",},
-             }
-         });
-    });
-
-    function validateForm() {
-        var isValid = true;
-        $('.especial_form').each(function() {
-            if ( $(this).val() === '' )
-                isValid = false;
-        });
-        return isValid;
-    }
-
-    var formCompleted = false;
-
-    $(":text , :file, :checkbox, select, textarea").change(function() {
-        formCompleted = validateForm();
-        if(formCompleted){
-            document.getElementById('emai_text').value = document.getElementById('email_body').innerHTML;
-            $('#sendform').removeClass('isDisable');
-        }else{
-            {#$('#colocaemail').addClass('isDisable');#}
-            $('#sendform').addClass('isDisable');
-        }
-    });
-
-    {#  -----------------------------------------------------------------------------  #}
-
-    {# OTHER METHODS #}
-    {#  -----------------------------------------------------------------------------  #}
-
-
     {#  -----------------------------------------------------------------------------  #}
 
     {#  MAIL #}
     {#  -----------------------------------------------------------------------------  #}
-
-    function getClient(a) {
-       var code = document.getElementById('codigo').value;
-       var token = document.getElementById('token').value;
-
-        var defaut = '{{ request.user.id|get_assessor_code_nome_email  }}'
-          var selectobject = document.getElementById("remetente");
-            for (var i=0; i<selectobject.length; i++) {
-                if (selectobject.options[i].value != defaut)
-                    selectobject.remove(i);
-                    var infos = defaut.split('-', 3)
-                    document.getElementById('email_from').value = infos[2]
-                    {#document.getElementById('remetente_name').value = #}
-                    $('#remetente_name').html(infos[1]);
-            }
-
-           $.ajax({
-               type: 'POST',
-               url: '{% url 'ajax:get-client' %}',
-               data: {
-                   code: code,
-                   csrfmiddlewaretoken: token
-               },
-               success: function (response) {
-
-                    $( '#response' ).html(response);
-
-                    if(response != 'false'){
-                        document.getElementById('nome').value = document.getElementById('got_name').value;
-                        document.getElementById('emeincliente').value = document.getElementById('got_email').value;
-                        document.getElementById('assessor_responsavel').value = document.getElementById('got_responsavel').value;
-
-                        select = document.getElementById('remetente');
-
-                        if (document.getElementById('got_assessor_owner').value != defaut){
-                            var opt = document.createElement('option');
-                            opt.value = document.getElementById('got_assessor_owner').value;
-                            opt.innerHTML = document.getElementById('code_name_last').value;
-                            select.appendChild(opt);
-
-                        }
-
-                        putNome(document.getElementById('got_name').value)
-
-                        $( '#unknow' ).html('<span style="color: #2ecc71"><i class="fal fa-check-circle"></i> Cleinte encontrado</span>');
-
-                        $('.especial_form').each(function(){
-                          document.getElementById("remetente").focus();
-                        });
-
-                    }else{
-                        document.getElementById('text_nome').innerHTML = ''
-                        document.getElementById('unknow').innerHTML = 'Cliente não cadastrado ou código errado!'
-                        document.getElementById('nome').value = '';
-                        document.getElementById('emeincliente').value = '';
-                        $( '#unknow' ).html('<span style="color: #e74c3c"><i class="fal fa-sad-tear"></i> Cleinte nao encontrado ou nao faz parte do seu espelhamento!</span>');
-                        $('.especial_form').each(function(){
-                          document.getElementById("codigo").focus();
-                        });
-
-
-                    }
-
-               },
-           });
-
-
-    }
 
     function get_emails_enviados(){
         var token = '{{ csrf_token }}';
@@ -320,16 +259,16 @@
 
                 if(response != 'false'){
 
-                    var defaut = '{{ request.user.id|get_assessor_code_nome_email  }}'
-                    var selectobject = document.getElementById("remetente");
-                        for (var i=0; i<selectobject.length; i++) {
-                            if (selectobject.options[i].value != defaut)
-                                selectobject.remove(i);
-                                var infos = defaut.split('-', 3)
-                                document.getElementById('email_from').value = infos[2]
+                    {#var defaut = '{{ request.user.id|get_assessor_code_nome_email  }}'#}
+                    {#var selectobject = document.getElementById("remetente");#}
+                    {#    for (var i=0; i<selectobject.length; i++) {#}
+                    {#        if (selectobject.options[i].value != defaut)#}
+                    {#            selectobject.remove(i);#}
+                    {#            var infos = defaut.split('-', 2)#}
+                                {#document.getElementById('email_from').value = infos[2]#}
                                 {#document.getElementById('remetente_name').value = #}
-                                $('#remetente_name').html(infos[1]);
-                        }
+                    {#            $('#remetente_name').html(infos[1]);#}
+                    {#    }#}
 
                     window.scrollTo({ bottom: 0, behavior: 'smooth' })
                     document.getElementById("form").reset()
