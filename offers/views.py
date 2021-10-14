@@ -691,6 +691,9 @@ def sendemailrvfii(request, ticker, emissor):
     with open('data/ofertas/fii/ticker11_data.json') as json_file:
         ticker11 = json.load(json_file)
 
+    with open('data/ofertas/fii/subscricao/' + ticker + '.json') as json_file:
+        subs = json.load(json_file)
+
     a_oferta = []
     for oferta in ticker11:
         if oferta['Fundo'] == ticker and oferta['Emissão'] == emissor:
@@ -711,6 +714,7 @@ def sendemailrvfii(request, ticker, emissor):
         'oferta': a_oferta,
         'ticker': ticker,
         'emissor': emissor,
+        'clientes': subs,
         # Crumbs First Page Config
         'first_page_name': 'Ofertas',
         'first_page_link': '',
@@ -871,12 +875,13 @@ def fii_files_upload(request):
             data['QuantidadeSolicitada'] = row_values[13]
             data['ErroBolsa'] = row_values[14]
             data['QuantidadeDisponivel'] = row_values[15]
-            data['QuantidadeAdicionalExercida'] = row_values[16]
-            data['ValorDireito'] = row_values[17]
-            data['CodNegociacao'] = row_values[18]
-            data['Marca'] = row_values[19]
-            data['NomeFilial'] = row_values[20]
-            data['CodAssessor'] = row_values[21]
+            data['QuantidadeAdicionalSolicitada'] = row_values[16]
+            data['QuantidadeAdicionalExercida'] = row_values[17]
+            data['ValorDireito'] = row_values[18]
+            data['CodNegociacao'] = row_values[19]
+            data['Marca'] = row_values[20]
+            data['NomeFilial'] = row_values[21]
+            data['CodAssessor'] = row_values[22]
             data_list.append(data)
 
         with open('data/ofertas/fii/subscricao/'+str(request.POST['ticker']+'.json'), "w", encoding="utf-8") as writeJsonfile:
