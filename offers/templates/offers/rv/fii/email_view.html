@@ -170,7 +170,7 @@
 
                         <tbody id="tablemail">
                             {% for cliente in clientes %}
-                                {{request.user.id|str_val }}
+{#                                {{request.user.id|str_val }}#}
 
                                 {% if request.user.id|str_val == cliente.CodAssessor|get_assessor_id|str_val or cliente.CodAssessor|get_assessor_id|check_espelhamento_fii:request.user.id == 'True' %}
                                     <tr class="item">
