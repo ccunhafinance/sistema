@@ -1,0 +1,287 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load filter_tags %}
+<!-- BEGIN page style -->
+{% block style %}
+    {% include './css/email_view_css.html' %}
+    <style>
+    .error{
+        color:#ce2323;
+    }
+    .isDisable {
+          {#color: currentColor;#}
+          cursor: not-allowed;
+          opacity: 0.5;
+          text-decoration: none;
+          pointer-events: none;
+        }
+    </style>
+{% endblock %}
+<!-- END page style -->
+
+<!-- BEGIN Page Subheader -->
+{% block subheader %}
+{% endblock %}
+<!-- END page Subheader -->
+
+<!-- BEGIN page content -->
+{% block content %}
+{#<div class="ml-auto">#}
+{#    <a href="javascript:void(0);" class="btn btn-sm btn-outline-primary mr-2" id="deletesettingskey-options">Clear settings key</a>#}
+{#    <a href="javascript:void(0);" class="btn btn-sm btn-outline-primary mr-2" id="deletepositionkey-options">Clear position key</a>#}
+{#    <a href="javascript:void(0);" class="btn btn-sm btn-outline-danger mr-2" data-action="factory-reset">Clear all storage keys</a>#}
+{#</div>#}
+
+<div class="row">
+
+    {#  SERIES  #}
+    <div class="col-md-12">
+        <div id="panel-1" class="panel panel-locked" data-panel-lock="false" data-panel-close="false"    data-panel-locked="false" data-panel-refresh="false" >
+            <div class="panel-hdr">
+                <h2>
+                    Séries desta oferta <span class="fw-300"><i></i></span>
+                </h2>
+
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+
+                    <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100 table-sm">
+                        <thead>
+                            <tr>
+                              <th>Série</th>
+                              <th>Taxa Teto</th>
+                              <th>Taxa Referêncial</th>
+                              <th>Vencimento</th>
+                              <th>Duration (em anos)</th>
+                              <th>Amortização</th>
+                              <th>Início da Amortização</th>
+                              <th>Jurus</th>
+                              <th>Taxa Aproximada</th>
+                              <th class="phone">Observações</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for serie in series %}
+                                <tr>
+                                    <td>{{ serie.tipe }}</td>
+                                    <td>{{ serie.tax_top }}</td>
+                                    <td>{{ serie.tax_ref }}%</td>
+                                    <td>{{ serie.venciment|date:'d/m/Y' }}</td>
+                                    <td>{{ serie.duration }}</td>
+                                    <td>{{ serie.amort }}</td>
+                                    <td>{{ serie.amort_beg|date:'d/m/Y' }}</td>
+                                    <td>{{ serie.jurus }}</td>
+                                    <td>{{ serie.current_tax }}</td>
+                                    <td>{{ serie.obs }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# FORMILÁRIO DE ENVIO   #}
+    <div class="col-md-4">
+        <div id="panel-2" class="panel panel-locked" data-panel-lock="false" data-panel-close="false"    data-panel-locked="false" data-panel-refresh="false">
+            <div class="panel-hdr">
+                <h2>
+                    Formulário de envio <span class="fw-300"><i></i></span>
+                </h2>
+                <div class="panel-toolbar" style="margin-right: 25px">
+
+                </div>
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <form  id="form" method="post">
+                            <input hidden type="" name="csrfmiddlewaretoken" id="token" value="{{csrf_token}}">
+                            <input hidden name="cod_assessor_mail" id="cod_assessor_mail">
+
+                            <div id="response"></div>
+
+                            <div class="form-group">
+                               <label>Código do cliente</label>
+                               <input type="text" name="codigo" class="form-control especial_form" placeholder="Código" id="codigo" required onkeyup="putCodigo()" onchange="getClient(this)">
+                               <small class="text-danger" id="table_ipo"></small>
+                               <small id="unknow" class="text-danger"></small>
+                            </div>
+
+                            <div class="form-group">
+                               <label>Nome do cliente</label>
+                               <input type="text" name="nome" id="nome" class="form-control especial_form" placeholder="Nome"  required onchange="putNome()">
+                            </div>
+
+                            <div class="form-group">
+                               <label>Email</label>
+                               <input type="email" name="email" id="emeincliente" class="form-control especial_form" placeholder="Email" required >
+                               <input type="text" hidden id="email_assessor" name="email_assessor">
+                            </div>
+
+                            <div class="form-group">
+                               <label>Remetente</label>
+                                <select id="remetente" class="form-control especial_form" name="remetente" onchange="">
+                                    <option value="{{ request.user.id|get_assessor_code_nome_email  }}" selected>{{ request.user.id|get_assessor_ifos }}</option>
+                                </select>
+                               <small class="text-danger" id="table_ipo"></small>
+                            </div>
+                            <input hidden name="assessor_responsavel" id="assessor_responsavel" >
+
+                            <div class="form-group">
+                               <label>Series</label>
+                               <select name="serie" class="form-control especial_form" id="serie" required>
+                                  <option value="">Selecione</option>
+                                  {%for d in series %}
+                                        <option value="{{d.tipe}} + {{d.tax_top}} + {{d.amort_beg|date:'d/m/Y'}}" >{{d.tipe}}</option>
+                                  {%endfor%}
+                               </select>
+                            </div>
+
+
+                            <div class="form-group">
+                               <label>Taxa </label>
+                               <input name="taxa" title="text" class="form-control especial_form"  required id="taxa" onkeyup="formatPercent(this), putTaxa(this)">
+                            </div>
+
+                            <div class="form-group">
+                               <label>Valor da Reserva </label>
+                               <input type="text" name="val_reserva" class="form-control"  id='val_reserva' onkeyup="formatCash(this), putVal(this)" required>
+                            </div>
+
+                            <textarea hidden class="form-control" id="emai_text" name="email_body"></textarea>
+
+                            <input hidden id="email_from" name="email_from" value="{{ request.user.email }}">
+
+                            <input hidden name="assunto" id="assunto" value="Oferta Púplica {{ oferta.ativo }} {{ oferta.emissor }}">
+                            <br>
+
+
+                      </form>
+                        <div id="sender">
+                        <button id="sendform"  class="btn btn-primary isDisable ladda-button" data-style="expand-right" onclick="sendmail()">Enviar E-mail</button>
+                        <span id="notificacao"></span>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# PRÉ VIZUALIZAÇÃO DO EMAIL   #}
+    <div class="col-md-8">
+        <div id="panel-3" class="panel panel-locked" data-panel-lock="false" data-panel-close="false"    data-panel-locked="false" data-panel-refresh="false">
+            <div class="panel-hdr">
+                <h2>
+                    Pré Visualização do E-mail <span class="fw-300"><i></i></span>
+                </h2>
+
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content" id="email_body">
+
+                    {{ saldacao }}, <span id='text_nome'> <span class="text-danger b-1">[NOME DO CLIENTE]</span> </span>.
+                    <br>
+                    <br>
+                    Gostaria de confirmar a reserva de compra no seu código <span id="text_code"> <span class="text-danger b-1">[CÓDIGO DO CLIENTE]</span> </span> na XP:
+                    <br>
+                    <br>
+                    - Oferta: {{oferta.ativo}} {{oferta.emissor}}
+                    <br>
+                    <br>
+                   (leia o <a href="{{oferta.link_aviso_mercado}}" target="_blank">prospecto</a> ).
+                    <br>
+                    <br>
+                   - Série: <span id="serie_name"> <span class="text-danger b-1">[SÉRIE]</span> </span>
+                    <br>
+                    <br>
+                   - Valor da reserva: <span id="reserva"><span class="text-danger b-1">[VALOR]</span></span>
+                    <br>
+                    <br>
+                   - Taxa:  <span id="serie_ano"> <span class="text-danger b-1">[NTNB ANO]</span> </span> + <span id="serie_taxa"> <span class="text-danger b-1">[TAXA]</span> </span> a.a.
+                    <br>
+                    <br>
+                   - Data de Vencimento: <span id="serie_venvimento"> <span class="text-danger b-1">[VENCIMENTO]</span> </span>
+                    <br>
+                    <br>
+                    Aguardo a sua confirmação.
+
+                    Aguardo a sua confirmação para realizar a reserva.
+                    <br>
+                    <br>
+
+                    {% include '../assinaturaemail.html' %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {#  REGISTRO DE EMAILS ENVIADOS  #}
+
+    <div class="col-md-12">
+        <div id="panel-4" class="panel panel-locked" data-panel-lock="false" data-panel-close="false"    data-panel-locked="false" data-panel-refresh="false" >
+            <div class="panel-hdr">
+                <h2>
+                    Registro de e-mails enviados <span class="fw-300"><i></i></span>
+                </h2>
+
+            </div>
+            <div class="panel-container show">
+
+
+                <div class="panel-content">
+
+                    <input type="text" class="form-control form-control-sm m-b-xs" id="filter" placeholder="Procurar...">
+                    <br>
+
+
+                    <table id="tabela_enviados" class="table table-bordered table-hover table-striped w-100 table-sm">
+                        <thead>
+                            <tr>
+                                <th>Ver</th>
+                                <th>Cliente</th>
+                                <th>Enviado Por</th>
+                                <th>Remetente</th>
+                                <th>E-mail</th>
+                                <th>Série</th>
+                                <th>Taxa Teto</th>
+                                <th>Taxa Enviada</th>
+                                <th>Valor</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="tablemail">
+{#                            {% for modalidade in modalidades %}#}
+{#                                <tr>#}
+{#                                    <td>{{ modalidade.name }}</td>#}
+{#                                    <td>{{ modalidade.fee }}%</td>#}
+{#                                    <td>{{ modalidade.garant|moeda }}</td>#}
+{#                                    <td>{{ modalidade.min_reserv|moeda }}</td>#}
+{#                                    <td>{{ modalidade.max_reserv|moeda }}</td>#}
+{#                                    <td>{{ modalidade.lock_end|date:'d/m/Y' }}</td>#}
+{#                                    <td>{{ modalidade.obs }}</td>#}
+{#                                </tr>#}
+{#                            {% endfor %}#}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+<!-- END page content -->
+
+<!-- BEGIN page script -->
+{% block script %}
+    {% include './js/email_view_js.html' %}
+{% endblock %}
+<!-- END page script -->

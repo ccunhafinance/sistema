@@ -1,0 +1,30 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<script>
+    $(document).ready(function(){
+        $("#add-item").click(function(ev) {
+            ev.preventDefault();
+            var count = $('#order').children().length;
+            var tmplMarkup = $("#item-order").html();
+            var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+            $("div#order").append(compiledTmpl);
+
+            // update form count
+            $('#id_product-TOTAL_FORMS').attr('value', count + 1);
+
+            // some animate to scroll to view our new form
+
+        });
+    });
+</script>
+
+<script type="text/html" id="item-order">
+    <div class="col-xl-4">
+        <div class=" shadow p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4 ">
+        <div id="item-__prefix__" style="margin-top: 10px">
+                {{ formset.empty_form|crispy }}
+        </div>
+        </div>
+    </div>
+</script>

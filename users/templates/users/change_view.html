@@ -1,0 +1,52 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+<!-- BEGIN page style -->
+{% block style %}
+{% endblock %}
+<!-- END page style -->
+
+<!-- BEGIN Page Subheader -->
+{% block subheader %}
+{% endblock %}
+<!-- END page Subheader -->
+
+<!-- BEGIN page content -->
+{% block content %}
+<div class="row justify-content-center">
+
+    <div class="col-md-4">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr">
+                <h2>
+                    Alterar Senha
+                </h2>
+                <div class="panel-toolbar">
+                    <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+                </div>
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <input hidden name="has_pass" id="has_pass" value="True">
+
+                        <button type="submit" class="btn btn-primary">Alterar</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+<!-- END page content -->
+
+<!-- BEGIN page script -->
+{% block script %}
+{% endblock %}
+<!-- END page script -->

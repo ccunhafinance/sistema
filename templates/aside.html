@@ -1,0 +1,222 @@
+{% load static %}
+{% load filter_tags %}
+<aside class="page-sidebar">
+
+    <div class="page-logo">
+        <a href="#" class="page-logo-link press-scale-down d-flex align-items-center position-relative" data-toggle="modal" data-target="#modal-shortcut">
+{#            <img src="{% static 'img/logo.png' %}" alt="SmartAdmin WebApp" aria-roledescription="logo">#}
+            <span class="page-logo-text mr-1">BC Finance</span>
+            <span class="position-absolute text-white opacity-50 small pos-top pos-right mr-2 mt-n2"></span>
+            <i class="fal fa-angle-down d-inline-block ml-1 fs-lg color-primary-300"></i>
+        </a>
+    </div>
+
+    <!-- BEGIN PRIMARY NAVIGATION -->
+    <nav id="js-primary-nav" class="primary-nav" role="navigation">
+
+        <div class="nav-filter">
+            <div class="position-relative">
+                <input type="text" id="nav_filter_input" placeholder="Filtrar Menu" class="form-control" tabindex="0">
+                <a href="#" onclick="return false;" class="btn-primary btn-search-close js-waves-off" data-action="toggle" data-class="list-filter-active" data-target=".page-sidebar">
+                    <i class="fal fa-chevron-up"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <img src="{% static 'img/' %}{{ request.user.id|user_image }}" class="profile-image rounded-circle" alt="Dr. Codex Lantern">
+            <div class="info-card-text">
+                <a href="#" class="d-flex align-items-center text-white">
+                    <span class="text-truncate text-truncate-sm d-inline-block">
+                        {{ request.user.first_name }} {{ request.user.last_name }}
+                    </span>
+                </a>
+                <span class="d-inline-block text-truncate text-truncate-sm">{{ request.user.codigo }}<br><small>{{ request.user.type }}</small></span>
+            </div>
+            <img src="{% static 'img/card-backgrounds/cover-2-lg.png' %}" class="cover" alt="cover">
+            <a href="#" onclick="return false;" class="pull-trigger-btn" data-action="toggle" data-class="list-filter-active" data-target=".page-sidebar" data-focus="nav_filter_input">
+                <i class="fal fa-angle-down"></i>
+            </a>
+        </div>
+        <!--
+        TIP: The menu items are not auto translated. You must have a residing lang file associated with the menu saved inside dist/media/data with reference to each 'data-i18n' attribute.
+        -->
+        <ul id="js-nav-menu" class="nav-menu">
+
+            <li class="nav-title">Assessores</li>
+
+            <li class="{% if page_name == 'Dashboard'  %}active{% endif %}">
+                <a href="{% url 'dashboard:dashboard' %}" title="Dashboard" data-filter-tags="dashboard">
+                    <i class="ni ni-grid"></i>
+                    <span class="nav-link-text" data-i18n="nav.blankpage">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="{% if first_page_name == 'Clientes'  %}active open{% endif %}">
+                <a href="#" title="Clientes" data-filter-tags="clientes">
+                    <i class="ni ni-users"></i>
+                    <span class="nav-link-text" data-i18n="nav.blankpage">Clientes</span>
+                </a>
+                <ul>
+                    <li class="{% if second_page_name == 'Meus Clientes'  %}active{% endif %}">
+                        <a href="{% url 'clients:clients-list' %}" title="Meus Clientes" data-filter-tags="meus clientes">
+                            <span class="nav-link-text" data-i18n="nav.blankpage">Meus Clientes</span>
+                        </a>
+                    </li>
+                    <li class="{% if second_page_name == 'Espelhamento'  %}active{% endif %}">
+                        <a href="{% url 'clients:mirror-list' %}" title="Espelhamento" data-filter-tags="espelhamento">
+                            <span class="nav-link-text" data-i18n="nav.blankpage">Espelhamento</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="{% if first_page_name == 'Ofertas' %}active open{% endif %}">
+                <a href="#" title="Font Icons" data-filter-tags="font icons">
+                    <i class="ni ni-tag"></i>
+                    <span class="nav-link-text" data-i18n="nav.font_icons">Ofertas</span>
+{#                    <span class="dl-ref bg-primary-500 hidden-nav-function-minify hidden-nav-function-top">7,500+</span>#}
+                </a>
+                <ul>
+                    <li class="{% if second_page_name == 'Renda Variável' %}active open{% endif %}">
+                        <a href="javascript:void(0);" title="Renda Variável (RV)" data-filter-tags="renda variável rv">
+                            <span class="nav-link-text" data-i18n="nav.font_icons_fontawesome">Renda Variável (RV)</span>
+                        </a>
+                        <ul>
+                            <li class="{% if subtitle == 'IPO' %}active{% endif %}">
+                                <a href="{% url 'offers:listar-rv-ipo' %}" title="IPO" data-filter-tags="ipo">
+                                    <span class="nav-link-text" data-i18n="nav.font_icons_fontawesome_light">IPO</span>
+                                </a>
+                            </li>
+                            <li class="{% if subtitle == 'Direito de Subscrição' %}active{% endif %}">
+                                <a href="{% url 'offers:listar-rv-subscription' %}" title="Direito de Subscrição" data-filter-tags="direito de subscricao">
+                                    <span class="nav-link-text" data-i18n="nav.font_icons_fontawesome_regular">Direito de Subscrição</span>
+                                </a>
+                            </li>
+
+                            <li class="{% if subtitle == 'Fundos Imobiliários (Fii)' %}active{% endif %}">
+                                <a href="{% url 'offers:listar-rv-fii' %}" title="Fundos Imobiliários" data-filter-tags="fundos imobiliários fii">
+                                    <span class="nav-link-text" data-i18n="nav.font_icons_nextgen_icons">FII</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li class="{% if second_page_name == 'Renda Fixa' %}active{% endif %}">
+                        <a href="{% url 'offers:listar-rf' %}" title="Renda Fixa (RF)" data-filter-tags="renda fixa rf">
+                            <span class="nav-link-text" data-i18n="nav.font_icons_nextgen_icons">Renda Fixa (RF)</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li class="{% if page_name == 'Carteira Recomendada'  %}active{% endif %}">
+                <a href="{% url 'clients:clients-list' %}" title="Carteira Recomendada" data-filter-tags="carteira recomendada">
+                    <i class="ni ni-wallet"></i>
+                    <span class="nav-link-text" data-i18n="nav.blankpage">Carteira Recomendada</span>
+                </a>
+            </li>
+
+            <li class="{% if page_name == 'Chat'  %}active{% endif %}">
+                <a href="{% url 'clients:clients-list' %}" title="Chat" data-filter-tags="chat">
+                    <i class="fal fa-head-side-cough"></i>
+                    <span class="nav-link-text" data-i18n="nav.blankpage">Chat</span>
+                </a>
+            </li>
+
+            <li class="{% if page_name == 'Perfil'  %}active{% endif %}">
+                <a href="{% url 'clients:clients-list' %}" title="Perfil" data-filter-tags="perfil">
+                    <i class="fal fa-id-card-alt"></i>
+                    <span class="nav-link-text" data-i18n="nav.blankpage">Perfil</span>
+                </a>
+            </li>
+
+            <li class="{% if page_name == 'Social'  %}active{% endif %}">
+                <a href="{% url 'clients:clients-list' %}" title="Social" data-filter-tags="social">
+                    <i class="fal fa-newspaper"></i>
+                    <span class="nav-link-text" data-i18n="nav.blankpage">Social</span>
+                </a>
+            </li>
+
+
+            <li class="nav-title">Mesa On Deemand</li>
+
+            <li class="{% if page_name == 'Mesa On Deemand'  %}active{% endif %}">
+                <a href="{% url 'dashboard:dashboard' %}" title="Mesa On Deemand" data-filter-tags="mesa on demand">
+                    <i class="fal fa-handshake"></i>
+                    <span class="nav-link-text" data-i18n="nav.blankpage">Indicação On Demand</span>
+                </a>
+            </li>
+
+            <li class="{% if page_name == 'Robo 300K'  %}active{% endif %}">
+                <a href="{% url 'dashboard:dashboard' %}" title="Robo 300K" data-filter-tags="robo 300k">
+                    <i class="fal fa-robot"></i>
+                    <span class="nav-link-text" data-i18n="nav.blankpage">Robo 300K</span>
+                </a>
+            </li>
+
+            <li class="nav-title">Área Administrativa</li>
+
+            <li class="{% if page_name == 'Assessores'  %}active{% endif %}">
+                <a href="{% url 'assessores:assessores-list' %}" title="Área Administrativa" data-filter-tags="area administrativa">
+                    <i class="fal fa-address-card"></i>
+                    <span class="nav-link-text" data-i18n="nav.blankpage">Assessores</span>
+                </a>
+            </li>
+
+            <li class="{% if page_name == 'Links'  %}active{% endif %}">
+                <a href="{% url 'dashboard:dashboard' %}" title="links" data-filter-tags="links">
+                    <i class="fal fa-link"></i>
+                    <span class="nav-link-text" data-i18n="nav.blankpage">Links</span>
+                </a>
+            </li>
+
+            <li class="nav-title">Desenvolvedor</li>
+
+            <li class="{% if page_name == 'Configurações'  %}active{% endif %}">
+                <a href="{% url 'dashboard:dashboard' %}" title="Configurações" data-filter-tags="configurações">
+                    <i class="fal fa-cogs"></i>
+                    <span class="nav-link-text" data-i18n="nav.blankpage">Configurações</span>
+                </a>
+            </li>
+
+            <li class="{% if page_name == 'Permissões'  %}active{% endif %}">
+                <a href="{% url 'dashboard:dashboard' %}" title="Permissões" data-filter-tags="permissões">
+                    <i class="fal fa-cogs"></i>
+                    <span class="nav-link-text" data-i18n="nav.blankpage">Permissões</span>
+                </a>
+            </li>
+
+        </ul>
+        <div class="filter-message js-filter-message bg-success-600"></div>
+    </nav>
+    <!-- END PRIMARY NAVIGATION -->
+
+    <!-- NAV FOOTER -->
+    <div class="nav-footer shadow-top">
+        <a href="#" onclick="return false;" data-action="toggle" data-class="nav-function-minify" class="hidden-md-down">
+            <i class="ni ni-chevron-right"></i>
+            <i class="ni ni-chevron-right"></i>
+        </a>
+        <ul class="list-table m-auto nav-footer-buttons">
+            <li>
+                <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Chat logs">
+                    <i class="fal fa-comments"></i>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Support Chat">
+                    <i class="fal fa-life-ring"></i>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Make a call">
+                    <i class="fal fa-phone"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- END NAV FOOTER -->
+</aside>

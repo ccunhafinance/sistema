@@ -1,0 +1,168 @@
+{% load static %}
+<script src="{% static 'js/datagrid/datatables/datatables.bundle.js' %}"></script>
+<script src="{% static 'js/formplugins/dropzone/dropzone.js' %}"></script>
+<script src="{% static 'js/notifications/sweetalert2/sweetalert2.bundle.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+
+<script>
+
+     $("#js-sweetalert2-example-16").on("click", function()
+    {
+        var timerInterval;
+        Swal.fire(
+        {
+            title: "Importando Ofertas!",
+            html: "Aguarde...<br><br> <strong></strong> segundos.<br/><br/>",
+            timer: 20000,
+            onBeforeOpen: function onBeforeOpen()
+            {
+                var content = Swal.getContent();
+                var $ = content.querySelector.bind(content);
+                Swal.showLoading();
+                timerInterval = setInterval(function()
+                {
+                    Swal.getContent().querySelector("strong").textContent = (
+                        Swal.getTimerLeft() / 1000
+                    ).toFixed(0);
+                }, 100);
+            },
+            onClose: function onClose()
+            {
+                clearInterval(timerInterval);
+            }
+        });
+    });
+
+     let data=[{
+    "name":"jayanth",
+    "data":"scd",
+    "abc":"sdef"
+}]
+
+    Dropzone.autoDiscover = false
+    const MyDropzone = new Dropzone('#my-dropzone',{
+        url: "{% url 'offers:fii-files-upload' %}",
+        maxFiles: 1,
+        maxFilesize: 5,
+        acceptedFiles: '.xlsx, xls',
+        path: 'data/ofertas/fii/subscription/',
+        autoQueue: false,
+        dictDefaultMessage: 'Arrate o arquivo ou clique para fazer upload!',
+        complete: function(file){
+            this.removeAllFiles(true);
+        },
+        addedfile: function(file){
+            selectedFile = file;
+            XLSX.utils.json_to_sheet(data, 'out.xlsx');
+            if(selectedFile){
+                let fileReader = new FileReader();
+                fileReader.readAsBinaryString(selectedFile);
+                fileReader.onload = (event)=>{
+                 let data = event.target.result;
+                 let workbook = XLSX.read(data,{type:"binary"});
+                 console.log(workbook);
+                 workbook.SheetNames.forEach(sheet => {
+                      let rowObject = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet]);
+                      {#console.log(rowObject);#}
+                      {#document.getElementById("jsondata").innerHTML = JSON.stringify(rowObject,undefined,4)#}
+                      let t = JSON.stringify(rowObject,undefined,4)
+                      let mydata = JSON.parse(t);
+                       let tickrr_selected = document.getElementById('ticker').value
+                       let converted_ticker = tickrr_selected.replace("11", "12");
+                      if( mydata[0].CodNegociacao == converted_ticker){
+
+                            this.enqueueFile(file)
+                            $('#_id-'+document.getElementById('ticker').value).removeClass('btn-danger')
+                            $('#_id-'+document.getElementById('ticker').value).addClass('btn-success')
+                            $('.modal').modal('hide')
+                            MyDropzone.emit("resetFiles");
+                            $(document).ready(function(){
+                            Swal.fire(
+                            {
+                                position: "top-end",
+                                type: "success",
+                                title: "<span class='text-success'><i class='fal fa-check-circle'></i> Arquivo enviado com sucesso!</span>",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+
+                        });
+                            // okay !
+                        } else {
+                            $('.modal').modal('hide')
+                            MyDropzone
+                            $(document).ready(function(){
+                            Swal.fire(
+                            {
+                                position: "top-end",
+                                type: "success",
+                                title: "<span class='text-danger'><i class='fal fa-frown-open'></i> Este arquivo nao pertence a essa oferta!</span>",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+
+                        });
+                     }
+
+                 });
+                }
+            }
+        },
+    })
+
+    $('.reset-dz').on('click', function(e){
+        MyDropzone.removeAllFiles();
+    });
+
+    function get_ticker(ticker){
+        document.getElementById('ticker').value = ticker
+    }
+
+
+
+
+</script>
+
+<script>
+    $(document).ready(function()
+    {
+        // initialize datatable
+        $('#dt-basic-example').dataTable(
+        {
+            order: [[ 2, "desc" ]],
+            paging: false,
+            responsive: {
+            breakpoints: [
+                { name: 'desktop', width: Infinity },
+                { name: 'tablet',  width: 1024 },
+                { name: 'fablet',  width: 768 },
+                { name: 'phone',   width: 480 }
+            ]
+        },
+            columnDefs: [
+
+            { details: true, targets: 0 },
+
+            ],
+        });
+
+        $('.js-thead-colors a').on('click', function()
+        {
+            var theadColor = $(this).attr("data-bg");
+            console.log(theadColor);
+            $('#dt-basic-example thead').removeClassPrefix('bg-').addClass(theadColor);
+        });
+
+        $('.js-tbody-colors a').on('click', function()
+        {
+            var theadColor = $(this).attr("data-bg");
+            console.log(theadColor);
+            $('#dt-basic-example').removeClassPrefix('bg-').addClass(theadColor);
+        });
+
+
+    });
+
+
+
+</script>

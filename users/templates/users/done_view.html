@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+{% load static %}
+<!-- BEGIN page style -->
+{% block style %}
+{% endblock %}
+<!-- END page style -->
+
+<!-- BEGIN Page Subheader -->
+{% block subheader %}
+{% endblock %}
+<!-- END page Subheader -->
+
+<!-- BEGIN page content -->
+{% block content %}
+<h1 class="text-center text-success"><i class="fal fa-5x fa-check-circle"></i></h1>
+    <br>
+<h1 class="text-primary text-center m-10">Sua senha foi alterada com sucesso!</h1>
+ <a class="text-center text-info m-10" href="{% url 'dashboard:dashboard' %}">Dashboard</a>
+{% endblock %}
+<!-- END page content -->
+
+<!-- BEGIN page script -->
+{% block script %}
+{% endblock %}
+<!-- END page script -->

@@ -1,0 +1,42 @@
+{% load static %}
+<script src="{% static 'js/datagrid/datatables/datatables.bundle.js' %}"></script>
+<script>
+    $(document).ready(function()
+    {
+        // initialize datatable
+        $('#dt-basic-example').dataTable(
+        {
+            responsive: {
+            breakpoints: [
+                { name: 'desktop', width: Infinity },
+                { name: 'tablet',  width: 1024 },
+                { name: 'fablet',  width: 768 },
+                { name: 'phone',   width: 480 }
+            ]
+        },
+            columnDefs: [
+
+            { details: true, targets: 0 },
+
+            ],
+        });
+
+        $('.js-thead-colors a').on('click', function()
+        {
+            var theadColor = $(this).attr("data-bg");
+            console.log(theadColor);
+            $('#dt-basic-example thead').removeClassPrefix('bg-').addClass(theadColor);
+        });
+
+        $('.js-tbody-colors a').on('click', function()
+        {
+            var theadColor = $(this).attr("data-bg");
+            console.log(theadColor);
+            $('#dt-basic-example').removeClassPrefix('bg-').addClass(theadColor);
+        });
+
+
+    });
+
+</script>
+

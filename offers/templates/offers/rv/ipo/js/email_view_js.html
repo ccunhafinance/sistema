@@ -1,0 +1,376 @@
+{% load static %}
+{% load filter_tags %}
+<script src="{% static 'js/formplugins/validate/jquery.validate.min.js' %}"></script>
+<script src="{% static 'js/notifications/sweetalert2/sweetalert2.bundle.js' %}"></script>
+<script type="text/javascript">
+    /* Activate smart panels */
+    $('#js-page-content').smartPanel({
+        collapseButton: true,
+        closeButton: true,
+        positionKeyLabel: 'Reset position?',
+    });
+
+    $(document).ready(function(){
+        $("#filter").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#tablemail tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+
+</script>
+
+<script>
+
+    get_emails_enviados()
+
+    {# CHNAGE REMETENTE #}
+    {#  -----------------------------------------------------------------------------  #}
+        $('#remetente').on('change', function() {
+            var infos = this.value.split('-', 3)
+            document.getElementById('email_from').value = infos[2]
+            {#document.getElementById('remetente_name').value = #}
+            $('#remetente_name').html(infos[1]);
+          {#alert( this.value );#}
+        });
+
+    {# METHODS TO POPULATE EMAIL BODY #}
+
+    {#  -----------------------------------------------------------------------------  #}
+
+    function putValorFinanceiro() {
+        document.getElementById('text_val_fin').innerHTML = document.getElementById('val_fim').value;
+    }
+
+    function putPrecoMaximo() {
+        if(document.getElementById('val_max').value == '' || document.getElementById('val_max').value == 'R$ 0,00'){
+            document.getElementById('text_pre_max').innerHTML = ' A mercado';
+        }else{
+            document.getElementById('text_pre_max').innerHTML = document.getElementById('val_max').value;
+        }
+    }
+
+    function putCodigo() {
+       document.getElementById('text_code').innerHTML = document.getElementById('codigo').value;
+    }
+
+    function putNome() {
+       document.getElementById('text_nome').innerHTML = document.getElementById('nome').value;
+    }
+
+    function putVal() {
+       document.getElementById('val_reserva').innerHTML = document.getElementById('val_reserva').value;
+    }
+
+    function putTaxa() {
+       document.getElementById('serie_taxa').innerHTML = document.getElementById('taxa').value;
+    }
+
+    {#  -----------------------------------------------------------------------------  #}
+
+    {# METHODS TO FORMAT FIELDS #}
+    {#  -----------------------------------------------------------------------------  #}
+
+    {# FORMAT VALUE INTO CASH #}
+    function formatCash(i) {
+        var v = i.value.replace(/\D/g,'');
+        v = (v/100).toFixed(2) + '';
+        v = v.replace(".", ",");
+        v = v.replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,");
+        v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
+        i.value = "R$ "+v;
+        document.getElementById('text_val_fin').innerHTML = document.getElementById('val_fim').value;
+    }
+
+    {# FORMAT VALUE INTO PERCENTAGE #}
+    function formatPercent(i) {
+        var v = i.value.replace(/\D/g,'');
+        v = (v/100).toFixed(2) + '';
+        v = v.replace(".", ",");
+        v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
+        i.value = v+'%';
+        document.getElementById('serie_taxa').innerHTML = document.getElementById('taxa').value;
+    }
+
+    {#  -----------------------------------------------------------------------------  #}
+
+    {# METHODS TO CHECK CLIENT CODE #}
+    {#  -----------------------------------------------------------------------------  #}
+
+
+    {#  -----------------------------------------------------------------------------  #}
+
+    {# METHODS TO VALIDATE FORM #}
+    {#  -----------------------------------------------------------------------------  #}
+
+    $(document).ready(function(){
+         $("#form").validate({
+             rules: {
+                codigo:{required:true},
+                nome:{required:true},
+                email:{required:true},
+                modalidaade:{required:true},
+                vinculo:{required:true},
+                valFim:{required:true},
+             },
+             messages:{
+                codigo:{required:"Este campo é obrigatório!",},
+                nome:{required:"Este campo é obrigatório!",},
+                email:{required:"Este campo é obrigatório!",email:"Digite um e-mail válido"},
+                modalidaade:{required:"Este campo é obrigatório!",},
+                vinculo:{required:"Este campo é obrigatório!",},
+                valFim:{required:"Este campo é obrigatório!",},
+             }
+         });
+    });
+
+    function validateForm() {
+        var isValid = true;
+        $('.especial_form').each(function() {
+            if ( $(this).val() === '' )
+                isValid = false;
+        });
+        return isValid;
+    }
+
+    var formCompleted = false;
+
+    $(":text , :file, :checkbox, select, textarea").change(function() {
+        formCompleted = validateForm();
+        if(formCompleted){
+            document.getElementById('emai_text').value = document.getElementById('email_body').innerHTML;
+            $('#sendform').removeClass('isDisable');
+        }else{
+            {#$('#colocaemail').addClass('isDisable');#}
+            $('#sendform').addClass('isDisable');
+        }
+    });
+
+    {#  -----------------------------------------------------------------------------  #}
+
+    {# OTHER METHODS #}
+    {#  -----------------------------------------------------------------------------  #}
+
+        $("#vinculo").change(function() {
+               var val = $(this).val();
+               if(val == 'Sim'){
+                   document.getElementById('text_vinculo').innerHTML = 'Sim';
+               }else{
+                   document.getElementById('text_vinculo').innerHTML = 'Não';
+               }
+
+            });
+
+        $("#serie").change(function() {
+       var val = $(this).val();
+       document.getElementById('text_modalidade').innerHTML = val;
+
+    });
+
+    {#  -----------------------------------------------------------------------------  #}
+
+    {#  MAIL #}
+    {#  -----------------------------------------------------------------------------  #}
+
+    function getClient(a) {
+       var code = document.getElementById('codigo').value;
+       var token = document.getElementById('token').value;
+       {% comment %} var token = document.getElementsByName("csrfmiddlewaretoken").value; {% endcomment %}
+       {#console.log(code);#}
+       {% comment %} console.log({{ csrf_token }}); {% endcomment %}
+       {#console.log(token);#}
+
+        var defaut = '{{ request.user.id|get_assessor_code_nome_email  }}'
+          var selectobject = document.getElementById("remetente");
+            for (var i=0; i<selectobject.length; i++) {
+                if (selectobject.options[i].value != defaut)
+                    selectobject.remove(i);
+                    var infos = defaut.split('-', 3)
+                    document.getElementById('email_from').value = infos[2]
+                    {#document.getElementById('remetente_name').value = #}
+                    $('#remetente_name').html(infos[1]);
+            }
+
+
+           $.ajax({
+               type: 'POST',
+               url: '{% url 'ajax:get-client' %}',
+               data: {
+                   code: code,
+                   csrfmiddlewaretoken: token
+               },
+               success: function (response) {
+
+                    $( '#response' ).html(response);
+
+                    if(response != 'false'){
+                        document.getElementById('nome').value = document.getElementById('got_name').value;
+                        document.getElementById('emeincliente').value = document.getElementById('got_email').value;
+                        document.getElementById('assessor_responsavel').value = document.getElementById('got_responsavel').value;
+
+                        select = document.getElementById('remetente');
+
+                        if (document.getElementById('got_assessor_owner').value != defaut){
+                            var opt = document.createElement('option');
+                            opt.value = document.getElementById('got_assessor_owner').value;
+                            opt.innerHTML = document.getElementById('code_name_last').value;
+                            select.appendChild(opt);
+
+                        }
+
+
+
+
+                        putNome(document.getElementById('got_name').value)
+
+                        $( '#unknow' ).html('<span style="color: #2ecc71"><i class="fal fa-check-circle"></i> Cleinte encontrado</span>');
+
+                        $('.especial_form').each(function(){
+                          document.getElementById("remetente").focus();
+                        });
+
+
+
+                    }else{
+                        document.getElementById('text_nome').innerHTML = ''
+                        document.getElementById('unknow').innerHTML = 'Cliente não cadastrado ou código errado!'
+                        document.getElementById('nome').value = '';
+                        document.getElementById('emeincliente').value = '';
+                        $( '#unknow' ).html('<span style="color: #e74c3c"><i class="fal fa-sad-tear"></i> Cleinte nao encontrado ou nao faz parte do seu espelhamento!</span>');
+                        $('.especial_form').each(function(){
+                          document.getElementById("codigo").focus();
+                        });
+
+
+                    }
+
+               },
+           });
+
+
+    }
+
+    function get_emails_enviados(){
+        var token = '{{ csrf_token }}';
+        $.ajax({
+            type: 'Post',
+            url: '{% url 'ajax:get-mail-ipo' %}',
+            data:
+                {
+                  pk:{{ pk }},
+                  csrfmiddlewaretoken: token
+                },
+
+
+            success: function (response) {
+
+                console.log(response)
+
+                $('#tablemail').html(response);
+
+           },
+       });
+    }
+
+    function sendmail(){
+
+        document.getElementById('emai_text').value = document.getElementById('email_body').innerHTML;
+        var token = '{{ csrf_token }}';
+        var email_body = document.getElementById('emai_text').value
+        var assunto = document.getElementById('assunto').value
+        var email = document.getElementById('emeincliente').value
+
+        var remetente = document.getElementById('remetente').value
+        var codigo = document.getElementById('codigo').value
+        var nome = document.getElementById('nome').value
+        var modalidaade = document.getElementById('serie').value
+        var vinculo = document.getElementById('vinculo').value
+        var valFim = document.getElementById('val_fim').value
+        var preMax = document.getElementById('val_max').value
+        var assessor_responsavel = document.getElementById('assessor_responsavel').value
+
+        $.ajax({
+            type: 'POST',
+            dataType : 'html',
+            url: '{% url 'ajax:send-mail-ipo' %}',
+            data: {
+                chave: {{ oferta.id }},
+                nome_oferta:'{{ oferta.ticker }} - {{ oferta.company }}',
+                remetente: remetente,
+                codigo: codigo,
+                assessor_responsavel: assessor_responsavel,
+                nome: nome,
+                modalidaade: modalidaade,
+                vinculo: vinculo,
+                valFim: valFim,
+                preMax: preMax,
+                email_body: email_body,
+                email: email,
+                assunto: assunto,
+
+                csrfmiddlewaretoken: token
+            },
+            beforeSend : function () {
+                $('#sender').html(
+                    '<button class="btn btn-info" type="button" disabled>' +
+                        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'+
+                        ' Enviando...'+
+                    '</button>'
+                );
+
+            },
+            success: function (response) {
+
+                if(response != 'false'){
+
+                    var defaut = '{{ request.user.id|get_assessor_code_nome_email  }}'
+                    var selectobject = document.getElementById("remetente");
+                        for (var i=0; i<selectobject.length; i++) {
+                            if (selectobject.options[i].value != defaut)
+                                selectobject.remove(i);
+                                var infos = defaut.split('-', 3)
+                                document.getElementById('email_from').value = infos[2]
+                                {#document.getElementById('remetente_name').value = #}
+                                $('#remetente_name').html(infos[1]);
+                        }
+
+                    window.scrollTo({ bottom: 0, behavior: 'smooth' })
+                    document.getElementById("form").reset()
+                    $( '#unknow' ).html('');
+                    $( '#text_nome' ).html('<span class="text-danger b-1">[NOME DO CLIENTE]</span>');
+                    $( '#text_code' ).html('<span class="text-danger b-1">[CÓDIGO DO CLIENTE]</span>');
+                    $( '#text_modalidade' ).html('<span class="text-danger b-1">[MODALIDADE]</span>');
+                    $( '#text_vinculo' ).html('Não');
+                    $( '#text_val_fin' ).html('<span class="text-danger b-1">[VALOR]</span>');
+                    $( '#text_pre_max' ).html('A mercado');
+                        get_emails_enviados()
+                    $(document).ready(function(){
+                        Swal.fire(
+                        {
+                            position: "top-end",
+                            type: "success",
+                            title: "<span class='text-success'><i class='fal fa-check-circle'></i> Email envidao com sucesso!</span>",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+
+                    });
+
+                    $('#remetente_name').html('{{ request.user.first_name }} {{ request.user.last_name }}')
+
+                    $('#sender').html(
+                        '<button id="sendform"  class="btn btn-primary isDisable ladda-button" data-style="expand-right" onclick="sendmail()">Enviar E-mail</button><br>'+
+                        '<span id="notificacao"></span>'
+                    )
+
+                }else{
+                    $('#notificacao').html(response);
+                }
+           },
+       });
+    }
+
+    {#  -----------------------------------------------------------------------------  #}
+
+</script>

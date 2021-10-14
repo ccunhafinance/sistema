@@ -1,0 +1,950 @@
+import csv
+import requests
+from django.core.files.storage import FileSystemStorage
+from django.forms import inlineformset_factory
+from django.http import HttpResponse
+from django.urls import reverse
+from django.views import generic
+from django.shortcuts import render, redirect, get_object_or_404
+import xlrd
+from collections import OrderedDict
+import json
+from clients.models import Espelhamento
+from users.models import CustomUser
+from .forms import *
+import pandas as pd
+from bs4 import BeautifulSoup as bs
+import os
+from pathlib import Path
+from datetime import datetime, timezone
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+
+# Gbobal Variables
+main_icon = 'ni ni-tag'
+
+# Ofertas de Renda Fixa (RF)
+# --------------------------------------------------------------------------------
+
+# Listar
+class OfferRfListView(LoginRequiredMixin, generic.TemplateView):
+    template_name = "offers/rf/list_view.html"
+    login_url = '/'
+
+    def get_context_data(self, **kwargs):
+        context = {
+            'list_data': OfferRf.objects.all(),
+            # Crumbs First Page Config
+            'first_page_name': 'Ofertas',
+            'first_page_link': '',
+            # Crumbs Second Page Config
+            'second_page_name': 'Renda Fixa',
+            'second_page_link': '',
+            # Crumbs Third Page Config
+            'third_page_name': '',
+            'third_page_link': '',
+            # Current Page
+            'icon': main_icon,
+            'page_name': 'Ofertas (RF)',
+            'subtitle': '',
+            'sticker': 'Novo',
+            'page_description': 'Listagem de todas as ofertas de Renda Fixa'
+        }
+
+        return context
+
+# Adicionar
+@login_required(login_url='/')
+def createrf(request):
+
+    order_forms = OfferRf()
+    item_order_formset = inlineformset_factory(OfferRf, SerieRf, form=SeriesRfForm, extra=1, can_delete=True)
+
+    if request.method == 'POST':
+        forms = OfferRfForm(request.POST, request.FILES, instance=order_forms, prefix='main')
+        formset = item_order_formset(request.POST, request.FILES, instance=order_forms, prefix='product')
+
+        if forms.is_valid() and formset.is_valid():
+            forms = forms.save(commit=False)
+            forms.save()
+            formset.save()
+            return redirect(reverse('offers:listar-rf'))
+
+    else:
+        forms = OfferRfForm(instance=order_forms, prefix='main')
+        formset = item_order_formset(instance=order_forms, prefix='product')
+
+    context = {
+        'forms': forms,
+        'formset': formset,
+        # Crumbs First Page Config
+        'first_page_name': 'Ofertas',
+        'first_page_link': '',
+        # Crumbs Second Page Config
+        'second_page_name': 'Renda Fixa',
+        'second_page_link': '',
+        # Crumbs Third Page Config
+        'third_page_name': 'Add',
+        'third_page_link': '',
+        # Current Page
+        'icon': main_icon,
+        'page_name': 'Ofertas (RF)',
+        'subtitle': 'Add',
+        'sticker': 'Novo',
+        'page_description': 'Formulário de cadastro de ofertas de Renda Fixa'
+    }
+
+    return render(request, 'offers/rf/create_view.html', context)
+
+# Editar
+@login_required(login_url='/')
+def editrf(request, pk):
+
+        order_forms = OfferRf.objects.filter(id=pk).first()
+        item_order_formset = inlineformset_factory(OfferRf, SerieRf, form=SeriesRfForm, extra=0, can_delete=True)
+
+        if order_forms is None:
+
+            return redirect(reverse('offers:listar-rf'))
+
+        if request.method == 'POST':
+            forms = OfferRfForm(request.POST, request.FILES, instance=order_forms, prefix='main')
+            formset = item_order_formset(request.POST, request.FILES, instance=order_forms, prefix='product')
+
+            if forms.is_valid() and formset.is_valid():
+                forms = forms.save(commit=False)
+                forms.save()
+                formset.save()
+                return redirect(reverse('offers:listar-rf'))
+
+        else:
+            forms = OfferRfForm(instance=order_forms, prefix='main')
+            formset = item_order_formset(instance=order_forms, prefix='product')
+
+
+        context = {
+            'forms': forms,
+            'formset': formset,
+            # Crumbs First Page Config
+            'first_page_name': 'Ofertas',
+            'first_page_link': '',
+            # Crumbs Second Page Config
+            'second_page_name': 'Renda Fixa',
+            'second_page_link': '',
+            # Crumbs Third Page Config
+            'third_page_name': 'Editar',
+            'third_page_link': '',
+            # Current Page
+            'icon': main_icon,
+            'page_name': 'Ofertas (RF)',
+            'subtitle': 'Editar',
+            'sticker': '',
+            'page_description': 'Formulário de edição de ofertas de Renda Fixa (' + order_forms.ativo + ' ' + order_forms.emissor + ')'
+        }
+
+        return render(request, 'offers/rf/edit_view.html', context)
+
+# Enviar E-mail
+@login_required(login_url='/')
+def sendemailrf(request, pk):
+    oferta = OfferRf.objects.get(id=pk)
+    series = SerieRf.objects.filter(pk=oferta.id)
+
+    hora = datetime.now()
+
+    if hora.hour >= 6 and hora.hour < 12:
+        saldacao = 'Bom dia'
+    elif hora.hour > 12 and hora.hour < 18:
+        saldacao = 'Boa tarde'
+    else:
+        saldacao = 'Boa noite'
+
+    context = {
+        'espelhamento': Espelhamento.objects.all(),
+        'saldacao': saldacao,
+        'oferta': oferta,
+        'pk': pk,
+        'series': series,
+        # Crumbs First Page Config
+        'first_page_name': 'Ofertas',
+        'first_page_link': '',
+        # Crumbs Second Page Config
+        'second_page_name': 'Renda Fixa',
+        'second_page_link': '',
+        # Crumbs Third Page Config
+        'third_page_name': 'Enviar Email',
+        'third_page_link': '',
+        # Current Page
+        'icon': main_icon,
+        'page_name': 'Ofertas (RF)',
+        'subtitle': '',
+        'sticker': '',
+        'page_description': 'Formulário de envio de E-mail - Oferta: ' + oferta.ativo + ' ' + oferta.emissor
+    }
+
+    return render(request, 'offers/rf/email_view.html', context)
+
+# Pagina Email enviado
+@login_required(login_url='/')
+def sentmailrf(request, id):
+    context = {
+        'email': EmailRf.objects.get(pk=id),
+        # Crumbs First Page Config
+        'first_page_name': 'Ofertas',
+        'first_page_link': '',
+        # Crumbs Second Page Config
+        'second_page_name': 'Renda Fixa',
+        'second_page_link': '',
+        # Crumbs Third Page Config
+        'third_page_name': 'Vizualização do Email',
+        'third_page_link': '',
+        # Current Page
+        'icon': main_icon,
+        'page_name': 'Ofertas (RF)',
+        'subtitle': '',
+        'sticker': '',
+        'page_description': 'Vizualização do email de oferta enviada!'
+    }
+
+    return render(request, 'offers/rf/sent_email_view.html', context)
+
+# Excluir
+class DeleteOfferRfView(LoginRequiredMixin, generic.DeleteView):
+    template_name = "offers/rf/delete_view.html"
+    login_url = '/'
+
+    queryset = OfferRf.objects.all()
+
+    # def get_object(self):
+    #     id_ = self.kwargs.get('id')
+    #     return get_object_or_404(OfferRf, id=id_),
+
+    # print(get_object)
+
+    def get_success_url(self):
+        return reverse("offers:listar-rf")
+
+    def get_context_data(self, **kwargs):
+        id_ = self.kwargs.get('pk')
+        oferta = get_object_or_404(OfferRf, id=id_)
+        context = {
+            'object': oferta,
+            # Crumbs First Page Config
+            'first_page_name': 'Ofertas',
+            'first_page_link': '',
+            # Crumbs Second Page Config
+            'second_page_name': 'Renda Fixa',
+            'second_page_link': '',
+            # Crumbs Third Page Config
+            'third_page_name': 'Excluir',
+            'third_page_link': '',
+            # Current Page
+            'icon': main_icon,
+            'page_name': 'Ofertas (RF)',
+            'subtitle': 'Excluir',
+            'sticker': '',
+            'page_description': 'Excluir oferta ('+oferta.ativo +' '+oferta.emissor+')'
+        }
+
+        return context
+
+# Ofertas de Renda Variável (RV)
+# --------------------------------------------------------------------------------
+
+#  IPO
+# --------------------------------------------------------------------------------
+
+# Listar
+class OfferRvIpoListView(LoginRequiredMixin, generic.TemplateView):
+    template_name = "offers/rv/ipo/list_view.html"
+    login_url = '/'
+
+    def get_context_data(self, **kwargs):
+        context = {
+            'list_data': OfferRvIpo.objects.all(),
+            # Crumbs First Page Config
+            'first_page_name': 'Ofertas',
+            'first_page_link': '',
+            # Crumbs Second Page Config
+            'second_page_name': 'Renda Variável',
+            'second_page_link': '',
+            # Crumbs Third Page Config
+            'third_page_name': '',
+            'third_page_link': '',
+            # Current Page
+            'icon': main_icon,
+            'page_name': 'Ofertas (RV)',
+            'subtitle': 'IPO',
+            'sticker': 'Novo',
+            'page_description': 'Listagem de todas as ofertas de Renda Variável IPO'
+        }
+
+        return context
+
+# Adicionar
+@login_required(login_url='/')
+def creatervipo(request):
+
+    order_forms = OfferRvIpo()
+    item_order_formset = inlineformset_factory(OfferRvIpo, ModalidadeIpo, form=ModalidadeIpoForm, extra=1, can_delete=True)
+
+    if request.method == 'POST':
+        forms = OfferRvIpoForm(request.POST, request.FILES, instance=order_forms, prefix='main')
+        formset = item_order_formset(request.POST, request.FILES, instance=order_forms, prefix='product')
+
+        if forms.is_valid() and formset.is_valid():
+            forms = forms.save(commit=False)
+            forms.save()
+            formset.save()
+            return redirect(reverse('offers:listar-rv-ipo'))
+
+    else:
+        forms = OfferRvIpoForm(instance=order_forms, prefix='main')
+        formset = item_order_formset(instance=order_forms, prefix='product')
+
+    context = {
+        'forms': forms,
+        'formset': formset,
+        # Crumbs First Page Config
+        'first_page_name': 'Ofertas',
+        'first_page_link': '',
+        # Crumbs Second Page Config
+        'second_page_name': 'Renda Variável',
+        'second_page_link': '',
+        # Crumbs Third Page Config
+        'third_page_name': 'Add',
+        'third_page_link': '',
+        # Current Page
+        'icon': main_icon,
+        'page_name': 'Ofertas (Rv)',
+        'subtitle': 'IPO',
+        'sticker': 'Novo',
+        'page_description': 'Formulário de cadastro de ofertas de Renda Variável IPO'
+    }
+
+    return render(request, 'offers/rv/ipo/create_view.html', context)
+
+# Editar
+@login_required(login_url='/')
+def editrvipo(request, pk):
+
+        order_forms = OfferRvIpo.objects.filter(id=pk).first()
+        item_order_formset = inlineformset_factory(OfferRvIpo, ModalidadeIpo, form=ModalidadeIpoForm, extra=0, can_delete=True)
+
+        if order_forms is None:
+
+            return redirect(reverse('offers:listar-rv-ipo'))
+
+        if request.method == 'POST':
+            forms = OfferRvIpoForm(request.POST, request.FILES, instance=order_forms, prefix='main')
+            formset = item_order_formset(request.POST, request.FILES, instance=order_forms, prefix='product')
+
+            if forms.is_valid() and formset.is_valid():
+                forms = forms.save(commit=False)
+                forms.save()
+                formset.save()
+                return redirect(reverse('offers:listar-rv-ipo'))
+
+        else:
+            forms = OfferRvIpoForm(instance=order_forms, prefix='main')
+            formset = item_order_formset(instance=order_forms, prefix='product')
+
+
+        context = {
+            'forms': forms,
+            'formset': formset,
+            # Crumbs First Page Config
+            'first_page_name': 'Ofertas',
+            'first_page_link': '',
+            # Crumbs Second Page Config
+            'second_page_name': 'Renda Variável',
+            'second_page_link': '',
+            # Crumbs Third Page Config
+            'third_page_name': 'Editar',
+            'third_page_link': '',
+            # Current Page
+            'icon': main_icon,
+            'page_name': 'Ofertas (Rv)',
+            'subtitle': 'Editar',
+            'sticker': '',
+            'page_description': 'Formulário de edição de ofertas de Renda Fixa (' + order_forms.ticker + ' ' + order_forms.company + ')'
+        }
+
+        return render(request, 'offers/rv/ipo/edit_view.html', context)
+
+# Deletar
+class DeleteOfferRvIpoView(LoginRequiredMixin, generic.DeleteView):
+    template_name = "offers/rv/ipo/delete_view.html"
+    login_url = '/'
+
+    queryset = OfferRvIpo.objects.all()
+
+    # def get_object(self):
+    #     id_ = self.kwargs.get('id')
+    #     return get_object_or_404(OfferRf, id=id_),
+
+    # print(get_object)
+
+    def get_success_url(self):
+        return reverse("offers:listar-rv-ipo")
+
+    def get_context_data(self, **kwargs):
+        id_ = self.kwargs.get('pk')
+        oferta = get_object_or_404(OfferRvIpo, id=id_)
+        context = {
+            'object': oferta,
+            # Crumbs First Page Config
+            'first_page_name': 'Ofertas',
+            'first_page_link': '',
+            # Crumbs Second Page Config
+            'second_page_name': 'Renda Variável',
+            'second_page_link': '',
+            # Crumbs Third Page Config
+            'third_page_name': 'Excluir',
+            'third_page_link': '',
+            # Current Page
+            'icon': main_icon,
+            'page_name': 'Ofertas (RV) IPO',
+            'subtitle': 'Excluir',
+            'sticker': '',
+            'page_description': 'Excluir oferta ('+oferta.ticker +' - '+oferta.company+')'
+        }
+
+        return context
+
+# Enviar E-mail
+@login_required(login_url='/')
+def sendmailrvipo(request, pk):
+    oferta = OfferRvIpo.objects.filter(id=pk).first()
+    modalidades = ModalidadeIpo.objects.filter(pk=oferta.id)
+
+    hora = datetime.now()
+
+    if hora.hour >= 6 and hora.hour < 12:
+        saldacao = 'Bom dia'
+    elif hora.hour > 12 and hora.hour < 18:
+        saldacao = 'Boa tarde'
+    else:
+        saldacao  = 'Boa noite'
+
+    context = {
+        'espelhamento': Espelhamento.objects.all(),
+        'saldacao': saldacao,
+        'oferta': oferta,
+        'pk': pk,
+        'modalidades': modalidades,
+        # Crumbs First Page Config
+        'first_page_name': 'Ofertas',
+        'first_page_link': '',
+        # Crumbs Second Page Config
+        'second_page_name': 'Renda Variável',
+        'second_page_link': '',
+        # Crumbs Third Page Config
+        'third_page_name': 'Enviar Email',
+        'third_page_link': '',
+        # Current Page
+        'icon': main_icon,
+        'page_name': 'Ofertas (RV)',
+        'subtitle': 'IPO',
+        'sticker': 'Novo',
+        'page_description': 'Formulário de envio de E-mail - Oferta: '+ oferta.ticker +' '+oferta.company
+    }
+
+    return render(request, 'offers/rv/ipo/email_view.html', context)
+
+# Pagina Email enviado
+@login_required(login_url='/')
+def sentmailrvviewipo(request, id):
+    context = {
+        'email': EmailIpo.objects.get(pk=id),
+        # Crumbs First Page Config
+        'first_page_name': 'Ofertas',
+        'first_page_link': '',
+        # Crumbs Second Page Config
+        'second_page_name': 'Renda Variável',
+        'second_page_link': '',
+        # Crumbs Third Page Config
+        'third_page_name': 'Vizualização do Email',
+        'third_page_link': '',
+        # Current Page
+        'icon': main_icon,
+        'page_name': 'Ofertas (RV)',
+        'subtitle': 'IPO',
+        'sticker': 'Novo',
+        'page_description': 'Vizualização do email de oferta enviada!'
+    }
+
+    return render(request, 'offers/rv/ipo/sent_email_view.html', context)
+
+
+
+# Direito de Subscrição
+# --------------------------------------------------------------------------------
+
+#  Listar
+class OfferRvSubscriptionListView(LoginRequiredMixin, generic.TemplateView):
+    template_name = "offers/rv/subscription/list_view.html"
+    login_url = '/'
+
+    def get_context_data(self, **kwargs):
+        context = {
+            'list_view': OfferRvSubscription.objects.all(),
+            # Crumbs First Page Config
+            'first_page_name': 'Ofertas',
+            'first_page_link': '',
+            # Crumbs Second Page Config
+            'second_page_name': 'Renda Variável',
+            'second_page_link': '',
+            # Crumbs Third Page Config
+            'third_page_name': '',
+            'third_page_link': '',
+            # Current Page
+            'icon': main_icon,
+            'page_name': 'Ofertas (RV)',
+            'subtitle': 'Direito de Subscrição',
+            'sticker': 'Novo',
+            'page_description': 'Listagem de todas as ofertas de Renda Variável Direito de Subscrição'
+        }
+
+        return context
+
+# Adicionar
+class OfferRvSubscriptionCreateView(LoginRequiredMixin, generic.CreateView):
+    template_name = "offers/rv/subscription/create_view.html"
+    form_class = SubscriptionForm
+    # queryset = OfferRvSubscription.objects.all()
+    login_url = '/'
+
+    def get_success_url(self):
+        return reverse("offers:listar-rv-subscription")
+
+    def get_context_data(self, **kwargs):
+
+        context = {
+            'form': SubscriptionForm,
+            # Crumbs First Page Config
+            'first_page_name': 'Ofertas',
+            'first_page_link': '',
+            # Crumbs Second Page Config
+            'second_page_name': 'Renda Variável',
+            'second_page_link': '',
+            # Crumbs Third Page Config
+            'third_page_name': '',
+            'third_page_link': '',
+            # Current Page
+            'icon': main_icon,
+            'page_name': 'Ofertas (RV)',
+            'subtitle': 'Direito de Subscrição',
+            'sticker': 'Novo',
+            'page_description': 'Listagem de todas as ofertas de Renda Variável Direito de Subscrição'
+        }
+
+        return context
+
+# Editar
+class OfferRvSubscriptionEditView(LoginRequiredMixin, generic.UpdateView):
+    template_name = "offers/rv/subscription/edit_view.html"
+    form_class = SubscriptionForm
+    login_url = '/'
+
+    queryset = OfferRvSubscription.objects.all()
+
+    def get_success_url(self):
+        return reverse("offers:listar-rv-subscription")
+
+    def get_context_data(self, **kwargs):
+
+        id_ = self.kwargs.get('pk')
+        oferta = get_object_or_404(OfferRvSubscription, id=id_)
+        odd = OfferRvSubscription.objects.get(id=id_)
+        form = SubscriptionForm(instance=odd)
+        context = {
+            'object': oferta,
+            'form': form,
+            # Crumbs First Page Config
+            'first_page_name': 'Ofertas',
+            'first_page_link': '',
+            # Crumbs Second Page Config
+            'second_page_name': 'Renda Variável',
+            'second_page_link': '',
+            # Crumbs Third Page Config
+            'third_page_name': 'Editar',
+            'third_page_link': '',
+            # Current Page
+            'icon': main_icon,
+            'page_name': 'Ofertas (RV)',
+            'subtitle': 'Direito de Subscrição',
+            'sticker': 'Novo',
+            'page_description': 'Listagem de todas as ofertas de Renda Variável Direito de Subscrição '+oferta.ticker+' '+oferta.company
+        }
+
+        return context
+
+# Excluir
+class OfferRvSubscriptionDeleteView(LoginRequiredMixin, generic.DeleteView):
+    template_name = "offers/rv/subscription/delete_view.html"
+    # form_class = SubscriptionForm
+    login_url = '/'
+
+    queryset = OfferRvSubscription.objects.all()
+
+    def get_success_url(self):
+        return reverse("offers:listar-rv-subscription")
+
+    def get_context_data(self, **kwargs):
+        id_ = self.kwargs.get('pk')
+        oferta = get_object_or_404(OfferRvSubscription, id=id_)
+        context = {
+            'object': oferta,
+            # Crumbs First Page Config
+            'first_page_name': 'Ofertas',
+            'first_page_link': '',
+            # Crumbs Second Page Config
+            'second_page_name': 'Renda Variável',
+            'second_page_link': '',
+            # Crumbs Third Page Config
+            'third_page_name': 'Excluir',
+            'third_page_link': '',
+            # Current Page
+            'icon': main_icon,
+            'page_name': 'Ofertas (RV)',
+            'subtitle': 'Direito de Subscrição',
+            'sticker': 'Novo',
+            'page_description': 'Listagem de todas as ofertas de Renda Variável Direito de Subscrição'
+        }
+
+        return context
+
+# FII
+# --------------------------------------------------------------------------------
+
+# Listar
+@login_required(login_url='/')
+def ofertarvfiiview(request):
+        # users_in_group = Group.objects.all()
+        #
+        # if user in users_in_group:
+        #     print()
+
+
+        diretorio = Path('data/ofertas/fii/')
+        arquivo = diretorio / 'ticker11_data.json'
+
+        stat_result = arquivo.stat()
+        last_update = datetime.fromtimestamp(stat_result.st_mtime, tz=None)
+
+        with open('data/ofertas/fii/ticker11_data.json') as json_file:
+            ticker11 = json.load(json_file)
+
+        the_ticker = []
+        for ticker in ticker11:
+            if os.path.isfile('data/ofertas/fii/subscricao/' + str(ticker['Fundo']) + '.json'):
+                new_ticker = ticker['Fundo']
+
+                with open('data/ofertas/fii/subscricao/'+new_ticker+'.json') as json_file:
+                    subs = json.load(json_file)
+
+                    teste = []
+
+                    for sub in subs:
+                        if str(request.user.codigo) == str(sub['CodAssessor'].replace('A', '')):
+                            teste.append(sub['CodigoCliente'])
+
+                    if len(teste) > 0:
+                        the_ticker.append(ticker)
+
+        # print(the_ticker)
+
+        if CustomUser.objects.filter(pk=request.user.id, groups__name='Área de Alocação').exists():
+            filtered_offers_by_group = ticker11
+        else:
+            filtered_offers_by_group = the_ticker
+
+
+        context = {
+            'ofertas': filtered_offers_by_group,
+            'last_update': last_update,
+            # Crumbs First Page Config
+            'first_page_name': 'Ofertas',
+            'first_page_link': '',
+            # Crumbs Second Page Config
+            'second_page_name': 'Renda Variável',
+            'second_page_link': '',
+            # Crumbs Third Page Config
+            'third_page_name': '',
+            'third_page_link': '',
+            # Current Page
+            'icon': main_icon,
+            'page_name': 'Ofertas (RV)',
+            'subtitle': 'Fundos Imobiliários (Fii)',
+            'sticker': 'Novo',
+            'page_description': 'Listagem de todas as ofertas de Renda Variável de Fundos Imobiliários.'
+        }
+
+
+        return render(request, 'offers/rv/fii/list_view.html', context)
+
+
+@login_required(login_url='/')
+def sendemailrvfii(request, ticker, emissor):
+
+    with open('data/ofertas/fii/ticker11_data.json') as json_file:
+        ticker11 = json.load(json_file)
+
+    a_oferta = []
+    for oferta in ticker11:
+        if oferta['Fundo'] == ticker and oferta['Emissão'] == emissor:
+            a_oferta = oferta
+
+    hora = datetime.now()
+
+    if hora.hour >= 6 and hora.hour < 12:
+        saldacao = 'Bom dia'
+    elif hora.hour > 12 and hora.hour < 18:
+        saldacao = 'Boa tarde'
+    else:
+        saldacao = 'Boa noite'
+
+    context = {
+        'espelhamento': Espelhamento.objects.all(),
+        'saldacao': saldacao,
+        'oferta': a_oferta,
+        'ticker': ticker,
+        'emissor': emissor,
+        # Crumbs First Page Config
+        'first_page_name': 'Ofertas',
+        'first_page_link': '',
+        # Crumbs Second Page Config
+        'second_page_name': 'Renda Variável',
+        'second_page_link': '',
+        # Crumbs Third Page Config
+        'third_page_name': 'Enviar Email',
+        'third_page_link': '',
+        # Current Page
+        'icon': main_icon,
+        'page_name': 'Ofertas (RV)',
+        'subtitle': 'Fii',
+        'sticker': '',
+        'page_description': 'Formulário de envio de E-mail - Oferta: ' + a_oferta['Fundo'] + ' ' + a_oferta['Emissão'] +' Emissão'
+    }
+
+    return render(request, 'offers/rv/fii/email_view.html', context)
+
+# Scrape TICKER11
+@login_required(login_url='/')
+def scrapy_ticker11(request):
+    USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36"
+    # US english
+    LANGUAGE = "pt-br"
+
+    url ='https://ticker11.com.br/emissoes/'
+
+    def get_soup(url):
+        """Constructs and returns a soup using the HTML content of `url` passed"""
+        # initialize a session
+        session = requests.Session()
+        # set the User-Agent as a regular browser
+        session.headers['User-Agent'] = USER_AGENT
+        # request for english content (optional)
+        session.headers['Accept-Language'] = LANGUAGE
+        session.headers['Content-Language'] = LANGUAGE
+        # make the request
+        html = session.get(url)
+        # return the soup
+        return bs(html.content, "html.parser")
+
+    def get_all_tables(soup):
+        """Extracts and returns all tables in a soup object"""
+        return soup.find_all("table")
+
+    def get_table_headers(table):
+        """Given a table soup, returns all the headers"""
+        headers = []
+        for th in table.find("tr").find_all("th"):
+            headers.append(th.text.strip())
+        return headers
+
+    def get_table_rows(table):
+        """Given a table, returns all its rows"""
+        rows = []
+        for tr in table.find_all("tr")[1:]:
+            cells = []
+            # grab all td tags in this table row
+            tds = tr.find_all("td")
+            if len(tds) == 0:
+                # if no td tags, search for th tags
+                # can be found especially in wikipedia tables below the table
+                ths = tr.find_all("th")
+                for th in ths:
+
+                    cells.append(th.text.strip())
+            else:
+                # use regular td tags
+                for td in tds:
+                    if td.find("a"):
+                        cells.append(td)
+                    else:
+                        cells.append(td.text.strip())
+            rows.append(cells)
+
+        return rows
+
+    def save_as_csv(table_name, headers, rows):
+        path = 'data/ofertas/fii'
+        pd.DataFrame(rows, columns=headers).to_csv(os.path.join(path, f"{table_name}.csv"))
+
+    def csv_to_json(csvFilePath, jsonFilePath):
+        jsonArray = []
+
+        # read csv file
+        with open(csvFilePath, encoding='utf-8') as csvf:
+            # load csv file data using csv library's dictionary reader
+            csvReader = csv.DictReader(csvf)
+
+            # convert each csv row into python dict
+            for row in csvReader:
+                # add this python dict to json array
+                jsonArray.append(row)
+
+        # convert python jsonArray to JSON String and write to file
+        with open(jsonFilePath, 'w', encoding='utf-8') as jsonf:
+            jsonString = json.dumps(jsonArray, indent=4)
+            jsonf.write(jsonString)
+
+
+    # get the soup
+    soup = get_soup(url)
+    # extract all the tables from the web page
+    tables = get_all_tables(soup)
+    print(f"[+] Found a total of {len(tables)} tables.")
+    # iterate over all tables
+    for i, table in enumerate(tables, start=1):
+        # get the table headers
+        removetable = str.maketrans('', '', '@#%-?/()$ ')
+        headers = get_table_headers(table)
+        headers = [s.translate(removetable) for s in headers]
+        # print(headers)
+        # get all the rows of the table
+        rows = get_table_rows(table)
+        # save table as csv file
+        table_name = f"table-{i}"
+        print(f"[+] Saving {table_name}")
+        save_as_csv(table_name, headers, rows)
+
+        csvFilePath = r'data/ofertas/fii/table-1.csv'
+        jsonFilePath = r'data/ofertas/fii/ticker11_data.json'
+        csv_to_json(csvFilePath, jsonFilePath)
+
+    return redirect('/ofertas/rv/fii/listar/')
+
+@login_required(login_url='/')
+def fii_files_upload(request):
+
+    if request.method == 'POST':
+        f=request.FILES['file']
+        fs = FileSystemStorage(location='data/ofertas/fii/subscricao/')
+        # fs.path('data/ofertas/fii/subscription/')
+        fs.save(str(request.POST['ticker']+'.xlsx'), f)
+
+        wb = xlrd.open_workbook('data/ofertas/fii/subscricao/'+str(request.POST['ticker']+'.xlsx'))
+        sh = wb.sheet_by_index(0)
+
+        data_list = []
+
+        for rownum in range(1, sh.nrows):
+            data = OrderedDict()
+
+            row_values = sh.row_values(rownum)
+            data['CodigoCliente'] = row_values[0]
+            data['IdEvento'] = row_values[1]
+            data['DataDebito'] = row_values[2]
+            data['DataEx'] = row_values[3]
+            data['DataUltimoDiaNegociacao'] = row_values[4]
+            data['Proporcao'] = row_values[5]
+            data['QuantidadeExercida'] = row_values[6]
+            data['AEfetivar'] = row_values[7]
+            data['QuantidadeRequerida'] = row_values[8]
+            data['IdSolicitacao'] = row_values[9]
+            data['DataSolicitacao'] = row_values[10]
+            data['UsuarioSolicitante'] = row_values[11]
+            data['Status'] = row_values[12]
+            data['QuantidadeSolicitada'] = row_values[13]
+            data['ErroBolsa'] = row_values[14]
+            data['QuantidadeDisponivel'] = row_values[15]
+            data['QuantidadeAdicionalExercida'] = row_values[16]
+            data['ValorDireito'] = row_values[17]
+            data['CodNegociacao'] = row_values[18]
+            data['Marca'] = row_values[19]
+            data['NomeFilial'] = row_values[20]
+            data['CodAssessor'] = row_values[21]
+            data_list.append(data)
+
+        with open('data/ofertas/fii/subscricao/'+str(request.POST['ticker']+'.json'), "w", encoding="utf-8") as writeJsonfile:
+            json.dump(data_list, writeJsonfile, indent=4, default=str)
+
+        # excel_data_df = pd.read_excel('data/ofertas/fii/subscricao/'+str(request.POST['ticker']+'.xlsx'), )
+        # json_str = excel_data_df.to_json()
+        #
+        # with open('data/ofertas/fii/subscricao/'+str(request.POST['ticker']+'.json'), "w") as writeJSON:
+        #     json.dump(json_str, writeJSON, indent=4, default=str)
+
+        fs.delete(str(request.POST['ticker'] + '.xlsx'))
+        #
+        # wb = xlrd.open_workbook('data/ofertas/fii/subscricao/' + str(request.POST['ticker'] + '.xlsx'))
+        # sh = wb.sheet_by_index(0)
+        #
+        # data_list = []
+        #
+        # for rownum in range(1, sh.nrows):
+        #     data = OrderedDict()
+        #
+        # row_values = sh.row_values(rownum)
+        #
+        # data['CodigoCliente'] = row_values[0]
+        # data['IdEvento'] = row_values[1]
+        # data['DataDebito'] = row_values[3]
+        # data['DataEx'] = row_values[4]
+        # data['DataUltimoDiaNegociacao'] = row_values[5]
+        # data['Proporcao'] = row_values[6]
+        # data['QuantidadeExercida'] = row_values[7]
+        # data['AEfetivar'] = row_values[8]
+        # data['QuantidadeRequerida'] = row_values[9]
+        # data['IdSolicitacao'] = row_values[10]
+        # data['DataSolicitacao'] = row_values[11]
+        # data['UsuarioSolicitante'] = row_values[12]
+        # data['Status'] = row_values[13]
+        # data['QuantidadeSolicitada'] = row_values[14]
+        # data['ErroBolsa'] = row_values[15]
+        # data['QuantidadeDisponivel'] = row_values[16]
+        # data['QuantidadeAdicionalExercida'] = row_values[17]
+        # data['ValorDireito'] = row_values[18]
+        # data['CodNegociacao'] = row_values[19]
+        # data['Marca'] = row_values[20]
+        # data['NomeFilial'] = row_values[21]
+        # data['CodAssessor'] = row_values[22]
+        # data_list.append(data)
+        #
+        # with open('data/ofertas/fii/subscricao/' + str(request.POST['ticker'] + '.json'), "w",
+        #           encoding="utf-8") as writeJsonfile:
+        #     json.dump(data_list, writeJsonfile, indent=4, default=str)
+        #
+        # fs.delete(str(request.POST['ticker'] + '.xlsx'))
+
+
+
+
+        return HttpResponse('s')
+    else:
+        return HttpResponse('uploaded')
+
+# Scrape ClubeFii
+@login_required(login_url='/')
+def scrapy_clubefii(request):
+    pass
+
+
+
+
+
+
+

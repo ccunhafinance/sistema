@@ -1,0 +1,34 @@
+{% load static %}
+<script src="{% static 'js/datagrid/datatables/datatables.bundle.js' %}"></script>
+<script>
+
+    $(document).ready(function()
+    {
+        $('#dt-basic-example').dataTable(
+        {
+            responsive: true,
+            pageLength: 50,
+            order: [
+                [1, 'asc']
+            ],
+            {#"columns": [null,{ "orderSequence": [ "asc" ] },]#}
+        });
+
+        $('.js-thead-colors a').on('click', function()
+        {
+            var theadColor = $(this).attr("data-bg");
+            console.log(theadColor);
+            $('#dt-basic-example thead').removeClassPrefix('bg-').addClass(theadColor);
+        });
+
+        $('.js-tbody-colors a').on('click', function()
+        {
+            var theadColor = $(this).attr("data-bg");
+            console.log(theadColor);
+            $('#dt-basic-example').removeClassPrefix('bg-').addClass(theadColor);
+        });
+
+    });
+
+</script>
+

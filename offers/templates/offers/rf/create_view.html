@@ -1,0 +1,80 @@
+{% extends 'index.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+<!-- BEGIN page style -->
+{% block style %}
+{% endblock %}
+<!-- END page style -->
+
+<!-- BEGIN Page Subheader -->
+{% block subheader %}
+{% endblock %}
+<!-- END page Subheader -->
+
+<!-- BEGIN page content -->
+{% block content %}
+
+    <div id="js-page-content-demopanels">
+        <div class="col-xl-12">
+            <div id="panel-1" class="panel">
+                <div class="panel-hdr">
+                    <h2>
+                        Formulário de cadastro de Ofertas RF <span class="fw-300"><i></i></span>
+                    </h2>
+                </div>
+
+                <div class="panel-container show">
+                    <div class="panel-content">
+                        <form method="post">
+                            <div class="row">
+
+                                <div class="col-xl-4">
+                                    <H1>Ofertas</H1>
+                                    <hr>
+
+                                    <div class="shadow p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4 ">
+                                        {% csrf_token %}
+                                        {{ forms|crispy }}
+                                        {{ formset.management_form }}
+                                        <button type="submit" class="btn btn-sm btn-primary waves-effect waves-themed">Cadastrar</button>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-8">
+                                    <H1>Séries </H1>
+                                    <a  type="button" style="color:#fff" class="btn btn-sm btn-primary" id="add-item"><span class="ni ni-big-plus"></span> Adicionar Série</a>
+                                    <hr>
+
+                                    <div class="row" id="order">
+
+                                        {% for item_order_form in formset %}
+                                            <div class="col-xl-4">
+                                                <div class=" shadow p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4 " id="item-{{ forloop.counter0 }}">
+                                                    {{ item_order_form|crispy }}
+                                                </div>
+                                            </div>
+
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
+<!-- END page content -->
+
+<!-- BEGIN page script -->
+{% block script %}
+    {% include './js/create_view_js.html' %}
+{% endblock %}
+<!-- END page script -->

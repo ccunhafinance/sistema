@@ -1,0 +1,61 @@
+{% load static %}
+{% load filter_tags %}
+<header class="page-header" role="banner">
+    <!-- we need this logo when user switches to nav-function-top -->
+    <div class="page-logo">
+        <a href="#" class="page-logo-link press-scale-down d-flex align-items-center position-relative" data-toggle="modal" data-target="#modal-shortcut">
+{#            <img src="{% static 'img/logo.png' %}" alt="SmartAdmin WebApp" aria-roledescription="logo">#}
+            <span class="page-logo-text mr-1">BC Finace</span>
+            <span class="position-absolute text-white opacity-50 small pos-top pos-right mr-2 mt-n2"></span>
+            <i class="fal fa-angle-down d-inline-block ml-1 fs-lg color-primary-300"></i>
+        </a>
+    </div>
+    <!-- DOC: nav menu layout change shortcut -->
+    <div class="hidden-md-down dropdown-icon-menu position-relative">
+        <a href="#" class="header-btn btn js-waves-off" data-action="toggle" data-class="nav-function-hidden" title="Hide Navigation">
+            <i class="ni ni-menu"></i>
+        </a>
+        <ul>
+            <li>
+                <a href="#" class="btn js-waves-off" data-action="toggle" data-class="nav-function-minify" title="Minify Navigation">
+                    <i class="ni ni-minify-nav"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="btn js-waves-off" data-action="toggle" data-class="nav-function-fixed" title="Lock Navigation">
+                    <i class="ni ni-lock-nav"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- DOC: mobile button appears during mobile width -->
+    <div class="hidden-lg-up">
+        <a href="#" class="header-btn btn press-scale-down" data-action="toggle" data-class="mobile-nav-on">
+            <i class="ni ni-menu"></i>
+        </a>
+    </div>
+    <div class="search">
+        {% if request.user.has_pass  == False and  first_page_name != 'Senha' %}
+            <div class="alert border-danger bg-transparent text-danger" role="alert" style="margin-top: 30px">
+                <div class="spinner-grow text-danger" role="status" style="width: 1rem !important;height: 1rem !important;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <strong>Aviso!</strong> Altere sua senha para que não ocorra problemas futuros! <a href="{% url 'users:change-password' %}">Alterar senha</a>
+            </div>
+        {% endif %}
+    </div>
+    <div class="ml-auto d-flex">
+        <!-- activate app search icon (mobile) -->
+        {% include 'app_searchicon.html' %}
+        <!-- app settings -->
+        {% include 'app_settings.html' %}
+        <!-- app shortcuts -->
+        {% include 'app_shortcuts.html' %}
+        <!-- app message -->
+        {% include 'app_message.html' %}
+        <!-- app notification -->
+        {% include 'app_notification.html' %}
+        <!-- app user menu -->
+        {% include 'app_menu.html' %}
+    </div>
+</header>

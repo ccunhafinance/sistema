@@ -1,0 +1,312 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <title>
+            BC Finance - {{ page_name }}
+        </title>
+        <meta name="description" content="Page Title">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui">
+        <!-- Call App Mode on ios devices -->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <!-- Remove Tap Highlight on Windows Phone IE -->
+        <meta name="msapplication-tap-highlight" content="no">
+        <!-- base css -->
+        <link id="vendorsbundle" rel="stylesheet" media="screen, print" href="{% static 'css/vendors.bundle.css' %}">
+        <link id="appbundle" rel="stylesheet" media="screen, print" href="{% static 'css/app.bundle.css' %}">
+        <link id="mytheme" rel="stylesheet" media="screen, print" href="#">
+        <link id="myskin" rel="stylesheet" media="screen, print" href="{% static 'css/skins/skin-master.css' %}">
+        <!-- Place favicon.ico in the root directory -->
+        <link rel="apple-touch-icon" sizes="180x180" href=" {% static 'img/favicon/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon/favicon-32x32.png' %}">
+        <link rel="mask-icon" href="{% static 'img/favicon/safari-pinned-tab.svg' %}" color="#5bbad5">
+        <link rel="stylesheet" media="screen, print" href="{% static 'css/fa-solid.css' %}">
+        <link rel="stylesheet" media="screen, print" href="{% static 'css/theme-demo.css' %}">
+        <!-- You can add your own stylesheet here to override any styles that comes before it
+		<link rel="stylesheet" media="screen, print" href="css/your_styles.css">-->
+        {% block style %}
+        {% endblock %}
+    </head>
+    <!-- BEGIN Body -->
+    <!-- Possible Classes
+
+		* 'header-function-fixed'         - header is in a fixed at all times
+		* 'nav-function-fixed'            - left panel is fixed
+		* 'nav-function-minify'			  - skew nav to maximize space
+		* 'nav-function-hidden'           - roll mouse on edge to reveal
+		* 'nav-function-top'              - relocate left pane to top
+		* 'mod-main-boxed'                - encapsulates to a container
+		* 'nav-mobile-push'               - content pushed on menu reveal
+		* 'nav-mobile-no-overlay'         - removes mesh on menu reveal
+		* 'nav-mobile-slide-out'          - content overlaps menu
+		* 'mod-bigger-font'               - content fonts are bigger for readability
+		* 'mod-high-contrast'             - 4.5:1 text contrast ratio
+		* 'mod-color-blind'               - color vision deficiency
+		* 'mod-pace-custom'               - preloader will be inside content
+		* 'mod-clean-page-bg'             - adds more whitespace
+		* 'mod-hide-nav-icons'            - invisible navigation icons
+		* 'mod-disable-animation'         - disables css based animations
+		* 'mod-hide-info-card'            - hides info card from left panel
+		* 'mod-lean-subheader'            - distinguished page header
+		* 'mod-nav-link'                  - clear breakdown of nav links
+
+		>>> more settings are described inside documentation page >>>
+	-->
+    <body class="mod-bg-1 mod-nav-link check_load">
+        <!-- DOC: script to save and load page settings -->
+        <script>
+            /**
+             *	This script should be placed right after the body tag for fast execution
+             *	Note: the script is written in pure javascript and does not depend on thirdparty library
+             **/
+            'use strict';
+
+            var classHolder = document.getElementsByTagName("BODY")[0],
+                /**
+                 * Load from localstorage
+                 **/
+                themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
+                {},
+                themeURL = themeSettings.themeURL || '',
+                themeOptions = themeSettings.themeOptions || '';
+            /**
+             * Load theme options
+             **/
+            if (themeSettings.themeOptions)
+            {
+                classHolder.className = themeSettings.themeOptions;
+                console.log("%c✔ Theme settings loaded", "color: #148f32");
+            }
+            else
+            {
+                console.log("%c✔ Heads up! Theme settings is empty or does not exist, loading default settings...", "color: #ed1c24");
+            }
+            if (themeSettings.themeURL && !document.getElementById('mytheme'))
+            {
+                var cssfile = document.createElement('link');
+                cssfile.id = 'mytheme';
+                cssfile.rel = 'stylesheet';
+                cssfile.href = themeURL;
+                document.getElementsByTagName('head')[0].appendChild(cssfile);
+
+            }
+            else if (themeSettings.themeURL && document.getElementById('mytheme'))
+            {
+                document.getElementById('mytheme').href = themeSettings.themeURL;
+            }
+            /**
+             * Save to localstorage
+             **/
+            var saveSettings = function()
+            {
+                themeSettings.themeOptions = String(classHolder.className).split(/[^\w-]+/).filter(function(item)
+                {
+                    return /^(nav|header|footer|mod|display)-/i.test(item);
+                }).join(' ');
+                if (document.getElementById('mytheme'))
+                {
+                    themeSettings.themeURL = document.getElementById('mytheme').getAttribute("href");
+                };
+                localStorage.setItem('themeSettings', JSON.stringify(themeSettings));
+            }
+            /**
+             * Reset settings
+             **/
+            var resetSettings = function()
+            {
+                localStorage.setItem("themeSettings", "");
+            }
+
+        </script>
+        <!-- BEGIN Page Wrapper -->
+        <div class="page-wrapper">
+            <div class="page-inner">
+                <!-- BEGIN Left Aside -->
+                {% include 'aside.html' %}
+                <!-- END Left Aside -->
+
+                <div class="page-content-wrapper">
+
+                    <!-- BEGIN Page Header -->
+                    {% include 'header.html' %}
+                    <!-- END Page Header -->
+
+                    <!-- BEGIN Page Content -->
+                    <!-- the #js-page-content id is needed for some plugins to initialize -->
+                    <main id="js-page-content" role="main" class="page-content">
+
+                        <!-- BEGIN Page Crumbs -->
+                        {% include 'crumbs.html' %}
+                        <!-- END Page Crumbs -->
+
+                        <!-- BEGIN Page Subheader -->
+                        <div class="subheader">
+                            <h1 class="subheader-title">
+                                <i class='subheader-icon {{ icon }}'></i> {{ page_name }} <span class='fw-300'>{{ subtitle }}</span> <sup class='badge badge-primary fw-500'>{{ sticker }}</sup>
+                                <small>
+                                    {{ page_description }}
+                                </small>
+                            </h1>
+                            <!--Right content on content headerA nice area to add graphs or buttons -->
+                            <div class="subheader-block">
+                                {% block subheader %}
+
+                                {% endblock %}
+                            </div>
+                        </div>
+                        <!-- END Page Subheader -->
+
+                        <!-- Main content here: -->
+{#                        <div class="row">#}
+                            {% block content %}
+                            {% endblock %}
+{#                        </div>#}
+
+                    </main>
+                    <!-- this overlay is activated only when mobile menu is triggered -->
+                    <div class="page-content-overlay" data-action="toggle" data-class="mobile-nav-on"></div>
+                    <!-- END Page Content -->
+
+                    <!-- BEGIN Page Footer -->
+                    {% include 'footer.html' %}
+                    <!-- END Page Footer -->
+
+                    <!-- BEGIN Shortcuts -->
+                    {% include 'shortcuts.html' %}
+                    <!-- END Shortcuts -->
+
+                    <!-- BEGIN Color profile -->
+                    {% include 'colorprofile.html' %}
+                    <!-- END Color profile -->
+                </div>
+            </div>
+        </div>
+        <!-- END Page Wrapper -->
+
+        <!-- BEGIN Quick Menu -->
+        {% include 'quickmenu.html' %}
+        <!-- END Quick Menu -->
+
+        <!-- BEGIN Messenger -->
+        {% include 'messenger.html' %}
+        <!-- END Messenger -->
+
+        <!-- BEGIN Page Settings -->
+        {% include 'pagesettings.html' %}
+        <!-- END Page Settings -->
+
+        <!-- base vendor bundle:
+			 DOC: if you remove pace.js from core please note on Internet Explorer some CSS animations may execute before a page is fully loaded, resulting 'jump' animations
+						+ pace.js (recommended)
+						+ jquery.js (core)
+						+ jquery-ui-cust.js (core)
+						+ popper.js (core)
+						+ bootstrap.js (core)
+						+ slimscroll.js (extension)
+						+ app.navigation.js (core)
+						+ ba-throttle-debounce.js (core)
+						+ waves.js (extension)
+						+ smartpanels.js (extension)
+						+ src/../jquery-snippets.js (core) -->
+        <script src="{% static 'js/vendors.bundle.js' %}"></script>
+        <script src="{% static 'js/app.bundle.js' %}"></script>
+        <script src="{% static 'js/dependency/moment/moment.js' %}"></script>
+        <script src="{% static 'js/statistics/flot/flot.bundle.js' %}"></script>
+        <script src="{% static 'js/miscellaneous/jqvmap/jqvmap.bundle.js' %}"></script>
+        <script src="{% static 'js/global-functions.js' %}"></script>
+        <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+        {% block script %}
+        {% endblock %}
+
+        <script type="text/javascript">
+            $('#js-page-content-demopanels').smartPanel(
+            {
+                localStorage: true,
+                onChange: function() {},
+                onSave: function() {},
+                opacity: 1,
+                deleteSettingsKey: '#deletesettingskey-options',
+                settingsKeyLabel: 'Reset settings?',
+                deletePositionKey: '#deletepositionkey-options',
+                positionKeyLabel: 'Reset position?',
+                sortable: true,
+                buttonOrder: '%collapse% %fullscreen% %close%',
+                buttonOrderDropdown: '%refresh% %locked% %color% %custom% %reset%',
+                customButton: false,
+                customButtonLabel: "Custom Button",
+                onCustom: function() {},
+                closeButton: false,
+                onClosepanel: function()
+                {
+                    if (myapp_config.debugState)
+                        console.log($(this).closest(".panel").attr('id') + " onClosepanel")
+                },
+                fullscreenButton: true,
+                onFullscreen: function()
+                {
+                    if (myapp_config.debugState)
+                        console.log($(this).closest(".panel").attr('id') + " onFullscreen")
+                },
+                collapseButton: true,
+                onCollapse: function()
+                {
+                    if (myapp_config.debugState)
+                        console.log($(this).closest(".panel").attr('id') + " onCollapse")
+                },
+                lockedButton: true,
+                lockedButtonLabel: "Travar Posição",
+                onLocked: function()
+                {
+                    if (myapp_config.debugState)
+                        console.log($(this).closest(".panel").attr('id') + " onLocked")
+                },
+                refreshButton: true,
+                refreshButtonLabel: "Atualizar Conteúdo",
+                onRefresh: function()
+                {
+                    if (myapp_config.debugState)
+                        console.log($(this).closest(".panel").attr('id') + " onRefresh")
+                },
+                colorButton: true,
+                colorButtonLabel: "Estilo do Painel",
+                onColor: function()
+                {
+                    if (myapp_config.debugState)
+                        console.log($(this).closest(".panel").attr('id') + " onColor")
+                },
+                panelColors: ['bg-primary-700 bg-success-gradient',
+                    'bg-primary-500 bg-info-gradient',
+                    'bg-primary-600 bg-primary-gradient',
+                    'bg-info-600 bg-primray-gradient',
+                    'bg-info-600 bg-info-gradient',
+                    'bg-info-700 bg-success-gradient',
+                    'bg-success-900 bg-info-gradient',
+                    'bg-success-700 bg-primary-gradient',
+                    'bg-success-600 bg-success-gradient',
+                    'bg-danger-900 bg-info-gradient',
+                    'bg-fusion-400 bg-fusion-gradient',
+                    'bg-faded'
+                ],
+                resetButton: true,
+                resetButtonLabel: "Reiniciar Rainel",
+                onReset: function()
+                {
+                    if (myapp_config.debugState)
+                        console.log($(this).closest(".panel").attr('id') + " onReset callback")
+                }
+            });
+
+
+            $(document).ready(function()
+            {
+                //clear localstorage
+
+            });
+
+        </script>
+    </body>
+    <!-- END Body -->
+</html>

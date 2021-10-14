@@ -1,0 +1,84 @@
+{% load static %}
+{% load filter_tags %}
+
+
+{% if oferta.PeríododeNegociação|group == 'empty' and  oferta.PeríododePreferência|group == 'empty' and  oferta.PeríododeSobras|group == 'empty'  and  oferta.PeríodoPúblico|group == 'full'  %}
+{#   (1)#}
+    {% if oferta.Fundo|group_one|safe|allowed_email == 'open' %}
+        <a href="{% url 'offers:send-mail-rv-fii' oferta.Fundo oferta.Emissão %}"><span class="ni ni-envelope fa-2x" style="z-index: 999999"></span></a>
+    {% else %}
+        <span class="fal fa-mailbox fa-2x text-danger"></span>
+    {% endif %}
+{% endif %}
+
+{% if oferta.PeríododeNegociação|group == 'empty' and  oferta.PeríododePreferência|group == 'full' and  oferta.PeríododeSobras|group == 'empty'  and  oferta.PeríodoPúblico|group == 'full'  %}
+{#    (2)#}
+    {% if oferta.Fundo|group_two|safe|allowed_email == 'open' %}
+        <a href="{% url 'offers:send-mail-rv-fii' oferta.Fundo oferta.Emissão %}"><span class="ni ni-envelope fa-2x" style="z-index: 999999"></span></a>
+    {% else %}
+        <span class="fal fa-mailbox fa-2x text-danger"></span>
+    {% endif %}
+{% endif %}
+
+{% if oferta.PeríododeNegociação|group == 'empty' and  oferta.PeríododePreferência|group == 'full' and  oferta.PeríododeSobras|group == 'full'  and  oferta.PeríodoPúblico|group == 'full'  %}
+{#    (3)#}
+    {% if oferta.Fundo|group_three|safe|allowed_email == 'open' %}
+        <a href="{% url 'offers:send-mail-rv-fii' oferta.Fundo oferta.Emissão %}"><span class="ni ni-envelope fa-2x" style="z-index: 999999"></span></a>
+    {% else %}
+        <span class="fal fa-mailbox fa-2x text-danger"></span>
+    {% endif %}
+{% endif %}
+
+{% if oferta.PeríododeNegociação|group == 'full' and  oferta.PeríododePreferência|group == 'full' and  oferta.PeríododeSobras|group == 'full'  and  oferta.PeríodoPúblico|group == 'full'  %}
+{#    (4)#}
+    {% if oferta.Fundo|group_three|safe|allowed_email == 'open' %}
+        <a href="{% url 'offers:send-mail-rv-fii' oferta.Fundo oferta.Emissão %}"><span class="ni ni-envelope fa-2x" style="z-index: 999999"></span></a>
+    {% else %}
+        <span class="fal fa-mailbox fa-2x text-danger"></span>
+    {% endif %}
+{% endif %}
+
+{% if oferta.PeríododeNegociação|group == 'empty' and  oferta.PeríododePreferência|group == 'full' and  oferta.PeríododeSobras|group == 'empty'  and  oferta.PeríodoPúblico|group == 'empty'  %}
+{#    (5)#}
+    {% if oferta.Fundo|group_five|safe|allowed_email == 'open' %}
+        <a href="{% url 'offers:send-mail-rv-fii' oferta.Fundo oferta.Emissão %}"><span class="ni ni-envelope fa-2x" style="z-index: 999999"></span></a>
+    {% else %}
+        <span class="fal fa-mailbox fa-2x text-danger"></span>
+    {% endif %}
+{% endif %}
+
+{% if oferta.PeríododeNegociação|group == 'empty' and  oferta.PeríododePreferência|group == 'full' and  oferta.PeríododeSobras|group == 'full'  and  oferta.PeríodoPúblico|group == 'empty'  %}
+{#    (6)#}
+    {% if oferta.Fundo|group_six|safe|allowed_email == 'open' %}
+        <a href="{% url 'offers:send-mail-rv-fii' oferta.Fundo oferta.Emissão %}"><span class="ni ni-envelope fa-2x" style="z-index: 999999"></span></a>
+    {% else %}
+        <span class="fal fa-mailbox fa-2x text-danger"></span>
+    {% endif %}
+{% endif %}
+
+{% if oferta.PeríododeNegociação|group == 'full' and  oferta.PeríododePreferência|group == 'full' and  oferta.PeíododeSobras|group == 'full'  and  oferta.PeríodoPúblico|group == 'empty'  %}
+{#    (7)#}
+    {% if oferta.Fundo|group_seven|safe|allowed_email == 'open' %}
+        <a href="{% url 'offers:send-mail-rv-fii' oferta.Fundo oferta.Emissão %}"><span class="ni ni-envelope fa-2x" style="z-index: 999999"></span></a>
+    {% else %}
+        <span class="fal fa-mailbox fa-2x text-danger"></span>
+    {% endif %}
+{% endif %}
+
+{% if oferta.PeríododeNegociação|group == 'full' and  oferta.PeríododePreferência|group == 'full' and  oferta.PeríododeSobras|group == 'empty'  and  oferta.PeríodoPúblico|group == 'empty'  %}
+{#    (8)#}
+    {% if oferta.Fundo|group_eight|safe|allowed_email == 'open' %}
+        <a href="{% url 'offers:send-mail-rv-fii' oferta.Fundo oferta.Emissão %}"><span class="ni ni-envelope fa-2x" style="z-index: 999999"></span></a>
+    {% else %}
+        <span class="fal fa-mailbox fa-2x text-danger"></span>
+    {% endif %}
+{% endif %}
+
+{% if oferta.PeríododeNegociação|group == 'full' and  oferta.PeríododePreferência|group == 'full' and  oferta.PeríododeSobras|group == 'empty'  and  oferta.PeríodoPúblico|group == 'full'  %}
+{#    (9)#}
+    {% if oferta.Fundo|group_nine|safe|allowed_email == 'open' %}
+        <a href="{% url 'offers:send-mail-rv-fii' oferta.Fundo oferta.Emissão %}"><span class="ni ni-envelope fa-2x" style="z-index: 999999"></span></a>
+    {% else %}
+        <span class="fal fa-mailbox fa-2x text-danger"></span>
+    {% endif %}
+{% endif %}

@@ -1,0 +1,355 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load filter_tags %}
+<!-- BEGIN page style -->
+{% block style %}
+    {% include './css/list_view_css.html' %}
+{% endblock %}
+<!-- END page style -->
+
+<!-- BEGIN Page Subheader -->
+{% block subheader %}
+    <a href="{%  url 'offers:create-rf' %}" type="button" class="btn btn-sm btn-primary">
+        <span class="ni ni-big-plus"></span>
+        Adicionar Oferta
+    </a>
+{% endblock %}
+<!-- END page Subheader -->
+
+<!-- BEGIN page content -->
+{% block content %}
+    <div class="alert alert-primary">
+        <div class="d-flex flex-start w-100">
+            <div class="mr-2 hidden-md-down">
+                <span class="icon-stack icon-stack-lg">
+                    <i class="base base-2 icon-stack-3x opacity-100 color-primary-500"></i>
+                    <i class="base base-2 icon-stack-2x opacity-100 color-primary-300"></i>
+                    <i class="fal fa-info icon-stack-1x opacity-100 color-white"></i>
+                </span>
+            </div>
+            <div class="d-flex flex-fill">
+                <div class="flex-fill">
+                    <span class="h5">Informações</span>
+                    <ul>
+                        <li>
+                            Isento de IR: <img src="{% static '/img/icons/ir.png' %}" width="15">
+                        </li>
+                        <li>
+                           Investidor Qualificado: <img src="{% static '/img/icons/medal.png' %}" width="15">
+                        </li>
+                        <li>
+                           Investidor Profissional: <img src="{% static '/img/icons/profissional.png' %}" width="15">
+                        </li>
+                    </ul>
+                    <p class="m-0">
+                        Agressivo: <span class="badge bg-danger-800 mr-2">A</span>    Moderado: <span class="badge bg-warning-800 mr-2">M</span>   Conservador: <span class="badge bg-info-800 mr-2">C</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="js-page-content-demopanels">
+        <div class="col-xl-12">
+            <div id="panel-1" class="panel">
+                <div class="panel-hdr">
+                    <h2>
+                        Lista de Ofertas <span class="fw-300"><i></i></span>
+                    </h2>
+                    <div class="panel-toolbar" style="margin-right: 25px">
+                        <button class="btn btn-primary btn-sm" data-toggle="dropdown">Estilo da Tabela</button>
+                        <div class="dropdown-menu dropdown-menu-animated dropdown-menu-right position-absolute pos-top">
+                            <button class="dropdown-item active" data-action="toggle" data-class="table-bordered" data-target="#dt-basic-example"> Tabela com Bordas </button>
+                            <button class="dropdown-item active" data-action="toggle" data-class="table-sm" data-target="#dt-basic-example"> Tabela Menor </button>
+                            <button class="dropdown-item" data-action="toggle" data-class="table-dark" data-target="#dt-basic-example"> Tabela Escura </button>
+                            <button class="dropdown-item active" data-action="toggle" data-class="table-hover" data-target="#dt-basic-example"> Destacar Linha </button>
+                            <button class="dropdown-item active" data-action="toggle" data-class="table-stripe" data-target="#dt-basic-example"> Tabela Listrada </button>
+                            <div class="dropdown-divider m-0"></div>
+                            <div class="dropdown-multilevel dropdown-multilevel-left">
+                                <div class="dropdown-item">
+                                    Cor do Corpo
+                                </div>
+                                <div class="dropdown-menu no-transition-delay">
+                                    <div class="js-tbody-colors dropdown-multilevel dropdown-multilevel-left d-flex flex-wrap" style="width: 15.9rem; padding: 0.5rem">
+                                        <a href="javascript:void(0);" data-bg="bg-primary-100" class="btn d-inline-block bg-primary-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-200" class="btn d-inline-block bg-primary-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-300" class="btn d-inline-block bg-primary-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-400" class="btn d-inline-block bg-primary-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-500" class="btn d-inline-block bg-primary-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-600" class="btn d-inline-block bg-primary-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-700" class="btn d-inline-block bg-primary-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-800" class="btn d-inline-block bg-primary-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-900" class="btn d-inline-block bg-primary-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-100" class="btn d-inline-block bg-success-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-200" class="btn d-inline-block bg-success-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-300" class="btn d-inline-block bg-success-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-400" class="btn d-inline-block bg-success-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-500" class="btn d-inline-block bg-success-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-600" class="btn d-inline-block bg-success-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-700" class="btn d-inline-block bg-success-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-800" class="btn d-inline-block bg-success-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-900" class="btn d-inline-block bg-success-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-100" class="btn d-inline-block bg-info-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-200" class="btn d-inline-block bg-info-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-300" class="btn d-inline-block bg-info-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-400" class="btn d-inline-block bg-info-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-500" class="btn d-inline-block bg-info-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-600" class="btn d-inline-block bg-info-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-700" class="btn d-inline-block bg-info-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-800" class="btn d-inline-block bg-info-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-900" class="btn d-inline-block bg-info-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-100" class="btn d-inline-block bg-danger-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-200" class="btn d-inline-block bg-danger-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-300" class="btn d-inline-block bg-danger-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-400" class="btn d-inline-block bg-danger-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-500" class="btn d-inline-block bg-danger-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-600" class="btn d-inline-block bg-danger-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-700" class="btn d-inline-block bg-danger-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-800" class="btn d-inline-block bg-danger-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-900" class="btn d-inline-block bg-danger-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-100" class="btn d-inline-block bg-warning-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-200" class="btn d-inline-block bg-warning-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-300" class="btn d-inline-block bg-warning-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-400" class="btn d-inline-block bg-warning-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-500" class="btn d-inline-block bg-warning-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-600" class="btn d-inline-block bg-warning-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-700" class="btn d-inline-block bg-warning-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-800" class="btn d-inline-block bg-warning-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-900" class="btn d-inline-block bg-warning-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-100" class="btn d-inline-block bg-fusion-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-200" class="btn d-inline-block bg-fusion-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-300" class="btn d-inline-block bg-fusion-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-400" class="btn d-inline-block bg-fusion-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-500" class="btn d-inline-block bg-fusion-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-600" class="btn d-inline-block bg-fusion-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-700" class="btn d-inline-block bg-fusion-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-800" class="btn d-inline-block bg-fusion-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-900" class="btn d-inline-block bg-fusion-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="" class="btn d-inline-block bg-white border width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown-multilevel dropdown-multilevel-left">
+                                <div class="dropdown-item">
+                                    Cor do Cabeçalho
+                                </div>
+                                <div class="dropdown-menu no-transition-delay">
+                                    <div class="js-thead-colors dropdown-multilevel dropdown-multilevel-left d-flex flex-wrap" style="width: 15.9rem; padding: 0.5rem">
+                                        <a href="javascript:void(0);" data-bg="bg-primary-100" class="btn d-inline-block bg-primary-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-200" class="btn d-inline-block bg-primary-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-300" class="btn d-inline-block bg-primary-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-400" class="btn d-inline-block bg-primary-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-500" class="btn d-inline-block bg-primary-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-600" class="btn d-inline-block bg-primary-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-700" class="btn d-inline-block bg-primary-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-800" class="btn d-inline-block bg-primary-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-900" class="btn d-inline-block bg-primary-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-100" class="btn d-inline-block bg-success-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-200" class="btn d-inline-block bg-success-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-300" class="btn d-inline-block bg-success-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-400" class="btn d-inline-block bg-success-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-500" class="btn d-inline-block bg-success-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-600" class="btn d-inline-block bg-success-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-700" class="btn d-inline-block bg-success-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-800" class="btn d-inline-block bg-success-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-900" class="btn d-inline-block bg-success-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-100" class="btn d-inline-block bg-info-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-200" class="btn d-inline-block bg-info-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-300" class="btn d-inline-block bg-info-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-400" class="btn d-inline-block bg-info-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-500" class="btn d-inline-block bg-info-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-600" class="btn d-inline-block bg-info-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-700" class="btn d-inline-block bg-info-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-800" class="btn d-inline-block bg-info-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-900" class="btn d-inline-block bg-info-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-100" class="btn d-inline-block bg-danger-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-200" class="btn d-inline-block bg-danger-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-300" class="btn d-inline-block bg-danger-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-400" class="btn d-inline-block bg-danger-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-500" class="btn d-inline-block bg-danger-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-600" class="btn d-inline-block bg-danger-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-700" class="btn d-inline-block bg-danger-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-800" class="btn d-inline-block bg-danger-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-900" class="btn d-inline-block bg-danger-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-100" class="btn d-inline-block bg-warning-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-200" class="btn d-inline-block bg-warning-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-300" class="btn d-inline-block bg-warning-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-400" class="btn d-inline-block bg-warning-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-500" class="btn d-inline-block bg-warning-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-600" class="btn d-inline-block bg-warning-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-700" class="btn d-inline-block bg-warning-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-800" class="btn d-inline-block bg-warning-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-900" class="btn d-inline-block bg-warning-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-100" class="btn d-inline-block bg-fusion-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-200" class="btn d-inline-block bg-fusion-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-300" class="btn d-inline-block bg-fusion-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-400" class="btn d-inline-block bg-fusion-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-500" class="btn d-inline-block bg-fusion-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-600" class="btn d-inline-block bg-fusion-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-700" class="btn d-inline-block bg-fusion-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-800" class="btn d-inline-block bg-fusion-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-900" class="btn d-inline-block bg-fusion-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="" class="btn d-inline-block bg-white border width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-container show">
+                    <div class="panel-content">
+    {#                        <div class="panel-tag">#}
+    {#                            This example shows DataTables and the Responsive extension being used with the Bootstrap framework providing the styling. The DataTables / Bootstrap integration provides seamless integration for DataTables to be used in a Bootstrap page. <strong>Note</strong> that the <code>.dt-responsive</code> class is used to indicate to the extension that it should be enabled on this page, as responsive has special meaning in Bootstrap. The responsive option could also be used if required#}
+    {#                        </div>#}
+                        <!-- datatable start -->
+                        <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100 table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Detalhar</th>
+                                    <th>Email</th>
+                                    <th>Suitability</th>
+                                    <th>Ativo</th>
+                                    <th>Emissor</th>
+                                    <th>Investimento Mínimo</th>
+                                    <th>Rating</th>
+                                    <th>Período de Reservas</th>
+                                    <th>Bookbuilding</th>
+                                    <th>Liquidação</th>
+                                    <th class="phone">Séries</th>
+                                    <th class="phone">Fee</th>
+                                    <th class="phone">Volume Total</th>
+                                    <th class="phone">Coordenadores</th>
+                                    <th class="phone">Garantia</th>
+                                    <th class="phone">Sobre a Empresa</th>
+                                    <th class="phone">Aviso ao Mercado</th>
+                                    <th class="phone">Material de Divulgação</th>
+                                    <th class="phone" >Controle Administrativo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for oferta in list_data %}
+
+                                    <tr>
+                                        <td class="text-center"><i class="ni ni-list fa-2x"></i></td>
+                                        <td class="text-center"><a href="{% url 'offers:send-mail-rf' oferta.id %}"><span class="ni ni-envelope fa-2x"></span></a></td>
+                                        <td>
+                                            {% if oferta.suitability == "A" %} <span class="badge bg-danger-800 mr-2">A</span> {% endif %}
+                                            {% if oferta.suitability == "M" %} <span class="badge bg-warning-800 mr-2">M</span> {% endif %}
+                                            {% if oferta.suitability == "C" %} <span class="badge bg-info-800 mr-2">C</span> {% endif %}
+                                        </td>
+                                        <td>
+                                            {{ oferta.ativo }}
+                                            {% if oferta.is_ir == "Sim" %} <img src="{% static '/img/icons/ir.png' %}" width="15"> {% endif %}
+                                            {% if oferta.is_qualy == "Sim" %} <img src="{% static '/img/icons/medal.png' %}" width="15"> {% endif %}
+                                            {% if oferta.is_prof == "Sim" %} <img src="{% static '/img/icons/profissional.png' %}" width="15"> {% endif %}
+                                        </td>
+                                        <td>{{ oferta.emissor }}</td>
+                                        <td>{{ oferta.invet_min|moeda }}</td>
+                                        <td>{{ oferta.rating }}</td>
+                                        <td>
+                                            {{ oferta.start_reserv|date:"SHORT_DATE_FORMAT" }} - {{ oferta.end_reserv|date:"SHORT_DATE_FORMAT" }}<br>
+                                            {% if oferta.end_reserv|days_since < 0 %}
+                                                <span style="color:#FC1349">Encerrada</span>
+                                            {% else %}
+                                                <span style="color:#1d8458">Aberta</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ oferta.bookbuilding|date:"SHORT_DATE_FORMAT" }}</td>
+                                        <td>{{ oferta.liquid|date:"SHORT_DATE_FORMAT" }}</td>
+                                        <td>
+                                            <table class="table table-border border-bottom border-left  table-responsive table-sm table table-bordered table-hover table-striped w-100">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Série</th>
+                                                        <th>Vencimento</th>
+                                                        <th>Taxa Teto</th>
+                                                        <th>Taxa Referencial</th>
+                                                        <th>Duration (em anos)</th>
+                                                        <th>Amortização</th>
+                                                        <th>Início da Amortização</th>
+                                                        <th>Juros</th>
+                                                        <th>Taxa Atual Aproximada</th>
+                                                        <th>Observações</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for serie in oferta.id|get_serie %}
+                                                        <tr>
+                                                            <td>{{ serie.tipe }}</td>
+                                                            <td>{{ serie.venciment|date:"SHORT_DATE_FORMAT" }}</td>
+                                                            <td>{{ serie.tax_top }}%</td>
+                                                            <td>{{ serie.tax_ref }}%</td>
+                                                            <td>{{ serie.duration }}</td>
+                                                            <td>{{ serie.amort }}</td>
+                                                            <td>{{ serie.amort_beg|date:"SHORT_DATE_FORMAT" }}</td>
+                                                            <td>{{ serie.jurus }}</td>
+                                                            <td>{{ serie.current_tax }}</td>
+                                                            <td>{{ serie.obs }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td>{{ oferta.fee }}</td>
+                                        <td>{{ oferta.vol_total }}</td>
+                                        <td>{{ oferta.coorder }}</td>
+                                        <td>{{ oferta.garantia }}</td>
+                                        <td>{{ oferta.about_comp|safe }}</td>
+                                        <td><a href="{{ oferta.link_warning }}" target="_blank">{{ oferta.link_warning }}</a></td>
+                                        <td><a href="{{ oferta.link_pub }}" target="_blank">{{ oferta.link_pub }}</a></td>
+                                        <td>
+                                            <div class='d-flex mt-2'>
+                                                <a href='{% url 'offers:delete-rf' oferta.pk %}' class='btn btn-sm btn-outline-danger mr-2' title='Delete Record'><i class="fal fa-times"></i> Excluir Oferta</a>
+                                                <a href='{% url 'offers:edit-rf' oferta.pk %}' class='btn btn-sm btn-outline-primary mr-2' title='Edit'><i class="fal fa-edit"></i> Editar / Adicionar Séries</a>
+                                                <a href='#' class='btn btn-sm btn-outline-primary mr-2' title='Edit'><i class="fal fa-edit"></i>Criar Post</a>
+{#                                                <div class='dropdown d-inline-block'>#}
+{#                                                    <a href='#' class='btn btn-sm btn-outline-primary mr-2' data-toggle='dropdown' aria-expanded='true' title='More options'><i class="fal fa-plus"></i></a>#}
+{#                                                    <div class='dropdown-menu'>#}
+{#                                                        <a href="{% url 'offers:edit-rf' oferta.pk %}" class='dropdown-item' href='javascript:void(0);'>Adicionar Séries</a>#}
+    {#                                                    <a class='dropdown-item' href='javascript:void(0);'>Generate Report</a>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                {% endfor %}
+                            </tbody>
+{#                            <tfoot>#}
+{#                                <tr>#}
+{#                                    <th>Detalhar</th>#}
+{#                                    <th>Email</th>#}
+{#                                    <th>Suitability</th>#}
+{#                                    <th>Ativo</th>#}
+{#                                    <th>Emissor</th>#}
+{#                                    <th>Investimento Mínimo</th>#}
+{#                                    <th>Rating</th>#}
+{#                                    <th>Reservas</th>#}
+{#                                    <th>Bookbuilding</th>#}
+{#                                    <th>Liquidação</th>#}
+{#                                    <th>Séries</th>#}
+{#                                    <th>Fee</th>#}
+{#                                    <th>Volume Total</th>#}
+{#                                    <th>Coordenadores</th>#}
+{#                                    <th>Garantia</th>#}
+{#                                    <th>Sobre a Empresa</th>#}
+{#                                    <th>Aviso ao Mercado</th>#}
+{#                                    <th>Material de Divulgação</th>#}
+{#                                    <th>Admin Controles</th>#}
+{#                                </tr>#}
+{#                            </tfoot>#}
+                        </table>
+                        <!-- datatable end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+<!-- END page content -->
+
+<!-- BEGIN page script -->
+{% block script %}
+    {% include './js/list_view_js.html' %}
+{% endblock %}
+<!-- END page script -->

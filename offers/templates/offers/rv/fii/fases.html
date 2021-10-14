@@ -1,0 +1,48 @@
+{% load static %}
+{% load filter_tags %}
+
+
+{% if oferta.PeríododeNegociação|group == 'empty' and  oferta.PeríododePreferência|group == 'empty' and  oferta.PeríododeSobras|group == 'empty'  and  oferta.PeríodoPúblico|group == 'full'  %}
+{#   (1)#}
+    {{ oferta.Fundo|group_one|safe }}
+{% endif %}
+
+{% if oferta.PeríododeNegociação|group == 'empty' and  oferta.PeríododePreferência|group == 'full' and  oferta.PeríododeSobras|group == 'empty'  and  oferta.PeríodoPúblico|group == 'full'  %}
+{#    (2)#}
+    {{ oferta.Fundo|group_two|safe }}
+{% endif %}
+
+{% if oferta.PeríododeNegociação|group == 'empty' and  oferta.PeríododePreferência|group == 'full' and  oferta.PeríododeSobras|group == 'full'  and  oferta.PeríodoPúblico|group == 'full'  %}
+{#    (3)#}
+    {{ oferta.Fundo|group_three|safe }}
+{% endif %}
+
+{% if oferta.PeríododeNegociação|group == 'full' and  oferta.PeríododePreferência|group == 'full' and  oferta.PeríododeSobras|group == 'full'  and  oferta.PeríodoPúblico|group == 'full'  %}
+{#    (4)#}
+    {{ oferta.Fundo|group_three|safe }}
+{% endif %}
+
+{% if oferta.PeríododeNegociação|group == 'empty' and  oferta.PeríododePreferência|group == 'full' and  oferta.PeríododeSobras|group == 'empty'  and  oferta.PeríodoPúblico|group == 'empty'  %}
+{#    (5)#}
+    {{ oferta.Fundo|group_five|safe }}
+{% endif %}
+
+{% if oferta.PeríododeNegociação|group == 'empty' and  oferta.PeríododePreferência|group == 'full' and  oferta.PeríododeSobras|group == 'full'  and  oferta.PeríodoPúblico|group == 'empty'  %}
+{#    (6)#}
+    {{ oferta.Fundo|group_six|safe }}
+{% endif %}
+
+{% if oferta.PeríododeNegociação|group == 'full' and  oferta.PeríododePreferência|group == 'full' and  oferta.PeríododeSobras|group == 'full'  and  oferta.PeríodoPúblico|group == 'empty'  %}
+{#    (7)#}
+    {{ oferta.Fundo|group_seven|safe }}
+{% endif %}
+
+{% if oferta.PeríododeNegociação|group == 'full' and  oferta.PeríododePreferência|group == 'full' and  oferta.PeríododeSobras|group == 'empty'  and  oferta.PeríodoPúblico|group == 'empty'  %}
+{#    (8)#}
+    {{ oferta.Fundo|group_eight|safe }}
+{% endif %}
+
+{% if oferta.PeríododeNegociação|group == 'full' and  oferta.PeríododePreferência|group == 'full' and  oferta.PeríododeSobras|group == 'empty'  and  oferta.PeríodoPúblico|group == 'full'  %}
+{#    (9)#}
+    {{ oferta.Fundo|group_nine|safe }}
+{% endif %}
