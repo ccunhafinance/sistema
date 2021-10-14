@@ -142,4 +142,4 @@ zrefs
 ztests
 local_settings_.py
 ssh
-data/
+#data/

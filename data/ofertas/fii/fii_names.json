@@ -1,0 +1,1390 @@
+[
+  {
+    "Nome": "AF INVEST CRI FDO. INV. IMOB RECEBÍVEIS IMOB.",
+    "Codigo": "AFHI"
+  },
+  {
+    "Nome": "AF INVEST FDO INV. IMOB. - RECEBÍVEIS IMOB.",
+    "Codigo": "AFCR"
+  },
+  {
+    "Nome": "ALIANZA FOF FUNDO DE INVESTIMENTO IMOBILIÁRIO",
+    "Codigo": "AFOF"
+  },
+  {
+    "Nome": "ALIANZA TRUST RENDA IMOBILIARIA FDO INV IMOB",
+    "Codigo": "ALZR"
+  },
+  {
+    "Nome": "AQ3 RENDA FDO INV IMOB - FII",
+    "Codigo": "ARFI"
+  },
+  {
+    "Nome": "ÁQUILLA FDO INV IMOB - FII",
+    "Codigo": "AQLL"
+  },
+  {
+    "Nome": "AUTONOMY EDIFÍCIOS CORPORATIVOS FUND. INV. IMOB.",
+    "Codigo": "AIEC"
+  },
+  {
+    "Nome": "BANESTES RECEBÍVEIS IMOBILIÁRIOS FDO INV IMOB  FII",
+    "Codigo": "BCRI"
+  },
+  {
+    "Nome": "BANRISUL NOVAS FRONTEIRAS FDO INV IMOB - FII",
+    "Codigo": "BNFS"
+  },
+  {
+    "Nome": "BB FDO INV IMOB PROGRESSIVO",
+    "Codigo": "BBFI"
+  },
+  {
+    "Nome": "BB FUNDO DE FUNDOS - FDO. INV. IMOB.",
+    "Codigo": "BBFO"
+  },
+  {
+    "Nome": "BB PROGRESSIVO II FDO INV IMOB - FII",
+    "Codigo": "BBPO"
+  },
+  {
+    "Nome": "BB RECEBIVEIS IMOBILIARIOS FDO INV IMOB - FII",
+    "Codigo": "BBIM"
+  },
+  {
+    "Nome": "BB RENDA CORPORATIVA FDO INV IMOB - FII",
+    "Codigo": "BBRC"
+  },
+  {
+    "Nome": "BB RENDA DE PAPEIS IMOB II FDO INV IMOB - FII",
+    "Codigo": "RDPD"
+  },
+  {
+    "Nome": "BB RENDA DE PAPÉIS IMOBILIÁRIOS FDO INV IMOB - FII",
+    "Codigo": "RNDP"
+  },
+  {
+    "Nome": "BLUECAP RENDA LOG. FDO INV. IMOB. - FII",
+    "Codigo": "BLCP"
+  },
+  {
+    "Nome": "BLUEMACAW CRÉDITO IMOBILIÁRIO - FDO. INV. IMOB.",
+    "Codigo": "BLMC"
+  },
+  {
+    "Nome": "BLUEMACAW LOGÍSTICA FDO. INVEST. IMOB.",
+    "Codigo": "BLMG"
+  },
+  {
+    "Nome": "BLUEMACAW OFFICE FUND II - FDO. INVEST. IMOB.",
+    "Codigo": "BLMO"
+  },
+  {
+    "Nome": "BLUEMACAW RENDA + FOF FDO. INVEST. IMOB.",
+    "Codigo": "BLMR"
+  },
+  {
+    "Nome": "BRADESCO CARTEIRA IMOBILIÁRIA ATIVA - FII",
+    "Codigo": "BCIA"
+  },
+  {
+    "Nome": "BRAZIL REAL ESTATE VICTORY FUND I - FDO. INV. IMOB",
+    "Codigo": "BREV"
+  },
+  {
+    "Nome": "BRAZIL REALTY FDO INV IMOB",
+    "Codigo": "BZLI"
+  },
+  {
+    "Nome": "BRAZILIAN GRAVEYARD DEATH CARE FDO INV IMOB - FII",
+    "Codigo": "CARE"
+  },
+  {
+    "Nome": "BRESCO LOGÍSTICA - FDO INV IMOB",
+    "Codigo": "BRCO"
+  },
+  {
+    "Nome": "BRIO CRÉDITO ESTRUTURADO - FDO. INVEST. IMOB.",
+    "Codigo": "BICE"
+  },
+  {
+    "Nome": "BRIO REAL ESTATE II - FDO INV IMOB",
+    "Codigo": "BRIM"
+  },
+  {
+    "Nome": "BRIO REAL ESTATE III FDO DE INVEST. IMOB.",
+    "Codigo": "BRIP"
+  },
+  {
+    "Nome": "BTG PACTUAL LOGISTICA FDO INV IMOB - FII",
+    "Codigo": "BTLG"
+  },
+  {
+    "Nome": "BTOWERS FII - FUNDO DE INVESTIMENTO IMOBILIÁRIO",
+    "Codigo": "BTWR"
+  },
+  {
+    "Nome": "BTSP I FDO. INVEST. IMOB - FII",
+    "Codigo": "BTSG"
+  },
+  {
+    "Nome": "CAIXA RIO BRAVO FDO DE FDOS INV IMOB II",
+    "Codigo": "CRFF"
+  },
+  {
+    "Nome": "CAIXA RIO BRAVO FUNDO DE FDO INV IMOB - FII",
+    "Codigo": "CXRI"
+  },
+  {
+    "Nome": "CAPITÍNIA REIT FOF - FDO. INVEST. IMOB",
+    "Codigo": "CPFF"
+  },
+  {
+    "Nome": "CAPITANIA SECURITIES II FDO INV IMOB - FII",
+    "Codigo": "CPTS"
+  },
+  {
+    "Nome": "CASTELLO BRANCO OFFICE PARK FDO INV IMOB - FII",
+    "Codigo": "CBOP"
+  },
+  {
+    "Nome": "CF2 FUNDO DE INVESTIMENTO IMOBILIÁRIO",
+    "Codigo": "CFHI"
+  },
+  {
+    "Nome": "CIDADE JARDIM CONTINENAL TOWER FDO INV IMOB",
+    "Codigo": "CJCT"
+  },
+  {
+    "Nome": "CORE METROPOLIS FUNDO DE INVESTIMENTO IMOBILIÁRIO",
+    "Codigo": "CORM"
+  },
+  {
+    "Nome": "CSHG IMOB. FOF - FDO INV. IMOB. - FII",
+    "Codigo": "HGFF"
+  },
+  {
+    "Nome": "CSHG LOGÍSTICA FDO INV IMOB - FII",
+    "Codigo": "HGLG"
+  },
+  {
+    "Nome": "CSHG PRIME OFFICES FDO INV IMOB - FII",
+    "Codigo": "HGPO"
+  },
+  {
+    "Nome": "CSHG REAL ESTATE FDO INV IMOB - FII",
+    "Codigo": "HGRE"
+  },
+  {
+    "Nome": "CSHG RECEBÍVEIS IMOBILIÁRIOS FDO INV IMOB - FII",
+    "Codigo": "HGCR"
+  },
+  {
+    "Nome": "CSHG RENDA URBANA - FDO INV IMOB - FII",
+    "Codigo": "HGRU"
+  },
+  {
+    "Nome": "DEL MONTE AJAX FDO INV IMOB - FII",
+    "Codigo": "DLMT"
+  },
+  {
+    "Nome": "DEVANT RECEBÍVEIS IMOBILIÁRIOS FDO. INVEST. IMOB.",
+    "Codigo": "DEVA"
+  },
+  {
+    "Nome": "DIAMANTE FDO INV IMOB",
+    "Codigo": "DAMT"
+  },
+  {
+    "Nome": "DOVEL FDO INV IMOB",
+    "Codigo": "DOVL"
+  },
+  {
+    "Nome": "ENERGY RESORT FDO. INVEST. IMOB.",
+    "Codigo": "EGYR"
+  },
+  {
+    "Nome": "ESTOQUE RESIDENCIAL E COMERCIAL RJ FDO INV IMOB",
+    "Codigo": "ERCR"
+  },
+  {
+    "Nome": "EUROPA 105 - FDO INV IMOB",
+    "Codigo": "ERPA"
+  },
+  {
+    "Nome": "EVEN II KINEA FUNDO DE INVESTIMENTO IMOBILIÁRIO",
+    "Codigo": "KEVE"
+  },
+  {
+    "Nome": "EVEN PERMUTA KINEA FII - FDO INV IMOB",
+    "Codigo": "KINP"
+  },
+  {
+    "Nome": "FARIA LIMA CAPITAL RECEB. IMOB. I - FDO INV. IMOB.",
+    "Codigo": "FLCR"
+  },
+  {
+    "Nome": "FATOR VERITA FDO INV IMOB - FII",
+    "Codigo": "VRTA"
+  },
+  {
+    "Nome": "FDO BRASÍLIO MACHADO DE INVESTIMENTO IMOBILIÁRIO",
+    "Codigo": "BMII"
+  },
+  {
+    "Nome": "FDO INV IMOB - BTG PACTUAL CREDITO IMOBILIARIO",
+    "Codigo": "BTCR"
+  },
+  {
+    "Nome": "FDO INV IMOB - BTG PACTUAL METROPOLIS",
+    "Codigo": "MTRS"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII ANCAR IC",
+    "Codigo": "ANCR"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII ANHANGUERA EDUCACIONAL",
+    "Codigo": "FAED"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII BM BRASCAN LAJES CORPORATIVAS",
+    "Codigo": "BMLC"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII BRLPROP",
+    "Codigo": "BPRP"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII BTG PACTUAL CORP. OFFICE FUND",
+    "Codigo": "BRCR"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII BTG PACTUAL FUNDO DE CRI",
+    "Codigo": "FEXC"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII BTG PACTUAL FUNDO DE FUNDOS",
+    "Codigo": "BCFF"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII CAMPUS FARIA LIMA",
+    "Codigo": "FCFL"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII CENESP",
+    "Codigo": "CNES"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII CEO CYRELA COMMERC. PROPERTIES",
+    "Codigo": "CEOC"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII CYRELA THERA CORPORATE",
+    "Codigo": "THRA"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII EDIFÍCIO ALMIRANTE BARROSO",
+    "Codigo": "FAMB"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII EDIFÍCIO GALERIA",
+    "Codigo": "EDGA"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII ELDORADO",
+    "Codigo": "ELDO"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII FLORIPA SHOPPING",
+    "Codigo": "FLRP"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII HOSPITAL DA CRIAN√áA",
+    "Codigo": "HCRI"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII HOSPITAL NOSSA SRA DE LOURDES",
+    "Codigo": "NSLU"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII HOTEL MAXINVEST",
+    "Codigo": "HTMX"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII MAX RETAIL",
+    "Codigo": "MAXR"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII NCH BRASIL RECEBÍVEIS IMOB",
+    "Codigo": "NCHB"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII NOVO HORIZONTE",
+    "Codigo": "NVHO"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII PARQUE D. PEDRO SHOPPING CENTER",
+    "Codigo": "PQDP"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII PATEO BANDEIRANTES",
+    "Codigo": "PATB"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII RBR DESENVOLVIMENTO",
+    "Codigo": "RBRM"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII RBR RENDIMENTO HIGH GRADE",
+    "Codigo": "RBRR"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII REC RECEBIVEIS IMOBILIARIOS",
+    "Codigo": "RECR"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII REC RENDA IMOBILIARIA",
+    "Codigo": "RECT"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII SHOPPING JARDIM SUL",
+    "Codigo": "JRDM"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII SHOPPING PARQUE D. PEDRO",
+    "Codigo": "SHDP"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII SIA CORPORATE",
+    "Codigo": "SAIC"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII TB OFFICE",
+    "Codigo": "TBOF"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII TORRE ALMIRANTE",
+    "Codigo": "ALMI"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII TORRE NORTE",
+    "Codigo": "TRNT"
+  },
+  {
+    "Nome": "FDO INV IMOB - FII VILA OLÍMPIA CORPORATE",
+    "Codigo": "VLOL"
+  },
+  {
+    "Nome": "FDO INV IMOB - OURINVEST FUNDO DE FUNDOS",
+    "Codigo": "OUFF"
+  },
+  {
+    "Nome": "FDO INV IMOB - OURINVEST RE I",
+    "Codigo": "WTSP"
+  },
+  {
+    "Nome": "FDO INV IMOB - REC HOTELARIA",
+    "Codigo": "RECH"
+  },
+  {
+    "Nome": "FDO INV IMOB - V2 PROPERTIES",
+    "Codigo": "VVPR"
+  },
+  {
+    "Nome": "FDO INV IMOB - VBI LOGÍSTICO",
+    "Codigo": "LVBI"
+  },
+  {
+    "Nome": "FDO INV IMOB BARIGUI RENDIMENTOS IMOB I FII",
+    "Codigo": "BARI"
+  },
+  {
+    "Nome": "FDO INV IMOB BR HOTEIS - FII",
+    "Codigo": "BRHT"
+  },
+  {
+    "Nome": "FDO INV IMOB BRASIL PLURAL ABSOLUTO FDO DE FUNDOS",
+    "Codigo": "BPFF"
+  },
+  {
+    "Nome": "FDO INV IMOB BRASIL VAREJO - FII",
+    "Codigo": "BVAR"
+  },
+  {
+    "Nome": "FDO INV IMOB BTG PACTUAL SHOPPINGS",
+    "Codigo": "BPML"
+  },
+  {
+    "Nome": "FDO INV IMOB CAIXA CEDAE",
+    "Codigo": "CXCE"
+  },
+  {
+    "Nome": "FDO INV IMOB CAIXA TRX LOGÍSTICA RENDA",
+    "Codigo": "CXTL"
+  },
+  {
+    "Nome": "FDO INV IMOB CENTRO TEXTIL INTERNACIONAL",
+    "Codigo": "CTXT"
+  },
+  {
+    "Nome": "FDO INV IMOB CJ - FII",
+    "Codigo": "CJFI"
+  },
+  {
+    "Nome": "FDO INV IMOB CONTINENTAL SQUARE FARIA LIMA",
+    "Codigo": "FLMA"
+  },
+  {
+    "Nome": "FDO INV IMOB EDIFÍCIO OURINVEST",
+    "Codigo": "EDFO"
+  },
+  {
+    "Nome": "FDO INV IMOB EUROPAR",
+    "Codigo": "EURO"
+  },
+  {
+    "Nome": "FDO INV IMOB GENERAL SEVERIANO - FII",
+    "Codigo": "GESE"
+  },
+  {
+    "Nome": "FDO INV IMOB GRAND PLAZA SHOPPING",
+    "Codigo": "ABCP"
+  },
+  {
+    "Nome": "FDO INV IMOB GREEN TOWERS",
+    "Codigo": "GTWR"
+  },
+  {
+    "Nome": "FDO INV IMOB HABITAT I",
+    "Codigo": "HBTT"
+  },
+  {
+    "Nome": "FDO INV IMOB HOSPITAL UNIMED SUL CAPIXABA",
+    "Codigo": "HUSC"
+  },
+  {
+    "Nome": "FDO INV IMOB INDUSTRIAL DO BRASIL",
+    "Codigo": "FIIB"
+  },
+  {
+    "Nome": "FDO INV IMOB INFRA REAL ESTATE - FII",
+    "Codigo": "FINF"
+  },
+  {
+    "Nome": "FDO INV IMOB MEMORIAL OFFICE",
+    "Codigo": "FMOF"
+  },
+  {
+    "Nome": "FDO INV IMOB MERCANTIL DO BRASIL - FII",
+    "Codigo": "MBRF"
+  },
+  {
+    "Nome": "FDO INV IMOB MOGNO FUNDO DE FUNDOS",
+    "Codigo": "MGFF"
+  },
+  {
+    "Nome": "FDO INV IMOB MV9 - FII",
+    "Codigo": "MVFI"
+  },
+  {
+    "Nome": "FDO INV IMOB NESTPAR - FII",
+    "Codigo": "NPAR"
+  },
+  {
+    "Nome": "FDO INV IMOB OURINVEST LOGÍSTICA",
+    "Codigo": "OULG"
+  },
+  {
+    "Nome": "FDO INV IMOB PANAMBY",
+    "Codigo": "PABY"
+  },
+  {
+    "Nome": "FDO INV IMOB PEDRA NEGRA RENDA IMOB",
+    "Codigo": "FPNG"
+  },
+  {
+    "Nome": "FDO INV IMOB POLO ESTOQUE II - FII",
+    "Codigo": "ESTQ"
+  },
+  {
+    "Nome": "FDO INV IMOB POLO SHOPPING INDAIATUBA",
+    "Codigo": "VPSI"
+  },
+  {
+    "Nome": "FDO INV IMOB PROJETO ÁGUA BRANCA",
+    "Codigo": "FPAB"
+  },
+  {
+    "Nome": "FDO INV IMOB RBR CREDITO IMOB ESTRUTURADO",
+    "Codigo": "RBRY"
+  },
+  {
+    "Nome": "FDO INV IMOB RBR PROPERTIES - FII",
+    "Codigo": "RBRP"
+  },
+  {
+    "Nome": "FDO INV IMOB RIO BRAVO RENDA CORPORATIVA",
+    "Codigo": "RCRB"
+  },
+  {
+    "Nome": "FDO INV IMOB RIO BRAVO RENDA EDUCACIONAL - FII",
+    "Codigo": "RBED"
+  },
+  {
+    "Nome": "FDO INV IMOB RIO BRAVO RENDA VAREJO - FII",
+    "Codigo": "RBVA"
+  },
+  {
+    "Nome": "FDO INV IMOB RIO NEGRO - FII",
+    "Codigo": "RNGO"
+  },
+  {
+    "Nome": "FDO INV IMOB SÃO FERNANDO",
+    "Codigo": "SFND"
+  },
+  {
+    "Nome": "FDO INV IMOB SC 401",
+    "Codigo": "FISC"
+  },
+  {
+    "Nome": "FDO INV IMOB SCP",
+    "Codigo": "SCPF"
+  },
+  {
+    "Nome": "FDO INV IMOB SDI RIO BRAVO RENDA LOGISTICA - FII",
+    "Codigo": "SDIL"
+  },
+  {
+    "Nome": "FDO INV IMOB SHOPPING PÁTIO HIGIENÓPOLIS",
+    "Codigo": "SHPH"
+  },
+  {
+    "Nome": "FDO INV IMOB TG ATIVO REAL",
+    "Codigo": "TGAR"
+  },
+  {
+    "Nome": "FDO INV IMOB THE ONE",
+    "Codigo": "ONEF"
+  },
+  {
+    "Nome": "FDO INV IMOB TOURMALET I",
+    "Codigo": "TORM"
+  },
+  {
+    "Nome": "FDO INV IMOB TOURMALET II",
+    "Codigo": "TOUR"
+  },
+  {
+    "Nome": "FDO INV IMOB VEREDA - FII",
+    "Codigo": "VERE"
+  },
+  {
+    "Nome": "FDO INV IMOB VIA PARQUE SHOPPING - FII",
+    "Codigo": "FVPQ"
+  },
+  {
+    "Nome": "FDO INV IMOB VIDA NOVA - FII",
+    "Codigo": "FIVN"
+  },
+  {
+    "Nome": "FDO INV IMOB VOTORANTIM LOGISTICA",
+    "Codigo": "VTLT"
+  },
+  {
+    "Nome": "FDO INV IMOB VOTORANTIM SECURITIES",
+    "Codigo": "VSEC"
+  },
+  {
+    "Nome": "FDO INV IMOB VOTORANTIM SHOPPING",
+    "Codigo": "VSHO"
+  },
+  {
+    "Nome": "FDO INV. IMOB. FOF INTEGRAL BREI",
+    "Codigo": "IBFF"
+  },
+  {
+    "Nome": "FDO INV. IMOB. PLURAL RECEBIVEIS",
+    "Codigo": "PLCR"
+  },
+  {
+    "Nome": "FDO INV. IMOB. PLUS",
+    "Codigo": "VTPL"
+  },
+  {
+    "Nome": "FDO INV. IMOB. REC LOGISTICA",
+    "Codigo": "RELG"
+  },
+  {
+    "Nome": "FDO INV. IMOB. VBI CRI",
+    "Codigo": "CVBI"
+  },
+  {
+    "Nome": "FDO INV. MAUA CAPITAL RECEBIVEIS IMOB. - FII",
+    "Codigo": "MCCI"
+  },
+  {
+    "Nome": "FDO INVEST IMOB GRAND PLAZA MALL",
+    "Codigo": "FGPM"
+  },
+  {
+    "Nome": "FDO. DE INV. IMOB. VOTORANTIM SECURITIES III",
+    "Codigo": "VTRT"
+  },
+  {
+    "Nome": "FDO. INV. IMOB. A-TOWN",
+    "Codigo": "ATWN"
+  },
+  {
+    "Nome": "FDO. INV. IMOB. ÁTRIO REIT RECEBÍVEIS IMOBILIÁRIOS",
+    "Codigo": "ARRI"
+  },
+  {
+    "Nome": "FDO. INV. IMOB. BTG PACTUAL AGRO LOGÍSTICA",
+    "Codigo": "BTAL"
+  },
+  {
+    "Nome": "FDO. INV. IMOB. CAIXA IMÓVEIS CORPORATIVOS",
+    "Codigo": "CXCO"
+  },
+  {
+    "Nome": "FDO. INV. IMOB. HOUSI",
+    "Codigo": "HOSI"
+  },
+  {
+    "Nome": "FDO. INV. IMOB. MOGNO HOTEIS",
+    "Codigo": "MGHT"
+  },
+  {
+    "Nome": "FDO. INV. IMOB. REC FUNDO DE FUNDOS",
+    "Codigo": "RECX"
+  },
+  {
+    "Nome": "FDO. INV. IMOB. VBI PRIME PROPERTIES",
+    "Codigo": "PVBI"
+  },
+  {
+    "Nome": "FDO. INVEST. IMOB. MOGNO CRI HIGH GRADE",
+    "Codigo": "MGCR"
+  },
+  {
+    "Nome": "FDO. INVEST. IMOB. RB CAPITAL I FUNDO DE FUNDOS",
+    "Codigo": "RFOF"
+  },
+  {
+    "Nome": "FDO. INVEST. IMOB. TOURMALET V - ED. CIDADE NOVA",
+    "Codigo": "TCIN"
+  },
+  {
+    "Nome": "FDO. INVEST. IMOB. VOTORANTIM PATRIMONIAL V",
+    "Codigo": "VTPA"
+  },
+  {
+    "Nome": "FDO. INVEST. IMOB. VOTORANTIM PATRIMONIAL XII",
+    "Codigo": "VTXI"
+  },
+  {
+    "Nome": "FDO.INVEST. IMOB. MULTI RENDA URBANA",
+    "Codigo": "HBRH"
+  },
+  {
+    "Nome": "FEDERAL HIGH YIELD FDO. INV. IMOB.",
+    "Codigo": "FDHY"
+  },
+  {
+    "Nome": "FII IRIDIUM RECEBÍVEIS IMOBILIÁRIOS",
+    "Codigo": "IRDM"
+  },
+  {
+    "Nome": "FRAM CAPITAL SBCLOG FDO. INV. IMOB.",
+    "Codigo": "SBCL"
+  },
+  {
+    "Nome": "FUND. INVEST. IMOB. SUCCESPAR VAREJO",
+    "Codigo": "SPVJ"
+  },
+  {
+    "Nome": "FUNDO DE FDO INV IMOB KINEA FII",
+    "Codigo": "KFOF"
+  },
+  {
+    "Nome": "FUNDO DE INVEST IMOB OURINVEST RENDA ESTRUTURADA",
+    "Codigo": "OURE"
+  },
+  {
+    "Nome": "FUNDO DE INVESTIMENTO IMOBILIÁRIO DEVELOPMENT V1",
+    "Codigo": "LKDV"
+  },
+  {
+    "Nome": "FUNDO DE INVESTIMENTO IMOBILIÁRIO ATHENA I",
+    "Codigo": "FATN"
+  },
+  {
+    "Nome": "FUNDO DE INVESTIMENTO IMOBILIÁRIO BRL PROP II",
+    "Codigo": "BRLA"
+  },
+  {
+    "Nome": "FUNDO DE INVESTIMENTO IMOBILIÁRIO HBC RENDA URBANA",
+    "Codigo": "HBCR"
+  },
+  {
+    "Nome": "FUNDO DE INVESTIMENTO IMOBILIÁRIO MINT EDUCACIONAL",
+    "Codigo": "MINT"
+  },
+  {
+    "Nome": "FUNDO DE INVESTIMENTO IMOBILIÁRIO RIZA TERRAX",
+    "Codigo": "RZTR"
+  },
+  {
+    "Nome": "FUNDO DE INVESTIMENTO IMOBILIÁRIO ROOFTOP I",
+    "Codigo": "ROOF"
+  },
+  {
+    "Nome": "GALAPAGOS FDO DE FDO - FII FDO INV. IMOB.",
+    "Codigo": "GCFF"
+  },
+  {
+    "Nome": "GALAPAGOS RECEBÍVEIS IMOBILIÁRIOS - FDO. INV. IMOB",
+    "Codigo": "GCRI"
+  },
+  {
+    "Nome": "GENERAL SHOP E OUTLETS DO BRASIL FDO INV IMOB - FI",
+    "Codigo": "GSFI"
+  },
+  {
+    "Nome": "GENERAL SHOPPING ATIVO E RENDA FUNDO DE INV, IMOB.",
+    "Codigo": "FIGS"
+  },
+  {
+    "Nome": "GGR COVEPI RENDA FDO INV IMOB",
+    "Codigo": "GGRC"
+  },
+  {
+    "Nome": "GRUPO RCFA FDO INV IMOB",
+    "Codigo": "RCFA"
+  },
+  {
+    "Nome": "GTIS BRAZIL LOGISTICS FDO. INV. IMOB.",
+    "Codigo": "GTLG"
+  },
+  {
+    "Nome": "GUARDIAN LOGISTICA FDO. INVEST. IMOB.",
+    "Codigo": "GALG"
+  },
+  {
+    "Nome": "HABITAT II - FDO INV IMOB",
+    "Codigo": "HABT"
+  },
+  {
+    "Nome": "HAZ FDO INV IMOB - FII",
+    "Codigo": "ATCR"
+  },
+  {
+    "Nome": "HECTARE CE - FDO INV IMOB",
+    "Codigo": "HCTR"
+  },
+  {
+    "Nome": "HECTARE DESENV. STUDENT HOUSING FDO. INV. IMOB.",
+    "Codigo": "HCST"
+  },
+  {
+    "Nome": "HECTARE RECEBÍVEIS HIGH GRADE FDO. INV. IMOB.",
+    "Codigo": "HCHG"
+  },
+  {
+    "Nome": "HEDGE AAA FDO. INV. IMOB.",
+    "Codigo": "HAAA"
+  },
+  {
+    "Nome": "HEDGE ATRIUM SHOPPING SANTO ANDRE FDO INV IMOB",
+    "Codigo": "ATSA"
+  },
+  {
+    "Nome": "HEDGE BRASIL SHOPPING FDO INV IMOB",
+    "Codigo": "HGBS"
+  },
+  {
+    "Nome": "HEDGE LOGÍSTICA FDO. INV. IMOB.",
+    "Codigo": "HLOG"
+  },
+  {
+    "Nome": "HEDGE REALTY DEVELOPMENT FDO INV IMOB",
+    "Codigo": "HRDF"
+  },
+  {
+    "Nome": "HEDGE RECEBIVEIS IMOB. FUNDO DE INVST. IMOB.",
+    "Codigo": "HREC"
+  },
+  {
+    "Nome": "HEDGE SHOPPING PARQUE DOM PEDRO FDO. DE INV. IMOB.",
+    "Codigo": "HPDP"
+  },
+  {
+    "Nome": "HEDGE SHOPPING PRA√áA DA MO√áA FDO INV IMOB",
+    "Codigo": "HMOC"
+  },
+  {
+    "Nome": "HEDGE TOP FOFII 3 FDO INV IMOB",
+    "Codigo": "HFOF"
+  },
+  {
+    "Nome": "HGI CRÉDITOS IMOBILIÁRIOS FDO. INV. IMOB.",
+    "Codigo": "HGIC"
+  },
+  {
+    "Nome": "HSI ATIVOS FINANCEIROS FUNDO DE INVESTIMENTO IMOBI",
+    "Codigo": "HSAF"
+  },
+  {
+    "Nome": "HSI LOGÍSTICA FUNDO DE INVESTIMENTO IMOBILIÁRIO",
+    "Codigo": "HSLG"
+  },
+  {
+    "Nome": "HSI MALL FDO INV IMOB",
+    "Codigo": "HSML"
+  },
+  {
+    "Nome": "HSI RENDA IMOB FDO INV IMOB",
+    "Codigo": "HSRE"
+  },
+  {
+    "Nome": "HUSI FDO INV. IMOB.",
+    "Codigo": "HUSI"
+  },
+  {
+    "Nome": "IFI-D FUNDO DE INVESTIMENTO IMOBILIARIO - FII",
+    "Codigo": "IFID"
+  },
+  {
+    "Nome": "IFI-E FUNDO DE INVESTIMENTO IMOBILIARIO - FII",
+    "Codigo": "IFIE"
+  },
+  {
+    "Nome": "INTER TÍTULOS IMOB. FDO INV. IMOB.",
+    "Codigo": "BICR"
+  },
+  {
+    "Nome": "JBFO FOF FDO INV. IMOB.",
+    "Codigo": "JBFO"
+  },
+  {
+    "Nome": "JFL LIVING FDO. INV. IMOB.",
+    "Codigo": "JFLL"
+  },
+  {
+    "Nome": "JHSF RIO BRAVO FAZENDA BOA VISTA CAP. PROT. - FII",
+    "Codigo": "RBBV"
+  },
+  {
+    "Nome": "JPP ALLOCATION MOGNO - FDO INV IMOB",
+    "Codigo": "JPPA"
+  },
+  {
+    "Nome": "JPP CAPITAL FDO INV IMOB - FII",
+    "Codigo": "JPPC"
+  },
+  {
+    "Nome": "JS REAL ESTATE MULTIGESTÃO - FII",
+    "Codigo": "JSRE"
+  },
+  {
+    "Nome": "JT PREV FDO INV IMOB DESENVOLVIMENTO HABITACIONAL",
+    "Codigo": "JTPR"
+  },
+  {
+    "Nome": "KILIMA FIC FDO. IMOB. SUNO 30",
+    "Codigo": "KISU"
+  },
+  {
+    "Nome": "KINEA HIGH YIELD CRI FDO INV IMOB - FII",
+    "Codigo": "KNHY"
+  },
+  {
+    "Nome": "KINEA II REAL ESTATE EQUITY FDO INV IMOB",
+    "Codigo": "KNRE"
+  },
+  {
+    "Nome": "KINEA ÍNDICES DE PRE√áOS FDO INV IMOB - FII",
+    "Codigo": "KNIP"
+  },
+  {
+    "Nome": "KINEA RENDA IMOBILIÁRIA FDO INV IMOB - FII",
+    "Codigo": "KNRI"
+  },
+  {
+    "Nome": "KINEA RENDIMENTOS IMOBILIÁRIOS FDO INV IMOB - FII",
+    "Codigo": "KNCR"
+  },
+  {
+    "Nome": "KINEA SECURITIES FDO. DE INV. IMOB. - FII",
+    "Codigo": "KNSC"
+  },
+  {
+    "Nome": "LATERES FDO INV IMOB - FII",
+    "Codigo": "LATR"
+  },
+  {
+    "Nome": "LEGATUS SHOPPINGS FDO. INV. IMOB. - FII",
+    "Codigo": "LASC"
+  },
+  {
+    "Nome": "LESTE RIVA EQUITY PREFERENCIAL I FDO. INV. IMOB.",
+    "Codigo": "LSPA"
+  },
+  {
+    "Nome": "LOFT I - FDO INV IMOB",
+    "Codigo": "LOFT"
+  },
+  {
+    "Nome": "LOFT II FUNDO DE INVESTIMENTO IMOBILIÁRIO",
+    "Codigo": "LFTT"
+  },
+  {
+    "Nome": "LOGCP INTER FDO INV IMOB",
+    "Codigo": "LGCP"
+  },
+  {
+    "Nome": "LUGGO FDO. INV. IMOB.",
+    "Codigo": "LUGG"
+  },
+  {
+    "Nome": "MAC FDO INV IMOB",
+    "Codigo": "DMAC"
+  },
+  {
+    "Nome": "MALLS BRASIL PLURAL FDO INV IMOB",
+    "Codigo": "MALL"
+  },
+  {
+    "Nome": "MAUÁ CAPITAL DESENV I FDO INV. IMOB.",
+    "Codigo": "MADS"
+  },
+  {
+    "Nome": "MAUÁ CAPITAL HEDGE FUND FDO. INVEST. IMOB.",
+    "Codigo": "MCFF"
+  },
+  {
+    "Nome": "MAXI RENDA FDO INV IMOB - FII",
+    "Codigo": "MXRF"
+  },
+  {
+    "Nome": "MÉRITO DESENVOLVIMENTO IMOBILIÁRIO I FII - FII",
+    "Codigo": "MFII"
+  },
+  {
+    "Nome": "MERITO FDO. A√á√ïES IMOB. FII - FDO INV. IMOB.",
+    "Codigo": "MFAI"
+  },
+  {
+    "Nome": "MOGNO LOGÍSTICA FUNDO DE INVEST. IMOBILIARIO - FII",
+    "Codigo": "MGLG"
+  },
+  {
+    "Nome": "MOGNO PROPERTIES - FDO. INVEST. IMOB.",
+    "Codigo": "MGLC"
+  },
+  {
+    "Nome": "MORE REAL ESTATE FOF FII FDO. INV. IMOB.",
+    "Codigo": "MORE"
+  },
+  {
+    "Nome": "MULTI PROPERTIES FDO INV IMOB - FII",
+    "Codigo": "PRTS"
+  },
+  {
+    "Nome": "MULTI SHOPPINGS FDO INV IMOB - FII",
+    "Codigo": "SHOP"
+  },
+  {
+    "Nome": "MULTIGESTÃO RENDA COMERCIAL FDO INV IMOB - FII",
+    "Codigo": "DRIT"
+  },
+  {
+    "Nome": "MULTIOFFICES 1 FDO. INV. IMOB",
+    "Codigo": "MTOF"
+  },
+  {
+    "Nome": "MULTIOFFICES 2 - FDO. INV. IMOB.",
+    "Codigo": "MOFF"
+  },
+  {
+    "Nome": "NAVI IMOBILIÁRIO TOTAL RETURN FDO. INVEST. IMOB.",
+    "Codigo": "NAVT"
+  },
+  {
+    "Nome": "NEWPORT LOGÍSTICA FDO INV. IMOB.",
+    "Codigo": "NEWL"
+  },
+  {
+    "Nome": "NEWPORT RENDA URBANA FDO INV IMOB",
+    "Codigo": "NEWU"
+  },
+  {
+    "Nome": "NOVA I - FDO INV IMOB - FII",
+    "Codigo": "NVIF"
+  },
+  {
+    "Nome": "OPPORTUNITY FDO INV IMOB",
+    "Codigo": "FTCE"
+  },
+  {
+    "Nome": "OURINVEST JPP FDO INV IMOB - FII",
+    "Codigo": "OUJP"
+  },
+  {
+    "Nome": "OURO VERDE DESENV IMOB I FDO INV IMOB - FII",
+    "Codigo": "ORPD"
+  },
+  {
+    "Nome": "PANORAMA DESENVOLVIMENTO LOGÍSTICO FDO. INV. IMOB.",
+    "Codigo": "PNDL"
+  },
+  {
+    "Nome": "PANORAMA PROPERTIES FDO. INVEST. IMOB.",
+    "Codigo": "PNPR"
+  },
+  {
+    "Nome": "PARKING PARTNERS FDO. INVEST. IMOB.",
+    "Codigo": "VTVI"
+  },
+  {
+    "Nome": "PARQUE ANHANGUERA FDO. INVEST. IMOB.",
+    "Codigo": "PQAG"
+  },
+  {
+    "Nome": "PÁTRIA EDIFÍCIOS CORPORATIVOS FDO INV IMOB - FII",
+    "Codigo": "PATC"
+  },
+  {
+    "Nome": "PÁTRIA LOGÍSTICA FUNDO DE INVESTIMENTO IMOBILIÁRIO",
+    "Codigo": "PATL"
+  },
+  {
+    "Nome": "PERFORMA REAL ESTATE - FDO. INV. IMOB.",
+    "Codigo": "PEMA"
+  },
+  {
+    "Nome": "PERSONALE I FDO INV IMOB - FII",
+    "Codigo": "PRSN"
+  },
+  {
+    "Nome": "PLURAL LOGÍSTICA FDO. INV. IMOB.",
+    "Codigo": "PLOG"
+  },
+  {
+    "Nome": "POLO FDO INV IMOB - FII RECEBÍVEIS IMOBILIÁRIOS I",
+    "Codigo": "PLRI"
+  },
+  {
+    "Nome": "POLO FDO INV IMOB - RECEBÍVEIS IMOB II - FII",
+    "Codigo": "PORD"
+  },
+  {
+    "Nome": "PRESIDENTE VARGAS FDO INV IMOB",
+    "Codigo": "PRSV"
+  },
+  {
+    "Nome": "PROLOGIS BRAZIL LOGISTICS VENTURE FDO INV IMOB",
+    "Codigo": "PBLV"
+  },
+  {
+    "Nome": "QUASAR AGRO - FDO INV. IMOB.",
+    "Codigo": "QAGR"
+  },
+  {
+    "Nome": "QUASAR CRÉDITO IMOBILIÁRIO FDO. INV. IMOB.",
+    "Codigo": "QAMI"
+  },
+  {
+    "Nome": "QUATA IMOB FUNDO DE FUNDOS - FDO. INV. IMOB.",
+    "Codigo": "QIFF"
+  },
+  {
+    "Nome": "RB CAPITAL DESENV RESID III FDO INV IMOB - FII",
+    "Codigo": "RSPD"
+  },
+  {
+    "Nome": "RB CAPITAL DESENV. RESID. II FDO INV IMOB - FII",
+    "Codigo": "RBDS"
+  },
+  {
+    "Nome": "RB CAPITAL DESENV. RESIDENCIAL IV FDO. INV. IMOB.",
+    "Codigo": "RBIR"
+  },
+  {
+    "Nome": "RB CAPITAL GENERAL SHOP SULACAP FDO INV IMOB - FII",
+    "Codigo": "RBGS"
+  },
+  {
+    "Nome": "RB CAPITAL LOGÍSTICO FDO. INV. IMOB.",
+    "Codigo": "RBLG"
+  },
+  {
+    "Nome": "RB CAPITAL OFFICE INCOME FDO INV. IMOB.",
+    "Codigo": "RBCO"
+  },
+  {
+    "Nome": "RB CAPITAL RECEBÍVEIS IMOB. FDO. INVEST. IMOB FII",
+    "Codigo": "RRCI"
+  },
+  {
+    "Nome": "RB CAPITAL RENDA I FDO INV IMOB - FII",
+    "Codigo": "FIIP"
+  },
+  {
+    "Nome": "RB CAPITAL RENDA II FDO INV IMOB - FII",
+    "Codigo": "RBRD"
+  },
+  {
+    "Nome": "RB CAPITAL RENDA URBANA FDO. DE INVEST. IMOB",
+    "Codigo": "RBRU"
+  },
+  {
+    "Nome": "RB CAPITAL RENDIMENTOS IMOB FDO INV IMOB - FII",
+    "Codigo": "RCRI"
+  },
+  {
+    "Nome": "RB CAPITAL TFO SITUS FDO INV IMOB - FII",
+    "Codigo": "RBTS"
+  },
+  {
+    "Nome": "RBR ALPHA MULTIESTRATÉGIA REAL ESTATE FDO INV IMOB",
+    "Codigo": "RBRF"
+  },
+  {
+    "Nome": "RBR DESENV COMERCIAL FEEDER FOF FDO INVEST IMOB",
+    "Codigo": "RCFF"
+  },
+  {
+    "Nome": "RBR LOG FUNDO DE INVESTIMENTO IMOBILIÁRIO",
+    "Codigo": "RBRL"
+  },
+  {
+    "Nome": "REAG MULTI ATIVOS IMOBILIÁRIOS - FII",
+    "Codigo": "RMAI"
+  },
+  {
+    "Nome": "RIO BRAVO CRÉDITO IMOB IV FDO INV IMOB - FII",
+    "Codigo": "RBIV"
+  },
+  {
+    "Nome": "RIO BRAVO CRÉDITO IMOB. HIGH YIELD FDO. INV. IMOB.",
+    "Codigo": "RBHY"
+  },
+  {
+    "Nome": "RIO BRAVO CRÉDITO IMOBILIÁRIO II FDO INV IMOB -FII",
+    "Codigo": "RBVO"
+  },
+  {
+    "Nome": "RIO BRAVO FUNDO DE FUNDOS DE INVESTIMENTO IMOB",
+    "Codigo": "RBFF"
+  },
+  {
+    "Nome": "RIO BRAVO RENDA RESIDENCIAL FDO. INVEST. IMOB.",
+    "Codigo": "RBRS"
+  },
+  {
+    "Nome": "RIZA AKIN FDO. INV. IMOB. FII",
+    "Codigo": "RZAK"
+  },
+  {
+    "Nome": "RIZA ARCTIUM REAL ESTATE FDO INV IMOB",
+    "Codigo": "ARCT"
+  },
+  {
+    "Nome": "SANTANDER PAPEIS IMOB CDI FDO INV IMOB",
+    "Codigo": "SADI"
+  },
+  {
+    "Nome": "SANTANDER RENDA DE ALUGUÉIS FDO. INVEST. IMOB.",
+    "Codigo": "SARE"
+  },
+  {
+    "Nome": "SAO DOMINGOS FDO INV IMOB - FII",
+    "Codigo": "FISD"
+  },
+  {
+    "Nome": "SEQUOIA III RENDA IMOBILIÁRIA FDO. INV. IMOB.",
+    "Codigo": "SEQR"
+  },
+  {
+    "Nome": "SHOPPING WEST PLAZA FDO INV IMOB",
+    "Codigo": "WPLZ"
+  },
+  {
+    "Nome": "SJ AU LOGÍSTICA FDO. INV. IMOB.",
+    "Codigo": "SJAU"
+  },
+  {
+    "Nome": "SOCOPA FDO INV IMOB - FII",
+    "Codigo": "REIT"
+  },
+  {
+    "Nome": "SOLARIUM FII - FDO INV. IMOB.",
+    "Codigo": "SOLR"
+  },
+  {
+    "Nome": "SP DOWNTOWN FDO INV IMOB - FII",
+    "Codigo": "SPTW"
+  },
+  {
+    "Nome": "SPA FDO INV IMOB - FII",
+    "Codigo": "SPAF"
+  },
+  {
+    "Nome": "STARX FDO INV IMOB - FII",
+    "Codigo": "STRX"
+  },
+  {
+    "Nome": "SUNO FUNDO DE FUNDOS DE INVESTIMENTO IMOBILIÁRIO",
+    "Codigo": "SNFF"
+  },
+  {
+    "Nome": "TELLUS DESENVOLVIMENTO LOGÍSTICO FDO. INVEST. IMOB",
+    "Codigo": "TELD"
+  },
+  {
+    "Nome": "TELLUS PROPERTIES - FDO INV. IMOB",
+    "Codigo": "TEPP"
+  },
+  {
+    "Nome": "TISHMAN SPEYER RENDA CORPORATIVA FDO. INV. IMOB.",
+    "Codigo": "TSER"
+  },
+  {
+    "Nome": "TORDESILHAS EI FDO. INV. IMOB.",
+    "Codigo": "TORD"
+  },
+  {
+    "Nome": "TRANSINC FDO INV IMOB - FII",
+    "Codigo": "TSNC"
+  },
+  {
+    "Nome": "TREECORP REAL ESTATE FDO INV IMOB - I",
+    "Codigo": "TCPF"
+  },
+  {
+    "Nome": "TRX EDIFÍCIOS CORPORATIVOS FDO INV IMOB - FII",
+    "Codigo": "XTED"
+  },
+  {
+    "Nome": "TRX REAL ESTATE FDO. INV. IMOB. - FII",
+    "Codigo": "TRXF"
+  },
+  {
+    "Nome": "TRX REAL ESTATE II FDO. INVEST. IMOB.",
+    "Codigo": "TRXB"
+  },
+  {
+    "Nome": "URCA PRIME RENDA FUNDO DE INVESTIMENTO IMOBILIÁRIO",
+    "Codigo": "URPR"
+  },
+  {
+    "Nome": "VALORA CRI ÍNDICE DE PRE√áO FDO INVEST. IMOB. FII",
+    "Codigo": "VGIP"
+  },
+  {
+    "Nome": "VALORA HEDGE FUND FDO. INV. IMOB.",
+    "Codigo": "VGHF"
+  },
+  {
+    "Nome": "VALORA RE III FDO INV IMOB - FII",
+    "Codigo": "VGIR"
+  },
+  {
+    "Nome": "VBI CONSUMO ESSEN FDO. INVEST. IMOB.",
+    "Codigo": "EVBI"
+  },
+  {
+    "Nome": "VBI REITS FOF - FDO. INV. IMOB",
+    "Codigo": "RVBI"
+  },
+  {
+    "Nome": "VECTIS JUROS REAL FDO INV. IMOB. - FII",
+    "Codigo": "VCJR"
+  },
+  {
+    "Nome": "VECTIS RENDA RESIDENCIAL FDO. INV. IMOB.",
+    "Codigo": "VCRR"
+  },
+  {
+    "Nome": "VECTOR QUELUZ ATIVOS IMOB FDO INV IMOB",
+    "Codigo": "VLJS"
+  },
+  {
+    "Nome": "VENUS - FUNDO DE INVESTIMENTO IMOBILIÁRIO",
+    "Codigo": "SALI"
+  },
+  {
+    "Nome": "VERSALHES RECEBÍVEIS IMOBILIÁRIOS - FDO. INV. IMOB",
+    "Codigo": "VSLH"
+  },
+  {
+    "Nome": "VIC DESENVOLVIMENTO VINTAGE 20/21 FUND INVEST IMOB",
+    "Codigo": "VIDS"
+  },
+  {
+    "Nome": "VINCI INSTRUMENTOS FINANCEIROS FDO INV IMOB - FII",
+    "Codigo": "VIFI"
+  },
+  {
+    "Nome": "VINCI LOGÍSTICA FDO INV IMOB - FII",
+    "Codigo": "VILG"
+  },
+  {
+    "Nome": "VINCI OFFICES FDO INV IMOB",
+    "Codigo": "VINO"
+  },
+  {
+    "Nome": "VINCI SHOPPING CENTERS FDO INVEST IMOB - FII",
+    "Codigo": "VISC"
+  },
+  {
+    "Nome": "VOTORANTIM SECURITIES MASTER FDO INV IMOB - FII",
+    "Codigo": "VOTS"
+  },
+  {
+    "Nome": "VX XVI - FDO INV. IMOB.",
+    "Codigo": "VXXV"
+  },
+  {
+    "Nome": "XP CORPORATE MACAÉ FDO INV IMOB - FII",
+    "Codigo": "XPCM"
+  },
+  {
+    "Nome": "XP CREDITO IMOBILIÁRIO - FDO INV IMOB",
+    "Codigo": "XPCI"
+  },
+  {
+    "Nome": "XP HOTÉIS - FDO INV IMOB - FII",
+    "Codigo": "XPHT"
+  },
+  {
+    "Nome": "XP INDUSTRIAL FDO INV IMOB - FII",
+    "Codigo": "XPIN"
+  },
+  {
+    "Nome": "XP LOG FDO INV IMOB - FII",
+    "Codigo": "XPLG"
+  },
+  {
+    "Nome": "XP MALLS FDO INV IMOB FII",
+    "Codigo": "XPML"
+  },
+  {
+    "Nome": "XP PROPERTIES FDO. INV. IMOB.",
+    "Codigo": "XPPR"
+  },
+  {
+    "Nome": "XP SELECTION FDO DE FUNDOS INV IMOB - FII",
+    "Codigo": "XPSF"
+  },
+  {
+    "Nome": "YUCA FDO INV. IMOB.",
+    "Codigo": "YUFI"
+  },
+  {
+    "Nome": "ZION CAPITAL FUNDO DE INVESTIMENTO IMOBILIÁRIO FII",
+    "Codigo": "ZIFI"
+  }
+]
