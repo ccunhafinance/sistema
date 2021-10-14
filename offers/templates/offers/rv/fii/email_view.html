@@ -219,54 +219,58 @@
             <div class="modal-body">
                 {#  PRÉ VIZUALIZAÇÃO DO EMAIL   #}
                 <div class="form-group">
-                    <label><b>Remetente</b></label>
-                    <select id="remetente" class="form-control especial_form" name="remetente" onchange="">
-{#                        <option value="{{ request.user.id|get_assessor_code_nome_email  }}" selected>{{ request.user.id|get_assessor_ifos }}</option>#}
-                        <div id="opcoes">
 
-                        </div>
-                    </select>
+                    <form>
+
+                        <label><b>Remetente</b></label>
+                        <select id="remetente" class="form-control especial_form" name="remetente" onchange="">
+    {#                        <option value="{{ request.user.id|get_assessor_code_nome_email  }}" selected>{{ request.user.id|get_assessor_ifos }}</option>#}
+                            <div id="opcoes">
+
+                            </div>
+                        </select>
+
+                          <div class="form-group">
+{#                             <label>ticker</label>#}
+                             <input hidden class="form-control" type="text" id="ticker" value="{{ ticker }}">
+                         </div>
+                          <div class="form-group">
+{#                             <label>emissor</label>#}
+                             <input hidden class="form-control" type="text" id="emissor" value="{{ emissor }}">
+                         </div>
+                         <div class="form-group">
+{#                             <label>enviado por USER</label>#}
+                             <input hidden class="form-control" type="text" id="enviado_por">
+                         </div>
+                         <div class="form-group">
+{#                             <label>Email do cliente</label>#}
+                             <input hidden class="form-control" type="text" id="climail">
+                         </div>
+                         <div class="form-group">
+{#                             <label>Assessor responsavel</label>#}
+                             <input hidden class="form-control" type="text" id="responsavel">
+                         </div>
+                         <div class="form-group">
+{#                             <label>REMETENTE</label>#}
+                             <input hidden class="form-control" type="text" id="remete">
+                         </div>
+                         <div class="form-group">
+{#                             <label>Assunto</label>#}
+                             <input hidden class="form-control" type="text" id="climail" value="Confirmação de reserva da Oferta Pública {{ oferta.Fundo }} - {{ oferta.Fundo|takeoff11|grab_fii_name }} ">
+                         </div>
+                         <div class="form-group">
+{#                             <label></label>#}
+                             <textarea hidden class="form-control" id="emai_text"></textarea>
+                         </div>
+
+
+                    </form>
 
                  </div>
 
                 <div class="panel-container show">
 
-                     <form>
-                          <div class="form-group">
-                             <label>ticker</label>
-                             <input class="form-control" type="text" id="ticker" value="{{ ticker }}">
-                         </div>
-                          <div class="form-group">
-                             <label>emissor</label>
-                             <input class="form-control" type="text" id="emissor" value="{{ emissor }}">
-                         </div>
-                         <div class="form-group">
-                             <label>enviado por USER</label>
-                             <input class="form-control" type="text" id="enviado_por">
-                         </div>
-                         <div class="form-group">
-                             <label>Email do cliente</label>
-                             <input class="form-control" type="text" id="climail">
-                         </div>
-                         <div class="form-group">
-                             <label>Assessor responsavel</label>
-                             <input class="form-control" type="text" id="responsavel">
-                         </div>
-                         <div class="form-group">
-                             <label>REMETENTE</label>
-                             <input class="form-control" type="text" id="remete">
-                         </div>
-                         <div class="form-group">
-                             <label>Assunto</label>
-                             <input class="form-control" type="text" id="climail" value="Confirmação de reserva da Oferta Pública {{ oferta.Fundo }} - {{ oferta.Fundo|takeoff11|grab_fii_name }} ">
-                         </div>
-                         <div class="form-group">
-                             <label></label>
-                             <textarea class="form-control" id="emai_text"></textarea>
-                         </div>
 
-
-                    </form>
 
                     <div class="panel-content" id="email_body">
 
