@@ -135,6 +135,27 @@
         </div>
     </div>
 
+    {# MENSAGEM  #}
+    <div class="col-md-12">
+        <div id="panel-1" class="panel panel-locked" data-panel-lock="false" data-panel-close="false"    data-panel-locked="false" data-panel-refresh="false" >
+            <div class="panel-hdr">
+                <h2>
+                    Mensagem <span class="fw-300"><i></i></span>
+                </h2>
+
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content" id="dados_da_oferta">
+                    <b>Etapa:</b> {% include './fases.html' %}<br><br>
+                    <b>Mensagem:
+
+                        <p id='display' onClick='copyText(this)'>{% include './mensagens.html' %}</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     {# LISTA DE CLIENTES  #}
     <div class="col-md-12">
         <div id="panel-4" class="panel panel-locked" data-panel-lock="false" data-panel-close="false"    data-panel-locked="false" data-panel-refresh="false" >
@@ -162,6 +183,7 @@
                                 <th>Assessor</th>
                                 <th>Cod. Cliente</th>
                                 <th>Nome Cliente</th>
+                                <th>Telefone</th>
                                 <th>Qtd. de Cotas</th>
                                 <th>Valor Financeiro</th>
                                 <th>Status</th>
@@ -186,6 +208,7 @@
                                         </td>
                                         <td>{{ cliente.CodigoCliente }}</td>
                                         <td>{{ cliente.CodigoCliente|get_cliente_nome|title }}</td>
+                                        <td><a style="color:#25D366; text-decoration: none" href="https://api.whatsapp.com/send?phone=552135542850&amp;text=Teste" target="_blank" rel="noopener">(32) 9 9999-9999</a></td>
                                         <td>{{ cliente.QuantidadeDisponivel }}</td>
                                         <td>{{ oferta.PreçoeCotação|split:"Cotação:"|first|calc_val_financeiro:cliente.QuantidadeDisponivel|moeda }}</td>
                                         <td class="text-center">
@@ -447,5 +470,32 @@
 <!-- BEGIN page script -->
 {% block script %}
     {% include './js/email_view_js.html' %}
+
+  <script>
+function copyText(element) {
+  var range, selection, worked;
+
+  if (document.body.createTextRange) {
+    range = document.body.createTextRange();
+    range.moveToElementText(element);
+    range.select();
+  } else if (window.getSelection) {
+    selection = window.getSelection();
+    range = document.createRange();
+    range.selectNodeContents(element);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+
+  try {
+    document.execCommand('copy');
+    alert('Mensagem Copiada!');
+  }
+  catch (err) {
+    alert('unable to copy text');
+  }
+}
+</script>
+
 {% endblock %}
 <!-- END page script -->

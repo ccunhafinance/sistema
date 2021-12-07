@@ -179,6 +179,31 @@ class OfferRvSubscription(models.Model):
         verbose_name = 'Direito de Subscrição'
         verbose_name_plural = 'Direito de Subscrição'
 
+# Fii Edit
+class FiiEdit(models.Model):
+
+    id_oferta = models.CharField("Id da Oferta", max_length=100)
+
+    modalidade_adicional = models.CharField("Modalidade Adicional", max_length=255, default='...', blank=True, null=True)
+
+    data_base = models.DateField("Data-base", blank=True, null=True)
+
+    inicio_periodo_de_negociacao = models.DateField("Início do Período de Negociação", blank=True, null=True)
+    fim_periodo_de_negociacao = models.DateField("Fim do Período de Negociação", blank=True, null=True)
+
+    inicio_periodo_preferencia = models.DateField("Início do Período de Preferência", blank=True, null=True)
+    fim_periodo_preferencia = models.DateField("Fim do Período de Preferência", blank=True, null=True)
+    liquidacao_periodo_preferencia = models.DateField("Liquidação do Período de Preferência" ,blank=True, null=True)
+
+    inicio_periodo_sobra = models.DateField("Início do Período de Sobra" ,blank=True, null=True)
+    fim_periodo_sobra = models.DateField("Fim do Período de Sobra" ,blank=True, null=True)
+    liquidacao_periodo_sobra = models.DateField("Liquidação do Período de Sobra" ,blank=True, null=True)
+
+    inicio_periodo_publico = models.DateField("Início do Período Público" ,blank=True, null=True)
+    fim_periodo_publico = models.DateField("Fim do Período Público" ,blank=True, null=True)
+    liquidacao_periodo_publico = models.DateField("Liquidação do Período Público" ,blank=True, null=True)
+
+
 # Fii
 class EmailFii(models.Model):
     ticker = models.CharField(max_length=100)

@@ -274,6 +274,7 @@
                                     <th>Preríodo de Preferência</th>
                                     <th>Preríodo de Sobra</th>
                                     <th>Período público</th>
+                                    <th>Editar</th>
                                     <th>Upload</th>
                                     <th class="phone">Etapa</th>
                                     <th class="phone">Tipo de Oferta:	</th>
@@ -318,13 +319,151 @@
                                                   <span class="text-success"><i class="fal fa-long-arrow-up"></i>  {{ oferta.PreçoeCotação|split:"Cotação:"|last|split:"("|last|replace_close_parent }}</span>
                                             {% endif %}
                                         </td>
-                                        <td>{{ oferta.Database|dot_to_bar }}</td>
                                         <td>
-                                            {{ oferta.PeríododeNegociação|dot_to_bar|ate_trace|safe }}
+                                            {% if oferta.Fundo|check_if_has_aedits:oferta.Emissão == 'ok' %}
+
+                                                {% if oferta.Fundo|check_if_has_aedits_database:oferta.Emissão != '' %}
+                                                    <span class="text-warning">{{ oferta.Fundo|check_if_has_aedits_database:oferta.Emissão|date:'d/m/Y' }}</span>
+                                                {% else %}
+                                                    {{ oferta.Database|dot_to_bar }}
+                                                {% endif %}
+                                            {% else %}
+                                                {{ oferta.Database|dot_to_bar }}
+                                            {% endif %}
+
                                         </td>
-                                        <td>{{ oferta.PeríododePreferência|dot_to_bar|ate_trace|liquidacao|safe }}</td>
-                                        <td>{{ oferta.PeríododeSobras|dot_to_bar|ate_trace|liquidacao|safe }}</td>
-                                        <td>{{ oferta.PeríodoPúblico|dot_to_bar|ate_trace|liquidacao|safe }}</td>
+                                        <td>
+
+                                            {% if oferta.Fundo|check_if_has_aedits_pnegocia_inicio:oferta.Emissão != '' %}
+                                                <span class="text-warning">{{ oferta.Fundo|check_if_has_aedits_pnegocia_inicio:oferta.Emissão|date:'d/m/Y' }}</span>
+                                            {% else %}
+                                                {{ oferta.PeríododeNegociação|dot_to_bar|split:"até"|first }}
+                                            {% endif %}
+
+                                            <i class="fal fa-caret-right text-success"></i>
+
+                                            {% if oferta.Fundo|check_if_has_aedits_pnegocia_fim:oferta.Emissão != '' %}
+                                                <span class="text-warning">{{ oferta.Fundo|check_if_has_aedits_pnegocia_fim:oferta.Emissão|date:'d/m/Y' }}</span>
+                                            {% else %}
+                                                {{ oferta.PeríododeNegociação|dot_to_bar|split:"até"|last }}
+                                            {% endif %}
+
+                                        </td>
+
+                                        <td>
+
+                                            {% if oferta.Fundo|inicio_periodo_preferencia:oferta.Emissão != '' %}
+                                                <span class="text-warning">{{ oferta.Fundo|inicio_periodo_preferencia:oferta.Emissão|date:'d/m/Y' }}</span>
+                                            {% else %}
+                                                {{ oferta.PeríododePreferência|dot_to_bar|split:"até"|first }}
+                                            {% endif %}
+
+                                            <i class="fal fa-caret-right text-success"></i>
+
+                                            {% if oferta.Fundo|fim_periodo_preferencia:oferta.Emissão != '' %}
+                                                <span class="text-warning">{{ oferta.Fundo|fim_periodo_preferencia:oferta.Emissão|date:'d/m/Y' }}</span>
+                                            {% else %}
+                                                {{ oferta.PeríododePreferência|dot_to_bar|split:"até"|last|split:"Liquidação:"|first }}
+                                            {% endif %}
+
+                                            <br>
+                                            <span class="text-danger">Liquidação: </span>
+
+                                            {% if oferta.Fundo|liquidacao_periodo_preferencia:oferta.Emissão != '' %}
+                                                <span class="text-warning">{{ oferta.Fundo|liquidacao_periodo_preferencia:oferta.Emissão|date:'d/m/Y' }}</span>
+                                            {% else %}
+                                                {{ oferta.PeríododePreferência|dot_to_bar|split:"até"|last|split:"Liquidação:"|last }}
+                                            {% endif %}
+
+                                            {#  {{ oferta.PeríododePreferência|dot_to_bar|split:"até"|first }}<br>#}
+                                            {#  {{ oferta.PeríododePreferência|dot_to_bar|split:"até"|last|split:"Liquidação:"|first }}<br>#}
+                                            {#  {{ oferta.PeríododePreferência|dot_to_bar|split:"até"|last|split:"Liquidação:"|last }}#}
+                                        </td>
+
+                                        <td>
+
+                                            {% if oferta.Fundo|inicio_periodo_sobra:oferta.Emissão != '' %}
+                                                <span class="text-warning">{{ oferta.Fundo|inicio_periodo_sobra:oferta.Emissão|date:'d/m/Y' }}</span>
+                                            {% else %}
+                                                {{ oferta.PeríododeSobras|dot_to_bar|split:"até"|first }}
+                                            {% endif %}
+
+                                            <i class="fal fa-caret-right text-success"></i>
+
+                                            {% if oferta.Fundo|fim_periodo_sobra:oferta.Emissão != '' %}
+                                                <span class="text-warning">{{ oferta.Fundo|fim_periodo_sobra:oferta.Emissão|date:'d/m/Y' }}</span>
+                                            {% else %}
+                                                {{ oferta.PeríododeSobras|dot_to_bar|split:"até"|last|split:"Liquidação:"|first }}
+                                            {% endif %}
+
+                                            <br>
+                                            <span class="text-danger">Liquidação: </span>
+
+                                            {% if oferta.Fundo|liquidacao_periodo_sobra:oferta.Emissão != '' %}
+                                                <span class="text-warning">{{ oferta.Fundo|liquidacao_periodo_sobra:oferta.Emissão|date:'d/m/Y' }}</span>
+                                            {% else %}
+                                                {{ oferta.PeríododeSobras|dot_to_bar|split:"até"|last|split:"Liquidação:"|last }}
+                                            {% endif %}
+
+
+
+{#                                              {{ oferta.PeríododeSobras|dot_to_bar|split:"até"|first }}<br>#}
+{#                                              {{ oferta.PeríododeSobras|dot_to_bar|split:"até"|last|split:"Liquidação:"|first }}<br>#}
+{#                                              {{ oferta.PeríododeSobras|dot_to_bar|split:"até"|last|split:"Liquidação:"|last }}#}
+                                            {# {{ oferta.PeríododeSobras|dot_to_bar|ate_trace|liquidacao|safe }}#}
+
+                                        </td>
+
+                                        <td>
+                                            {% if oferta.Fundo|inicio_periodo_publico:oferta.Emissão != '' %}
+                                                <span class="text-warning">{{ oferta.Fundo|inicio_periodo_publico:oferta.Emissão|date:'d/m/Y' }}</span>
+                                            {% else %}
+                                                {{ oferta.PeríodoPúblico|dot_to_bar|split:"até"|first }}
+                                            {% endif %}
+
+                                            <i class="fal fa-caret-right text-success"></i>
+
+                                            {% if oferta.Fundo|fim_periodo_publico:oferta.Emissão != '' %}
+                                                <span class="text-warning">{{ oferta.Fundo|fim_periodo_publico:oferta.Emissão|date:'d/m/Y' }}</span>
+                                            {% else %}
+                                                {{ oferta.PeríodoPúblico|dot_to_bar|split:"até"|last|split:"Liquidação:"|first }}
+                                            {% endif %}
+
+                                            <br>
+                                            <span class="text-danger">Liquidação: </span>
+
+                                            {% if oferta.Fundo|liquidacao_periodo_publico:oferta.Emissão != '' %}
+                                                <span class="text-warning">{{ oferta.Fundo|liquidacao_periodo_publico:oferta.Emissão|date:'d/m/Y' }}</span>
+                                            {% else %}
+                                                {{ oferta.PeríodoPúblico|dot_to_bar|split:"até"|last|split:"Liquidação:"|last }}
+                                            {% endif %}
+
+
+{#                                              {{ oferta.PeríodoPúblico|dot_to_bar|split:"até"|first }}<br>#}
+{#                                              {{ oferta.PeríodoPúblico|dot_to_bar|split:"até"|last|split:"Liquidação:"|first }}<br>#}
+{#                                              {{ oferta.PeríodoPúblico|dot_to_bar|split:"até"|last|split:"Liquidação:"|last }}#}
+                                            {#  {{ oferta.PeríodoPúblico|dot_to_bar|ate_trace|liquidacao|safe }}#}
+                                        </td>
+
+                                        <td>
+
+                                            {% if oferta.Fundo|check_if_has_aedits:oferta.Emissão == 'ok' %}
+
+                                                <a href="{% url 'offers:edit-rv-fii-edit' oferta.Fundo|check_if_has_aedits_ok:oferta.Emissão %}" style="margin-left: 25px">
+                                                    <i class="fal fa-edit text-warning"></i>
+                                                </a>
+
+                                            {% else %}
+
+
+                                                <a href="{% url 'offers:create-rv-fii-edit' oferta.Fundo oferta.Emissão %}" style="margin-left: 25px">
+                                                    <i class="fal fa-edit"></i>
+                                                </a>
+
+                                            {% endif %}
+
+
+                                        </td>
                                         <td>
 
                                             <a href="#" id="_id-{{ oferta.Fundo }}" onclick="get_ticker('{{ oferta.Fundo }}')" class="btn {{ oferta.Fundo|isfile_here }} btn-icon rounded-circle waves-effect waves-themed" data-toggle="modal" data-target="#default-example-modal-lg-center">

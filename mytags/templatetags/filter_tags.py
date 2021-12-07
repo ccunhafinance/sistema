@@ -859,6 +859,425 @@ def group_nine(value):
     if data_pub_liquid < 0:
         return '<span class="text-info">Aguardando Encerramento</span>'
 
+
+# MENSAGENS ----------------------------------
+
+# MENSAGENS (1) - Período Público
+@register.filter(expects_localtime=True)
+def mensagens_one(value):
+
+    oferta = get_oferta(value)
+
+    data_inicio = data_init(oferta['PeríodoPúblico'])
+    data_final = data_fim(oferta['PeríodoPúblico'])
+    liquid = data_liquida(oferta['PeríodoPúblico'])
+
+    if data_inicio > 0:
+        return '<span class="text-info"><span class="text-info">Aguardando Período Pública</span></span>'
+    if data_inicio == 0:
+        return 'Msg 1'
+    if data_inicio < 0 and data_final >= 0:
+        return 'Msg 2'
+    if data_final == 0:
+        return 'Msg 3'
+    if liquid > 0:
+        return '<span class="text-info"><span class="text-info">Aguardando Liquidação Período Pública</span></span>'
+    if liquid == 0:
+        return '<span class="text-danger">Liquidação Período Pública</span>'
+    if liquid < 0:
+        return '<span class="text-info"><span class="text-info">Aguardando Encerramento</span></span>'
+
+# MENSAGENS (2) - Período Público, Período de Preferência
+@register.filter(expects_localtime=True)
+def mensagens_two(value):
+
+    oferta = get_oferta(value)
+
+    # Periodo Público
+    data_pub_inicio = data_init(oferta['PeríodoPúblico'])
+    data_pub_final = data_fim(oferta['PeríodoPúblico'])
+    data_pub_liquid = data_liquida(oferta['PeríodoPúblico'])
+
+    # Período de Preferência
+    data_pref_inicio = data_init(oferta['PeríododePreferência'])
+    data_pref_final = data_fim(oferta['PeríododePreferência'])
+    data_pref_liquid = data_liquida(oferta['PeríododePreferência'])
+
+    if data_pref_inicio > 0:
+        return '<span class="text-info">Aguardando Período de Preferência</span>'
+    if data_pref_inicio == 0:
+        return '<span class="text-success">1* Dia Período de Preferência</span>'
+    if data_pref_inicio < 0 and data_pref_final > 0:
+        return 'Msg 4'
+    if data_pref_final == 0:
+        return 'Msg 5'
+    if data_pref_liquid > 0:
+        return '<span class="text-info">Aguardando Liquidação Período de Preferência</span>'
+    if data_pref_liquid == 0:
+        return '<span class="text-danger">Liquidação de Preferência</span>'
+
+    if data_pub_inicio > 0:
+        return '<span class="text-info">Aguardando Período Pública</span>'
+    if data_pub_inicio == 0:
+        return 'Msg 1'
+    if data_pub_inicio < 0 and data_pub_final >= 0:
+        return 'Msg 2'
+    if data_pub_final == 0:
+        return 'Msg 3'
+    if data_pub_liquid > 0:
+        return '<span class="text-info">Aguardando Liquidação Período Pública</span>'
+    if data_pub_liquid == 0:
+        return '<span class="text-danger">Liquidação Período Pública</span>'
+    if data_pub_liquid < 0:
+        return '<span class="text-info">Aguardando Encerramento</span>'
+
+# MENSAGENS (3) - Período de Preferência, Período de Sobras, Período Público
+@register.filter(expects_localtime=True)
+def mensagens_three(value):
+
+    oferta = get_oferta(value)
+
+    # Período de Preferência
+    data_pref_inicio = data_init(oferta['PeríododePreferência'])
+    data_pref_final = data_fim(oferta['PeríododePreferência'])
+    data_pref_liquid = data_liquida(oferta['PeríododePreferência'])
+
+    # Período de Sobra
+    data_sobra_inicio = data_init(oferta['PeríododeSobras'])
+    data_sobra_final = data_fim(oferta['PeríododeSobras'])
+    data_sobra_liquid = data_liquida(oferta['PeríododeSobras'])
+
+    # Periodo Público
+    data_pub_inicio = data_init(oferta['PeríodoPúblico'])
+    data_pub_final = data_fim(oferta['PeríodoPúblico'])
+    data_pub_liquid = data_liquida(oferta['PeríodoPúblico'])
+
+    if data_pref_inicio > 0:
+        return '<span class="text-info">Aguardando Período de Preferência</span>'
+    if data_pref_inicio == 0:
+        return '<span class="text-success">1* Dia Período de Preferência</span>'
+    if data_pref_inicio < 0 and data_pref_final > 0:
+        return 'Msg 4'
+    if data_pref_final == 0:
+        return 'Msg 5'
+    if data_pref_liquid > 0:
+        return '<span class="text-info">Aguardando Liquidação Período de Preferência</span>'
+    if data_pref_liquid == 0:
+        return '<span class="text-danger">Liquidação de Preferência</span>'
+
+    if data_sobra_inicio > 0:
+        return '<span class="text-info">Aguardando Período de Sobras</span>'
+    if data_sobra_inicio == 0:
+        return '<span class="text-success">1* Dia Período de Sobras</span>'
+    if data_sobra_inicio < 0 and data_sobra_final >= 0:
+        return '<span class="text-success">Período de Sobras</span>'
+    if data_sobra_final == 0:
+        return '<span style="color: #e67e22">Último Dia Período de Sobras</span>'
+    if data_sobra_liquid > 0:
+        return '<span class="text-info">Aguardando Liquidação Período de Sobras</span>'
+    if data_sobra_liquid == 0:
+        return '<span class="text-danger">Liquidação de Sobras</span>'
+
+    if data_pub_inicio > 0:
+        return '<span class="text-info">Aguardando Período Pública</span>'
+    if data_pub_inicio == 0:
+        return 'Msg 1'
+    if data_pub_inicio < 0 and data_pub_final >= 0:
+        return 'Msg 2'
+    if data_pub_final == 0:
+        return '<span style="color: #e67e22">Último Dia Período Pública</span>'
+    if data_pub_liquid > 0:
+        return '<span class="text-info">Aguardando Liquidação Período Pública</span>'
+    if data_pub_liquid == 0:
+        return '<span class="text-danger">Liquidação Período Pública</span>'
+    if data_pub_liquid < 0:
+        return '<span class="text-info">Aguardando Encerramento</span>'
+
+# MENSAGENS (4) - Período de Negociação, Períodode Preferência, Período de Sobras, Período Público
+@register.filter(expects_localtime=True)
+def mensagens_four(value):
+
+    oferta = get_oferta(value)
+
+    # Periodo de Negociação
+    data_negoci_inicio = data_init(oferta['PeríododeNegociação'])
+    data_negoci_final = data_fim(oferta['PeríododeNegociação'])
+
+    # Período de Preferência
+    data_pref_inicio = data_init(oferta['PeríododePreferência'])
+    data_pref_final = data_fim(oferta['PeríododePreferência'])
+    data_pref_liquid = data_liquida(oferta['PeríododePreferência'])
+
+    # Período de Sobra
+    data_sobra_inicio = data_init(oferta['PeríododeSobras'])
+    data_sobra_final = data_fim(oferta['PeríododeSobras'])
+    data_sobra_liquid = data_liquida(oferta['PeríododeSobras'])
+
+    # Periodo Público
+    data_pub_inicio = data_init(oferta['PeríodoPúblico'])
+    data_pub_final = data_fim(oferta['PeríodoPúblico'])
+    data_pub_liquid = data_liquida(oferta['PeríodoPúblico'])
+
+    if data_negoci_inicio > 0:
+        return '<span class="text-info">Aguardando Período de Negociação e Preferência</span>'
+    if data_negoci_inicio == 0:
+        return '<span class="text-success">1* Dia Período de Negociação e Preferência</span>'
+    if data_negoci_inicio < 0 and data_negoci_final > 0:
+        return 'Msg 7'
+    if data_negoci_final == 0 and data_pref_final == 0:
+        return 'Msg 8'
+    if data_negoci_final > 0 and data_pref_final < 0:
+        return '<span style="color: #e67e22">Último Dia Período de Negociação e Período de Preferência Ativo</span>'
+    if data_negoci_final < 0 and data_pref_final == 0:
+        return '<span style="color: #e67e22">Último Dia Período de Preferência</span>'
+
+    if data_pref_liquid > 0:
+        return '<span class="text-info">Aguardando Liquidação Preferência</span>'
+    if data_pref_liquid == 0:
+        return '<span class="text-danger">Liquidação de Preferência</span>'
+
+    if data_sobra_inicio > 0:
+        return '<span class="text-info">Aguardando Período de Sobras</span>'
+    if data_sobra_inicio == 0:
+        return '<span class="text-success">1* Dia Período de Sobras</span>'
+    if data_sobra_inicio < 0 and data_sobra_final >= 0:
+        return '<span class="text-success">Período de Sobras</span>'
+    if data_sobra_final == 0:
+        return '<span style="color: #e67e22">Último Dia Período de Sobras</span>'
+    if data_sobra_liquid > 0:
+        return '<span class="text-info">Aguardando Liquidação Período de Sobras</span>'
+    if data_sobra_liquid == 0:
+        return '<span class="text-danger">Liquidação de Sobras</span>'
+
+    if data_pub_inicio > 0:
+        return '<span class="text-info">Aguardando Período Pública</span>'
+    if data_pub_inicio == 0:
+        return 'Msg 1'
+    if data_pub_inicio < 0 and data_pub_final >= 0:
+        return 'Msg 2'
+    if data_pub_final == 0:
+        return 'Msg 3'
+    if data_pub_liquid > 0:
+        return '<span class="text-info">Aguardando Liquidação Período Pública</span>'
+    if data_pub_liquid == 0:
+        return '<span class="text-danger">Liquidação Período Pública</span>'
+    if data_pub_liquid < 0:
+        return '<span class="text-info">Aguardando Encerramento</span>'
+
+# MENSAGENS (5) - Períodode Preferência
+@register.filter(expects_localtime=True)
+def mensagens_five(value):
+
+    oferta = get_oferta(value)
+
+    data_pref_inicio = data_init(oferta['PeríododePreferência'])
+    data_pref_final = data_fim(oferta['PeríododePreferência'])
+    data_pref_liquid = data_liquida(oferta['PeríododePreferência'])
+
+    if data_pref_inicio > 0:
+        return '<span class="text-info">Aguardando Período de Preferência</span>'
+    if data_pref_inicio == 0:
+        return '<span class="text-success">1* Dia Período de Preferência</span>'
+    if data_pref_inicio < 0 and data_pref_final > 0:
+        return 'Msg 4'
+    if data_pref_final == 0:
+        return 'Msg 5'
+    if data_pref_liquid == '-':
+        return '<span class="text-danger">Pendente/span>'
+    if data_pref_liquid > 0:
+        return '<span class="text-info">Aguardando Liquidação Período de Preferência</span>'
+    if data_pref_liquid == 0:
+        return '<span class="text-danger">Liquidação de Preferência</span>'
+    if data_pref_liquid < 0:
+        return '<span class="text-info">Aguardando Encerramento</span>'
+
+# MENSAGENS (6) - Períodode Preferência, Período de Sobras
+@register.filter(expects_localtime=True)
+def mensagens_six(value):
+
+    oferta = get_oferta(value)
+
+    # Período de Preferencia
+    data_pref_inicio = data_init(oferta['PeríododePreferência'])
+    data_pref_final = data_fim(oferta['PeríododePreferência'])
+    data_pref_liquid = data_liquida(oferta['PeríododePreferência'])
+
+    # Período de Sobra
+    data_sobra_inicio = data_init(oferta['PeríododeSobras'])
+    data_sobra_final = data_fim(oferta['PeríododeSobras'])
+    data_sobra_liquid = data_liquida(oferta['PeríododeSobras'])
+
+    if data_pref_inicio > 0:
+        return '<span class="text-info">Aguardando Período de Preferência</span>'
+    if data_pref_inicio == 0:
+        return '<span class="text-success">1* Dia Período de Preferência</span>'
+    if data_pref_inicio < 0 and data_pref_final > 0:
+        return 'Msg 4'
+    if data_pref_final == 0:
+        return 'Msg 5'
+    if data_pref_liquid > 0:
+        return '<span class="text-info">Aguardando Liquidação Período de Preferência</span>'
+    if data_pref_liquid == 0:
+        return '<span class="text-danger">Liquidação de Preferência</span>'
+
+    if data_sobra_inicio > 0:
+        return '<span class="text-info">Aguardando Período de Sobras</span>'
+    if data_sobra_inicio == 0:
+        return '<span class="text-success">1* Dia Período de Sobras</span>'
+    if data_sobra_inicio < 0 and data_sobra_final > 0:
+        return '<span class="text-success">Período de Sobras</span>'
+    if data_sobra_final == 0:
+        return '<span style="color: #e67e22">Último Dia Período de Sobras</span>'
+    if data_sobra_liquid > 0:
+        return '<span class="text-info">Aguardando Liquidação Período de Sobras</span>'
+    if data_sobra_liquid == 0:
+        return '<span class="text-danger">Liquidação de Sobras</span>'
+    if data_sobra_liquid < 0:
+        return '<span class="text-info">Aguardando Encerramento</span>'
+
+# MENSAGENS (7) - Período de Negociação, Períodode Preferência, Período de Sobras
+@register.filter(expects_localtime=True)
+def mensagens_seven(value):
+
+    oferta = get_oferta(value)
+
+    # Periodo de Negociação
+    data_negoci_inicio = data_init(oferta['PeríododeNegociação'])
+    data_negoci_final = data_fim(oferta['PeríododeNegociação'])
+
+    # Período de Preferência
+    # data_pref_inicio = data_init(oferta['PeríododePreferência'])
+    data_pref_final = data_fim(oferta['PeríododePreferência'])
+    data_pref_liquid = data_liquida(oferta['PeríododePreferência'])
+
+    # Período de Sobra
+    data_sobra_inicio = data_init(oferta['PeríododeSobras'])
+    data_sobra_final = data_fim(oferta['PeríododeSobras'])
+    data_sobra_liquid = data_liquida(oferta['PeríododeSobras'])
+
+
+    if data_negoci_inicio > 0:
+        return '<span class="text-info">Aguardando Período de Negociação e Preferência</span>'
+    if data_negoci_inicio == 0:
+        return '<span class="text-success">1* Dia Período de Negociação e Preferência</span>'
+    if data_negoci_inicio < 0 and data_negoci_final > 0:
+        return 'Msg 7'
+    if data_negoci_final == 0 and data_pref_final == 0:
+        return 'Msg 8'
+    if data_negoci_final > 0 and data_pref_final < 0:
+        return '<span style="color: #e67e22">Último Dia Período de Negociação e Período de Preferência Ativo</span>'
+    if data_negoci_final < 0 and data_pref_final == 0:
+        return 'Msg 8'
+
+    if data_pref_liquid > 0:
+        return '<span class="text-info">Aguardando Liquidação Preferência</span>'
+    if data_pref_liquid == 0:
+        return '<span class="text-danger">Liquidação de Preferência</span>'
+
+    if data_sobra_inicio > 0:
+        return '<span class="text-info">Aguardando Período de Sobras</span>'
+    if data_sobra_inicio == 0:
+        return '<span class="text-success">1* Dia Período de Sobras</span>'
+    if data_sobra_inicio < 0 and data_sobra_final > 0:
+        return '<span class="text-success">Período de Sobras</span>'
+    if data_sobra_final == 0:
+        return '<span style="color: #e67e22">Último Dia Período de Sobras</span>'
+    if data_sobra_liquid > 0:
+        return '<span class="text-info">Aguardando Liquidação Período de Sobras</span>'
+    if data_sobra_liquid == 0:
+        return '<span class="text-danger">Liquidação de Sobras</span>'
+    if data_sobra_liquid < 0:
+            return '<span class="text-info">Aguardando Encerramento</span>'
+
+# MENSAGENS (8) - Período de Negociação, Períodode Preferência
+@register.filter(expects_localtime=True)
+def mensagens_eight(value):
+
+    oferta = get_oferta(value)
+
+    # Periodo de Negociação
+    data_negoci_inicio = data_init(oferta['PeríododeNegociação'])
+    data_negoci_final = data_fim(oferta['PeríododeNegociação'])
+
+    # Período de Preferência
+    # data_pref_inicio = data_init(oferta['PeríododePreferência'])
+    data_pref_final = data_fim(oferta['PeríododePreferência'])
+    data_pref_liquid = data_liquida(oferta['PeríododePreferência'])
+
+    if data_negoci_inicio > 0:
+        return '<span class="text-info">Aguardando Período de Negociação e Preferência</span>'
+    if data_negoci_inicio == 0:
+        return '<span class="text-success">1* Dia Período de Negociação e Preferência</span>'
+    if data_negoci_inicio < 0 and data_negoci_final > 0:
+        return 'Msg 7'
+    if data_negoci_final == 0 and data_pref_final == 0:
+        return 'Msg 8'
+    if data_negoci_final > 0 and data_pref_final < 0:
+        return '<span style="color: #e67e22">Último Dia Período de Negociação e Período de Preferência Ativo</span>'
+    if data_negoci_final < 0 and data_pref_final == 0:
+        return 'Msg 8'
+
+    if data_pref_liquid > 0:
+        return '<span class="text-info">Aguardando Liquidação Período de Preferência</span>'
+    if data_pref_liquid == 0:
+        return '<span class="text-danger">Liquidação de Preferência</span>'
+    if data_pref_liquid < 0:
+        return '<span class="text-info">Aguardando Encerramento</span>'
+
+# MENSAGENS (9) - Período de Negociação, Períodode Preferência, Período Público
+@register.filter(expects_localtime=True)
+def mensagens_nine(value):
+    oferta = get_oferta(value)
+
+    # Periodo de Negociação
+    data_negoci_inicio = data_init(oferta['PeríododeNegociação'])
+    data_negoci_final = data_fim(oferta['PeríododeNegociação'])
+
+    # Período de Preferência
+    # data_pref_inicio = data_init(oferta['PeríododePreferência'])
+    data_pref_final = data_fim(oferta['PeríododePreferência'])
+    data_pref_liquid = data_liquida(oferta['PeríododePreferência'])
+
+    # Periodo Público
+    data_pub_inicio = data_init(oferta['PeríodoPúblico'])
+    data_pub_final = data_fim(oferta['PeríodoPúblico'])
+    data_pub_liquid = data_liquida(oferta['PeríodoPúblico'])
+
+    if data_negoci_inicio > 0:
+        return '<span class="text-info">Aguardando Período de Negociação e Preferência</span>'
+    if data_negoci_inicio == 0:
+        return '<span class="text-success">1* Dia Período de Negociação e Preferência</span>'
+    if data_negoci_inicio < 0 and data_negoci_final > 0:
+        return 'Msg 7'
+    if data_negoci_final == 0 and data_pref_final == 0:
+        return 'Msg 8'
+    if data_negoci_final > 0 and data_pref_final < 0:
+        return '<span style="color: #e67e22">Último Dia Período de Negociação e Período de Preferência Ativo</span>'
+    if data_negoci_final < 0 and data_pref_final == 0:
+        return '<span style="color: #e67e22">Último Dia Período de Preferência</span>'
+
+    if data_pref_liquid > 0:
+        return '<span class="text-info">Aguardando Liquidação Período de Preferência</span>'
+    if data_pref_liquid == 0:
+        return '<span class="text-danger">Liquidação de Preferência</span>'
+
+    if data_pub_inicio > 0:
+        return '<span class="text-info">Aguardando Período Pública</span>'
+    if data_pub_inicio == 0:
+        return 'Msg 1'
+    if data_pub_inicio < 0 and data_pub_final >= 0:
+        return 'Msg 2'
+    if data_pub_final == 0:
+        return '<span style="color: #e67e22">Último Dia Período Pública</span>'
+    if data_pub_liquid > 0:
+        return '<span class="text-info">Aguardando Liquidação Período Pública</span>'
+    if data_pub_liquid == 0:
+        return '<span class="text-danger">Liquidação Período Pública</span>'
+    if data_pub_liquid < 0:
+        return '<span class="text-info">Aguardando Encerramento</span>'
+
+# MENSAGENS ----------------------------------
+
 # identificandocores dob email
 @register.filter
 def put_colors(value):
@@ -899,9 +1318,6 @@ def allowed_email(value):
 
    return mail
 
-
-
-
 # @register.filter(expects_localtime=True)
 # def days_since(value, arg=None):days_since
 #     try:
@@ -926,3 +1342,183 @@ def allowed_email(value):
 #         fa_str = ("from now")
 #
 #     return "%s %s %s" % (abs(delta.days), day_str, fa_str)
+
+# fii edits
+
+@register.filter
+def check_if_has_aedits(value, arg):
+
+    d = value+''+arg
+
+    teste = FiiEdit.objects.filter(id_oferta=d)
+
+
+    if len(teste) == 1:
+       return 'ok'
+    else:
+        return 'nok'
+
+@register.filter
+def check_if_has_aedits_ok(value, arg):
+
+    d = value+''+arg
+
+    teste = FiiEdit.objects.get(id_oferta=d)
+
+
+    return int(teste.id)
+
+@register.filter
+def check_if_has_aedits_database(value, arg):
+
+    d = value+''+arg
+
+    teste = FiiEdit.objects.get(id_oferta=d)
+
+    if teste.data_base is None:
+        return ''
+    else:
+        return teste.data_base
+
+@register.filter
+def check_if_has_aedits_pnegocia_inicio(value, arg):
+
+    d = value+''+arg
+
+    teste = FiiEdit.objects.get(id_oferta=d)
+
+    if teste.inicio_periodo_de_negociacao is None:
+        return ''
+    else:
+        return teste.inicio_periodo_de_negociacao
+
+@register.filter
+def check_if_has_aedits_pnegocia_fim(value, arg):
+
+    d = value+''+arg
+
+    teste = FiiEdit.objects.get(id_oferta=d)
+
+    if teste.fim_periodo_de_negociacao is None:
+        return ''
+    else:
+        return teste.fim_periodo_de_negociacao
+
+
+@register.filter
+def inicio_periodo_preferencia(value, arg):
+
+    d = value+''+arg
+
+    teste = FiiEdit.objects.get(id_oferta=d)
+
+    if teste.inicio_periodo_preferencia is None:
+        return ''
+    else:
+        return teste.inicio_periodo_preferencia
+
+@register.filter
+def fim_periodo_preferencia(value, arg):
+
+    d = value+''+arg
+
+    teste = FiiEdit.objects.get(id_oferta=d)
+
+    if teste.fim_periodo_preferencia is None:
+        return ''
+    else:
+        return teste.fim_periodo_preferencia
+
+@register.filter
+def liquidacao_periodo_preferencia(value, arg):
+
+    d = value+''+arg
+
+    teste = FiiEdit.objects.get(id_oferta=d)
+
+    if teste.liquidacao_periodo_preferencia is None:
+        return ''
+    else:
+        return teste.liquidacao_periodo_preferencia
+
+
+
+
+
+
+@register.filter
+def inicio_periodo_sobra(value, arg):
+
+    d = value+''+arg
+
+    teste = FiiEdit.objects.get(id_oferta=d)
+
+    if teste.inicio_periodo_sobra is None:
+        return ''
+    else:
+        return teste.inicio_periodo_sobra
+
+@register.filter
+def fim_periodo_sobra(value, arg):
+
+    d = value+''+arg
+
+    teste = FiiEdit.objects.get(id_oferta=d)
+
+    if teste.fim_periodo_sobra is None:
+        return ''
+    else:
+        return teste.fim_periodo_sobra
+
+@register.filter
+def liquidacao_periodo_sobra(value, arg):
+
+    d = value+''+arg
+
+    teste = FiiEdit.objects.get(id_oferta=d)
+
+    if teste.liquidacao_periodo_sobra is None:
+        return ''
+    else:
+        return teste.liquidacao_periodo_sobra
+
+
+
+@register.filter
+def inicio_periodo_publico(value, arg):
+
+    d = value+''+arg
+
+    teste = FiiEdit.objects.get(id_oferta=d)
+
+    if teste.inicio_periodo_publico is None:
+        return ''
+    else:
+        return teste.inicio_periodo_publico
+
+@register.filter
+def fim_periodo_publico(value, arg):
+
+    d = value+''+arg
+
+    teste = FiiEdit.objects.get(id_oferta=d)
+
+    if teste.fim_periodo_publico is None:
+        return ''
+    else:
+        return teste.fim_periodo_publico
+
+@register.filter
+def liquidacao_periodo_publico(value, arg):
+
+    d = value+''+arg
+
+    teste = FiiEdit.objects.get(id_oferta=d)
+
+    if teste.liquidacao_periodo_publico is None:
+        return ''
+    else:
+        return teste.liquidacao_periodo_publico
+
+
+

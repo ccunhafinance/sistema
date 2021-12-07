@@ -476,8 +476,6 @@ def sentmailrvviewipo(request, id):
 
     return render(request, 'offers/rv/ipo/sent_email_view.html', context)
 
-
-
 # Direito de Subscrição
 # --------------------------------------------------------------------------------
 
@@ -661,6 +659,9 @@ def ofertarvfiiview(request):
             filtered_offers_by_group = the_ticker
 
 
+
+
+
         context = {
             'ofertas': filtered_offers_by_group,
             'last_update': last_update,
@@ -683,7 +684,6 @@ def ofertarvfiiview(request):
 
 
         return render(request, 'offers/rv/fii/list_view.html', context)
-
 
 @login_required(login_url='/')
 def sendemailrvfii(request, ticker, emissor):
@@ -941,6 +941,117 @@ def fii_files_upload(request):
         return HttpResponse('s')
     else:
         return HttpResponse('uploaded')
+
+# FII EDIT
+
+# Adicionar
+class OfferRvFiiCreateView(LoginRequiredMixin, generic.CreateView):
+    template_name = "offers/rv/fii/edit/create_view.html"
+    form_class = FiiEditForm
+    # queryset = OfferRvSubscription.objects.all()
+    login_url = '/'
+
+    def get_success_url(self):
+        return reverse("offers:listar-rv-fii")
+
+    def get_context_data(self, **kwargs):
+        context = {
+            'form': FiiEditForm,
+            # Crumbs First Page Config
+            'ticker': self.kwargs['ticker'],
+            'emissor': self.kwargs['emissor'],
+
+            'first_page_name': 'Ofertas',
+            'first_page_link': '',
+            # Crumbs Second Page Config
+            'second_page_name': 'Renda Variável',
+            'second_page_link': '',
+            # Crumbs Third Page Config
+            'third_page_name': '',
+            'third_page_link': '',
+            # Current Page
+            'icon': main_icon,
+            'page_name': 'Ofertas (RV)',
+            'subtitle': 'Direito de Subscrição',
+            'sticker': 'Novo',
+            'page_description': 'Adicionar Edit Fii'
+        }
+
+        return context
+
+# Editar
+class OfferRvFiiEditView(LoginRequiredMixin, generic.UpdateView):
+    template_name = "offers/rv/fii/edit/edit_view.html"
+    form_class = FiiEditForm
+    login_url = '/'
+
+    queryset = FiiEdit.objects.all()
+
+    def get_success_url(self):
+        return reverse("offers:listar-rv-fii")
+
+    def get_context_data(self, **kwargs):
+
+        id_ = self.kwargs.get('pk')
+        oferta = get_object_or_404(FiiEdit, id=id_)
+        odd = FiiEdit.objects.get(id=id_)
+        form = FiiEditForm(instance=odd)
+        context = {
+            'object': oferta,
+            'form': form,
+            # Crumbs First Page Config
+            'first_page_name': 'Ofertas',
+            'first_page_link': '',
+            # Crumbs Second Page Config
+            'second_page_name': 'Renda Variável',
+            'second_page_link': '',
+            # Crumbs Third Page Config
+            'third_page_name': 'Editar',
+            'third_page_link': '',
+            # Current Page
+            'icon': main_icon,
+            'page_name': 'Ofertas (RV)',
+            'subtitle': 'Direito de Subscrição',
+            'sticker': 'Novo',
+            'page_description': 'Editar Fii'
+        }
+
+        return context
+
+# Excluir
+class OfferRvFiiDeleteView(LoginRequiredMixin, generic.DeleteView):
+    template_name = "offers/rv/fii/edit/delete_view.html"
+    # form_class = SubscriptionForm
+    login_url = '/'
+
+    queryset = FiiEdit.objects.all()
+
+    def get_success_url(self):
+        return reverse("offers:listar-rv-fii")
+
+    def get_context_data(self, **kwargs):
+        id_ = self.kwargs.get('pk')
+        oferta = get_object_or_404(FiiEdit, id=id_)
+        context = {
+            'object': oferta,
+            # Crumbs First Page Config
+            'first_page_name': 'Ofertas',
+            'first_page_link': '',
+            # Crumbs Second Page Config
+            'second_page_name': 'Renda Variável',
+            'second_page_link': '',
+            # Crumbs Third Page Config
+            'third_page_name': 'Excluir',
+            'third_page_link': '',
+            # Current Page
+            'icon': main_icon,
+            'page_name': 'Ofertas (RV)',
+            'subtitle': 'Direito de Subscrição',
+            'sticker': 'Novo',
+            'page_description': 'Excluir Edit Fii'
+        }
+
+        return context
 
 # Scrape ClubeFii
 @login_required(login_url='/')

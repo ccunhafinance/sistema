@@ -110,3 +110,24 @@ class SubscriptionForm(forms.ModelForm):
             'liquid': forms.DateInput(attrs={'type': 'date'}),
             'date_ex': forms.DateInput(attrs={'type': 'date'}),
         }
+
+class FiiEditForm(forms.ModelForm):
+    class Meta:
+        model = FiiEdit
+        fields = "__all__"
+        widgets = {
+
+
+            'data_base': forms.DateInput(attrs={'type': 'date'}),
+            'inicio_periodo_de_negociacao': forms.DateInput(attrs={'type': 'date'}),
+            'fim_periodo_de_negociacao': forms.DateInput(attrs={'type': 'date'}),
+            'inicio_periodo_preferencia': forms.DateInput(attrs={'type': 'date'}),
+            'fim_periodo_preferencia': forms.DateInput(attrs={'type': 'date'}),
+            'liquidacao_periodo_preferencia': forms.DateInput(attrs={'type': 'date'}),
+            'inicio_periodo_sobra': forms.DateInput(attrs={'type': 'date'}),
+            'fim_periodo_sobra': forms.DateInput(attrs={'type': 'date'}),
+            'liquidacao_periodo_sobra': forms.DateInput(attrs={'type': 'date'}),
+            'inicio_periodo_publico': forms.DateInput(attrs={'type': 'date'}),
+            'fim_periodo_publico': forms.DateInput(attrs={'type': 'date'}),
+            'liquidacao_periodo_publico': forms.DateInput(attrs={'type': 'date'}),
+        }

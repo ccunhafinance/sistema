@@ -60,6 +60,17 @@ urlpatterns = [
     # Eviar Email
     path('rv/fii/enviar-email-rv-fii/<str:ticker>/<str:emissor>/', views.sendemailrvfii, name="send-mail-rv-fii"),
 
+    #EDIT FII
+
+    # Adicionar
+    path('rv/fii/adicionar/<str:ticker>/<str:emissor>/', OfferRvFiiCreateView.as_view(), name="create-rv-fii-edit"),
+    # Editar
+    path('rv/fii/editar/<int:pk>/', OfferRvFiiEditView.as_view(), name="edit-rv-fii-edit"),
+    # Deletar
+    path('rv/fii/deletar/<int:pk>/', OfferRvFiiDeleteView.as_view(), name="delete-rv-fii-edit"),
+
+    # ---
+
     # Scrape TICKER11
     path('rv/fii/ticker11/', views.scrapy_ticker11, name="scrape-ticker11"),
     # Scrape ClubeFii
