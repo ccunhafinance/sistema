@@ -1521,4 +1521,16 @@ def liquidacao_periodo_publico(value, arg):
         return teste.liquidacao_periodo_publico
 
 
+@register.filter
+def modalidade_adicional(value, arg):
+
+    d = value+''+arg
+
+    teste = FiiEdit.objects.get(id_oferta=d)
+
+    if teste.modalidade_adicional is None:
+        return ''
+    else:
+        return teste.modalidade_adicional
+
 

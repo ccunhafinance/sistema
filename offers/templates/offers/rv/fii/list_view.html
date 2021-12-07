@@ -277,6 +277,7 @@
                                     <th>Editar</th>
                                     <th>Upload</th>
                                     <th class="phone">Etapa</th>
+                                    <th class="phone">Modalidade Adicional</th>
                                     <th class="phone">Tipo de Oferta:	</th>
                                     <th class="phone">Preço e Taxa:	</th>
                                     <th class="phone">Data Encerramento:</th>
@@ -473,6 +474,13 @@
 
                                         {# hidden fields #}
                                         <td>{% include './fases.html' %}</td>
+                                        <td>
+                                            {% if oferta.Fundo|modalidade_adicional:oferta.Emissão != '' %}
+                                                {{ oferta.Fundo|modalidade_adicional:oferta.Emissão }}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </td>
                                         <td>{{ oferta.TipodeOferta }}</td>
                                         <td>{{ oferta.PreçoeTaxa }}</td>
                                         <td>{{ oferta.DataEncerramento }}</td>
