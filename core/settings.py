@@ -167,7 +167,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 # Email
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 # Gmail
 EMAIL_HOST = 'smtp.gmail.com'
