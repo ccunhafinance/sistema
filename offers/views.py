@@ -753,7 +753,7 @@ def envia_email_fii(request):
         headers={'Message-ID': 'foo'},
     )
     email.content_subtype = "html"
-    return email.send()
+    email.send()
 
     # registro de oferta enviada
     # dados = Registro_email_ofertas_rf(
@@ -768,7 +768,7 @@ def envia_email_fii(request):
     # dados.save()
 
     # Redirect to same page after form submit
-    # return redirect('/ofertas/rv/fii/enviar-email-rv-fii/'+ticker+'/'+emissor)
+    return redirect('/ofertas/rv/fii/enviar-email-rv-fii/'+ticker+'/'+emissor)
 
 # Scrape TICKER11
 @login_required(login_url='/')
