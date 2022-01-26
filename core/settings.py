@@ -171,7 +171,7 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # Gmail
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'ccunhafinance@gmail.com'
-EMAIL_HOST_PASSWORD = 'm1nh4s3nh4' #past the key or password app here
+EMAIL_HOST_PASSWORD = '7h3l4570n3' #past the key or password app here
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
