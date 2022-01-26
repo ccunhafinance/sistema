@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     # Third Party Apps
     'crispy_forms',
     'django_summernote',
-    'import_export'
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -152,7 +152,6 @@ SUMMERNOTE_CONFIG = {'iframe': False}
 
 # AUTH_USER_MODEL = 'leads.User'
 LOGIN_REDIRECT_URL = "/dashboard"
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 LOGIN_URL = '/login'
 LOGOUT_REDIRECT_URL = '/'
 
@@ -165,6 +164,16 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # user models
 AUTH_USER_MODEL = 'users.CustomUser'
+
+# Email
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# Gmail
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'ccunhafinance@gmail.com'
+EMAIL_HOST_PASSWORD = 'm1nh4s3nh4' #past the key or password app here
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 # import_export
 

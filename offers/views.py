@@ -1,4 +1,6 @@
 import csv
+from django.core.mail import EmailMessage
+
 import requests
 from django.core.files.storage import FileSystemStorage
 from django.forms import inlineformset_factory
@@ -659,9 +661,6 @@ def ofertarvfiiview(request):
             filtered_offers_by_group = the_ticker
 
 
-
-
-
         context = {
             'ofertas': filtered_offers_by_group,
             'last_update': last_update,
@@ -733,6 +732,43 @@ def sendemailrvfii(request, ticker, emissor):
     }
 
     return render(request, 'offers/rv/fii/email_view.html', context)
+
+@login_required(login_url='/')
+def envia_email_fii(request):
+
+    ticker = request.POST['ticker']
+    emissor = request.POST['emissor']
+
+    html_content = request.POST['corpo_email']
+
+    email = EmailMessage(
+        request.POST['assunto'] + ' - '+str(request.POST['remetente']),
+        # 'Renda Fixa',
+        html_content,
+        'Inove Investimentos <ccunhafinance@gmail.com.com.br>',
+        # [request.POST['email']],
+        ['emaildocis@gmail.com'],
+        reply_to=['ccunhafinance@gmail.com.com.br'],
+        # reply_to=[request.POST['email_assessor'], 'ordens@inoveinvestimentos.com.br'],
+        headers={'Message-ID': 'foo'},
+    )
+    email.content_subtype = "html"
+    email.send()
+
+    # registro de oferta enviada
+    # dados = Registro_email_ofertas_rf(
+    #     code_assessor=request.POST['cod_assessor_mail'],
+    #     code_cliente=request.POST['codigo'],
+    #     code_oferta=pk,
+    #     oferta=request.POST['nome_oferta'],
+    #     valor_oferta=request.POST['valor'],
+    #     data_envio=datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+    # )
+    #
+    # dados.save()
+
+    # Redirect to same page after form submit
+    return redirect('/ofertas/rv/fii/enviar-email-rv-fii/'+ticker+'/'+emissor)
 
 # Scrape TICKER11
 @login_required(login_url='/')

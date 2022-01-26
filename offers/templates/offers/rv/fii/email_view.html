@@ -147,7 +147,7 @@
             <div class="panel-container show">
                 <div class="panel-content" id="dados_da_oferta">
                     <b>Etapa:</b> {% include './fases.html' %}<br><br>
-                    <b>Mensagem:
+                    <b>Mensagem:</b>
 
                         <p id='display' onClick='copyText(this)'>{% include './mensagens.html' %}</p>
 
@@ -226,7 +226,61 @@
         </div>
     </div>
 
-<div class="modal fade default-example-modal-left-lg" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="col-md-12">
+        <div id="panel-4" class="panel panel-locked" data-panel-lock="false" data-panel-close="false"    data-panel-locked="false" data-panel-refresh="false" >
+            <div class="panel-hdr">
+                <h2>
+                    Registro de e-mails enviados <span class="fw-300"><i></i></span>
+                </h2>
+
+            </div>
+            <div class="panel-container show">
+
+
+                <div class="panel-content">
+
+                    <input type="text" class="form-control form-control-sm m-b-xs" id="filter" placeholder="Procurar...">
+                    <br>
+
+
+                    <table id="tabela_enviados" class="table table-bordered table-hover table-striped w-100 table-sm">
+                        <thead>
+                            <tr>
+                                <th>Ver</th>
+                                <th>Cliente</th>
+                                <th>Enviado Por</th>
+                                <th>Remetente</th>
+                                <th>E-mail</th>
+                                <th>Modalidade</th>
+                                <th>Pessoa Vinculada</th>
+                                <th>Valor Financeiro</th>
+                                <th>Preço Máximo</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="tablemail">
+{#                            {% for modalidade in modalidades %}#}
+{#                                <tr>#}
+{#                                    <td>{{ modalidade.name }}</td>#}
+{#                                    <td>{{ modalidade.fee }}%</td>#}
+{#                                    <td>{{ modalidade.garant|moeda }}</td>#}
+{#                                    <td>{{ modalidade.min_reserv|moeda }}</td>#}
+{#                                    <td>{{ modalidade.max_reserv|moeda }}</td>#}
+{#                                    <td>{{ modalidade.lock_end|date:'d/m/Y' }}</td>#}
+{#                                    <td>{{ modalidade.obs }}</td>#}
+{#                                </tr>#}
+{#                            {% endfor %}#}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade default-example-modal-left-lg" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-left modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -243,7 +297,14 @@
                 {#  PRÉ VIZUALIZAÇÃO DO EMAIL   #}
                 <div class="form-group">
 
-                    <form>
+                    <form method="POST" action="{% url 'offers:envia-email-fii' %}">
+                        {% csrf_token %}
+
+
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-success">Enviar</button>
+
+                        <hr>
 
                         <label><b>Remetente</b></label>
                         <select id="remetente" class="form-control especial_form" name="remetente" onchange="">
@@ -255,15 +316,15 @@
 
                           <div class="form-group">
 {#                             <label>ticker</label>#}
-                             <input hidden class="form-control" type="text" id="ticker" value="{{ ticker }}">
+                             <input hidden class="form-control" type="text" id="ticker" name="ticker" value="{{ ticker }}">
                          </div>
                           <div class="form-group">
 {#                             <label>emissor</label>#}
-                             <input hidden class="form-control" type="text" id="emissor" value="{{ emissor }}">
+                             <input hidden class="form-control" type="text" id="emissor" name="emissor" value="{{ emissor }}">
                          </div>
                          <div class="form-group">
 {#                             <label>enviado por USER</label>#}
-                             <input hidden class="form-control" type="text" id="enviado_por">
+                             <input hidden class="form-control" type="text" name="enviado_por" id="enviado_por">
                          </div>
                          <div class="form-group">
 {#                             <label>Email do cliente</label>#}
@@ -271,19 +332,19 @@
                          </div>
                          <div class="form-group">
 {#                             <label>Assessor responsavel</label>#}
-                             <input hidden class="form-control" type="text" id="responsavel">
+                             <input hidden class="form-control" type="text" name="responsavel" id="responsavel">
                          </div>
                          <div class="form-group">
 {#                             <label>REMETENTE</label>#}
-                             <input hidden class="form-control" type="text" id="remete">
+                             <input hidden class="form-control" type="text" name="remetente" id="remete">
                          </div>
                          <div class="form-group">
 {#                             <label>Assunto</label>#}
-                             <input hidden class="form-control" type="text" id="climail" value="Confirmação de reserva da Oferta Pública {{ oferta.Fundo }} - {{ oferta.Fundo|takeoff11|grab_fii_name }} ">
+                             <input hidden class="form-control" type="text" id="climail" name="assunto" value="Confirmação de reserva da Oferta Pública {{ oferta.Fundo }} - {{ oferta.Fundo|takeoff11|grab_fii_name }} ">
                          </div>
                          <div class="form-group">
 {#                             <label></label>#}
-                             <textarea hidden class="form-control" id="emai_text"></textarea>
+                             <textarea hidden class="form-control" id="emai_text" name="corpo_email"></textarea>
                          </div>
 
 
@@ -327,12 +388,14 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-success">Enviar</button>
+
             </div>
         </div>
     </div>
 </div>
+
+
+
 
     {# FORMILÁRIO DE ENVIO   #}
 {#    <div class="col-md-4">#}
@@ -409,58 +472,8 @@
 
     {#  REGISTRO DE EMAILS ENVIADOS  #}
 
-    <div class="col-md-12">
-        <div id="panel-4" class="panel panel-locked" data-panel-lock="false" data-panel-close="false"    data-panel-locked="false" data-panel-refresh="false" >
-            <div class="panel-hdr">
-                <h2>
-                    Registro de e-mails enviados <span class="fw-300"><i></i></span>
-                </h2>
-
-            </div>
-            <div class="panel-container show">
 
 
-                <div class="panel-content">
-
-                    <input type="text" class="form-control form-control-sm m-b-xs" id="filter" placeholder="Procurar...">
-                    <br>
-
-
-                    <table id="tabela_enviados" class="table table-bordered table-hover table-striped w-100 table-sm">
-                        <thead>
-                            <tr>
-                                <th>Ver</th>
-                                <th>Cliente</th>
-                                <th>Enviado Por</th>
-                                <th>Remetente</th>
-                                <th>E-mail</th>
-                                <th>Modalidade</th>
-                                <th>Pessoa Vinculada</th>
-                                <th>Valor Financeiro</th>
-                                <th>Preço Máximo</th>
-                                <th>Data</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="tablemail">
-{#                            {% for modalidade in modalidades %}#}
-{#                                <tr>#}
-{#                                    <td>{{ modalidade.name }}</td>#}
-{#                                    <td>{{ modalidade.fee }}%</td>#}
-{#                                    <td>{{ modalidade.garant|moeda }}</td>#}
-{#                                    <td>{{ modalidade.min_reserv|moeda }}</td>#}
-{#                                    <td>{{ modalidade.max_reserv|moeda }}</td>#}
-{#                                    <td>{{ modalidade.lock_end|date:'d/m/Y' }}</td>#}
-{#                                    <td>{{ modalidade.obs }}</td>#}
-{#                                </tr>#}
-{#                            {% endfor %}#}
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-        </div>
-    </div>
 
 </div>
 
