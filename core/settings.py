@@ -175,7 +175,7 @@ EMAIL_HOST_USER = 'ccunhafinance@gmail.com'
 EMAIL_HOST_PASSWORD = 'asbbqmpgmltpehpl' #past the key or password app here
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'ccunhafinance@gmail.com'
+# DEFAULT_FROM_EMAIL = 'ccunhafinance@gmail.com'
 # import_export
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
