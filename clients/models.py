@@ -3,6 +3,22 @@ from datetime import date
 from django.db import models
 from users.models import CustomUser
 
+class Clientes(models.Model):
+    nickname = models.CharField("Código", max_length=100, blank=True, null=True)
+    nome = models.CharField("Nome", max_length=100, blank=True, null=True)
+    sexo = models.CharField("Sexo", max_length=100, blank=True, null=True)
+    email = models.CharField("Telefone", max_length=100, blank=True, null=True)
+    telefone = models.CharField("Telefone", max_length=100, blank=True, null=True)
+    assessor = models.CharField("Assessor", max_length=100, blank=True, null=True)
+    data_nascimento = models.CharField("Data de Nascimento", max_length=100, blank=True, null=True)
+    d0 = models.CharField("Saldo em D0", max_length=100, blank=True, null=True)
+    d1 = models.CharField("Saldo em D1", max_length=100, blank=True, null=True)
+    d2 = models.CharField("Saldo em D2", max_length=100, blank=True, null=True)
+    d3 = models.CharField("Saldo em D3", max_length=100, blank=True, null=True)
+    d4 = models.CharField("Saldo em D4", max_length=100, blank=True, null=True)
+    status = models.CharField("Status", max_length=100, blank=True, null=True)
+
+
 # Create your models here.
 class Espelhamento(models.Model):
     assessor = models.ForeignKey(CustomUser, on_delete=models.CASCADE)

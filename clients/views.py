@@ -1,16 +1,97 @@
 import json
-
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from clients.models import Espelhamento
 from users.models import CustomUser
 
+from .models import Clientes
+from .resources import ClientesResources
+from django.contrib import messages
+from tablib import Dataset
+
 
 main_icon = 'ni ni-users'
+
+def upload_clientes(request):
+    if request.method == 'POST':
+        clientes_resource = ClientesResources()
+        dataset = Dataset()
+        new_cliente = request.FILES['myfile']
+
+        if not new_cliente.name.endswith('xlsx'):
+            messages.info('Formato de arquivo não suportado')
+            return redirect(reverse('clients:clients-list'))
+
+        imported_data = dataset.load(new_cliente.read(), format='xlsx')
+
+        clientes = Clientes.objects.all()
+
+        # print (len(clientes))
+
+        if len(clientes)==0:
+
+            for data in imported_data:
+
+                try:
+                    listing = Clientes.objects.get(nickname=data[1])
+
+                except Clientes.DoesNotExist:
+                    value = Clientes(
+                        nickname=data[1],
+                        nome=data[2],
+                        sexo=data[3],
+                        email=data[4],
+                        telefone=data[5],
+                        assessor=data[6],
+                        data_nascimento=data[7]
+                    )
+                    value.save()
+
+        else:
+
+            for data in imported_data:
+
+                # print(Clientes.objects.get(nickname=data[0]))
+
+                if len(Clientes.objects.filter(nickname=data[0])) == 1:
+                    Clientes.objects.filter(nickname=data[0]).update(
+                        nome=data[1],
+                        # sexo=data[3],
+                        # email=data[4],
+                        # telefone=data[5],
+                        assessor=data[2],
+                        # data_nascimento=data[7]
+                        d0=data[3],
+                        d1=data[4],
+                        d2=data[5],
+                        d3=data[6],
+                        d4=data[7],
+                        status='Alterado',
+                    )
+
+                else:
+                    value = Clientes(
+                        nickname=data[0],
+                        nome=data[1],
+                        # sexo=data[3],
+                        # email=data[4],
+                        # telefone=data[5],
+                        assessor=data[2],
+                        # data_nascimento=data[7]
+                        d0=data[3],
+                        d1=data[4],
+                        d2=data[5],
+                        d3=data[6],
+                        d4=data[7],
+                        status='Novo',
+                    )
+                    value.save()
+
+    return redirect(reverse('clients:clients-list'))
+
 
 class ListViewClients(LoginRequiredMixin, generic.TemplateView):
     template_name = "clients/list_view.html"
@@ -19,8 +100,13 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
 
     def get_context_data(self, **kwargs):
 
-        with open('data/clientes/clientes.txt', encoding='latin1') as json_file:
-            clientes = json.load(json_file)
+        # Load Clients based on the internal files
+        # with open('data/clientes/clientes.txt', encoding='latin1') as json_file:
+        #     clientes = json.load(json_file)
+
+        # load Clients from DB
+
+        clientes = Clientes.objects.all()
 
         context = {
             'clientes': clientes,

@@ -10,10 +10,21 @@
 
 <!-- BEGIN Page Subheader -->
 {% block subheader %}
-    <a href="#" type="button" class="btn btn-sm btn-primary">
-        <span class="ni ni-cloud-upload"></span>
-        Upload Clientes
-    </a>
+{#    <a href="#" type="button" class="btn btn-sm btn-primary">#}
+{#        <span class="ni ni-cloud-upload"></span>#}
+{#        Upload Clientes#}
+{#    </a>#}
+
+    <form method="post" enctype="multipart/form-data" action="{% url 'clients:upload_clientes' %}">
+    {% csrf_token %}
+
+    <input name="myfile" type="file">
+
+    <button type="submit" class="btn btn-sm btn-primary">Upload Clientes</button>
+
+    </form>
+
+
 {% endblock %}
 <!-- END page Subheader -->
 
@@ -178,22 +189,49 @@
                             <tr>
                                 <th>Código</th>
                                 <th>Nome</th>
-{#                                <th>Telefone</th>#}
+                                <th>Sexo</th>
                                 <th>E-mail</th>
+                                <th>Telefone</th>
+                                <th>Assessor</th>
+                                <th>Nascimento</th>
+                                <th>Saldo em D0 (hoje)</th>
+                                <th>Saldo em D1</th>
+                                <th>Saldo em D3</th>
+                                <th>Saldo em D4</th>
+                                <th>Saldo em D4</th>
+                                <th>Status</th>
 
                             </tr>
                         </thead>
                         <tbody>
                         {% for cliente in clientes %}
 
-                            {% if cliente.CODIGO_XP_ASSESSOR|to_str == request.user.codigo %}
-                            <tr>
-                                <td>{{ cliente.CODIGO_XP_CLIENTE }}</td>
-                                <td>{{ cliente.NOME_CLIENTE }}</td>
-{#                                <td><a href="" style="color:#1ab34e">+55 (32) 9 9181-8998</a></td>#}
-                                <td><a href="mail-to:{{ cliente.EMAIL_CLIENTE }}">{{ cliente.EMAIL_CLIENTE }}</a></td>
+                            <tr {% if cliente.status == 'Novo' %} style="color:#1d8458" {% elif cliente.status == 'Alterado' %} style="color:#0b77c9" {% endif %}>
+                                <td>{{ cliente.nickname }}</td>
+                                <td>{{ cliente.nome }}</td>
+                                <td>{{ cliente.sexo }}</td>
+                                <td>{{ cliente.email }}</td>
+                                <td>{{ cliente.telefone }}</td>
+                                <td>{{ cliente.assessor }}</td>
+                                <td>{{ cliente.data_nascimento }}</td>
+                                <td>{{ cliente.d0 }}</td>
+                                <td>{{ cliente.d1 }}</td>
+                                <td>{{ cliente.d2 }}</td>
+                                <td>{{ cliente.d3 }}</td>
+                                <td>{{ cliente.d4 }}</td>
+                                <td>{{ cliente.status }}</td>
                             </tr>
-                            {% endif %}
+
+{#                            {% if cliente.CODIGO_XP_ASSESSOR|to_str == request.user.codigo %}#}
+{#                            <tr>#}
+{#                                <td>{{ cliente.CODIGO_XP_CLIENTE }}</td>#}
+{#                                <td>{{ cliente.NOME_CLIENTE }}</td>#}
+{#                                <td><a href="" style="color:#1ab34e">+55 (32) 9 9181-8998</a></td>#}
+{#                                <td><a href="mail-to:{{ cliente.EMAIL_CLIENTE }}">{{ cliente.EMAIL_CLIENTE }}</a></td>#}
+{#                            </tr>#}
+{#                            {% endif %}#}
+
+
 
                         {% endfor %}
                         </tbody>
