@@ -18,11 +18,16 @@
     <form method="post" enctype="multipart/form-data" action="{% url 'clients:upload_clientes' %}">
     {% csrf_token %}
 
-    <input name="myfile" type="file">
+    <input name="myfile" type="file" required>
 
     <button type="submit" class="btn btn-sm btn-primary">Upload Clientes</button>
 
     </form>
+        <a href="{% url 'clients:delet_all' %}"  class="btn btn-sm btn-danger">Excluir Dados</a>
+
+
+    <br>
+
 
 
 {% endblock %}

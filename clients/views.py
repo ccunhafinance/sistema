@@ -15,6 +15,17 @@ from tablib import Dataset
 
 main_icon = 'ni ni-users'
 
+def delet_all(request):
+    clientes = Clientes.objects.all()
+
+    for cliente in clientes:
+
+        data = Clientes(id=cliente.id)
+        data.delete()
+
+    return redirect(reverse('clients:clients-list'))
+
+
 def upload_clientes(request):
     if request.method == 'POST':
         clientes_resource = ClientesResources()
