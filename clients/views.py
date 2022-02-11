@@ -65,6 +65,11 @@ def upload_clientes(request):
 
             for data in imported_data:
 
+                # exists = str(data[0]) in Clientes.objects.filter(nickname=data[0])
+                # print(Clientes.objects.filter(nickname=data[0])[0])
+                #
+                # print(data[0])
+
                 # print(Clientes.objects.get(nickname=data[0]))
 
                 if len(Clientes.objects.filter(nickname=data[0])) == 1:
@@ -73,7 +78,7 @@ def upload_clientes(request):
                         # sexo=data[3],
                         # email=data[4],
                         # telefone=data[5],
-                        assessor=data[2],
+                        novo_assessor=data[2],
                         # data_nascimento=data[7]
                         d0=data[3],
                         d1=data[4],
@@ -118,9 +123,21 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
         # load Clients from DB
 
         clientes = Clientes.objects.all()
+        n_clientes = len(clientes)
+        novos_clientes = Clientes.objects.filter(status='Novo')
+        n_novos_clientes = len(novos_clientes)
+
+        i = 0
+        for c in clientes:
+            if c.assessor != c.novo_assessor:
+                i += 1
 
         context = {
             'clientes': clientes,
+            'n_clientes': n_clientes,
+            'novos_clientes': novos_clientes,
+            'n_novos_clientes': n_novos_clientes,
+            'n_troca_assessor': i,
             # Crumbs First Page Config
             'first_page_name': 'Clientes',
             'first_page_link': '',
