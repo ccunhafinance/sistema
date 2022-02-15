@@ -222,7 +222,7 @@
                         <li class="nav-item">
                             <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-4" role="tab">
                                 <i class="fal fa-user-times text-danger"></i>
-                                <span class="hidden-sm-down ml-1">Clientes Inativos {% if n_clientesa > 0 %} <span class="badge bg-danger-300 ml-2">{{ n_clientesa }}</span> {% endif %}</span>
+                                <span class="hidden-sm-down ml-1">Clientes Inativos {% if n_inativo > 0 %} <span class="badge bg-danger-300 ml-2">{{ n_inativo }}</span> {% endif %}</span>
                             </a>
                         </li>
                     </ul>
@@ -375,20 +375,14 @@
                                         <th>Telefone</th>
                                         <th>Assessor</th>
                                         <th>Nascimento</th>
-                                        <th>Saldo em D0 (hoje)</th>
-                                        <th>Saldo em D1</th>
-                                        <th>Saldo em D3</th>
-                                        <th>Saldo em D4</th>
-                                        <th>Saldo em D4</th>
-                                        <th>Status</th>
+
 
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                {% for cliente in clientes %}
+                                {% for cliente in inativo %}
 
-                                    {% if cliente.status == 'Inativo' %}
                                     <tr>
                                         <td>{{ cliente.nickname }}</td>
                                         <td>{{ cliente.nome }}</td>
@@ -397,14 +391,7 @@
                                         <td>{{ cliente.telefone }}</td>
                                         <td>{{ cliente.assessor }}</td>
                                         <td>{{ cliente.data_nascimento }}</td>
-                                        <td>{{ cliente.d0 }}</td>
-                                        <td>{{ cliente.d1 }}</td>
-                                        <td>{{ cliente.d2 }}</td>
-                                        <td>{{ cliente.d3 }}</td>
-                                        <td>{{ cliente.d4 }}</td>
-                                        <td>{{ cliente.status }}</td>
                                     </tr>
-                                    {% endif %}
 
                                 {% endfor %}
                                 </tbody>

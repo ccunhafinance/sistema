@@ -63,7 +63,91 @@ def upload_clientes(request):
 
         else:
 
+            # print('Clientes Existentes: '+str(len(clientes)))
+            # print('Novo Arquivo: '+str(len(imported_data)))
+            # print('Primeiro Cliente Novo: '+str(imported_data[0][0]))
+            # print('Primeiro Cliente Novo: '+str(clientes[0].nickname))
+
+            # try:
+            #     print(getattr(clientes, 'nickname', data[0]))
+            # except AttributeError:
+            #     print("Attribute does not exist")
+
+
+            t = len(imported_data)
+            a = 0
+            primeiro =[]
+            segundo = []
+            for cliente in clientes:
+
+                primeiro.append(str(cliente.nickname))
+
+
+
+                if a < t:
+                    segundo.append(str(imported_data[a][0]))
+                    # print(imported_data[a][0])
+                    # if str(cliente.nickname) != str(imported_data[a][0]):
+                    #     # print(cliente.nickname)
+
+                a += 1
+
+            # print(primeiro)
+            # print(segundo)
+
+            def Diff(li1, li2):
+                return list(set(li1) - set(li2))
+
+            # Driver Code
+
+            print(Diff(primeiro, segundo))
+
+            inativos = Diff(primeiro, segundo)
+
+            for x in inativos:
+                Clientes.objects.filter(nickname=x).update(
+                    status='Inativo'
+                )
+
+
+
+
+
+
+
+
+
+
             for data in imported_data:
+
+                # for cliente in clientes:
+                #     if data[0] != cliente.nickname:
+                #         print('cliente:'+str(cliente.nickname)+'existe e é igual s'+str(data[0]))
+                #     else:
+                #         print(str(data[0])+'nao existe em clientes mais')
+
+
+
+
+
+                # try:
+                #     Clientes.objects.filter(nickname=data[0])
+                # except AttributeError:
+                #     print("Attribute does not exist")
+
+
+
+                # for x in clientes:
+                #     print(x.nickname)
+                #     if x.nickname == data[0]:
+                #         print('encontrado')
+                #     else:
+                #         print('nao encontradi')
+
+                # try:
+                #     print(getattr(clientes, 'nickname', data[0]))
+                # except AttributeError:
+                #     print("Attribute does not exist")
 
                 # exists = str(data[0]) in Clientes.objects.filter(nickname=data[0])
                 # print(Clientes.objects.filter(nickname=data[0])[0])
@@ -71,7 +155,6 @@ def upload_clientes(request):
                 # print(data[0])
 
                 # print(Clientes.objects.get(nickname=data[0]))
-
                 if len(Clientes.objects.filter(nickname=data[0])) == 1:
                     Clientes.objects.filter(nickname=data[0]).update(
                         nome=data[1],
@@ -85,9 +168,15 @@ def upload_clientes(request):
                         d2=data[5],
                         d3=data[6],
                         d4=data[7],
-                        status='Alterado',
                     )
 
+
+
+                # elif Clientes.objects.filter(nickname=data[0])[0].nickname != data[0]:
+                #     Clientes.objects.filter(nickname=data[0]).update(
+                #
+                #         status='Inativo',
+                #     )
                 else:
                     value = Clientes(
                         nickname=data[0],
@@ -105,6 +194,13 @@ def upload_clientes(request):
                         status='Novo',
                     )
                     value.save()
+
+                if not Clientes.objects.filter(nickname=data[0]):
+                    Clientes.objects.filter(nickname=data[0]).update(
+                        status='Inativo',
+                    )
+
+
 
     return redirect(reverse('clients:clients-list'))
 
@@ -125,6 +221,8 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
         clientes = Clientes.objects.all()
         n_clientes = len(clientes)
         novos_clientes = Clientes.objects.filter(status='Novo')
+        inativo = Clientes.objects.filter(status='Inativo')
+        n_inativo = len(inativo)
         n_novos_clientes = len(novos_clientes)
 
         i = 0
@@ -135,6 +233,8 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
         context = {
             'clientes': clientes,
             'n_clientes': n_clientes,
+            'inativo': inativo,
+            'n_inativo': n_inativo,
             'novos_clientes': novos_clientes,
             'n_novos_clientes': n_novos_clientes,
             'n_troca_assessor': i,
