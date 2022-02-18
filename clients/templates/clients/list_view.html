@@ -256,7 +256,7 @@
 
                                     <tr >
                                         <td>{{ cliente.nickname }}</td>
-                                        <td>{{ cliente.nome }}</td>
+                                        <td>{{ cliente.nome|lower|capfirst }}</td>
                                         <td>{{ cliente.sexo }}</td>
                                         <td>{{ cliente.email }}</td>
                                         <td>{{ cliente.telefone }}</td>
@@ -297,6 +297,7 @@
                                         <th>Sexo</th>
                                         <th>E-mail</th>
                                         <th>Telefone</th>
+                                        <th>Nascimento</th>
                                         <th>Açoes</th>
                                     </tr>
                                 </thead>
@@ -305,23 +306,62 @@
                                 {% for cliente in clientes %}
 
                                     {% if cliente.status == 'Novo' %}
-                                    <tr>
-                                        <td>{{ cliente.nickname }}</td>
-                                        <td><input type="text" class="form-control" value="{{ cliente.nome }}"></td>
-                                        <td>
-                                            <select class="form-control" >
-                                                <option value="">Definir sexo</option>
-                                                <option value="M">M</option>
-                                                <option value="F">F</option>
-                                            </select>
-                                        </td>
-                                        <td><input type="text" class="form-control" value=""></td>
-                                        <td><input type="text" class="form-control" value=""></td>
-                                        <td><button type="button" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
-                                    </tr>
+                                        <form method="post" action="{% url 'clients:update_cliente_novo' %}">
+                                            {% csrf_token %}
+                                                <input hidden value="{{ cliente.id }}" name="id">
+                                            <tr>
+                                                <td>{{ cliente.nickname }}</td>
+                                                <td><input type="text" class="form-control" name="nome" value="{{ cliente.nome|split:' '|first|lower|capfirst }}" required></td>
+                                                <td>
+                                                    <select class="form-control" name="sexo" required>
+                                                        <option value="">Definir sexo</option>
+                                                        <option value="M" {% if cliente.sexo == 'M' %} selected {% endif %}>M</option>
+                                                        <option value="F" {% if cliente.sexo == 'F' %} selected {% endif %}>F</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="text" class="form-control" name="email" value="{{ cliente.email }}" required></td>
+                                                <td><input type="text" class="form-control" name="telefone" value="{{ cliente.telefone }}" required></td>
+                                                <td><input type="date" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento }}" required></td>
+                                                <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
+                                            </tr>
+                                        </form>
+
+
+
                                     {% endif %}
 
                                 {% endfor %}
+
+                                {% for troca in troca_assessor %}
+                                    {{ troca.status }}
+
+                                        {% if troca.assessor == request.user.codigo and troca.status == None %}
+                                            <tr>
+                                                <td colspan="7" style="font-weight: bold" class="text-success text-center">Troca de Asessor <i class="fal fa-arrow-down"></i></td>
+                                            </tr>
+                                            <form method="post" action="{% url 'clients:update_cliente_novo' %}">
+                                                {% csrf_token %}
+                                                <input hidden value="{{ troca.id }}" name="id">
+                                                <tr>
+                                                    <td>{{ troca.nickname }}</td>
+                                                    <td><input type="text" class="form-control" name="nome" value="{{ troca.nome|split:' '|first|lower|capfirst }}" required></td>
+                                                    <td>
+                                                        <select class="form-control" name="sexo" required>
+                                                            <option value="">Definir sexo</option>
+                                                            <option value="M" {% if troca.sexo == 'M' %} selected {% endif %}>M</option>
+                                                            <option value="F" {% if troca.sexo == 'F' %} selected {% endif %}>F</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><input type="text" class="form-control" name="email" value="{{ troca.email }}" required></td>
+                                                    <td><input type="text" class="form-control" name="telefone" value="{{ troca.telefone }}" required></td>
+                                                    <td><input type="date" class="form-control" name="data_nascimento" value="{{ troca.data_nascimento }}" required></td>
+                                                    <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
+                                                </tr>
+                                            </form>
+
+                                        {% endif %}
+
+                                    {% endfor %}
                                 </tbody>
 
                             </table>
@@ -336,25 +376,23 @@
                                         <th>Código</th>
                                         <th>Nome</th>
                                         <th>Sexo</th>
+                                        <th>Assessor</th>
                                         <th>Antigo Assessor</th>
-                                        <th>Novo Assessor</th>
                                         <th>Data</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                {% for cliente in clientes %}
+                                {% for troca in troca_assessor %}
 
-                                    {% if cliente.assessor != cliente.novo_assessor %}
                                     <tr>
-                                        <td>{{ cliente.nickname }}</td>
-                                        <td>{{ cliente.nome }}</td>
-                                        <td>{{ cliente.sexo }}</td>
-                                        <td>{{ cliente.assessor }}</td>
-                                        <td>{{ cliente.novo_assessor }}</td>
-                                        <td>data</td>
+                                        <td>{{ troca.nickname }}</td>
+                                        <td>{{ troca.nome|lower|capfirst }}</td>
+                                        <td>{{ troca.sexo }}</td>
+                                        <td>{{ troca.assessor }}</td>
+                                        <td>{{ troca.antigo_assessor }}</td>
+                                        <td>{{ troca.data_registro }}</td>
                                     </tr>
-                                    {% endif %}
 
                                 {% endfor %}
                                 </tbody>
@@ -385,12 +423,12 @@
 
                                     <tr>
                                         <td>{{ cliente.nickname }}</td>
-                                        <td>{{ cliente.nome }}</td>
+                                        <td>{{ cliente.nome|lower|capfirst }}</td>
                                         <td>{{ cliente.sexo }}</td>
                                         <td>{{ cliente.email }}</td>
                                         <td>{{ cliente.telefone }}</td>
                                         <td>{{ cliente.assessor }}</td>
-                                        <td>{{ cliente.data_nascimento }}</td>
+                                        <td>{{ cliente.data_nascimento|date:'d/m/Y' }}</td>
                                     </tr>
 
                                 {% endfor %}

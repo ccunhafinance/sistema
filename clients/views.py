@@ -11,6 +11,8 @@ from .models import Clientes
 from .resources import ClientesResources
 from django.contrib import messages
 from tablib import Dataset
+from datetime import date
+
 
 
 main_icon = 'ni ni-users'
@@ -25,6 +27,27 @@ def delet_all(request):
 
     return redirect(reverse('clients:clients-list'))
 
+def update_new_cliente(request):
+
+    print(request.POST['id'])
+    print(request.POST['nome'])
+    print(request.POST['sexo'])
+    print(request.POST['email'])
+    print(request.POST['telefone'])
+    print(request.POST['data_nascimento'])
+
+
+    Clientes.objects.filter(id=request.POST['id']).update(
+        nome=request.POST['nome'],
+        sexo=request.POST['sexo'],
+        email=request.POST['email'],
+        telefone=request.POST['telefone'],
+        data_nascimento=request.POST['data_nascimento'],
+        status='ok'
+
+    )
+
+    return redirect(reverse('clients:clients-list'))
 
 def upload_clientes(request):
     if request.method == 'POST':
@@ -63,144 +86,78 @@ def upload_clientes(request):
 
         else:
 
-            # print('Clientes Existentes: '+str(len(clientes)))
-            # print('Novo Arquivo: '+str(len(imported_data)))
-            # print('Primeiro Cliente Novo: '+str(imported_data[0][0]))
-            # print('Primeiro Cliente Novo: '+str(clientes[0].nickname))
-
-            # try:
-            #     print(getattr(clientes, 'nickname', data[0]))
-            # except AttributeError:
-            #     print("Attribute does not exist")
-
-
             t = len(imported_data)
             a = 0
             primeiro =[]
             segundo = []
+
             for cliente in clientes:
 
                 primeiro.append(str(cliente.nickname))
 
-
-
                 if a < t:
                     segundo.append(str(imported_data[a][0]))
-                    # print(imported_data[a][0])
-                    # if str(cliente.nickname) != str(imported_data[a][0]):
-                    #     # print(cliente.nickname)
 
                 a += 1
-
-            # print(primeiro)
-            # print(segundo)
 
             def Diff(li1, li2):
                 return list(set(li1) - set(li2))
 
-            # Driver Code
-
+            # Inativa Cliente
             print(Diff(primeiro, segundo))
 
             inativos = Diff(primeiro, segundo)
 
             for x in inativos:
                 Clientes.objects.filter(nickname=x).update(
-                    status='Inativo'
+                    status='Inativo',
+                    data_registro=date.today()
                 )
-
-
-
-
-
-
-
-
-
 
             for data in imported_data:
 
-                # for cliente in clientes:
-                #     if data[0] != cliente.nickname:
-                #         print('cliente:'+str(cliente.nickname)+'existe e é igual s'+str(data[0]))
-                #     else:
-                #         print(str(data[0])+'nao existe em clientes mais')
-
-
-
-
-
-                # try:
-                #     Clientes.objects.filter(nickname=data[0])
-                # except AttributeError:
-                #     print("Attribute does not exist")
-
-
-
-                # for x in clientes:
-                #     print(x.nickname)
-                #     if x.nickname == data[0]:
-                #         print('encontrado')
-                #     else:
-                #         print('nao encontradi')
-
-                # try:
-                #     print(getattr(clientes, 'nickname', data[0]))
-                # except AttributeError:
-                #     print("Attribute does not exist")
-
-                # exists = str(data[0]) in Clientes.objects.filter(nickname=data[0])
-                # print(Clientes.objects.filter(nickname=data[0])[0])
-                #
-                # print(data[0])
-
-                # print(Clientes.objects.get(nickname=data[0]))
                 if len(Clientes.objects.filter(nickname=data[0])) == 1:
-                    Clientes.objects.filter(nickname=data[0]).update(
-                        nome=data[1],
-                        # sexo=data[3],
-                        # email=data[4],
-                        # telefone=data[5],
-                        novo_assessor=data[2],
-                        # data_nascimento=data[7]
-                        d0=data[3],
-                        d1=data[4],
-                        d2=data[5],
-                        d3=data[6],
-                        d4=data[7],
-                    )
+
+                    if str(Clientes.objects.filter(nickname=data[0])[0].assessor) != str(data[2]):
+                        Clientes.objects.filter(nickname=data[0]).update(
+                            nome=data[1],
+                            assessor=data[2],
+                            antigo_assessor=Clientes.objects.filter(nickname=data[0])[0].assessor,
+                            d0=data[3],
+                            d1=data[4],
+                            d2=data[5],
+                            d3=data[6],
+                            d4=data[7],
+                            troca='existe',
+                            data_registro=date.today()
+                        )
+                    else:
+
+                        Clientes.objects.filter(nickname=data[0]).update(
+                            nome=data[1],
+                            d0=data[3],
+                            d1=data[4],
+                            d2=data[5],
+                            d3=data[6],
+                            d4=data[7],
+                            data_registro=date.today()
+                        )
 
 
-
-                # elif Clientes.objects.filter(nickname=data[0])[0].nickname != data[0]:
-                #     Clientes.objects.filter(nickname=data[0]).update(
-                #
-                #         status='Inativo',
-                #     )
                 else:
                     value = Clientes(
                         nickname=data[0],
                         nome=data[1],
-                        # sexo=data[3],
-                        # email=data[4],
-                        # telefone=data[5],
                         assessor=data[2],
-                        # data_nascimento=data[7]
                         d0=data[3],
                         d1=data[4],
                         d2=data[5],
                         d3=data[6],
                         d4=data[7],
                         status='Novo',
+                        data_registro=date.today()
                     )
                     value.save()
-
-                if not Clientes.objects.filter(nickname=data[0]):
-                    Clientes.objects.filter(nickname=data[0]).update(
-                        status='Inativo',
-                    )
-
-
 
     return redirect(reverse('clients:clients-list'))
 
@@ -225,10 +182,9 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
         n_inativo = len(inativo)
         n_novos_clientes = len(novos_clientes)
 
-        i = 0
-        for c in clientes:
-            if c.assessor != c.novo_assessor:
-                i += 1
+        i = Clientes.objects.filter(troca='existe')
+
+        troca = len(i)
 
         context = {
             'clientes': clientes,
@@ -237,7 +193,8 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
             'n_inativo': n_inativo,
             'novos_clientes': novos_clientes,
             'n_novos_clientes': n_novos_clientes,
-            'n_troca_assessor': i,
+            'n_troca_assessor': troca,
+            'troca_assessor': i,
             # Crumbs First Page Config
             'first_page_name': 'Clientes',
             'first_page_link': '',

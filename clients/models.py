@@ -10,7 +10,7 @@ class Clientes(models.Model):
     email = models.CharField("Telefone", max_length=100, blank=True, null=True)
     telefone = models.CharField("Telefone", max_length=100, blank=True, null=True)
     assessor = models.CharField("Assessor", max_length=100, blank=True, null=True)
-    novo_assessor = models.CharField("Assessor", max_length=100, blank=True, null=True)
+    antigo_assessor = models.CharField("Assessor", max_length=100, blank=True, null=True)
     data_nascimento = models.CharField("Data de Nascimento", max_length=100, blank=True, null=True)
     d0 = models.CharField("Saldo em D0", max_length=100, blank=True, null=True)
     d1 = models.CharField("Saldo em D1", max_length=100, blank=True, null=True)
@@ -18,6 +18,8 @@ class Clientes(models.Model):
     d3 = models.CharField("Saldo em D3", max_length=100, blank=True, null=True)
     d4 = models.CharField("Saldo em D4", max_length=100, blank=True, null=True)
     status = models.CharField("Status", max_length=100, blank=True, null=True)
+    troca = models.CharField("Troca", max_length=100, blank=True, null=True)
+    data_registro = models.CharField("Data Registro", max_length=100, blank=True, null=True)
 
 
 # Create your models here.
