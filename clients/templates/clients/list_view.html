@@ -311,7 +311,7 @@
                                                 <input hidden value="{{ cliente.id }}" name="id">
                                             <tr>
                                                 <td>{{ cliente.nickname }}</td>
-                                                <td><input type="text" class="form-control" name="nome" value="{{ cliente.nome|split:' '|first|lower|capfirst }}" required></td>
+                                                <td><input type="text" class="form-control" name="nome" value="{{ cliente.nome|split:' '|first|lower|capfirst }}" ></td>
                                                 <td>
                                                     <select class="form-control" name="sexo" required>
                                                         <option value="">Definir sexo</option>
@@ -319,9 +319,9 @@
                                                         <option value="F" {% if cliente.sexo == 'F' %} selected {% endif %}>F</option>
                                                     </select>
                                                 </td>
-                                                <td><input type="text" class="form-control" name="email" value="{{ cliente.email }}" required></td>
-                                                <td><input type="text" class="form-control" name="telefone" value="{{ cliente.telefone }}" required></td>
-                                                <td><input type="date" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento }}" required></td>
+                                                <td><input type="text" class="form-control" name="email" value="{{ cliente.email }}" ></td>
+                                                <td><input type="text" class="form-control" name="telefone" value="{{ cliente.telefone }}" ></td>
+                                                <td><input type="date" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento }}" ></td>
                                                 <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
                                             </tr>
                                         </form>
