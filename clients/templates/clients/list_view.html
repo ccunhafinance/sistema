@@ -303,15 +303,18 @@
                                 </thead>
 
                                 <tbody>
+
                                 {% for cliente in clientes %}
 
                                     {% if cliente.status == 'Novo' %}
-                                        <form method="post" action="{% url 'clients:update_cliente_novo' %}">
-                                            {% csrf_token %}
-                                                <input hidden value="{{ cliente.id }}" name="id">
+
                                             <tr>
-                                                <td>{{ cliente.nickname }}</td>
-                                                <td><input type="text" class="form-control" name="nome" value="{{ cliente.nome|split:' '|first|lower|capfirst }}" ></td>
+                                            <form method="post" action="{% url 'clients:update_cliente_novo' %}">
+                                                {% csrf_token %}
+
+
+                                                <td>{{ cliente.nickname }} <input  hidden value="{{ cliente.id }}" name="id"></td>
+                                                <td><input type="text" class="form-control" name="nome" value="{{ cliente.nome|split:' '|first|lower|capfirst }}" required></td>
                                                 <td>
                                                     <select class="form-control" name="sexo" required>
                                                         <option value="">Definir sexo</option>
@@ -319,12 +322,13 @@
                                                         <option value="F" {% if cliente.sexo == 'F' %} selected {% endif %}>F</option>
                                                     </select>
                                                 </td>
-                                                <td><input type="text" class="form-control" name="email" value="{{ cliente.email }}" ></td>
-                                                <td><input type="text" class="form-control" name="telefone" value="{{ cliente.telefone }}" ></td>
-                                                <td><input type="text" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento }}" ></td>
+                                                <td><input type="text" class="form-control" name="email" value="{{ cliente.email }}" required></td>
+                                                <td><input type="text" class="form-control" name="telefone" value="{{ cliente.telefone }}" required></td>
+                                                <td><input type="text" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento }}" required></td>
                                                 <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
+                                            </form>
                                             </tr>
-                                        </form>
+
 
 
 
@@ -339,11 +343,11 @@
                                             <tr>
                                                 <td colspan="7" style="font-weight: bold" class="text-success text-center">Troca de Asessor <i class="fal fa-arrow-down"></i></td>
                                             </tr>
-                                            <form method="post" action="{% url 'clients:update_cliente_novo' %}">
-                                                {% csrf_token %}
-                                                <input hidden value="{{ troca.id }}" name="id">
+
                                                 <tr>
-                                                    <td>{{ troca.nickname }}</td>
+                                                <form method="post" action="{% url 'clients:update_cliente_novo' %}">
+                                                {% csrf_token %}
+                                                    <td>{{ troca.nickname }} <input hidden value="{{ troca.id }}" name="id"></td>
                                                     <td><input type="text" class="form-control" name="nome" value="{{ troca.nome|split:' '|first|lower|capfirst }}" required></td>
                                                     <td>
                                                         <select class="form-control" name="sexo" required>
@@ -356,8 +360,9 @@
                                                     <td><input type="text" class="form-control" name="telefone" value="{{ troca.telefone }}" required></td>
                                                     <td><input type="date" class="form-control" name="data_nascimento" value="{{ troca.data_nascimento }}" required></td>
                                                     <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
+                                                </form>
                                                 </tr>
-                                            </form>
+
 
                                         {% endif %}
 

@@ -38,6 +38,7 @@ def update_new_cliente(request):
 
 
     Clientes.objects.filter(id=request.POST['id']).update(
+        id=request.POST['id'],
         nome=request.POST['nome'],
         sexo=request.POST['sexo'],
         email=request.POST['email'],
