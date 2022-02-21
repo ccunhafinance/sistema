@@ -253,7 +253,7 @@
                                         <th>Assessor</th>
                                         <th>Nascimento</th>
                                         <th>Rotinda</th>
-                                        <th>Whats/email</th>
+                                        <th>Whats/E-mail</th>
 
                                     </tr>
                                 </thead>
@@ -369,7 +369,7 @@
                                         <th>Telefone</th>
                                         <th>Nascimento</th>
                                         <th>Rotinda da Mesa</th>
-                                        <th>Whats/Email</th>
+                                        <th>Whats/E-mail</th>
                                         <th>Data</th>
                                         <th>Açoes</th>
                                     </tr>
@@ -402,7 +402,7 @@
                                                     <td>
                                                         <select class="form-control" name="zap_mail" required>
                                                             <option value="">WhatsApp/Email</option>
-                                                            <option value="Whatsapp" {% if troca.zap_mail == 'Whatsapp' %} selected {% endif %}>Whatsapp</option>
+                                                            <option value="WhatsApp" {% if troca.zap_mail == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
                                                             <option value="Email" {% if troca.zap_mail == 'Email' %} selected {% endif %}>Email</option>
                                                             <option value="Não Definido" {% if troca.zap_mail == 'Não Definido' %} selected {% endif %}>Não Definido</option>
                                                         </select>
@@ -444,7 +444,7 @@
                                                         <td>
                                                             <select class="form-control" name="zap_mail" required>
                                                                 <option value="">WhatsApp/Email</option>
-                                                                <option value="Whatsapp" {% if troca.zap_mail == 'Whatsapp' %} selected {% endif %}>Whatsapp</option>
+                                                                <option value="WhatsApp" {% if troca.zap_mail == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
                                                                 <option value="Email" {% if troca.zap_mail == 'Email' %} selected {% endif %}>Email</option>
                                                                 <option value="Não Definido" {% if troca.zap_mail == 'Não Definido' %} selected {% endif %}>Não Definido</option>
                                                             </select>
@@ -475,7 +475,7 @@
                                         <th>Antigo Assessor</th>
                                         <th>Data</th>
                                         <th>Rotinda da Mesa</th>
-                                        <th>Whats/Email</th>
+                                        <th>Whats/E-mail</th>
                                         <th>Ações</th>
                                     </tr>
                                 </thead>
@@ -497,8 +497,8 @@
                                                 <td class="text-center"><input name="id" hidden value="{{ troca.id }}"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1" {% if troca.rotina == '1' %} checked {% endif %}></td>
                                                 <td>
                                                     <select class="form-control" name="zap_mail" required>
-                                                        <option value="">WhatsApp/Email</option>
-                                                        <option value="Whatsapp" {% if troca.sexo == 'Whatsapp' %} selected {% endif %}>Whatsapp</option>
+                                                        <option value="">WhatsApp/E-mail</option>
+                                                        <option value="WhatsApp" {% if troca.sexo == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
                                                         <option value="Email" {% if troca.sexo == 'Email' %} selected {% endif %}>Email</option>
                                                         <option value="Não Definido" {% if troca.sexo == 'Não Definido' %} selected {% endif %}>Não Definido</option>
                                                     </select>
