@@ -261,7 +261,7 @@
                                 <tbody>
                                 {% for cliente in clientes %}
 
-                                        <tr>
+                                        <tr {% if cliente.status == 'Inativo' %} style="color:#de7373" {% endif %}>
                                             <td>{{ cliente.nickname }}</td>
                                             <td>{{ cliente.nome|lower|capfirst }}</td>
                                             <td>{{ cliente.sexo }}</td>
