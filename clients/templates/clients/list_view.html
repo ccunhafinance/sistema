@@ -209,14 +209,14 @@
                         <li class="nav-item">
                             <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-1" role="tab">
                                 <i class="fal fa-user-check text-success"></i>
-                                <span class="hidden-sm-down ml-1">Perdidos {% if num_clientes_ativos > 0 %} <span class="badge bg-success-300 ml-2">{{ num_clientes_ativos }}</span> {% endif %}</span>
+                                <span class="hidden-sm-down ml-1">Ativos/Inativos {% if num_clientes_ativos > 0 %} <span class="badge bg-success-300 ml-2">{{ num_clientes_ativos }}</span> {% endif %}</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-4" role="tab">
                                 <i class="fal fa-user-times text-danger"></i>
-                                <span class="hidden-sm-down ml-1">Ativos/Inativos {% if n_inativo > 0 %} <span class="badge bg-danger-300 ml-2">{{ n_inativo }}</span> {% endif %}</span>
+                                <span class="hidden-sm-down ml-1">Perdidos {% if n_inativo > 0 %} <span class="badge bg-danger-300 ml-2">{{ n_inativo }}</span> {% endif %}</span>
                             </a>
                         </li>
 
