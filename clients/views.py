@@ -12,8 +12,7 @@ from .resources import ClientesResources
 from django.contrib import messages
 from tablib import Dataset
 from datetime import date
-
-
+import datetime
 
 main_icon = 'ni ni-users'
 
@@ -35,8 +34,8 @@ def update_troca_assessor(request):
     else:
         rotina = '0'
 
-    data_atual = date.today()
-    data_em_texto = data_atual.strftime('%d/%m/%Y')
+    data_atual = datetime.datetime.now()
+    data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
 
     Clientes.objects.filter(id=request.POST['id']).update(
         id=request.POST['id'],
@@ -58,8 +57,8 @@ def update_new_cliente(request):
     else:
         rotina = '0'
 
-    data_atual = date.today()
-    data_em_texto = data_atual.strftime('%d/%m/%Y')
+    data_atual = datetime.datetime.now()
+    data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
 
     Clientes.objects.filter(id=request.POST['id']).update(
         id=request.POST['id'],
@@ -67,7 +66,7 @@ def update_new_cliente(request):
         sexo=request.POST['sexo'],
         email=request.POST['email'],
         telefone=request.POST['telefone'],
-        data_nascimento=request.POST['nascimento'],
+        data_nascimento=request.POST['data_nascimento'],
         rotina=rotina,
         zap_mail=request.POST['zap_mail'],
         status='ok',
@@ -91,8 +90,8 @@ def upload_clientes(request):
 
         clientes = Clientes.objects.all()
 
-        data_atual = date.today()
-        data_em_texto = data_atual.strftime('%d/%m/%Y')
+        data_atual =  datetime.datetime.now()
+        data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
 
         # print (len(clientes))
 
