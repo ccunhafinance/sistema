@@ -27,15 +27,44 @@ def delet_all(request):
 
     return redirect(reverse('clients:clients-list'))
 
+def update_troca_assessor(request):
+    rotina = request.POST.get('rotina', False)
+    zap_mail = request.POST.get('zap_mail', False)
+
+    if rotina != False:
+        rotina = '1'
+    else:
+        rotina = '0'
+
+    if zap_mail != False:
+        zap_mail = '1'
+    else:
+        zap_mail = '0'
+
+    Clientes.objects.filter(id=request.POST['id']).update(
+        id=request.POST['id'],
+        rotina=rotina,
+        zap_mail=zap_mail,
+        status='ok',
+        troca='ok'
+
+    )
+
+    return redirect(reverse('clients:clients-list'))
+
 def update_new_cliente(request):
+    rotina = request.POST.get('rotina', False)
+    zap_mail = request.POST.get('zap_mail', False)
 
-    print(request.POST['id'])
-    print(request.POST['nome'])
-    print(request.POST['sexo'])
-    print(request.POST['email'])
-    print(request.POST['telefone'])
-    print(request.POST['data_nascimento'])
+    if rotina != False:
+        rotina = '1'
+    else:
+        rotina = '0'
 
+    if zap_mail != False:
+        zap_mail = '1'
+    else:
+        zap_mail = '0'
 
     Clientes.objects.filter(id=request.POST['id']).update(
         id=request.POST['id'],
@@ -44,6 +73,8 @@ def update_new_cliente(request):
         email=request.POST['email'],
         telefone=request.POST['telefone'],
         data_nascimento=request.POST['data_nascimento'],
+        rotina=rotina,
+        zap_mail=zap_mail,
         status='ok'
 
     )

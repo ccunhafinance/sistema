@@ -242,11 +242,8 @@
                                         <th>Telefone</th>
                                         <th>Assessor</th>
                                         <th>Nascimento</th>
-                                        <th>Saldo em D0 (hoje)</th>
-                                        <th>Saldo em D1</th>
-                                        <th>Saldo em D3</th>
-                                        <th>Saldo em D4</th>
-                                        <th>Saldo em D4</th>
+                                        <th>Rotinda da Mesa</th>
+                                        <th>Whats-email</th>
 
                                     </tr>
                                 </thead>
@@ -262,11 +259,8 @@
                                         <td>{{ cliente.telefone }}</td>
                                         <td>{{ cliente.assessor }}</td>
                                         <td>{{ cliente.data_nascimento }}</td>
-                                        <td>{{ cliente.d0 }}</td>
-                                        <td>{{ cliente.d1 }}</td>
-                                        <td>{{ cliente.d2 }}</td>
-                                        <td>{{ cliente.d3 }}</td>
-                                        <td>{{ cliente.d4 }}</td>
+                                        <td class="text-center">{% if cliente.rotina == '1' %}<i class="fal fa-check"></i>{% endif %}</td>
+                                        <td class="text-center">{% if cliente.zap_mail == '1' %}<i class="fal fa-check"></i>{% endif %}</td>
                                     </tr>
 
         {#                            {% if cliente.CODIGO_XP_ASSESSOR|to_str == request.user.codigo %}#}
@@ -298,6 +292,8 @@
                                         <th>E-mail</th>
                                         <th>Telefone</th>
                                         <th>Nascimento</th>
+                                        <th>Rotinda da Mesa</th>
+                                        <th>Whats-Email</th>
                                         <th>Açoes</th>
                                     </tr>
                                 </thead>
@@ -313,8 +309,8 @@
                                                 {% csrf_token %}
 
 
-                                                <td>{{ cliente.nickname }} <input  hidden value="{{ cliente.id }}" name="id"></td>
-                                                <td><input type="text" class="form-control" name="nome" value="{{ cliente.nome|split:' '|first|lower|capfirst }}" required></td>
+                                                <td class="text-center"><span style="margin-top: 150px">{{ cliente.nickname }}</span> <input  hidden value="{{ cliente.id }}" name="id"></td>
+                                                <td><input   type="text" class="form-control" name="nome" value="{{ cliente.nome|split:' '|first|lower|capfirst }}" required></td>
                                                 <td>
                                                     <select class="form-control" name="sexo" required>
                                                         <option value="">Definir sexo</option>
@@ -325,6 +321,8 @@
                                                 <td><input type="text" class="form-control" name="email" value="{{ cliente.email }}" required></td>
                                                 <td><input type="text" class="form-control" name="telefone" value="{{ cliente.telefone }}" required></td>
                                                 <td><input type="text" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento }}" required></td>
+                                                <td class="text-center"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1"></td>
+                                                <td class="text-center"><input type="checkbox" style="margin-top: 15px" name="zap_mail" value="1"></td>
                                                 <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
                                             </form>
                                             </tr>
@@ -359,6 +357,8 @@
                                                     <td><input type="text" class="form-control" name="email" value="{{ troca.email }}" required></td>
                                                     <td><input type="text" class="form-control" name="telefone" value="{{ troca.telefone }}" required></td>
                                                     <td><input type="date" class="form-control" name="data_nascimento" value="{{ troca.data_nascimento }}" required></td>
+                                                    <td class="text-center"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1" {% if troca.rotina == '1' %} checked {% endif %}></td>
+                                                    <td class="text-center"><input type="checkbox" style="margin-top: 15px" name="zap_mail" value="1" {% if troca.zap_mail == '1' %} checked {% endif %}></td>
                                                     <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
                                                 </form>
                                                 </tr>
@@ -384,6 +384,9 @@
                                         <th>Assessor</th>
                                         <th>Antigo Assessor</th>
                                         <th>Data</th>
+                                        <th>Rotinda da Mesa</th>
+                                        <th>Whats-Email</th>
+                                        <th>Ações</th>
                                     </tr>
                                 </thead>
 
@@ -396,7 +399,15 @@
                                         <td>{{ troca.sexo }}</td>
                                         <td>{{ troca.assessor }}</td>
                                         <td>{{ troca.antigo_assessor }}</td>
-                                        <td>{{ troca.data_registro }}</td>
+                                        <td>{{ troca.data_registro }} </td>
+                                        <form method="post" action="{% url 'clients:update_troca_assessor' %}">
+                                            {% csrf_token %}
+
+
+                                            <td class="text-center"><input name="id" hidden value="{{ troca.id }}"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1" {% if troca.rotina == '1' %} checked {% endif %}></td>
+                                            <td class="text-center"><input type="checkbox" style="margin-top: 15px" name="zap_mail" value="1" {% if troca.zap_mail == '1' %} checked {% endif %}></td>
+                                            <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
+                                        </form>
                                     </tr>
 
                                 {% endfor %}

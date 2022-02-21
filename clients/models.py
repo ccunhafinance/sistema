@@ -19,6 +19,8 @@ class Clientes(models.Model):
     d4 = models.CharField("Saldo em D4", max_length=100, blank=True, null=True)
     status = models.CharField("Status", max_length=100, blank=True, null=True)
     troca = models.CharField("Troca", max_length=100, blank=True, null=True)
+    rotina = models.CharField("Rotina", max_length=100, blank=True, null=True)
+    zap_mail = models.CharField("Zap", max_length=100, blank=True, null=True)
     data_registro = models.CharField("Data Registro", max_length=100, blank=True, null=True)
 
 
