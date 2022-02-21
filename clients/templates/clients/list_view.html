@@ -294,13 +294,14 @@
                                         <th>Telefone</th>
                                         <th>Assessor</th>
                                         <th>Nascimento</th>
-                                        <th>Rotinda</th>
-                                        <th>Whats-email</th>
+                                        <th>Data</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     {% for cliente in clientes %}
+
+                                        {% if cliente.status != 'Inativo' %}
 
                                         <tr >
                                             <td>{{ cliente.nickname }}</td>
@@ -310,9 +311,9 @@
                                             <td>{{ cliente.telefone }}</td>
                                             <td>{{ cliente.assessor }}</td>
                                             <td>{{ cliente.data_nascimento }}</td>
-                                            <td class="text-center">{% if cliente.rotina == '1' %}<i class="fal fa-check"></i>{% endif %}</td>
-                                            <td class="text-center">{{ cliente.zap_mail|default:"-" }}</td>
+                                            <td>{{ cliente.data_registro }}</td>
                                         </tr>
+                                        {% endif %}
 
                                     {% endfor %}
                                 </tbody>
@@ -347,7 +348,8 @@
                                             <td>{{ cliente.email }}</td>
                                             <td>{{ cliente.telefone }}</td>
                                             <td>{{ cliente.assessor }}</td>
-                                            <td>{{ cliente.data_nascimento|date:'d/m/Y' }}</td>
+                                            <td>{{ cliente.data_nascimento }}</td>
+                                            <td>{{ cliente.data_registro }}</td>
                                         </tr>
 
                                     {% endfor %}
