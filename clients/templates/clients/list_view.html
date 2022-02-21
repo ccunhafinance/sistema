@@ -401,10 +401,9 @@
                                                     <td class="text-center"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1"></td>
                                                     <td>
                                                         <select class="form-control" name="zap_mail" required>
-                                                            <option value="">WhatsApp/Email</option>
+                                                            <option value="Não Definido" {% if troca.zap_mail == 'Não Definido' %} selected {% endif %}>Não Definido</option>
                                                             <option value="WhatsApp" {% if troca.zap_mail == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
                                                             <option value="Email" {% if troca.zap_mail == 'Email' %} selected {% endif %}>Email</option>
-                                                            <option value="Não Definido" {% if troca.zap_mail == 'Não Definido' %} selected {% endif %}>Não Definido</option>
                                                         </select>
                                                     </td>
                                                     <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
@@ -443,10 +442,9 @@
                                                         <td><input type="date" class="form-control" name="data_nascimento" value="{{ troca.data_nascimento }}" required></td>
                                                         <td>
                                                             <select class="form-control" name="zap_mail" required>
-                                                                <option value="">WhatsApp/Email</option>
+                                                                <option value="Não Definido" {% if troca.zap_mail == 'Não Definido' %} selected {% endif %}>Não Definido</option>
                                                                 <option value="WhatsApp" {% if troca.zap_mail == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
                                                                 <option value="Email" {% if troca.zap_mail == 'Email' %} selected {% endif %}>Email</option>
-                                                                <option value="Não Definido" {% if troca.zap_mail == 'Não Definido' %} selected {% endif %}>Não Definido</option>
                                                             </select>
                                                         </td>
                                                         <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
@@ -497,10 +495,9 @@
                                                 <td class="text-center"><input name="id" hidden value="{{ troca.id }}"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1" {% if troca.rotina == '1' %} checked {% endif %}></td>
                                                 <td>
                                                     <select class="form-control" name="zap_mail" required>
-                                                        <option value="">WhatsApp/E-mail</option>
+                                                        <option value="Não Definido" {% if troca.sexo == 'Não Definido' %} selected {% endif %}>Não Definido</option>
                                                         <option value="WhatsApp" {% if troca.sexo == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
                                                         <option value="Email" {% if troca.sexo == 'Email' %} selected {% endif %}>Email</option>
-                                                        <option value="Não Definido" {% if troca.sexo == 'Não Definido' %} selected {% endif %}>Não Definido</option>
                                                     </select>
                                                 </td>
                                                 <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
