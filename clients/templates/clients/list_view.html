@@ -202,28 +202,28 @@
                         <li class="nav-item">
                             <a class="nav-link active fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-0" role="tab">
                                 <i class="fal fa-user-friends"></i>
-                                <span class="hidden-sm-down ml-1">Todos os Clientes {% if n_clientes > 0 %} <span class="badge ml-2">{{ n_clientes }}</span> {% endif %}</span>
+                                <span class="hidden-sm-down ml-1">Todos{% if n_clientes > 0 %} <span class="badge ml-2">{{ n_clientes }}</span> {% endif %}</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-1" role="tab">
                                 <i class="fal fa-user-check text-success"></i>
-                                <span class="hidden-sm-down ml-1">Clientes Ativos {% if num_clientes_ativos > 0 %} <span class="badge bg-success-300 ml-2">{{ num_clientes_ativos }}</span> {% endif %}</span>
+                                <span class="hidden-sm-down ml-1">Perdidos {% if num_clientes_ativos > 0 %} <span class="badge bg-success-300 ml-2">{{ num_clientes_ativos }}</span> {% endif %}</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-4" role="tab">
                                 <i class="fal fa-user-times text-danger"></i>
-                                <span class="hidden-sm-down ml-1">Clientes Inativos {% if n_inativo > 0 %} <span class="badge bg-danger-300 ml-2">{{ n_inativo }}</span> {% endif %}</span>
+                                <span class="hidden-sm-down ml-1">Ativos/Inativos {% if n_inativo > 0 %} <span class="badge bg-danger-300 ml-2">{{ n_inativo }}</span> {% endif %}</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-2" role="tab">
                                 <i class="fal fa-user-plus text-warning"></i>
-                                <span class="hidden-sm-down ml-1">Novos Clientes {% if n_novos_clientes > 0 %} <span class="badge bg-warning-300 ml-2">{{ n_novos_clientes }}</span> {% endif %}</span>
+                                <span class="hidden-sm-down ml-1">Novos  {% if n_novos_clientes > 0 %} <span class="badge bg-warning-300 ml-2">{{ n_novos_clientes }}</span> {% endif %}</span>
                             </a>
                         </li>
 
@@ -261,7 +261,6 @@
                                 <tbody>
                                 {% for cliente in clientes %}
 
-                                    {% if cliente.status != 'Inativo' %}
                                         <tr>
                                             <td>{{ cliente.nickname }}</td>
                                             <td>{{ cliente.nome|lower|capfirst }}</td>
@@ -273,7 +272,6 @@
                                             <td class="text-center">{% if cliente.rotina == '1' %}<i class="fal fa-check"></i>{% endif %}</td>
                                             <td class="text-center">{{ cliente.zap_mail|default:"-" }}</td>
                                         </tr>
-                                    {% endif %}
 
                                 {% endfor %}
                                 </tbody>
@@ -371,7 +369,7 @@
                                         <th>Telefone</th>
                                         <th>Nascimento</th>
                                         <th>Rotinda da Mesa</th>
-                                        <th>Whats-Email</th>
+                                        <th>Whats/Email</th>
                                         <th>Data</th>
                                         <th>Açoes</th>
                                     </tr>

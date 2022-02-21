@@ -35,14 +35,16 @@ def update_troca_assessor(request):
     else:
         rotina = '0'
 
-
+    data_atual = date.today()
+    data_em_texto = data_atual.strftime('%d/%m/%Y')
 
     Clientes.objects.filter(id=request.POST['id']).update(
         id=request.POST['id'],
         rotina=rotina,
         zap_mail=request.POST['zap_mail'],
         status='ok',
-        troca='ok'
+        troca='ok',
+        data_registro=data_em_texto
 
     )
 
@@ -56,7 +58,8 @@ def update_new_cliente(request):
     else:
         rotina = '0'
 
-
+    data_atual = date.today()
+    data_em_texto = data_atual.strftime('%d/%m/%Y')
 
     Clientes.objects.filter(id=request.POST['id']).update(
         id=request.POST['id'],
@@ -67,7 +70,8 @@ def update_new_cliente(request):
         data_nascimento=request.POST['nascimento'],
         rotina=rotina,
         zap_mail=request.POST['zap_mail'],
-        status='ok'
+        status='ok',
+        data_registro=data_em_texto
 
     )
 
@@ -87,6 +91,9 @@ def upload_clientes(request):
 
         clientes = Clientes.objects.all()
 
+        data_atual = date.today()
+        data_em_texto = data_atual.strftime('%d/%m/%Y')
+
         # print (len(clientes))
 
         if len(clientes)==0:
@@ -104,7 +111,8 @@ def upload_clientes(request):
                         email=data[4],
                         telefone=data[5],
                         assessor=data[6],
-                        data_nascimento=data[7]
+                        data_nascimento=data[7],
+                        data_registro=data_em_texto
                     )
                     value.save()
 
@@ -135,7 +143,7 @@ def upload_clientes(request):
             for x in inativos:
                 Clientes.objects.filter(nickname=x).update(
                     status='Inativo',
-                    data_registro=date.today()
+                    data_registro=data_em_texto
                 )
 
             for data in imported_data:
@@ -153,7 +161,7 @@ def upload_clientes(request):
                             d3=data[6],
                             d4=data[7],
                             troca='existe',
-                            data_registro=date.today()
+                            data_registro=data_em_texto
                         )
                     else:
 
@@ -164,7 +172,7 @@ def upload_clientes(request):
                             d2=data[5],
                             d3=data[6],
                             d4=data[7],
-                            data_registro=date.today()
+                            data_registro=data_em_texto
                         )
 
 
@@ -179,7 +187,7 @@ def upload_clientes(request):
                         d3=data[6],
                         d4=data[7],
                         status='Novo',
-                        data_registro=date.today()
+                        data_registro=data_em_texto
                     )
                     value.save()
 
