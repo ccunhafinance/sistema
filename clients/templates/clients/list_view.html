@@ -200,15 +200,30 @@
                 <div class="demo-v-spacing">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-1" role="tab">
-                                <i class="fal fa-user-friends text-info"></i>
-                                <span class="hidden-sm-down ml-1">Todos os Clientes {% if n_clientes > 0 %} <span class="badge bg-info-300 ml-2">{{ n_clientes }}</span> {% endif %}</span>
+                            <a class="nav-link active fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-0" role="tab">
+                                <i class="fal fa-user-friends"></i>
+                                <span class="hidden-sm-down ml-1">Todos os Clientes {% if n_clientes > 0 %} <span class="badge ml-2">{{ n_clientes }}</span> {% endif %}</span>
                             </a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-1" role="tab">
+                                <i class="fal fa-user-check text-success"></i>
+                                <span class="hidden-sm-down ml-1">Clientes Ativos {% if num_clientes_ativos > 0 %} <span class="badge bg-success-300 ml-2">{{ num_clientes_ativos }}</span> {% endif %}</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-4" role="tab">
+                                <i class="fal fa-user-times text-danger"></i>
+                                <span class="hidden-sm-down ml-1">Clientes Inativos {% if n_inativo > 0 %} <span class="badge bg-danger-300 ml-2">{{ n_inativo }}</span> {% endif %}</span>
+                            </a>
+                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-2" role="tab">
-                                <i class="fal fa-user-plus text-success"></i>
-                                <span class="hidden-sm-down ml-1">Novos Clientes {% if n_novos_clientes > 0 %} <span class="badge bg-success-300 ml-2">{{ n_novos_clientes }}</span> {% endif %}</span>
+                                <i class="fal fa-user-plus text-warning"></i>
+                                <span class="hidden-sm-down ml-1">Novos Clientes {% if n_novos_clientes > 0 %} <span class="badge bg-warning-300 ml-2">{{ n_novos_clientes }}</span> {% endif %}</span>
                             </a>
                         </li>
 
@@ -219,18 +234,13 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-4" role="tab">
-                                <i class="fal fa-user-times text-danger"></i>
-                                <span class="hidden-sm-down ml-1">Clientes Inativos {% if n_inativo > 0 %} <span class="badge bg-danger-300 ml-2">{{ n_inativo }}</span> {% endif %}</span>
-                            </a>
-                        </li>
+
                     </ul>
 
                     <div class="tab-content p-3">
 
                         <!-- Todos os clientes -->
-                        <div class="tab-pane fade show active" id="tab_default-1" role="tabpanel">
+                        <div class="tab-pane fade show active" id="tab_default-0" role="tabpanel">
                             <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100 table-sm">
 
                                 <thead>
@@ -242,7 +252,7 @@
                                         <th>Telefone</th>
                                         <th>Assessor</th>
                                         <th>Nascimento</th>
-                                        <th>Rotinda da Mesa</th>
+                                        <th>Rotinda</th>
                                         <th>Whats-email</th>
 
                                     </tr>
@@ -251,30 +261,96 @@
                                 <tbody>
                                 {% for cliente in clientes %}
 
-                                    <tr >
-                                        <td>{{ cliente.nickname }}</td>
-                                        <td>{{ cliente.nome|lower|capfirst }}</td>
-                                        <td>{{ cliente.sexo }}</td>
-                                        <td>{{ cliente.email }}</td>
-                                        <td>{{ cliente.telefone }}</td>
-                                        <td>{{ cliente.assessor }}</td>
-                                        <td>{{ cliente.data_nascimento }}</td>
-                                        <td class="text-center">{% if cliente.rotina == '1' %}<i class="fal fa-check"></i>{% endif %}</td>
-                                        <td class="text-center">{% if cliente.zap_mail == '1' %}<i class="fal fa-check"></i>{% endif %}</td>
-                                    </tr>
-
-        {#                            {% if cliente.CODIGO_XP_ASSESSOR|to_str == request.user.codigo %}#}
-        {#                            <tr>#}
-        {#                                <td>{{ cliente.CODIGO_XP_CLIENTE }}</td>#}
-        {#                                <td>{{ cliente.NOME_CLIENTE }}</td>#}
-        {#                                <td><a href="" style="color:#1ab34e">+55 (32) 9 9181-8998</a></td>#}
-        {#                                <td><a href="mail-to:{{ cliente.EMAIL_CLIENTE }}">{{ cliente.EMAIL_CLIENTE }}</a></td>#}
-        {#                            </tr>#}
-        {#                            {% endif %}#}
-
-
+                                    {% if cliente.status != 'Inativo' %}
+                                        <tr>
+                                            <td>{{ cliente.nickname }}</td>
+                                            <td>{{ cliente.nome|lower|capfirst }}</td>
+                                            <td>{{ cliente.sexo }}</td>
+                                            <td>{{ cliente.email }}</td>
+                                            <td>{{ cliente.telefone }}</td>
+                                            <td>{{ cliente.assessor }}</td>
+                                            <td>{{ cliente.data_nascimento }}</td>
+                                            <td class="text-center">{% if cliente.rotina == '1' %}<i class="fal fa-check"></i>{% endif %}</td>
+                                            <td class="text-center">{{ cliente.zap_mail|default:"-" }}</td>
+                                        </tr>
+                                    {% endif %}
 
                                 {% endfor %}
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                        <!-- Clientes Ativos -->
+                        <div class="tab-pane fade show" id="tab_default-1" role="tabpanel">
+                            <table id="dt-basic-example1" class="table table-bordered table-hover table-striped w-100 table-sm">
+
+                                <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Nome</th>
+                                        <th>Sexo</th>
+                                        <th>E-mail</th>
+                                        <th>Telefone</th>
+                                        <th>Assessor</th>
+                                        <th>Nascimento</th>
+                                        <th>Rotinda</th>
+                                        <th>Whats-email</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for cliente in clientes %}
+
+                                        <tr >
+                                            <td>{{ cliente.nickname }}</td>
+                                            <td>{{ cliente.nome|lower|capfirst }}</td>
+                                            <td>{{ cliente.sexo }}</td>
+                                            <td>{{ cliente.email }}</td>
+                                            <td>{{ cliente.telefone }}</td>
+                                            <td>{{ cliente.assessor }}</td>
+                                            <td>{{ cliente.data_nascimento }}</td>
+                                            <td class="text-center">{% if cliente.rotina == '1' %}<i class="fal fa-check"></i>{% endif %}</td>
+                                            <td class="text-center">{{ cliente.zap_mail|default:"-" }}</td>
+                                        </tr>
+
+                                    {% endfor %}
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                        <!-- Clientes Inativos -->
+                        <div class="tab-pane fade" id="tab_default-4" role="tabpanel">
+                            <table id="dt-basic-example4" class="table table-bordered table-hover table-striped w-100 table-sm">
+
+                                <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Nome</th>
+                                        <th>Sexo</th>
+                                        <th>E-mail</th>
+                                        <th>Telefone</th>
+                                        <th>Assessor</th>
+                                        <th>Nascimento</th>
+                                        <th>Data</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for cliente in inativo %}
+
+                                        <tr>
+                                            <td>{{ cliente.nickname }}</td>
+                                            <td>{{ cliente.nome|lower|capfirst }}</td>
+                                            <td>{{ cliente.sexo }}</td>
+                                            <td>{{ cliente.email }}</td>
+                                            <td>{{ cliente.telefone }}</td>
+                                            <td>{{ cliente.assessor }}</td>
+                                            <td>{{ cliente.data_nascimento|date:'d/m/Y' }}</td>
+                                        </tr>
+
+                                    {% endfor %}
                                 </tbody>
 
                             </table>
@@ -294,79 +370,91 @@
                                         <th>Nascimento</th>
                                         <th>Rotinda da Mesa</th>
                                         <th>Whats-Email</th>
+                                        <th>Data</th>
                                         <th>Açoes</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
 
-                                {% for cliente in clientes %}
+                                    {% for cliente in clientes %}
 
-                                    {% if cliente.status == 'Novo' %}
-
-                                            <tr>
-                                            <form method="post" action="{% url 'clients:update_cliente_novo' %}">
-                                                {% csrf_token %}
-
-
-                                                <td class="text-center"><span style="margin-top: 150px">{{ cliente.nickname }}</span> <input  hidden value="{{ cliente.id }}" name="id"></td>
-                                                <td><input   type="text" class="form-control" name="nome" value="{{ cliente.nome|split:' '|first|lower|capfirst }}" required></td>
-                                                <td>
-                                                    <select class="form-control" name="sexo" required>
-                                                        <option value="">Definir sexo</option>
-                                                        <option value="M" {% if cliente.sexo == 'M' %} selected {% endif %}>M</option>
-                                                        <option value="F" {% if cliente.sexo == 'F' %} selected {% endif %}>F</option>
-                                                    </select>
-                                                </td>
-                                                <td><input type="text" class="form-control" name="email" value="{{ cliente.email }}" required></td>
-                                                <td><input type="text" class="form-control" name="telefone" value="{{ cliente.telefone }}" required></td>
-                                                <td><input type="text" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento }}" required></td>
-                                                <td class="text-center"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1"></td>
-                                                <td class="text-center"><input type="checkbox" style="margin-top: 15px" name="zap_mail" value="1"></td>
-                                                <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
-                                            </form>
-                                            </tr>
-
-
-
-
-                                    {% endif %}
-
-                                {% endfor %}
-
-                                {% for troca in troca_assessor %}
-                                    {{ troca.status }}
-
-                                        {% if troca.assessor == request.user.codigo and troca.status == None %}
-                                            <tr>
-                                                <td colspan="7" style="font-weight: bold" class="text-success text-center">Troca de Asessor <i class="fal fa-arrow-down"></i></td>
-                                            </tr>
+                                        {% if cliente.status == 'Novo' %}
 
                                                 <tr>
                                                 <form method="post" action="{% url 'clients:update_cliente_novo' %}">
-                                                {% csrf_token %}
-                                                    <td>{{ troca.nickname }} <input hidden value="{{ troca.id }}" name="id"></td>
-                                                    <td><input type="text" class="form-control" name="nome" value="{{ troca.nome|split:' '|first|lower|capfirst }}" required></td>
+                                                    {% csrf_token %}
+
+
+                                                    <td class="text-center"><span style="margin-top: 150px">{{ cliente.nickname }}</span> <input  hidden value="{{ cliente.id }}" name="id"></td>
+                                                    <td><input   type="text" class="form-control" name="nome" value="{{ cliente.nome|split:' '|first|lower|capfirst }}" required></td>
                                                     <td>
                                                         <select class="form-control" name="sexo" required>
                                                             <option value="">Definir sexo</option>
-                                                            <option value="M" {% if troca.sexo == 'M' %} selected {% endif %}>M</option>
-                                                            <option value="F" {% if troca.sexo == 'F' %} selected {% endif %}>F</option>
+                                                            <option value="M" {% if cliente.sexo == 'M' %} selected {% endif %}>M</option>
+                                                            <option value="F" {% if cliente.sexo == 'F' %} selected {% endif %}>F</option>
                                                         </select>
                                                     </td>
-                                                    <td><input type="text" class="form-control" name="email" value="{{ troca.email }}" required></td>
-                                                    <td><input type="text" class="form-control" name="telefone" value="{{ troca.telefone }}" required></td>
-                                                    <td><input type="date" class="form-control" name="data_nascimento" value="{{ troca.data_nascimento }}" required></td>
-                                                    <td class="text-center"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1" {% if troca.rotina == '1' %} checked {% endif %}></td>
-                                                    <td class="text-center"><input type="checkbox" style="margin-top: 15px" name="zap_mail" value="1" {% if troca.zap_mail == '1' %} checked {% endif %}></td>
+                                                    <td><input type="text" class="form-control" name="email" value="{{ cliente.email }}" required></td>
+                                                    <td><input type="text" class="form-control" name="telefone" value="{{ cliente.telefone }}" required></td>
+                                                    <td><input type="text" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento }}" required></td>
+                                                    <td class="text-center"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1"></td>
+                                                    <td>
+                                                        <select class="form-control" name="zap_mail" required>
+                                                            <option value="">Whatsapp ou Email</option>
+                                                            <option value="Whatsapp" {% if troca.zap_mail == 'Whatsapp' %} selected {% endif %}>Whatsapp</option>
+                                                            <option value="Email" {% if troca.zap_mail == 'Email' %} selected {% endif %}>Email</option>
+                                                        </select>
+                                                    </td>
                                                     <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
                                                 </form>
                                                 </tr>
 
 
+
+
                                         {% endif %}
 
                                     {% endfor %}
+
+                                    {% for troca in troca_assessor %}
+                                        {{ troca.status }}
+
+                                            {% if troca.assessor == request.user.codigo and troca.status == None %}
+                                                <tr>
+                                                    <td colspan="7" style="font-weight: bold" class="text-success text-center">Troca de Asessor <i class="fal fa-arrow-down"></i></td>
+                                                </tr>
+
+                                                    <tr>
+                                                    <form method="post" action="{% url 'clients:update_cliente_novo' %}">
+                                                    {% csrf_token %}
+                                                        <td>{{ troca.nickname }} <input hidden value="{{ troca.id }}" name="id"></td>
+                                                        <td><input type="text" class="form-control" name="nome" value="{{ troca.nome|split:' '|first|lower|capfirst }}" required></td>
+                                                        <td>
+                                                            <select class="form-control" name="sexo" required>
+                                                                <option value="">Definir sexo</option>
+                                                                <option value="M" {% if troca.sexo == 'M' %} selected {% endif %}>M</option>
+                                                                <option value="F" {% if troca.sexo == 'F' %} selected {% endif %}>F</option>
+                                                            </select>
+                                                        </td>
+                                                        <td><input type="text" class="form-control" name="email" value="{{ troca.email }}" required></td>
+                                                        <td><input type="text" class="form-control" name="telefone" value="{{ troca.telefone }}" required></td>
+                                                        <td><input type="date" class="form-control" name="data_nascimento" value="{{ troca.data_nascimento }}" required></td>
+                                                        <td>
+                                                            <select class="form-control" name="zap_mail" required>
+                                                                <option value="">Whatsapp ou Email</option>
+                                                                <option value="Whatsapp" {% if troca.zap_mail == 'Whatsapp' %} selected {% endif %}>Whatsapp</option>
+                                                                <option value="Email" {% if troca.zap_mail == 'Email' %} selected {% endif %}>Email</option>
+                                                            </select>
+                                                        </td>
+                                                        <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
+                                                    </form>
+                                                    </tr>
+
+
+                                            {% endif %}
+
+                                        {% endfor %}
                                 </tbody>
 
                             </table>
@@ -391,67 +479,37 @@
                                 </thead>
 
                                 <tbody>
-                                {% for troca in troca_assessor %}
+                                    {% for troca in troca_assessor %}
 
-                                    <tr>
-                                        <td>{{ troca.nickname }}</td>
-                                        <td>{{ troca.nome|lower|capfirst }}</td>
-                                        <td>{{ troca.sexo }}</td>
-                                        <td>{{ troca.assessor }}</td>
-                                        <td>{{ troca.antigo_assessor }}</td>
-                                        <td>{{ troca.data_registro }} </td>
-                                        <form method="post" action="{% url 'clients:update_troca_assessor' %}">
-                                            {% csrf_token %}
+                                        <tr>
+                                            <td>{{ troca.nickname }}</td>
+                                            <td>{{ troca.nome|lower|capfirst }}</td>
+                                            <td>{{ troca.sexo }}</td>
+                                            <td>{{ troca.assessor }}</td>
+                                            <td>{{ troca.antigo_assessor }}</td>
+                                            <td>{{ troca.data_registro }} </td>
+                                            <form method="post" action="{% url 'clients:update_troca_assessor' %}">
+                                                {% csrf_token %}
 
 
-                                            <td class="text-center"><input name="id" hidden value="{{ troca.id }}"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1" {% if troca.rotina == '1' %} checked {% endif %}></td>
-                                            <td class="text-center"><input type="checkbox" style="margin-top: 15px" name="zap_mail" value="1" {% if troca.zap_mail == '1' %} checked {% endif %}></td>
-                                            <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
-                                        </form>
-                                    </tr>
+                                                <td class="text-center"><input name="id" hidden value="{{ troca.id }}"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1" {% if troca.rotina == '1' %} checked {% endif %}></td>
+                                                <td>
+                                                    <select class="form-control" name="zap_mail" required>
+                                                        <option value="">Whatsapp ou Email</option>
+                                                        <option value="Whatsapp" {% if troca.sexo == 'Whatsapp' %} selected {% endif %}>Whatsapp</option>
+                                                        <option value="Email" {% if troca.sexo == 'Email' %} selected {% endif %}>Email</option>
+                                                    </select>
+                                                </td>
+                                                <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
+                                            </form>
+                                        </tr>
 
-                                {% endfor %}
+                                    {% endfor %}
                                 </tbody>
 
                             </table>
                         </div>
 
-                        <!-- Clientes Inativos -->
-                        <div class="tab-pane fade" id="tab_default-4" role="tabpanel">
-                            <table id="dt-basic-example4" class="table table-bordered table-hover table-striped w-100 table-sm">
-
-                                <thead>
-                                    <tr>
-                                        <th>Código</th>
-                                        <th>Nome</th>
-                                        <th>Sexo</th>
-                                        <th>E-mail</th>
-                                        <th>Telefone</th>
-                                        <th>Assessor</th>
-                                        <th>Nascimento</th>
-
-
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                {% for cliente in inativo %}
-
-                                    <tr>
-                                        <td>{{ cliente.nickname }}</td>
-                                        <td>{{ cliente.nome|lower|capfirst }}</td>
-                                        <td>{{ cliente.sexo }}</td>
-                                        <td>{{ cliente.email }}</td>
-                                        <td>{{ cliente.telefone }}</td>
-                                        <td>{{ cliente.assessor }}</td>
-                                        <td>{{ cliente.data_nascimento|date:'d/m/Y' }}</td>
-                                    </tr>
-
-                                {% endfor %}
-                                </tbody>
-
-                            </table>
-                        </div>
                     </div>
 
                 </div>

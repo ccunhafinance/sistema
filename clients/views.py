@@ -29,22 +29,18 @@ def delet_all(request):
 
 def update_troca_assessor(request):
     rotina = request.POST.get('rotina', False)
-    zap_mail = request.POST.get('zap_mail', False)
 
     if rotina != False:
         rotina = '1'
     else:
         rotina = '0'
 
-    if zap_mail != False:
-        zap_mail = '1'
-    else:
-        zap_mail = '0'
+
 
     Clientes.objects.filter(id=request.POST['id']).update(
         id=request.POST['id'],
         rotina=rotina,
-        zap_mail=zap_mail,
+        zap_mail=request.POST['zap_mail'],
         status='ok',
         troca='ok'
 
@@ -54,17 +50,13 @@ def update_troca_assessor(request):
 
 def update_new_cliente(request):
     rotina = request.POST.get('rotina', False)
-    zap_mail = request.POST.get('zap_mail', False)
 
     if rotina != False:
         rotina = '1'
     else:
         rotina = '0'
 
-    if zap_mail != False:
-        zap_mail = '1'
-    else:
-        zap_mail = '0'
+
 
     Clientes.objects.filter(id=request.POST['id']).update(
         id=request.POST['id'],
@@ -72,9 +64,9 @@ def update_new_cliente(request):
         sexo=request.POST['sexo'],
         email=request.POST['email'],
         telefone=request.POST['telefone'],
-        data_nascimento=request.POST['data_nascimento'],
+        data_nascimento=request.POST['nascimento'],
         rotina=rotina,
-        zap_mail=zap_mail,
+        zap_mail=request.POST['zap_mail'],
         status='ok'
 
     )
@@ -216,6 +208,8 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
 
         i = Clientes.objects.filter(troca='existe')
 
+        num_clientes_ativos = int(len(clientes)) - int(len(inativo))
+
         troca = len(i)
 
         context = {
@@ -227,6 +221,7 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
             'n_novos_clientes': n_novos_clientes,
             'n_troca_assessor': troca,
             'troca_assessor': i,
+            'num_clientes_ativos': num_clientes_ativos,
             # Crumbs First Page Config
             'first_page_name': 'Clientes',
             'first_page_link': '',

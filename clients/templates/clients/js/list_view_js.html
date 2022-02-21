@@ -411,6 +411,16 @@
             {#"columns": [null,{ "orderSequence": [ "asc" ] },]#}
         });
 
+        $('#dt-basic-example1').dataTable(
+        {
+            responsive: true,
+            pageLength: 50,
+            order: [
+                [1, 'asc']
+            ],
+            {#"columns": [null,{ "orderSequence": [ "asc" ] },]#}
+        });
+
         $('#dt-basic-example2').dataTable(
         {
             responsive: true,
