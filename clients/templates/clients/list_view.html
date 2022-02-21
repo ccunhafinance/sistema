@@ -368,7 +368,7 @@
                                         <th>E-mail</th>
                                         <th>Telefone</th>
                                         <th>Nascimento</th>
-                                        <th>Rotinda da Mesa</th>
+                                        <th>Rotinda</th>
                                         <th>Whats/E-mail</th>
                                         <th>Data</th>
                                         <th>Açoes</th>
@@ -401,11 +401,12 @@
                                                     <td class="text-center"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1"></td>
                                                     <td>
                                                         <select class="form-control" name="zap_mail" required>
-                                                            <option value="Não Definido" {% if troca.zap_mail == 'Não Definido' %} selected {% endif %}>Não Definido</option>
-                                                            <option value="WhatsApp" {% if troca.zap_mail == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
-                                                            <option value="Email" {% if troca.zap_mail == 'Email' %} selected {% endif %}>Email</option>
+                                                            <option value="Não Definido" {% if cliente.zap_mail == 'Não Definido' %} selected {% endif %}>Não Definido</option>
+                                                            <option value="WhatsApp" {% if cliente.zap_mail == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
+                                                            <option value="Email" {% if cliente.zap_mail == 'Email' %} selected {% endif %}>Email</option>
                                                         </select>
                                                     </td>
+                                                    <td>{{ cliente.data_registro }}</td>
                                                     <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
                                                 </form>
                                                 </tr>
@@ -471,9 +472,9 @@
                                         <th>Sexo</th>
                                         <th>Assessor</th>
                                         <th>Antigo Assessor</th>
-                                        <th>Data</th>
-                                        <th>Rotinda da Mesa</th>
+                                        <th>Rotinda</th>
                                         <th>Whats/E-mail</th>
+                                        <th>Data</th>
                                         <th>Ações</th>
                                     </tr>
                                 </thead>
@@ -487,7 +488,7 @@
                                             <td>{{ troca.sexo }}</td>
                                             <td>{{ troca.assessor }}</td>
                                             <td>{{ troca.antigo_assessor }}</td>
-                                            <td>{{ troca.data_registro }} </td>
+
                                             <form method="post" action="{% url 'clients:update_troca_assessor' %}">
                                                 {% csrf_token %}
 
@@ -500,6 +501,7 @@
                                                         <option value="Email" {% if troca.sexo == 'Email' %} selected {% endif %}>Email</option>
                                                     </select>
                                                 </td>
+                                            <td>{{ troca.data_registro }} </td>
                                                 <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
                                             </form>
                                         </tr>
