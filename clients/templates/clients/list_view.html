@@ -483,43 +483,97 @@
                                         <th>Código</th>
                                         <th>Nome</th>
                                         <th>Sexo</th>
-                                        <th>Assessor</th>
-                                        <th>Antigo Assessor</th>
+                                        <th>E-mail</th>
+                                        <th>Telefone</th>
+                                        <th>Nascimento</th>
                                         <th>Rotina</th>
                                         <th>Whats/E-mail</th>
                                         <th>Data</th>
-                                        <th>Ações</th>
+                                        <th>Açoes</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    {% for troca in troca_assessor %}
 
-                                        <tr>
-                                            <td>{{ troca.nickname }}</td>
-                                            <td>{{ troca.nome|lower|capfirst }}</td>
-                                            <td>{{ troca.sexo }}</td>
-                                            <td>{{ troca.assessor }}</td>
-                                            <td>{{ troca.antigo_assessor }}</td>
+                                    {% for cliente in clientes %}
 
-                                            <form method="post" action="{% url 'clients:update_troca_assessor' %}">
-                                                {% csrf_token %}
+                                        {% if cliente.status == 'Novo' %}
+
+                                                <tr>
+                                                <form method="post" action="{% url 'clients:update_cliente_novo' %}">
+                                                    {% csrf_token %}
 
 
-                                                <td class="text-center"><input name="id" hidden value="{{ troca.id }}"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1" {% if troca.rotina == '1' %} checked {% endif %}></td>
-                                                <td>
-                                                    <select class="form-control" name="zap_mail" required>
-                                                        <option value="Não Definido" {% if troca.sexo == 'Não Definido' %} selected {% endif %}>Não Definido</option>
-                                                        <option value="WhatsApp" {% if troca.sexo == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
-                                                        <option value="Email" {% if troca.sexo == 'Email' %} selected {% endif %}>Email</option>
-                                                    </select>
-                                                </td>
-                                            <td>{{ troca.data_registro }} </td>
-                                                <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
-                                            </form>
-                                        </tr>
+                                                    <td class="text-center"><span style="margin-top: 150px">{{ cliente.nickname }}</span> <input  hidden value="{{ cliente.id }}" name="id"></td>
+                                                    <td><input   type="text" class="form-control" name="nome" value="{{ cliente.nome|split:' '|first|lower|capfirst }}" required></td>
+                                                    <td>
+                                                        <select class="form-control" name="sexo" required>
+                                                            <option value="">Definir sexo</option>
+                                                            <option value="M" {% if cliente.sexo == 'M' %} selected {% endif %}>M</option>
+                                                            <option value="F" {% if cliente.sexo == 'F' %} selected {% endif %}>F</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><input type="text" class="form-control" name="email" value="{{ cliente.email }}" required></td>
+                                                    <td><input type="text" class="form-control" name="telefone" value="{{ cliente.telefone }}" required></td>
+                                                    <td><input type="text" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento }}" required></td>
+                                                    <td class="text-center"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1"></td>
+                                                    <td>
+                                                        <select class="form-control" name="zap_mail" required>
+                                                            <option value="Não Definido" {% if cliente.zap_mail == 'Não Definido' %} selected {% endif %}>Não Definido</option>
+                                                            <option value="WhatsApp" {% if cliente.zap_mail == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
+                                                            <option value="Email" {% if cliente.zap_mail == 'Email' %} selected {% endif %}>Email</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>{{ cliente.data_registro }}</td>
+                                                    <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
+                                                </form>
+                                                </tr>
+
+
+
+
+                                        {% endif %}
 
                                     {% endfor %}
+
+                                    {% for troca in troca_assessor %}
+                                        {{ troca.status }}
+
+                                            {% if troca.assessor == request.user.codigo and troca.status == None %}
+                                                <tr>
+                                                    <td colspan="7" style="font-weight: bold" class="text-success text-center">Troca de Asessor <i class="fal fa-arrow-down"></i></td>
+                                                </tr>
+
+                                                    <tr>
+                                                    <form method="post" action="{% url 'clients:update_cliente_novo' %}">
+                                                    {% csrf_token %}
+                                                        <td>{{ troca.nickname }} <input hidden value="{{ troca.id }}" name="id"></td>
+                                                        <td><input type="text" class="form-control" name="nome" value="{{ troca.nome|split:' '|first|lower|capfirst }}" required></td>
+                                                        <td>
+                                                            <select class="form-control" name="sexo" required>
+                                                                <option value="">Definir sexo</option>
+                                                                <option value="M" {% if troca.sexo == 'M' %} selected {% endif %}>M</option>
+                                                                <option value="F" {% if troca.sexo == 'F' %} selected {% endif %}>F</option>
+                                                            </select>
+                                                        </td>
+                                                        <td><input type="text" class="form-control" name="email" value="{{ troca.email }}" required></td>
+                                                        <td><input type="text" class="form-control" name="telefone" value="{{ troca.telefone }}" required></td>
+                                                        <td><input type="date" class="form-control" name="data_nascimento" value="{{ troca.data_nascimento }}" required></td>
+                                                        <td>
+                                                            <select class="form-control" name="zap_mail" required>
+                                                                <option value="Não Definido" {% if troca.zap_mail == 'Não Definido' %} selected {% endif %}>Não Definido</option>
+                                                                <option value="WhatsApp" {% if troca.zap_mail == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
+                                                                <option value="Email" {% if troca.zap_mail == 'Email' %} selected {% endif %}>Email</option>
+                                                            </select>
+                                                        </td>
+                                                        <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
+                                                    </form>
+                                                    </tr>
+
+
+                                            {% endif %}
+
+                                        {% endfor %}
                                 </tbody>
 
                             </table>
