@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from clients.models import Espelhamento
-from users.models import CustomUser
+from users.models import CustomUser, UserProfile
 
 from .models import Clientes
 from .resources import ClientesResources
@@ -15,6 +15,16 @@ from datetime import date
 import datetime
 
 main_icon = 'ni ni-users'
+
+
+def google_sheets(request):
+    UserProfile.objects.filter(id=request.POST['id']).update(
+        id=request.POST['id'],
+        google_sheets=request.POST['google_sheets']
+    )
+
+    return redirect(reverse('clients:clients-list'))
+
 
 def delet_all(request):
     clientes = Clientes.objects.all()
@@ -43,6 +53,7 @@ def update_troca_assessor(request):
         zap_mail=request.POST['zap_mail'],
         status='ok',
         troca='ok',
+        cliente_dia='sim',
         data_registro=data_em_texto
 
     )
@@ -70,6 +81,7 @@ def update_new_cliente(request):
         rotina=rotina,
         zap_mail=request.POST['zap_mail'],
         status='ok',
+        cliente_dia='sim',
         data_registro=data_em_texto
 
     )
@@ -147,6 +159,9 @@ def upload_clientes(request):
 
             for data in imported_data:
 
+
+
+
                 if len(Clientes.objects.filter(nickname=data[0])) == 1:
 
                     if str(Clientes.objects.filter(nickname=data[0])[0].assessor) != str(data[2]):
@@ -206,10 +221,26 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
 
         # load Clients from DB
 
+        # print(self.request.user.id)
+
+        assessores = CustomUser.objects.all()
+
+        f = ''
+        for assessor in assessores:
+            if assessor.id == self.request.user.id:
+                f = assessor.codigo
+
+
+
+
+        print(f)
+
         clientes = Clientes.objects.all()
         n_clientes = len(clientes)
         novos_clientes = Clientes.objects.filter(status='Novo')
         inativo = Clientes.objects.filter(status='Inativo')
+        google = Clientes.objects.filter(cliente_dia='sim', assessor=f)
+        n_contatos = len(Clientes.objects.filter(cliente_dia='sim', assessor=f))
         n_inativo = len(inativo)
         n_novos_clientes = len(novos_clientes)
 
@@ -228,6 +259,8 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
             'n_novos_clientes': n_novos_clientes,
             'n_troca_assessor': troca,
             'troca_assessor': i,
+            'contatos': google,
+            'n_contatos': n_contatos,
             'num_clientes_ativos': num_clientes_ativos,
             # Crumbs First Page Config
             'first_page_name': 'Clientes',

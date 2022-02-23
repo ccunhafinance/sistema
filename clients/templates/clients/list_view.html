@@ -34,7 +34,7 @@
     <br>
 
 
-
+<div id="copiado"></div>
 {% endblock %}
 <!-- END page Subheader -->
 
@@ -233,6 +233,19 @@
                                 <span class="hidden-sm-down ml-1">Troca de Assessor {% if n_troca_assessor > 0 %} <span class="badge bg-primary-300 ml-2">{{ n_troca_assessor }}</span> {% endif %}</span>
                             </a>
                         </li>
+
+                        {% if n_contatos > 0 %}
+
+                            <li class="nav-item">
+                                <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-5" role="tab">
+                                    <i class="fal fa-handshake text-primary"></i>
+                                    <span class="hidden-sm-down ml-1">Contatos Google  <span class="badge bg-primary-300 ml-2">{{ n_contatos }}</span> </span>
+                                </a>
+                            </li>
+
+                        {% endif %}
+
+
 
 
                     </ul>
@@ -512,6 +525,94 @@
                             </table>
                         </div>
 
+                        {% if n_contatos > 0 %}
+
+                            <!-- Contatos google -->
+                            <div class="tab-pane fade" id="tab_default-5" role="tabpanel">
+
+                                {% if request.user.id|url_google_sheets == None %}
+                                    <button style="margin-bottom: 20px" type="button" class="btn btn-warning" data-toggle="modal" data-target="#default-example-modal-center">Cadastre o link do google Sheets para transferir seus contatos!</button>
+
+                                    <div class="modal fade" id="default-example-modal-center" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">
+                                                        Google Sheets
+                                                        <small class="m-0 text-muted">
+                                                            Cadastrar Link
+                                                        </small>
+                                                    </h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                                                    </button>
+                                                </div>
+                                                <form method="post" action="{% url 'clients:url_google_sheets' %}">
+                                                    {% csrf_token %}
+                                                    <input hidden name="id" value="{{ request.user.id }}">
+
+                                                    <div class="modal-body">
+
+                                                        <img src="{% static 'img/google-sheets.png' %}" class="img-fluid">
+
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group">
+                                                            <label class="form-label">Insira sua url abaixo.</label>
+                                                            <div class="input-group input-group-lg bg-white shadow-inset-2">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text bg-transparent border-right-0 py-1 px-3">
+                                                                        <span class="icon-stack fs-xxl">
+                                                                            <i class="base-7 icon-stack-3x color-primary-500"></i>
+                                                                            <i class="fal fa-link icon-stack-1x text-white"></i>
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+                                                                <input type="url" class="form-control border-left-0 bg-transparent pl-0" placeholder="https://docs.google.com/spreadsheets/......"  name="google_sheets">
+                                                            </div>
+                                                        </div>
+
+
+
+
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                                                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                {% else %}
+                                    <a style="color:#fff; margin-bottom: 20px" data-clipboard-target=".foo" onclick="copiei(), liberaBtnEnviarEAssunto()" href="{{ request.user.id|url_google_sheets }}" target="_blank" class="btn btn-sm btn-success pull-right bt-copy" >Transferir Contatos</a>
+                                {% endif %}
+
+                                <table id="dt-basic-example3" class="table table-bordered table-hover table-striped w-100 table-sm foo">
+
+
+
+                                    <tbody id="">
+                                        {% for contato in contatos %}
+
+                                            <tr>
+                                                <td>{{ contato.nome|split:' '|first|lower|capfirst }}/{{ contato.nome|split:' '|last|lower|capfirst }}/{{ contato.nickname }}</td>
+                                                <td>{{ contato.telefone }}</td>
+                                            </tr>
+
+                                        {% endfor %}
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        {% endif %}
+
                     </div>
 
                 </div>
@@ -522,6 +623,18 @@
         </div>
     </div>
 </div>
+
+
+    <textarea hidden id="foo">
+    {% for contato in contatos %}
+
+        <tr>
+            <td>{{ contato.nome|split:' '|first|lower|capfirst }}/{{ contato.nome|split:' '|last|lower|capfirst }}/{{ contato.nickname }}</td>
+            <td>{{ contato.telefone }}</td>
+        </tr>
+
+    {% endfor %}
+    </textarea>
 
 
 

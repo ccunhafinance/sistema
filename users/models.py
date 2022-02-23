@@ -110,6 +110,8 @@ class Admin(CustomUser):
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
     image = models.ImageField(default='profile/default_profile.jpg', upload_to='profile')
+    google_sheets = models.CharField("Telefone", max_length=25, blank=True, null=True)
+
 
 
     def __str__(self):

@@ -1,7 +1,21 @@
 {% load static %}
 <script src="{% static 'js/datagrid/datatables/datatables.bundle.js' %}"></script>
 <script src="{% static 'js/notifications/sweetalert2/sweetalert2.bundle.js' %}"></script>
+<!-- Clipboard -->
+<script src="{% static 'js/clipboard/clipboard.min.js' %}"></script>
 <script>
+
+$(document).ready(function (){
+
+               new Clipboard('.bt-copy');
+
+           });
+
+function copiei() {
+
+              $('#copiado').html('<span class="badge badge-success" style="float:right">Corpo do email copiado</span>').delay(2000).fadeOut('slow');
+
+           }
 
     $(document).ready(function()
             {

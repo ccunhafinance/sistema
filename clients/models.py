@@ -21,6 +21,7 @@ class Clientes(models.Model):
     troca = models.CharField("Troca", max_length=100, blank=True, null=True)
     rotina = models.CharField("Rotina", max_length=100, blank=True, null=True)
     zap_mail = models.CharField("Zap", max_length=100, blank=True, null=True)
+    cliente_dia = models.CharField("New", max_length=100, blank=True, null=True)
     data_registro = models.CharField("Data Registro", max_length=100, blank=True, null=True)
 
 

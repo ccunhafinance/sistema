@@ -131,6 +131,12 @@ def user_image(value):
     return image.image
 
 @register.filter
+def url_google_sheets(value):
+    image = UserProfile.objects.get(id=value)
+
+    return image.google_sheets
+
+@register.filter
 def user_check_pass(value):
     has = UserProfile.objects.get(id=value)
 
