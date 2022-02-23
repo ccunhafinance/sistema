@@ -235,16 +235,16 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
 
         print(f)
 
-        clientes = Clientes.objects.all()
+        clientes = Clientes.objects.filter(assessor=f)
         n_clientes = len(clientes)
-        novos_clientes = Clientes.objects.filter(status='Novo')
-        inativo = Clientes.objects.filter(status='Inativo')
+        novos_clientes = Clientes.objects.filter(status='Novo',assessor=f)
+        inativo = Clientes.objects.filter(status='Inativo',assessor=f)
         google = Clientes.objects.filter(cliente_dia='sim', assessor=f)
         n_contatos = len(Clientes.objects.filter(cliente_dia='sim', assessor=f))
         n_inativo = len(inativo)
         n_novos_clientes = len(novos_clientes)
 
-        i = Clientes.objects.filter(troca='existe')
+        i = Clientes.objects.filter(troca='existe',assessor=f)
 
         num_clientes_ativos = int(len(clientes)) - int(len(inativo))
 
