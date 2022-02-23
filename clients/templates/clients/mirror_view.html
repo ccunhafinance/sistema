@@ -28,6 +28,7 @@
                     <h2>
                         Formulário de Espelhamento <span class="fw-300"><i></i></span>
                     </h2>
+
                     <div class="panel-toolbar" style="margin-right: 25px">
 
                     </div>
@@ -58,14 +59,21 @@
         </div>
             <div class="col-md-12">
                 <div id="panel-1" class="panel panel-locked" data-panel-lock="false" data-panel-close="false" data-panel-fullscreen="false"  data-panel-locked="false" data-panel-refresh="false">
+
                     <div class="panel-hdr">
+
                         <h2>
-                            Espelaram comigo:<span class="fw-300"><i></i></span>
+                            Espelharam comigo: <span class="fw-300"><i></i></span>
+                            <br>
+
                         </h2>
+
                         <div class="panel-toolbar" style="margin-right: 25px">
 
                         </div>
+
                     </div>
+
                     <div class="panel-container show">
                         <div class="panel-content">
                             {% for espelho in espelhamento %}
@@ -81,7 +89,7 @@
                 <div id="panel-2" class="panel panel-locked" data-panel-lock="false" data-panel-close="false" data-panel-fullscreen="false"  data-panel-locked="false" data-panel-refresh="false">
                     <div class="panel-hdr">
                         <h2>
-                            Espelhado Com:<span class="fw-300"><i></i></span>
+                            Espelhado com:<span class="fw-300"><i></i></span>
                         </h2>
                         <div class="panel-toolbar" style="margin-right: 25px">
 
@@ -107,15 +115,18 @@
             <div class="panel-hdr">
                 <h2>
                     Lista de Clientes Espelhados :  <span id="responsavel" class="text-success"></span>
+
                 </h2>
+
                 <div class="panel-toolbar">
                     <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
                     <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
                 </div>
             </div>
+
             <div class="panel-container show">
                 <div class="panel-content">
-                     <input type="text" class="form-control form-control-sm m-b-xs" id="filter" placeholder="Procurar Cliente ...">
+                    <input type="text" class="form-control form-control-sm m-b-xs" id="filter" placeholder="Procurar Cliente ...">
                     <br>
 
                     <!-- datatable start -->

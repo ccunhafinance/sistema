@@ -1,7 +1,7 @@
 import json
 import os
 
-from clients.models import Espelhamento
+from clients.models import Espelhamento, Clientes
 from offers.models import *
 from django import template
 import locale
@@ -214,13 +214,12 @@ def get_user_fii_data(value):
 @register.filter
 def get_cliente_nome(value):
 
-    with open('data/clientes/clientes.txt', encoding='latin1') as json_file:
-        clientes = json.load(json_file)
+    clientes = Clientes.objects.all()
 
     nome = ''
     for cliente in clientes:
-        if cliente['CODIGO_XP_CLIENTE'] == int(value):
-            nome = cliente['NOME_CLIENTE']
+        if cliente['nickname'] == int(value):
+            nome = cliente['nome']
 
     # print(nome)
 
@@ -228,13 +227,12 @@ def get_cliente_nome(value):
 
 @register.filter
 def get_cliente_first_nome(value):
-    with open('data/clientes/clientes.txt', encoding='latin1') as json_file:
-        clientes = json.load(json_file)
+    clientes = Clientes.objects.all()
 
     nome = ''
     for cliente in clientes:
-        if cliente['CODIGO_XP_CLIENTE'] == int(value):
-            nome = cliente['PRIMEIRO_NOME_CLIENTE']
+        if cliente['nickname'] == int(value):
+            nome = cliente['nome']
 
     # print(nome)
 

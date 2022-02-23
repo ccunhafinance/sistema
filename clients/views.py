@@ -25,7 +25,6 @@ def google_sheets(request):
 
     return redirect(reverse('clients:clients-list'))
 
-
 def delet_all(request):
     clientes = Clientes.objects.all()
 
@@ -117,7 +116,7 @@ def upload_clientes(request):
                 except Clientes.DoesNotExist:
                     value = Clientes(
                         nickname=data[1],
-                        nome=data[2],
+                        nome=str(data[2]).title(),
                         sexo=data[3],
                         email=data[4],
                         telefone=data[5],
@@ -166,7 +165,7 @@ def upload_clientes(request):
 
                     if str(Clientes.objects.filter(nickname=data[0])[0].assessor) != str(data[2]):
                         Clientes.objects.filter(nickname=data[0]).update(
-                            nome=data[1],
+                            nome=str(data[1]).title(),
                             assessor=data[2],
                             antigo_assessor=Clientes.objects.filter(nickname=data[0])[0].assessor,
                             d0=data[3],
@@ -180,7 +179,7 @@ def upload_clientes(request):
                     else:
 
                         Clientes.objects.filter(nickname=data[0]).update(
-                            nome=data[1],
+                            nome=str(data[1]).title(),
                             d0=data[3],
                             d1=data[4],
                             d2=data[5],
@@ -193,7 +192,7 @@ def upload_clientes(request):
                 else:
                     value = Clientes(
                         nickname=data[0],
-                        nome=data[1],
+                        nome=str(data[1]).title(),
                         assessor=data[2],
                         d0=data[3],
                         d1=data[4],
@@ -206,7 +205,6 @@ def upload_clientes(request):
                     value.save()
 
     return redirect(reverse('clients:clients-list'))
-
 
 class ListViewClients(LoginRequiredMixin, generic.TemplateView):
     template_name = "clients/list_view.html"
@@ -230,10 +228,7 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
             if assessor.id == self.request.user.id:
                 f = assessor.codigo
 
-
-
-
-        print(f)
+        # print(f)
 
         clientes = Clientes.objects.filter(assessor=f)
         n_clientes = len(clientes)
@@ -287,8 +282,7 @@ class ListMirrorView(LoginRequiredMixin, generic.TemplateView):
 
     def get_context_data(self, **kwargs):
 
-        with open('data/clientes/clientes.txt', encoding='latin1') as json_file:
-            clientes = json.load(json_file)
+        clientes = Clientes.objects.all()
 
         context = {
             'clientes': clientes,
@@ -332,22 +326,20 @@ def mirrordelete(request, pk):
 
     return redirect(reverse('clients:mirror-list'))
 
-# Create your views here.
 def get_cliente_data(request):
-    with open('data/clientes/clientes.txt', encoding='latin1') as json_file:
-        clientes = json.load(json_file)
+    clientes = Clientes.objects.all()
 
 
     code = request.POST['code']
 
     response = []
     for cliente in clientes:
-        if cliente['CODIGO_XP_ASSESSOR'] == int(code):
+        if cliente.assessor == code:
 
             response.append( '<tr>' \
-                           '<td>'+ str(cliente['CODIGO_XP_CLIENTE']) + '</td>'\
-                           '<td>'+ str(cliente['NOME_CLIENTE']) + '</td>'\
-                           '<td>'+ '<a href="mailto:'+str(cliente['EMAIL_CLIENTE'])+'">'+str(cliente['EMAIL_CLIENTE'])+'</a>' + '</td>'\
+                           '<td>'+ str(cliente.nickname) + '</td>'\
+                           '<td>'+ str(cliente.nome) + '</td>'\
+                           '<td>'+ '<a href="mailto:'+str(cliente.email)+'">'+str(cliente.email)+'</a>' + '</td>'\
                        '</th>')
 
 
