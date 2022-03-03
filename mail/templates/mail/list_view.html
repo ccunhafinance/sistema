@@ -1,0 +1,206 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load filter_tags %}
+<!-- BEGIN page style -->
+{% block style %}
+        {% include 'mail/css/list_view_css.html' %}
+{% endblock %}
+<!-- END page style -->
+
+<!-- BEGIN Page Subheader -->
+{% block subheader %}
+
+
+    {% if num == 1 %}
+        <div id="errorAdd" class="bg-danger" style="padding: 10px">
+            <span style="color:#fff">Digite outro nome. O nome da categoria nao pode ser igual a um já existente!</span>
+        </div>
+    {% endif %}
+
+    {% if num == 4 %}
+        <div id="errorAdd" class="bg-warning" style="padding: 10px">
+            <span style="color:#fff">Categoria editada com sucesso!</span>
+        </div>
+    {% endif %}
+
+    {% if num == 9 %}
+        <div id="errorAdd" class="bg-danger" style="padding: 10px">
+            <span style="color:#fff">Template excluido com sucesso!</span>
+        </div>
+    {% endif %}
+
+    {% if num == 5 %}
+        <div id="errorAdd" class="bg-success" style="padding: 10px">
+            <span style="color:#fff">Template Adicionado com sucesso!</span>
+        </div>
+    {% endif %}
+
+    {% if num == 2 %}
+
+        <div id="successAdd" class="bg-success" style="padding: 10px">
+            <span style="color:#fff">Categoria adicionada com sucesso!</span>
+        </div>
+
+    {% endif %}
+
+    {% if num == 3 %}
+        <div id="errorAdd" class="bg-danger" style="padding: 10px">
+            <span style="color:#fff">Categoria excluida com sucesso!</span>
+        </div>
+    {% endif %}
+
+    <button href="" type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#default-example-modal-lg-center">
+        Adicionar Categoria
+    </button>
+
+    <!-- Modal center Large -->
+    <div class="modal fade" id="default-example-modal-lg-center" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Adicionar categoria de template</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                <form method="post" action="{% url 'mail:categoria-add' %}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label>Nome da categoria</label>
+                            <input type="text" name="nome" class="form-control" required>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary">Adicionar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editar-categoria" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar categoria</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                <form method="post" action="{% url 'mail:edit_categ' %}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label>Novo nome da categoria!</label>
+                            <input hidden name="id" value="" id="categ_change_id">
+                            <input type="text" name="nome" class="form-control"  id="cat-name"required>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-warning">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+<!-- END page Subheader -->
+
+<!-- BEGIN page content -->
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="row">
+            {# CATEGORIAS   #}
+                <div class="col-md-12">
+                <div id="panel-2" class="panel panel-locked" data-panel-lock="false" data-panel-close="false" data-panel-fullscreen="false"  data-panel-locked="false" data-panel-refresh="false">
+                    <div class="panel-hdr">
+                        <h2>
+                            Categorias <span class="fw-300"><i></i></span>
+                        </h2>
+
+                        <div class="panel-toolbar" style="margin-right: 25px">
+
+                        </div>
+                    </div>
+                    <div class="panel-container show">
+                        <div class="panel-content">
+
+                            <div class="form-group">
+                                <label for="select2insidemodal" class="">Lista de categorias:</label>
+                                <select class="select2_demo_3 form-control" id="select2insidemodal" style="width:100%" required onchange="get_category_template(this)">
+                                    <option value="">Selecione...</option>
+                                        {% for categoria in categorias %}
+                                            <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+                                        {% endfor %}
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div id="panel-3" class="panel">
+            <div class="panel-hdr">
+                <h2>
+                    Lista de templates da categoria:  &nbsp;<span id="responsavel" class="text-primary"></span>
+
+                </h2>
+
+                <div class="panel-toolbar">
+                    <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+                    <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
+                </div>
+            </div>
+
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <input type="text" class="form-control form-control-sm m-b-xs" id="filter" placeholder="Procurar template ...">
+                    <br>
+
+                    <!-- datatable start -->
+                    <table id="tabela_cliente" class="table table-sm table-bordered table-hover table-striped w-100 chanhe_id">
+                        <thead >
+                            <tr>
+                                <th>Template</th>
+                                <th>Ações</th>
+
+                            </tr>
+
+                        </thead>
+                            <tbody id="response">
+
+
+                            </tbody>
+                    </table>
+                    <!-- datatable end -->
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}
+<!-- END page content -->
+
+<!-- BEGIN page script -->
+{% block script %}
+        {% include 'mail/js/list_view_js.html' %}
+{% endblock %}
+<!-- END page script -->

@@ -94,11 +94,11 @@
                                 </a>
                             </li>
 
-                            <li class="{% if subtitle == 'Fundos Imobiliários (Fii)' %}active{% endif %}">
-                                <a href="{% url 'offers:listar-rv-fii' %}" title="Fundos Imobiliários" data-filter-tags="fundos imobiliários fii">
-                                    <span class="nav-link-text" data-i18n="nav.font_icons_nextgen_icons">FII</span>
-                                </a>
-                            </li>
+{#                            <li class="{% if subtitle == 'Fundos Imobiliários (Fii)' %}active{% endif %}">#}
+{#                                <a href="{% url 'offers:listar-rv-fii' %}" title="Fundos Imobiliários" data-filter-tags="fundos imobiliários fii">#}
+{#                                    <span class="nav-link-text" data-i18n="nav.font_icons_nextgen_icons">FII</span>#}
+{#                                </a>#}
+{#                            </li>#}
 
                         </ul>
                     </li>
@@ -112,82 +112,109 @@
                 </ul>
             </li>
 
-            <li class="{% if page_name == 'Carteira Recomendada'  %}active{% endif %}">
-                <a href="{% url 'clients:clients-list' %}" title="Carteira Recomendada" data-filter-tags="carteira recomendada">
-                    <i class="ni ni-wallet"></i>
-                    <span class="nav-link-text" data-i18n="nav.blankpage">Carteira Recomendada</span>
+
+            <li class="{% if page_name == 'Mail'  %}active{% endif %}">
+                <a href="{% url 'mail:mail-list' 0 %}" title="Mail" data-filter-tags="email">
+                    <i class="fal fa-envelope"></i>
+                    <span class="nav-link-text" data-i18n="nav.blankpage">Mail</span>
                 </a>
             </li>
 
-            <li class="{% if page_name == 'Chat'  %}active{% endif %}">
-                <a href="{% url 'clients:clients-list' %}" title="Chat" data-filter-tags="chat">
-                    <i class="fal fa-head-side-cough"></i>
-                    <span class="nav-link-text" data-i18n="nav.blankpage">Chat</span>
-                </a>
-            </li>
+{#            <li class="{% if first_page_name == 'Mail'  %}active open{% endif %}">#}
+{#                <a href="#" title="Mail" data-filter-tags="mail ondemad">#}
+{#                    <i class="fal fa-boxes"></i>#}
+{#                    <span class="nav-link-text" data-i18n="nav.blankpage">OnDemand</span>#}
+{#                </a>#}
+{#                <ul>#}
+{#                    <li class="{% if second_page_name == 'Mail'  %}active{% endif %}">#}
+{#                        <a href="{% url 'mail:mail-list' %}" title="Mail" data-filter-tags="emails ondemand">#}
+{#                            <span class="nav-link-text" data-i18n="nav.blankpage">Mail</span>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li class="{% if second_page_name == 'Espelhamento'  %}active{% endif %}">#}
+{#                        <a href="{% url 'clients:mirror-list' %}" title="Espelhamento" data-filter-tags="espelhamento">#}
+{#                            <span class="nav-link-text" data-i18n="nav.blankpage">Espelhamento</span>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                </ul>#}
+{#            </li>#}
 
-            <li class="{% if page_name == 'Perfil'  %}active{% endif %}">
-                <a href="{% url 'clients:clients-list' %}" title="Perfil" data-filter-tags="perfil">
-                    <i class="fal fa-id-card-alt"></i>
-                    <span class="nav-link-text" data-i18n="nav.blankpage">Perfil</span>
-                </a>
-            </li>
+{#            <li class="{% if page_name == 'Carteira Recomendada'  %}active{% endif %}">#}
+{#                <a href="{% url 'clients:clients-list' %}" title="Carteira Recomendada" data-filter-tags="carteira recomendada">#}
+{#                    <i class="ni ni-wallet"></i>#}
+{#                    <span class="nav-link-text" data-i18n="nav.blankpage">Carteira Recomendada</span>#}
+{#                </a>#}
+{#            </li>#}
+{##}
+{#            <li class="{% if page_name == 'Chat'  %}active{% endif %}">#}
+{#                <a href="{% url 'clients:clients-list' %}" title="Chat" data-filter-tags="chat">#}
+{#                    <i class="fal fa-head-side-cough"></i>#}
+{#                    <span class="nav-link-text" data-i18n="nav.blankpage">Chat</span>#}
+{#                </a>#}
+{#            </li>#}
+{##}
+{#            <li class="{% if page_name == 'Perfil'  %}active{% endif %}">#}
+{#                <a href="{% url 'clients:clients-list' %}" title="Perfil" data-filter-tags="perfil">#}
+{#                    <i class="fal fa-id-card-alt"></i>#}
+{#                    <span class="nav-link-text" data-i18n="nav.blankpage">Perfil</span>#}
+{#                </a>#}
+{#            </li>#}
 
-            <li class="{% if page_name == 'Social'  %}active{% endif %}">
-                <a href="{% url 'clients:clients-list' %}" title="Social" data-filter-tags="social">
-                    <i class="fal fa-newspaper"></i>
-                    <span class="nav-link-text" data-i18n="nav.blankpage">Social</span>
-                </a>
-            </li>
+{#            <li class="{% if page_name == 'Social'  %}active{% endif %}">#}
+{#                <a href="{% url 'clients:clients-list' %}" title="Social" data-filter-tags="social">#}
+{#                    <i class="fal fa-newspaper"></i>#}
+{#                    <span class="nav-link-text" data-i18n="nav.blankpage">Social</span>#}
+{#                </a>#}
+{#            </li>#}
 
 
-            <li class="nav-title">Mesa On Deemand</li>
+{#            <li class="nav-title">Mesa On Deemand</li>#}
+{##}
+{#            <li class="{% if page_name == 'Mesa On Deemand'  %}active{% endif %}">#}
+{#                <a href="{% url 'dashboard:dashboard' %}" title="Mesa On Deemand" data-filter-tags="mesa on demand">#}
+{#                    <i class="fal fa-handshake"></i>#}
+{#                    <span class="nav-link-text" data-i18n="nav.blankpage">Indicação On Demand</span>#}
+{#                </a>#}
+{#            </li>#}
+{##}
+{#            <li class="{% if page_name == 'Robo 300K'  %}active{% endif %}">#}
+{#                <a href="{% url 'dashboard:dashboard' %}" title="Robo 300K" data-filter-tags="robo 300k">#}
+{#                    <i class="fal fa-robot"></i>#}
+{#                    <span class="nav-link-text" data-i18n="nav.blankpage">Robo 300K</span>#}
+{#                </a>#}
+{#            </li>#}
 
-            <li class="{% if page_name == 'Mesa On Deemand'  %}active{% endif %}">
-                <a href="{% url 'dashboard:dashboard' %}" title="Mesa On Deemand" data-filter-tags="mesa on demand">
-                    <i class="fal fa-handshake"></i>
-                    <span class="nav-link-text" data-i18n="nav.blankpage">Indicação On Demand</span>
-                </a>
-            </li>
-
-            <li class="{% if page_name == 'Robo 300K'  %}active{% endif %}">
-                <a href="{% url 'dashboard:dashboard' %}" title="Robo 300K" data-filter-tags="robo 300k">
-                    <i class="fal fa-robot"></i>
-                    <span class="nav-link-text" data-i18n="nav.blankpage">Robo 300K</span>
-                </a>
-            </li>
-
-            <li class="nav-title">Área Administrativa</li>
-
-            <li class="{% if page_name == 'Assessores'  %}active{% endif %}">
-                <a href="{% url 'assessores:assessores-list' %}" title="Área Administrativa" data-filter-tags="area administrativa">
-                    <i class="fal fa-address-card"></i>
-                    <span class="nav-link-text" data-i18n="nav.blankpage">Assessores</span>
-                </a>
-            </li>
-
-            <li class="{% if page_name == 'Links'  %}active{% endif %}">
-                <a href="{% url 'dashboard:dashboard' %}" title="links" data-filter-tags="links">
-                    <i class="fal fa-link"></i>
-                    <span class="nav-link-text" data-i18n="nav.blankpage">Links</span>
-                </a>
-            </li>
-
-            <li class="nav-title">Desenvolvedor</li>
-
-            <li class="{% if page_name == 'Configurações'  %}active{% endif %}">
-                <a href="{% url 'dashboard:dashboard' %}" title="Configurações" data-filter-tags="configurações">
-                    <i class="fal fa-cogs"></i>
-                    <span class="nav-link-text" data-i18n="nav.blankpage">Configurações</span>
-                </a>
-            </li>
-
-            <li class="{% if page_name == 'Permissões'  %}active{% endif %}">
-                <a href="{% url 'dashboard:dashboard' %}" title="Permissões" data-filter-tags="permissões">
-                    <i class="fal fa-cogs"></i>
-                    <span class="nav-link-text" data-i18n="nav.blankpage">Permissões</span>
-                </a>
-            </li>
+{#            <li class="nav-title">Área Administrativa</li>#}
+{##}
+{#            <li class="{% if page_name == 'Assessores'  %}active{% endif %}">#}
+{#                <a href="{% url 'assessores:assessores-list' %}" title="Área Administrativa" data-filter-tags="area administrativa">#}
+{#                    <i class="fal fa-address-card"></i>#}
+{#                    <span class="nav-link-text" data-i18n="nav.blankpage">Assessores</span>#}
+{#                </a>#}
+{#            </li>#}
+{##}
+{#            <li class="{% if page_name == 'Links'  %}active{% endif %}">#}
+{#                <a href="{% url 'dashboard:dashboard' %}" title="links" data-filter-tags="links">#}
+{#                    <i class="fal fa-link"></i>#}
+{#                    <span class="nav-link-text" data-i18n="nav.blankpage">Links</span>#}
+{#                </a>#}
+{#            </li>#}
+{##}
+{#            <li class="nav-title">Desenvolvedor</li>#}
+{##}
+{#            <li class="{% if page_name == 'Configurações'  %}active{% endif %}">#}
+{#                <a href="{% url 'dashboard:dashboard' %}" title="Configurações" data-filter-tags="configurações">#}
+{#                    <i class="fal fa-cogs"></i>#}
+{#                    <span class="nav-link-text" data-i18n="nav.blankpage">Configurações</span>#}
+{#                </a>#}
+{#            </li>#}
+{##}
+{#            <li class="{% if page_name == 'Permissões'  %}active{% endif %}">#}
+{#                <a href="{% url 'dashboard:dashboard' %}" title="Permissões" data-filter-tags="permissões">#}
+{#                    <i class="fal fa-cogs"></i>#}
+{#                    <span class="nav-link-text" data-i18n="nav.blankpage">Permissões</span>#}
+{#                </a>#}
+{#            </li>#}
 
         </ul>
         <div class="filter-message js-filter-message bg-success-600"></div>

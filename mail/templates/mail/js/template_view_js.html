@@ -1,0 +1,44 @@
+{% load static %}
+<script src="{% static 'js/formplugins/summernote/summernote.js' %}"></script>
+
+<script>
+
+
+
+
+    setTimeout(function() {
+        $('#errorAdd').hide('slow');
+    }, 2000);
+
+    $(document).ready(function()
+    {
+
+        //init default
+        $('.js-summernote').summernote(
+        {
+            height: 200,
+            tabsize: 2,
+            placeholder: "",
+            dialogsFade: true,
+            toolbar: [
+                {#['style', ['style']],#}
+                {#['font', ['strikethrough', 'superscript', 'subscript']],#}
+                {#['font', ['bold', 'italic', 'underline', 'clear']],#}
+                {#['fontsize', ['fontsize']],#}
+                {#['fontname', ['fontname']],#}
+                {#['color', ['color']],#}
+                {#['para', ['ul', 'ol', 'paragraph']],#}
+                {#['height', ['height']]#}
+                {#['table', ['table']],#}
+                {#['insert', ['link', 'picture', 'video']],#}
+                ['view', ['fullscreen', 'codeview']]
+            ],
+
+
+        });
+
+
+
+    });
+
+</script>

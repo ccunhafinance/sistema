@@ -1,0 +1,170 @@
+{% load static %}
+<script src="{% static 'js/datagrid/datatables/datatables.bundle.js' %}"></script>
+<script src="{% static 'select2/select2.full.min.js' %}"></script>
+<script src="{% static 'js/notifications/sweetalert2/sweetalert2.bundle.js' %}"></script>
+
+<script>
+
+    function change_categ_name(i){
+        document.getElementById('categ_change_id').value = i
+    }
+
+function dell_temp(i){
+    {#alert(i)#}
+
+    var swalWithBootstrapButtons = Swal.mixin(
+    {
+        customClass:
+        {
+            confirmButton: "btn btn-primary",
+            cancelButton: "btn btn-danger mr-2"
+        },
+        buttonsStyling: false
+    });
+    swalWithBootstrapButtons
+        .fire(
+        {
+            title: "Deseja excluir este template?",
+            {#text: "Todos os templates relacionados a ela serão exluidos!",#}
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sim",
+            cancelButtonText: "Não",
+            reverseButtons: true
+        })
+        .then(function(result)
+        {
+            if (result.value)
+            {
+                swalWithBootstrapButtons.fire(
+                    "OK!",
+                    "Template excluido com sucesso!",
+                    "success"
+                ).then(function() {
+                                {#window.location = "{% url 'mail:delete-template' kwargs={'num':id} %}";#}
+                                window.location = "/mail/delete_template_one/"+i;
+                            });
+            }
+            else if (
+                // Read more about handling dismissals
+                result.dismiss === Swal.DismissReason.cancel
+            )
+            {
+                swalWithBootstrapButtons.fire(
+                    "Ok",
+                    "Os dados foram mantidos!",
+                    "error"
+                );
+            }
+        });
+
+}
+
+     $(document).ready(function() {
+      $("#select2insidemodal").select2({
+        {#dropdownParent: $("#myModal"),#}
+          theme: 'bootstrap4',
+      });
+    });
+
+    setTimeout(function() {
+        $('#errorAdd').hide('slow');
+    }, 2000);
+
+    setTimeout(function() {
+        $('#successAdd').hide('slow');
+    }, 2000);
+
+    function get_category_template(sel) {
+       var token = '{{ csrf_token }}';
+
+        var choice = document.getElementById('select2insidemodal').value
+
+       {#alert();#}
+
+        $('#responsavel').html(sel.options[sel.selectedIndex].text);
+
+
+       if(choice)
+       {
+           $.ajax({
+               type: 'POST',
+               url: '{% url 'mail:get-all-templates' %}',
+               data: {
+                   choice: choice,
+                   csrfmiddlewaretoken: token
+               },
+               success: function (response) {
+
+                    {#console.log(response)#}
+
+                    $('#response').html(response);
+                    $(document).ready(function() {
+
+                        "use strict";
+                        $("#js-sweetalert2-example-8").on("click", function()
+                        {
+                            var swalWithBootstrapButtons = Swal.mixin(
+                            {
+                                customClass:
+                                {
+                                    confirmButton: "btn btn-primary",
+                                    cancelButton: "btn btn-danger mr-2"
+                                },
+                                buttonsStyling: false
+                            });
+                            swalWithBootstrapButtons
+                                .fire(
+                                {
+                                    title: "Deseja excluir a categoria?",
+                                    text: "Todos os templates relacionados a ela serão exluidos!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonText: "Sim",
+                                    cancelButtonText: "Não",
+                                    reverseButtons: true
+                                })
+                                .then(function(result)
+                                {
+                                    if (result.value)
+                                    {
+                                        swalWithBootstrapButtons.fire(
+                                            "Excluido!",
+                                            "Todos os dados foram apagados.",
+                                            "success"
+                                        ).then(function() {
+                                                        {#window.location = "{% url 'mail:delete-template' kwargs={'num':id} %}";#}
+                                                        window.location = "/mail/delete_template/"+document.getElementById('id_category').value;
+                                                    });
+                                    }
+                                    else if (
+                                        // Read more about handling dismissals
+                                        result.dismiss === Swal.DismissReason.cancel
+                                    )
+                                    {
+                                        swalWithBootstrapButtons.fire(
+                                            "Ok",
+                                            "Os dados foram mantidos!",
+                                            "error"
+                                        );
+                                    }
+                                });
+                        });
+
+
+
+
+                    });
+
+               },
+           });
+       }
+       else
+       {
+           $('#response').html("");
+
+       }
+
+}
+
+</script>

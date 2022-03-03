@@ -1,0 +1,73 @@
+{% extends 'index.html' %}
+{% load static %}
+<!-- BEGIN page style -->
+{% block style %}
+    {% include 'mail/css/template_view_css.html' %}
+{% endblock %}
+<!-- END page style -->
+
+<!-- BEGIN Page Subheader -->
+{% block subheader %}
+
+    {% if var == 1 %}
+        <div id="errorAdd" class="bg-warning" style="padding: 10px">
+            <span style="color:#fff">Template Editado com sucesso!</span>
+        </div>
+    {% endif %}
+
+{% endblock %}
+<!-- END page Subheader -->
+
+<!-- BEGIN page content -->
+{% block content %}
+<div id="js-page-content-demopanels">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr">
+                <h2>
+                </h2>
+
+            </div>
+
+            <div class="panel-container show">
+                <div class="panel-content">
+
+
+                    <form method="post" action="{% url 'mail:save-edit-template' %}">
+                        {% csrf_token %}
+
+                        <input hidden name="id" value="{{ template.id }}">
+                        <div class="form-group">
+                            <label class="form-label" for="example-palaceholder">Nome do Template</label>
+                            <input type="text" id="example-palaceholder" class="form-control" value="{{ template.nome }}" name="nome" required >
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="example-textarea">Código do template</label>
+                            <textarea class="form-control js-summernote" id="example-textarea" rows="5" name="body" required>
+                                {{ template.body }}
+                            </textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-sm btn-warning" type="submit">Salvar</button>
+                        </div>
+
+                    </form>
+
+{#                    <div class="js-summernote" id="saveToLocal"></div>#}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+<!-- END page content -->
+
+<!-- BEGIN page script -->
+{% block script %}
+          {% include 'mail/js/template_view_js.html' %}
+{% endblock %}
+<!-- END page script -->

@@ -259,6 +259,17 @@ def get_assessor_ifos_by_code(value):
     return assessor.codigo + ' - ' + assessor.first_name + ' ' + assessor.last_name
 
 @register.filter
+def get_assessor_ifos_by_id(value):
+
+    if  value == None:
+        return '-'
+    else:
+
+        assessor = CustomUser.objects.get(id=value)
+
+        return assessor.codigo + ' - ' + assessor.first_name + ' ' + assessor.last_name
+
+@register.filter
 def check_espelho(value, arg):
     espelhos = Espelhamento.objects.filter(assessor_permited=value)
 
