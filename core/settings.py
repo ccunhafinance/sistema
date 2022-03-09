@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-$kif-hc!c)91v$xn)-*r+1ag+b@ni@hlec7p_)05m0%o3p8jnr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['34.151.234.105']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -50,11 +50,15 @@ INSTALLED_APPS = [
     'offers',
     'clients',
     'assessores',
+    'mail',
+    # 'chat',
     # Third Party Apps
+    # 'channels',
     'crispy_forms',
     'django_summernote',
     'import_export',
-    'mail',
+
+
 
 ]
 
@@ -88,6 +92,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
+# ASGI_APPLICATION = 'core.asgi.application'
 
 
 # Database
@@ -171,16 +176,11 @@ AUTH_USER_MODEL = 'users.CustomUser'
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-# Gmail
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'ccunhafinance@gmail.com'
-EMAIL_HOST_PASSWORD = 'asbbqmpgmltpehpl' #past the key or password app here
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-# DEFAULT_FROM_EMAIL = 'ccunhafinance@gmail.com'
-# import_export
 
+# import_export
 IMPORT_EXPORT_USE_TRANSACTIONS = True
+
+
 
 try:
     from .local_settings import *
