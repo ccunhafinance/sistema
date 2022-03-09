@@ -33,3 +33,16 @@ class Espelhamento(models.Model):
 
     def __str__(self):
         return str(self.assessor.first_name)
+
+class NovoEmail(models.Model):
+    cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
+    id_email = models.IntegerField(blank=False, null=False)
+    categ_email_id = models.IntegerField(blank=False, null=False)
+    data_futuro = models.DateField(blank=False, null=False)
+    status = models.CharField(max_length=100, blank=True, null=True)
+    data_status = models.DateField(blank=True, null=True)
+    manual = models.CharField(max_length=100, blank=True, null=True)
+    data_manual = models.DateField(blank=True, null=True)
+
+
+

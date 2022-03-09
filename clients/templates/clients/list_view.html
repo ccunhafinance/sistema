@@ -276,7 +276,13 @@
                                 {% for cliente in clientes %}
 
                                         <tr {% if cliente.status == 'Inativo' %} class="disabled" {% endif %} {% if cliente.status == 'Novo' %} class="text-success" {% endif %}>
-                                            <td>{{ cliente.nickname }}</td>
+                                            <td>
+                                                <a href="{% url 'clients:rotina_emails' cliente.id %}">
+                                                    {{ cliente.nickname }}
+                                                </a>
+
+
+                                            </td>
                                             <td>{{ cliente.nome }}</td>
                                             <td>{{ cliente.sexo }}</td>
                                             <td>{{ cliente.email|default:'<span class=""></span>' }}</td>
@@ -412,7 +418,9 @@
                                                     <td><input type="text" class="form-control" name="email" value="{{ cliente.email }}" required></td>
                                                     <td><input type="text" class="form-control" name="telefone" value="{{ cliente.telefone }}" required></td>
                                                     <td><input type="text" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento }}" required></td>
-                                                    <td class="text-center"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1"></td>
+                                                    <td class="text-center">
+                                                        <input type="checkbox" style="margin-top: 15px" name="rotina" value="1">
+                                                    </td>
                                                     <td>
                                                         <select class="form-control" name="zap_mail" required>
                                                             <option value="Não Definido" {% if cliente.zap_mail == 'Não Definido' %} selected {% endif %}>Não Definido</option>
@@ -424,9 +432,6 @@
                                                     <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
                                                 </form>
                                                 </tr>
-
-
-
 
                                         {% endif %}
 

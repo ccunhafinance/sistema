@@ -8,6 +8,7 @@ urlpatterns = [
          path('espelhamento/', ListMirrorView.as_view(), name="mirror-list"),
          path('mirror/add/', views.mirroradd, name="mirror-add"),
          path('upload-cliente/', views.upload_clientes, name="upload_clientes"),
+         path('rotina-emails/<int:id>', views.rotina_emails, name="rotina_emails"),
          path('delete-all/', views.delet_all, name="delet_all"),
          path('update_cliente_novo/', views.update_new_cliente, name="update_cliente_novo"),
          path('update_troca_assessor/', views.update_troca_assessor, name="update_troca_assessor"),

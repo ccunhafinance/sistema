@@ -11,6 +11,7 @@ urlpatterns = [
     path('ofertas/', include('offers.urls', namespace="offers")),
     path('clientes/', include('clients.urls', namespace="clients")),
     path('mail/', include('mail.urls', namespace="mail")),
+    path('chat/', include('chat.urls', namespace="chat")),
     path('assessores/', include('assessores.urls', namespace="assessores")),
     path('usuarios/', include('users.urls', namespace="users")),
     path('ajax/', include('ajax.urls', namespace="ajax")),

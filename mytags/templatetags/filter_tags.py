@@ -2,6 +2,7 @@ import json
 import os
 
 from clients.models import Espelhamento, Clientes
+from mail.models import EmailCategoria, Categoria
 from offers.models import *
 from django import template
 import locale
@@ -1549,3 +1550,15 @@ def modalidade_adicional(value, arg):
         return teste.modalidade_adicional
 
 
+# rotina de emails
+@register.filter
+def nome_do_email(value):
+    nome = EmailCategoria.objects.filter(id=value)
+
+    return nome[0].nome
+
+@register.filter
+def nome_do_cat(value):
+    nome = Categoria.objects.filter(id=value)
+
+    return nome[0].nome

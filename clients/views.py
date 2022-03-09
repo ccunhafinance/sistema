@@ -4,14 +4,16 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
-from clients.models import Espelhamento
+from clients.models import Espelhamento, NovoEmail
 from users.models import CustomUser, UserProfile
 
 from .models import Clientes
+from mail.models import *
 from .resources import ClientesResources
 from django.contrib import messages
 from tablib import Dataset
 from datetime import date
+from datetime import timedelta, date
 import datetime
 
 main_icon = 'ni ni-users'
@@ -56,6 +58,31 @@ def update_troca_assessor(request):
         data_registro=data_em_texto
 
     )
+
+    id_categ = Categoria.objects.first()
+
+    print(id_categ.id)
+
+    teste = EmailCategoria.objects.filter(EmailCategoria_id=id_categ)
+
+    dias = date.today() + timedelta(days=0)
+    for a in teste:
+        # print(a.nome)
+
+        value = NovoEmail(
+            cliente_id=request.POST['id'],
+            id_email=a.id,
+            categ_email_id=id_categ.id,
+            data_futuro=dias,
+
+        )
+        value.save()
+
+        dias = dias + timedelta(days=7)
+
+
+
+
 
     return redirect(reverse('clients:clients-list'))
 
@@ -210,6 +237,17 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
     template_name = "clients/list_view.html"
     login_url = '/'
 
+    # id_categ = Categoria.objects.first()
+    #
+    # print(id_categ)
+    #
+    # teste = EmailCategoria.objects.filter(EmailCategoria_id=id_categ)
+    #
+    # for a in teste:
+    #     print (a.nome)
+
+
+
 
     def get_context_data(self, **kwargs):
 
@@ -306,6 +344,33 @@ class ListMirrorView(LoginRequiredMixin, generic.TemplateView):
         }
 
         return context
+
+def rotina_emails(request, id):
+
+    emails_cliente = NovoEmail.objects.filter(cliente_id=id)
+
+    context = {
+        'emails_cliente':emails_cliente,
+        # Crumbs First Page Config
+        'first_page_name': 'Clientes',
+        'first_page_link': '',
+        # Crumbs Second Page Config
+        'second_page_name': 'Rotina de emails',
+        'second_page_link': '',
+        # Crumbs Third Page Config
+        'third_page_name': '',
+        'third_page_link': '',
+        # Current Page
+        'icon': main_icon,
+        'page_name': 'Rotina',
+        'subtitle': '',
+        'sticker': 'Novo',
+        'page_description': 'Listagem de clientes espelhados.'
+    }
+
+    return render(request, 'clients/rotina_view.html', context)
+
+
 
 def mirroradd(request):
     if request.method == 'POST':

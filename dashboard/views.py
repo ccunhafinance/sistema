@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import generic
 from django.shortcuts import render, redirect, reverse
@@ -33,3 +34,7 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
         }
 
         return context
+
+
+def teste(request):
+    return HttpResponse('Done!')
