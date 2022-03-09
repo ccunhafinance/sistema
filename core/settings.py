@@ -180,9 +180,3 @@ AUTH_USER_MODEL = 'users.CustomUser'
 # import_export
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
-
-
-try:
-    from local_settings import *
-except ImportError:
-    pass
