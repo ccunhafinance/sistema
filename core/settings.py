@@ -180,3 +180,5 @@ AUTH_USER_MODEL = 'users.CustomUser'
 # import_export
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
+from core.local_settings import *
+

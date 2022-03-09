@@ -17,7 +17,6 @@ urlpatterns = [
     path('ajax/', include('ajax.urls', namespace="ajax")),
     path('summernote/', include('django_summernote.urls')),
 
-
 ]
 
 if settings.DEBUG:
