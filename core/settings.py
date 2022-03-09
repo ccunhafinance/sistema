@@ -51,9 +51,9 @@ INSTALLED_APPS = [
     'clients',
     'assessores',
     'mail',
-    # 'chat',
+
     # Third Party Apps
-    # 'channels',
+    'django_celery_results',
     'crispy_forms',
     'django_summernote',
     'import_export',
