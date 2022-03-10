@@ -54,6 +54,7 @@ INSTALLED_APPS = [
 
     # Third Party Apps
     'django_celery_results',
+    'django_celery_beat',
     'crispy_forms',
     'django_summernote',
     'import_export',
