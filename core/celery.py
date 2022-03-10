@@ -21,7 +21,8 @@ app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 app.conf.beat_schedule = {
     'add-every-2-hour':{
         'task':'send_email_teste',
-        'schedule': crontab(minute='*/1')
+        'schedule': 30
+        # 'schedule': crontab(minute='*/1')
     }
 }
 
