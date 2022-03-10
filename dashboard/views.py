@@ -4,6 +4,7 @@ from django.views import generic
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+from .tasks import *
 
 # Gbobal Variables
 main_icon = 'ni ni-grid'
@@ -37,4 +38,6 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
 
 
 def teste(request):
-    return HttpResponse('Done!')
+    # sleepy.delay(10)
+    send_email_teste.delay()
+    return HttpResponse('ok')

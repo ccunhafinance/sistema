@@ -74,6 +74,7 @@ def update_troca_assessor(request):
             id_email=a.id,
             categ_email_id=id_categ.id,
             data_futuro=dias,
+            status='n'
 
         )
         value.save()
