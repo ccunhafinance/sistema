@@ -170,7 +170,7 @@
             <div class="panel-container show">
                 <div class="panel-content">
                         {% for a in emails_cliente %}
-                            <p>{{ a.id_email|nome_do_email }}  - {{ a.data_futuro }}  </p>
+                            <p>{{ a.id_email|nome_do_email }}  - {{ a.data_futuro }} - {{ a.status }} </p>
                         {% endfor %}
                 </div>
             </div>
