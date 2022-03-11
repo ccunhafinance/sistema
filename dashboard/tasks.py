@@ -17,6 +17,7 @@ def sleepy(duration):
 
 @app.task(name='send_email_teste')
 def send_email_teste():
+    sleepy(15)
     try:
         # time_thresold = datetime.now() - datetime.timedelta(hours=2)
         # all_emails_to_send = NovoEmail.objects.filter(status='n',data_futuro=date.today())
@@ -58,7 +59,7 @@ def send_email_teste():
 
 
         return None
-    
+
     except Exception as e:
         print(e)
 
