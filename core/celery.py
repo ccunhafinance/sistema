@@ -21,7 +21,7 @@ app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 app.conf.beat_scheduler = 'django_celery_beat.schedulers.DatabaseScheduler'
 
 app.conf.beat_schedule = {
-    'send_test_mail':{
+    'add-every-2-hour':{
         'task':'send_email_teste',
         # 'schedule': 30
         'schedule': crontab(minute='*/1')
