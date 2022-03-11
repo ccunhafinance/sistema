@@ -57,7 +57,8 @@ def send_email_teste():
             )
 
 
-            return None
+        return None
+    
     except Exception as e:
         print(e)
 
