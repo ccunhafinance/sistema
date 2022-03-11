@@ -15,12 +15,6 @@ def sleepy(duration):
     sleep(duration)
     return None
 
-@shared_task
-def send_email_task():
-    sleep(10)
-    send_mail('Ta funcionando lek niwww 222','teste','emaildocis@gmail.com',['cevan83889@xindax.com'])
-    return None
-
 @app.task(name='send_email_teste')
 def send_email_teste():
     try:
