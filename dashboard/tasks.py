@@ -26,7 +26,7 @@ def send_email_teste():
     try:
         # time_thresold = datetime.now() - datetime.timedelta(hours=2)
         # all_emails_to_send = NovoEmail.objects.filter(status='n',data_futuro=date.today())
-        all_emails_to_send = NovoEmail.objects.filter(status='n')
+        all_emails_to_send = NovoEmail.objects.all()
 
 
         for a_email in all_emails_to_send:
