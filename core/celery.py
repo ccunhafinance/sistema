@@ -24,7 +24,7 @@ app.conf.beat_schedule = {
     'add-every-2-hour':{
         'task':'send_email_teste',
         # 'schedule': 30
-        'schedule': crontab(minute='*/1')
+        # 'schedule': crontab(minute='*/1')
     }
 }
 
