@@ -17,13 +17,13 @@ def sleepy(duration):
 
 @app.task(name='send_email_teste')
 def send_email_teste():
-    sleepy(15)
+
     try:
         # time_thresold = datetime.now() - datetime.timedelta(hours=2)
         # all_emails_to_send = NovoEmail.objects.filter(status='n',data_futuro=date.today())
         all_emails_to_send = NovoEmail.objects.filter(status='n')
 
-
+        sleepy(15)
         for a_email in all_emails_to_send:
             # send_mail('Email 2', 'teste', 'emaildocis@gmail.com', ['cevan83889@xindax.com'])
 
