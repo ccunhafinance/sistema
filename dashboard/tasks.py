@@ -23,7 +23,6 @@ def send_email_teste():
         # all_emails_to_send = NovoEmail.objects.filter(status='n',data_futuro=date.today())
         all_emails_to_send = NovoEmail.objects.filter(status='n')
 
-        sleepy(15)
         for a_email in all_emails_to_send:
             # send_mail('Email 2', 'teste', 'emaildocis@gmail.com', ['cevan83889@xindax.com'])
 
@@ -41,10 +40,10 @@ def send_email_teste():
 
 
             email = EmailMessage(
-                dados[0].nome,
-                # 'Renda Fixa',
+                # dados[0].nome,
+                'Renda Fixa',
                 refresh,
-                'Inove Investimentos <web@inoveinvestimentos.com.br>',
+                'Inove Investimentos | Seu Futuro Positivo',
                 ['ccunhafinance@hotmail.com',],
                 # ['ccunhafinance@gmail.com','bruno.martins@inoveinvestimentos.com.BR'],
                 reply_to=['ondemand@inoveinvestimentos.com.br'],
