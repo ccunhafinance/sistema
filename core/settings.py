@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
     # Django Apps
     'django.contrib.admin',
@@ -40,8 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Third Party Apps
+    'django_celery_beat',
+    'django_celery_results',
+    'crispy_forms',
+    'django_summernote',
+    'import_export',
+
     # Filter Tags
     'mytags',
+
     # Local Apps
     'myauth',
     'ajax',
@@ -52,16 +59,8 @@ INSTALLED_APPS = [
     'assessores',
     'mail',
 
-    # Third Party Apps
-    'django_celery_results',
-    'django_celery_beat',
-    'crispy_forms',
-    'django_summernote',
-    'import_export',
-
-
-
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -182,4 +181,6 @@ AUTH_USER_MODEL = 'users.CustomUser'
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 from core.local_settings import *
+
+
 

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Hello, world!</title>
+  </head>
+  <body>
+  <div class="container" style="margin-top: 100px">
+      {% if cliente.token == token %}
+
+      <h2 class="text-center">Inove Investimentos | Seu Futuro Positivo</h2>
+        <H3 class="text-center">Quais conteúdos você deseja receber?</H3>
+      <hr>
+
+      <form method="post" action="{% url 'clients:save-by-client' %}">
+          {% csrf_token %}
+          <input hidden name="codigo" value="{{ cliente.nickname }}">
+          <div class="form-group row">
+            <label for="zap_mail" class="col-4 col-form-label">Meio de Comunicação</label>
+            <div class="col-8">
+              <select id="zap_mail" name="zap_mail" aria-describedby="zap_mailHelpBlock" required="required" class="custom-select">
+                <option value="WhatsApp">WhatsApp</option>
+                <option value="Telefone">Telefone</option>
+                <option value="E-mail">E-mail</option>
+              </select>
+              <span id="zap_mailHelpBlock" class="form-text text-muted">Qual o melhor meio para nos comunicarmos?</span>
+            </div>
+          </div>
+          <hr>
+          <div class="form-group row">
+            <label class="col-4">Acompanhamento Permanente</label>
+            <div class="col-8">
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input name="onbording_acomp_per" id="onbording_acomp_per_0" type="checkbox" aria-describedby="onbording_acomp_perHelpBlock" class="custom-control-input" value="1">
+                <label for="onbording_acomp_per_0" class="custom-control-label">Sim</label>
+              </div>
+              <span id="onbording_acomp_perHelpBlock" class="form-text text-muted">Você gostaria de receber o acompanhamento permanente da sua conta? Acompanhamento de vencimento de renda fixa, expiração de cadastro e suitability, saldo negativo.</span>
+            </div>
+          </div>
+          <hr>
+          <div class="form-group row">
+            <label class="col-4">Oportunidades de Renda Fixa</label>
+            <div class="col-8">
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input name="onbording_acomp_rf" id="onbording_acomp_rf_0" type="checkbox" aria-describedby="onbording_acomp_rfHelpBlock" class="custom-control-input" value="1">
+                <label for="onbording_acomp_rf_0" class="custom-control-label">Sim</label>
+              </div>
+              <span id="onbording_acomp_rfHelpBlock" class="form-text text-muted">Você gostaria de receber oportunidades de renda fixa?</span>
+            </div>
+          </div>
+          <hr>
+          <div class="form-group row">
+            <label class="col-4">Oportunidades de Fundos de Investimentos</label>
+            <div class="col-8">
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input name="onbording_acomp_fiinvest" id="onbording_acomp_fiinvest_0" type="checkbox" aria-describedby="onbording_acomp_fiinvestHelpBlock" class="custom-control-input" value="1">
+                <label for="onbording_acomp_fiinvest_0" class="custom-control-label">Sim</label>
+              </div>
+              <span id="onbording_acomp_fiinvestHelpBlock" class="form-text text-muted">Você gostaria de receber oportunidades de fundos de investimentos?</span>
+            </div>
+          </div>
+          <hr>
+          <div class="form-group row">
+            <label class="col-4">Oportunidades de Ações</label>
+            <div class="col-8">
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input name="onbording_acomp_acoes" id="onbording_acomp_acoes_0" type="checkbox" aria-describedby="onbording_acomp_acoesHelpBlock" class="custom-control-input" value="1">
+                <label for="onbording_acomp_acoes_0" class="custom-control-label">Sim</label>
+              </div>
+              <span id="onbording_acomp_acoesHelpBlock" class="form-text text-muted">Você gostaria de receber oportunidades de ações?</span>
+            </div>
+          </div>
+          <hr>
+          <div class="form-group row">
+            <label class="col-4">Oportunidades de Fundos Imobiliários</label>
+            <div class="col-8">
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input name="onbording_acomp_fii" id="onbording_acomp_fii_0" type="checkbox" aria-describedby="onbording_acomp_fiiHelpBlock" class="custom-control-input" value="1">
+                <label for="onbording_acomp_fii_0" class="custom-control-label">Sim</label>
+              </div>
+              <span id="onbording_acomp_fiiHelpBlock" class="form-text text-muted">Você gostaria de receber oportunidades de fundos imobiliários?</span>
+            </div>
+          </div>
+          <hr>
+          <div class="form-group row">
+            <label for="onbording_obs" class="col-4 col-form-label">Observações</label>
+            <div class="col-8">
+              <textarea id="onbording_obs" name="onbording_obs" cols="40" rows="5" aria-describedby="onbording_obsHelpBlock" class="form-control"></textarea>
+              <span id="onbording_obsHelpBlock" class="form-text text-muted">Sinta-se à vontade para deixar abaixo suas críticas e sugestões. Diga-nos como podemos melhorar o nosso contato com você.</span>
+            </div>
+          </div>
+          <hr>
+          <div class="form-group row">
+            <div class="offset-4 col-8">
+              <button name="submit" type="submit" class="btn btn-primary">Enviar</button>
+            </div>
+          </div>
+    </form>
+
+      {% else %}
+          <h1 style="margin-top: 300px" class="text-center text-danger">Esta página não está mais acessível!</h1>
+
+          <br>
+      <p class="text-center"><a href="http://inoveinvestimentos.com.br">Visite nosso site</a> </p>
+      {% endif %}
+
+
+  </div>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>

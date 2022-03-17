@@ -5,6 +5,11 @@
 <!-- BEGIN page Style -->
 {% block style %}
      {% include './css/list_view_css.html' %}
+    <style>
+        .escondido{
+            display:none
+        }
+    </style>
 {% endblock %}
 <!-- END page Style -->
 
@@ -235,6 +240,13 @@
                             </a>
                         </li>
 
+                        <li class="nav-item">
+                            <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-9" role="tab">
+                                <i class="fal fa-check-double"></i>
+                                <span class="hidden-sm-down ml-1">Rotina Onbording {% if n_onboarding > 0 %} <span class="badge bg-success-300 ml-2">{{ n_onboarding }}</span> {% endif %}</span>
+                            </a>
+                        </li>
+
                         {% if n_contatos > 0 %}
 
                             <li class="nav-item">
@@ -389,7 +401,7 @@
                                         <th>Telefone</th>
                                         <th>Nascimento</th>
                                         <th>Rotina</th>
-                                        <th>Whats/E-mail</th>
+{#                                        <th>Whats/E-mail</th>#}
                                         <th>Data</th>
                                         <th>Açoes</th>
                                     </tr>
@@ -419,14 +431,7 @@
                                                     <td><input type="text" class="form-control" name="telefone" value="{{ cliente.telefone }}" required></td>
                                                     <td><input type="text" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento }}" required></td>
                                                     <td class="text-center">
-                                                        <input type="checkbox" style="margin-top: 15px" name="rotina" value="1">
-                                                    </td>
-                                                    <td>
-                                                        <select class="form-control" name="zap_mail" required>
-                                                            <option value="Não Definido" {% if cliente.zap_mail == 'Não Definido' %} selected {% endif %}>Não Definido</option>
-                                                            <option value="WhatsApp" {% if cliente.zap_mail == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
-                                                            <option value="Email" {% if cliente.zap_mail == 'Email' %} selected {% endif %}>Email</option>
-                                                        </select>
+                                                        <input type="checkbox" style="margin-top: 15px" name="rotina" value="1" checked>
                                                     </td>
                                                     <td>{{ cliente.data_registro }}</td>
                                                     <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
@@ -454,7 +459,7 @@
                                         <th>Assessor</th>
                                         <th>Antigo Assessor</th>
                                         <th>Rotina</th>
-                                        <th>Whats/E-mail</th>
+{#                                        <th>Whats/E-mail</th>#}
                                         <th>Data</th>
                                         <th>Ações</th>
                                     </tr>
@@ -474,20 +479,102 @@
                                                 {% csrf_token %}
 
 
-                                                <td class="text-center"><input name="id" hidden value="{{ troca.id }}"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1" {% if troca.rotina == '1' %} checked {% endif %}></td>
-                                                <td>
-                                                    <select class="form-control" name="zap_mail" required>
-                                                        <option value="Não Definido" {% if troca.sexo == 'Não Definido' %} selected {% endif %}>Não Definido</option>
-                                                        <option value="WhatsApp" {% if troca.sexo == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
-                                                        <option value="Email" {% if troca.sexo == 'Email' %} selected {% endif %}>Email</option>
-                                                    </select>
-                                                </td>
-                                            <td>{{ troca.data_registro }} </td>
+                                                <td class="text-center"><input name="id" hidden value="{{ troca.id }}"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1" checked ></td>
+                                                <td>{{ troca.data_registro }} </td>
                                                 <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
                                             </form>
                                         </tr>
 
                                     {% endfor %}
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                        <!-- Rotina Onbording -->
+                        <div class="tab-pane fade" id="tab_default-9" role="tabpanel">
+                            <table id="dt-basic-example9" class="table table-bordered table-hover table-striped w-100 table-sm" >
+
+                                <thead>
+                                    <tr>
+                                        <th style="white-space:nowrap;">Status</th>
+                                        <th style="white-space:nowrap;">Cod</th>
+                                        <th style="white-space:nowrap;">Nome</th>
+                                        <th style="white-space:nowrap;">Freq. de contato</th>
+                                        <th class="" style="white-space:nowrap;">Contato</th>
+                                        <th class="" style="white-space:nowrap;">Acomp. Perm.</th>
+                                        <th class="" style="white-space:nowrap;">Oport. RF</th>
+                                        <th class="" style="white-space:nowrap;">Oport. Ações</th>
+                                        <th class="" style="white-space:nowrap;">Oport. Fii</th>
+                                        <th class="" style="white-space:nowrap;">Oport. F. Invest.</th>
+                                        <th class="phone">Observação</th>
+                                        <th class="phone">Enviar email onboarding</th>
+                                        <th class="phone">Envio Sugestão (botão para salvar data)</th>
+                                        <th class="phone">Implementação Sugestão (botão para salvar data)</th>
+                                        <th class="phone">Perfil preenchido</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                {% for cliente in onbording %}
+
+                                        <tr>
+                                            <td>
+                                                {% if cliente.onbording_perfil_preenchido == None %}
+                                                    <i class="fal fa-minus-circle text-danger"></i>
+                                                {% else %}
+                                                    <i class="fal fa-check text-success"></i>
+                                                {% endif %}
+
+
+                                            </td>
+                                            <td>
+                                                {{ cliente.nickname }}
+                                            </td>
+                                            <td>{{ cliente.nome|split:' '|first }}</td>
+                                            <td>frequencia</td>
+                                            <td>
+                                                <select id="zap_mail" class="form-control" name="zap_mail" required onchange="change_contato('{{ cliente.id }}', this)">
+                                                    <option value="Não Definido" {% if cliente.zap_mail == 'Não Definido' %} selected {% endif %}>Não Definido</option>
+                                                    <option value="WhatsApp" {% if cliente.zap_mail == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
+                                                    <option value="Telefone" {% if cliente.zap_mail == 'Telefone' %} selected {% endif %}>Telefone</option>
+                                                    <option value="Email" {% if cliente.zap_mail == 'Email' %} selected {% endif %}>Email</option>
+                                                </select>
+                                            </td>
+                                            <td><input type="checkbox" {% if cliente.onbording_acomp_per == '1' %} checked {% endif %}  onchange="checkAcomPerm('{{ cliente.id }}', this)"></td>
+                                            <td><input type="checkbox" {% if cliente.onbording_acomp_rf == '1' %} checked {% endif %} onchange="OptRf('{{ cliente.id }}', this)"></td>
+                                            <td><input type="checkbox" {% if cliente.onbording_acomp_acoes == '1' %} checked {% endif %} onchange="OptAcoes('{{ cliente.id }}', this)"></td>
+                                            <td><input type="checkbox" {% if cliente.onbording_acomp_fii == '1' %} checked {% endif %} onchange="OptFii('{{ cliente.id }}', this)"></td>
+                                            <td><input type="checkbox" {% if cliente.onbording_acomp_fiinvest == '1' %} checked {% endif %} onchange="OptFinvest('{{ cliente.id }}', this)"></td>
+                                            <td><button id="addobserva" class="btn btn-sm btn-default" data-toggle="modal" data-target="#default-example-modal" onclick="obsOpen('{{ cliente.id }}', '{{ cliente.onbording_obs }}')">Observações</button> &nbsp; {{ cliente.onbording_obs|default:'Nenhuma observação adicionada até o momento' }}</td>
+                                            <td><button class="btn btn-sm btn-default" onclick="sendEmailQuestionario('{{ cliente.id }}')">Enviar Email Onbording</button></td>
+                                            <td>
+                                                {% if cliente.onbording_envio_sugestao == None or cliente.onbording_envio_sugestao == '' %}
+                                                    <button id="btnSujest_{{ cleinte.id }}" class="btn btn-sm btn-default" onclick="enviarSugest('{{ cliente.id }}')">Enviar sugestão</button>
+                                                {% else %}
+                                                    <button class="btn btn-sm btn-default disabled" >Enviado <i class="fal fa-check-circle text-success"></i></button>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if cliente.onbording_impl_envio_sugestao == None or cliente.onbording_impl_envio_sugestao == '' %}
+                                                    <button class="btn btn-sm btn-default" onclick="enviarImplement('{{ cliente.id }}')">Implementaão de sugestão</button>
+                                                {% else %}
+                                                    <button class="btn btn-sm btn-default disabled" >Enviado <i class="fal fa-check-circle text-success"></i></button>
+                                                {% endif %}
+
+                                            </td>
+                                            <td>
+                                                {% if cliente.onbording_perfil_preenchido == None or cliente.onbording_perfil_preenchido == '' %}
+                                                    <button class="btn btn-sm btn-default" onclick="perfilPreenchido('{{ cliente.id }}')">Perfil Preenchido</button>
+                                                {% else %}
+                                                    <button class="btn btn-sm btn-default disabled" >Preenchido <i class="fal fa-check-circle text-success"></i></button>
+                                                {% endif %}
+
+
+                                            </td>
+                                        </tr>
+
+                                {% endfor %}
                                 </tbody>
 
                             </table>
@@ -603,6 +690,33 @@
 
     {% endfor %}
     </textarea>
+
+    {# modal observacoes#}
+    <div class="modal fade" id="default-example-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        Adicionar Observaçao ao usuário
+{#                        <small class="m-0 text-muted">#}
+{#                            Below is a static modal example#}
+{#                        </small>#}
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" hidden id="pegaid">
+                    <textarea class="form-control" rows="4" cols="50" id="modl_obs"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary"  data-dismiss="modal" onclick="salvarObs()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 

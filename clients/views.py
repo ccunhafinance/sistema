@@ -1,10 +1,12 @@
 import json
+
+from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
-from clients.models import Espelhamento, NovoEmail
+from clients.models import Espelhamento, NovoEmail, RegistroAtividades
 from users.models import CustomUser, UserProfile
 
 from .models import Clientes
@@ -51,7 +53,7 @@ def update_troca_assessor(request):
     Clientes.objects.filter(id=request.POST['id']).update(
         id=request.POST['id'],
         rotina=rotina,
-        zap_mail=request.POST['zap_mail'],
+        # zap_mail=request.POST['zap_mail'],
         status='ok',
         troca='ok',
         cliente_dia='sim',
@@ -106,7 +108,7 @@ def update_new_cliente(request):
         telefone=request.POST['telefone'],
         data_nascimento=request.POST['data_nascimento'],
         rotina=rotina,
-        zap_mail=request.POST['zap_mail'],
+        # zap_mail=request.POST['zap_mail'],
         status='ok',
         cliente_dia='sim',
         data_registro=data_em_texto
@@ -234,6 +236,399 @@ def upload_clientes(request):
 
     return redirect(reverse('clients:clients-list'))
 
+# funcoes ombording
+
+def change_tipo_contato(request):
+    Clientes.objects.filter(id=request.POST['id']).update(
+        id=request.POST['id'],
+        zap_mail=request.POST['zap_mail'],
+    )
+
+    data = RegistroAtividades(
+        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
+        registro='Tipo de contato do cliente foi alterado',
+        descricao=request.POST['zap_mail'],
+        assessor_responsavel=request.user.id
+    )
+    data.save()
+
+    response ='ok'
+
+    return HttpResponse(response)
+
+def acomp_perm(request):
+    Clientes.objects.filter(id=request.POST['id']).update(
+        id=request.POST['id'],
+        onbording_acomp_per=request.POST['onbording_acomp_per'],
+    )
+
+    if request.POST['onbording_acomp_per'] == 1:
+        acomp = 'Desejado'
+    else:
+        acomp = 'Indesejado'
+
+    data = RegistroAtividades(
+        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
+        registro='Acompanhamento permnente foi alterado',
+        descricao=acomp,
+        assessor_responsavel=request.user.id
+    )
+    data.save()
+
+    response = 'ok'
+
+    return HttpResponse(response)
+
+def acomp_rf(request):
+    Clientes.objects.filter(id=request.POST['id']).update(
+        id=request.POST['id'],
+        onbording_acomp_rf=request.POST['onbording_acomp_rf'],
+    )
+
+    if request.POST['onbording_acomp_rf'] == 1:
+        acomp = 'Desejado'
+    else:
+        acomp = 'Indesejado'
+
+    data = RegistroAtividades(
+        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
+        registro='Oportunidade RF foi alterado',
+        descricao=acomp,
+        assessor_responsavel=request.user.id
+    )
+    data.save()
+
+    response = 'ok'
+
+    return HttpResponse(response)
+
+def acomp_acoes(request):
+    Clientes.objects.filter(id=request.POST['id']).update(
+        id=request.POST['id'],
+        onbording_acomp_acoes=request.POST['onbording_acomp_acoes'],
+    )
+
+    if request.POST['onbording_acomp_acoes'] == 1:
+        acomp = 'Desejado'
+    else:
+        acomp = 'Indesejado'
+
+    data = RegistroAtividades(
+        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
+        registro='Oportunidade RF foi alterado',
+        descricao=acomp,
+        assessor_responsavel=request.user.id
+    )
+    data.save()
+
+    response = 'ok'
+
+    return HttpResponse(response)
+
+def acomp_fii(request):
+    Clientes.objects.filter(id=request.POST['id']).update(
+        id=request.POST['id'],
+        onbording_acomp_fii=request.POST['onbording_acomp_fii'],
+    )
+
+    if request.POST['onbording_acomp_fii'] == 1:
+        acomp = 'Desejado'
+    else:
+        acomp = 'Indesejado'
+
+    data = RegistroAtividades(
+        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
+        registro='Oportunidade FII foi alterado',
+        descricao=acomp,
+        assessor_responsavel=request.user.id
+    )
+    data.save()
+
+    response = 'ok'
+
+    return HttpResponse(response)
+
+def acomp_fiinvest(request):
+    Clientes.objects.filter(id=request.POST['id']).update(
+        id=request.POST['id'],
+        onbording_acomp_fiinvest=request.POST['onbording_acomp_fiinvest'],
+    )
+
+    if request.POST['onbording_acomp_fiinvest'] == 1:
+        acomp = 'Desejado'
+    else:
+        acomp = 'Indesejado'
+
+    data = RegistroAtividades(
+        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
+        registro='Oportunidade Fundo de Investimento foi alterado',
+        descricao=acomp,
+        assessor_responsavel=request.user.id
+    )
+    data.save()
+
+    response = 'ok'
+
+    return HttpResponse(response)
+
+def update_observacao(request):
+    Clientes.objects.filter(id=request.POST['id']).update(
+        id=request.POST['id'],
+        onbording_obs=request.POST['obs'],
+    )
+
+
+    data = RegistroAtividades(
+        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
+        registro='O Campo Observação foi alterado',
+        descricao=request.POST['obs'],
+        assessor_responsavel=request.user.id
+    )
+    data.save()
+
+    response = 'ok'
+
+    return HttpResponse(response)
+
+def enviar_implement(request):
+    data_atual = datetime.datetime.now()
+    data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
+
+    Clientes.objects.filter(id=request.POST['id']).update(
+        id=request.POST['id'],
+        onbording_impl_envio_sugestao=data_em_texto,
+    )
+
+
+    data = RegistroAtividades(
+        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
+        registro='Envio de Implementação',
+        descricao='-',
+        assessor_responsavel=request.user.id
+    )
+    data.save()
+
+    response = 'ok'
+
+    return HttpResponse(response)
+
+def enviar_sujest(request):
+    data_atual = datetime.datetime.now()
+    data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
+
+    Clientes.objects.filter(id=request.POST['id']).update(
+        id=request.POST['id'],
+        onbording_envio_sugestao=data_em_texto,
+    )
+
+
+    data = RegistroAtividades(
+        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
+        registro='Envio de Sujestão',
+        descricao='-',
+        assessor_responsavel=request.user.id
+    )
+    data.save()
+
+    response = 'ok'
+
+    return HttpResponse(response)
+
+def perfil_preenchido(request):
+    data_atual = datetime.datetime.now()
+    data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
+
+    Clientes.objects.filter(id=request.POST['id']).update(
+        id=request.POST['id'],
+        onbording_perfil_preenchido=data_em_texto,
+    )
+
+
+    data = RegistroAtividades(
+        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
+        registro='Perfil Ondemand Preenchido',
+        descricao='-',
+        assessor_responsavel=request.user.id
+    )
+    data.save()
+
+    response = 'ok'
+
+    return HttpResponse(response)
+
+def cliente_responde(request, id, token):
+
+    cliente = Clientes.objects.get(nickname=id)
+
+    context = {
+        'token': token,
+        'cliente': cliente
+    }
+
+    return render(request, 'clients/questinario.html', context)
+
+def obrigado_questionario(request):
+
+    return render(request, 'clients/obrigado.html')
+
+def send_email_ondemand(request):
+    data_atual = datetime.datetime.now()
+    data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
+
+    cliente = Clientes.objects.get(id=request.POST['id'])
+
+    codigo = cliente.nickname
+    token = hash(codigo)
+
+    body = 'Responda o questionário no link abaixo <br> <a href="'+request.build_absolute_uri('/clientes/questionario/'+str(codigo)+'/'+str(token)+'/')+'">Responder questionário</a>'
+
+    email = EmailMessage(
+        'Inove Investimentos | Seu Futuro Positivo',
+        # 'Renda Fixa',
+        body,
+        'Questionário Inove Investimentos <web@inoveinvestimentos.com.br>',
+        # ['ccunhafinance@hotmail.com', ],
+        ['ccunhafinance@gmail.com','bruno.martins@inoveinvestimentos.com.BR'],
+        reply_to=['ondemand@inoveinvestimentos.com.br'],
+        headers={'Message-ID': 'foo'},
+    )
+
+    email.content_subtype = "html"
+    email.send()
+
+    Clientes.objects.filter(id=request.POST['id']).update(
+        id=request.POST['id'],
+        token=token,
+        onbording_email=data_em_texto,
+    )
+
+    data = RegistroAtividades(
+        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
+        registro='Email de questionamento enviado!',
+        descricao='-',
+        assessor_responsavel=request.user.id
+    )
+    data.save()
+
+    return HttpResponse('ok')
+
+def save_by_client(request):
+    codigo = request.POST['codigo']
+
+    print(Clientes.objects.get(nickname=codigo).id)
+    onbording_acomp_acoes = request.POST.get('onbording_acomp_acoes', False)
+    onbording_acomp_fii = request.POST.get('onbording_acomp_fii', False)
+    onbording_acomp_fiinvest = request.POST.get('onbording_acomp_fiinvest', False)
+    onbording_acomp_per = request.POST.get('onbording_acomp_per', False)
+    onbording_acomp_rf = request.POST.get('onbording_acomp_rf', False)
+
+    if onbording_acomp_acoes != False:
+        onbording_acomp_acoes = 1
+    else:
+        onbording_acomp_acoes = 0
+
+    onbording_acomp_fii = request.POST.get('onbording_acomp_fii', False)
+    if onbording_acomp_fii != False:
+        onbording_acomp_fii = 1
+    else:
+        onbording_acomp_fii = 0
+
+    onbording_acomp_fiinvest = request.POST.get('onbording_acomp_fiinvest', False)
+    onbording_acomp_fiinvest = request.POST.get('onbording_acomp_fii', False)
+    if onbording_acomp_fiinvest != False:
+        onbording_acomp_fiinvest = 1
+    else:
+        onbording_acomp_fiinvest = 0
+    onbording_acomp_per = request.POST.get('onbording_acomp_per', False)
+    if onbording_acomp_per != False:
+        onbording_acomp_per = 1
+    else:
+        onbording_acomp_per = 0
+    onbording_acomp_rf = request.POST.get('onbording_acomp_rf', False)
+    if onbording_acomp_rf != False:
+        onbording_acomp_rf = 1
+    else:
+        onbording_acomp_rf = 0
+
+
+    Clientes.objects.filter(nickname=codigo).update(
+        id=Clientes.objects.get(nickname=codigo).id,
+
+        zap_mail=request.POST['zap_mail'],
+
+        onbording_acomp_acoes=onbording_acomp_acoes,
+        onbording_acomp_fii=onbording_acomp_fii,
+        onbording_acomp_fiinvest=onbording_acomp_fiinvest,
+        onbording_acomp_per=onbording_acomp_per,
+        onbording_acomp_rf=onbording_acomp_rf,
+
+        onbording_obs=request.POST['onbording_obs'],
+        token='false'
+
+    )
+
+
+    if onbording_acomp_per == 1:
+        a = 'sim'
+    else:
+        a = 'Não'
+
+    if onbording_acomp_rf == 1:
+        b = 'sim'
+    else:
+        b = 'Não'
+
+    if onbording_acomp_fiinvest == 1:
+        c = 'sim'
+    else:
+        c = 'Não'
+
+    if onbording_acomp_acoes == 1:
+        d = 'sim'
+    else:
+        d = 'Não'
+
+    if onbording_acomp_fii == 1:
+        e = 'sim'
+    else:
+        e = 'Não'
+
+
+    dados = ' - Meio de comunicação: '+request.POST['zap_mail']+'<br>'+\
+            '- Acompanhamento Permanente: '+a+\
+            '<br>- Oportunidades de Renda Fixa: '+b+\
+            '<br>- Oportunidades de Fundos de Investimentos: '+c+\
+            '<br>- Oportunidades de Ações: '+d+\
+            '<br>- Oportunidades de Fundos Imobiliários: '+e+\
+            '<br>- Observações: <br>'+request.POST['onbording_obs']
+
+
+
+    data = RegistroAtividades(
+        cliente_id=Clientes.objects.get(nickname=codigo).id,
+        registro='Questionário respondido Pelo cliente',
+        descricao=dados,
+        assessor_responsavel=Clientes.objects.get(nickname=codigo).assessor
+    )
+    data.save()
+
+    email = EmailMessage(
+        'Questinário respondido',
+        # 'Renda Fixa',
+        'O Cliente '+codigo+' respondeu o questionário!',
+        'Questionário Respondido <web@inoveinvestimentos.com.br>',
+        # ['ccunhafinance@hotmail.com', ],
+        ['ccunhafinance@gmail.com', 'bruno.martins@inoveinvestimentos.com.BR'],
+        reply_to=['ondemand@inoveinvestimentos.com.br'],
+        headers={'Message-ID': 'foo'},
+    )
+
+    email.content_subtype = "html"
+    email.send()
+
+    return redirect(reverse('clients:obrigado-questionario'))
+
+
 class ListViewClients(LoginRequiredMixin, generic.TemplateView):
     template_name = "clients/list_view.html"
     login_url = '/'
@@ -269,6 +664,9 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
 
         # print(f)
 
+        onbording = Clientes.objects.filter(rotina="1")
+        n_onboarding = len(onbording)
+
         clientes = Clientes.objects.filter(assessor=f)
         n_clientes = len(clientes)
         novos_clientes = Clientes.objects.filter(status='Novo',assessor=f)
@@ -285,6 +683,8 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
         troca = len(i)
 
         context = {
+            'n_onboarding': n_onboarding,
+            'onbording': onbording,
             'clientes': clientes,
             'n_clientes': n_clientes,
             'inativo': inativo,
@@ -314,6 +714,8 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
         }
 
         return context
+
+# ------------
 
 class ListMirrorView(LoginRequiredMixin, generic.TemplateView):
     template_name = "clients/mirror_view.html"
@@ -370,8 +772,6 @@ def rotina_emails(request, id):
     }
 
     return render(request, 'clients/rotina_view.html', context)
-
-
 
 def mirroradd(request):
     if request.method == 'POST':

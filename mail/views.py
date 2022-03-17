@@ -118,6 +118,9 @@ def cadastrar_template(request):
     data = EmailCategoria(
         EmailCategoria_id=request.POST['id'],
         nome=request.POST['nome'],
+        assunto=request.POST['assunto'],
+        titulo=request.POST['titulo'],
+        cabecalho=request.POST['cabecalho'],
         body=request.POST['body'],
         criado_por=request.user.id,
         data_insert=data_em_texto,
@@ -135,6 +138,9 @@ def save_edit_template(request):
     EmailCategoria.objects.filter(id=request.POST['id']).update(
         id=request.POST['id'],
         nome=request.POST['nome'],
+        assunto=request.POST['assunto'],
+        titulo=request.POST['titulo'],
+        cabecalho=request.POST['cabecalho'],
         body=request.POST['body'],
         editado_por=request.user.id,
         data_edited=data_em_texto,

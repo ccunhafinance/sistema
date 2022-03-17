@@ -29,8 +29,8 @@ def send_email_teste():
             dados = EmailCategoria.objects.filter(id=a_email.id_email)
 
             html_content = dados[0].body
-            refresh =html_content.replace('[FNAME]', Clientes.objects.get(id=a_email.cliente_id).nome)
-            refresh =refresh.replace('[CODCLIENTE]', Clientes.objects.get(id=a_email.cliente_id).nickname)
+            refresh = html_content.replace('[FNAME]', Clientes.objects.get(id=a_email.cliente_id).nome)
+            refresh = refresh.replace('[CODCLIENTE]', Clientes.objects.get(id=a_email.cliente_id).nickname)
             sexo = Clientes.objects.get(id=a_email.cliente_id).sexo
             if sexo == 'M':
                 n_sexo = 'bem vindo'
@@ -40,14 +40,14 @@ def send_email_teste():
 
 
             email = EmailMessage(
-                # dados[0].nome,
-                'Renda Fixa',
+                dados[0].nome,
+                # 'Renda Fixa',
                 refresh,
-                'Inove Investimentos | Seu Futuro Positivo',
+                'Inove Investimentos <web@inoveinvestimentos.com.br>',
                 ['ccunhafinance@hotmail.com',],
                 # ['ccunhafinance@gmail.com','bruno.martins@inoveinvestimentos.com.BR'],
                 reply_to=['ondemand@inoveinvestimentos.com.br'],
-                # headers={'Message-ID': 'foo'},
+                headers={'Message-ID': 'foo'},
             )
             email.content_subtype = "html"
             email.send()

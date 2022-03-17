@@ -42,6 +42,25 @@
                             <input type="text" id="example-palaceholder" class="form-control" value="{{ template.nome }}" name="nome" required >
                         </div>
 
+                        <hr>
+
+                        <div class="form-group">
+                            <label class="form-label" for="example-titulo">Título</label>
+                            <input type="text" id="example-titulo" class="form-control" placeholder="" name="titulo" required value="{{ template.titulo }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="example-cabecalho">Cabeçalho (preview)</label>
+                            <input type="text" id="example-cabecalho" class="form-control" placeholder="" name="cabecalho" required value="{{ template.cabecalho }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="example-assunto">Assunto</label>
+                            <input type="text" id="example-assunto" class="form-control" placeholder="" name="assunto" required value="{{ template.assunto }}">
+                        </div>
+
+                        <hr>
+
                         <div class="form-group">
                             <label class="form-label" for="example-textarea">Código do template</label>
                             <textarea class="form-control js-summernote" id="example-textarea" rows="5" name="body" required>

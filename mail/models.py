@@ -12,10 +12,17 @@ class Categoria(models.Model):
 class EmailCategoria(models.Model):
     EmailCategoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     nome = models.CharField('Nome',max_length=255, null=False, blank=False)
+    titulo = models.CharField('Titulo',max_length=255, null=True, blank=True)
+    cabecalho = models.CharField('Cabeçalho',max_length=255, null=True, blank=True)
+    assunto = models.CharField('Assunto',max_length=255, null=True, blank=True)
     body = models.TextField("Body", null=True, blank=True)
     criado_por = models.IntegerField('Criado por:', null=True, blank=True)
     editado_por = models.IntegerField('Editado por:', null=True, blank=True)
     data_insert = models.CharField('Data de cadastro', max_length=255, null=True, blank=True)
     data_edited = models.CharField('Data de edição', max_length=255, null=True, blank=True)
+
+
+
+
 
 

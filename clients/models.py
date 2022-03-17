@@ -23,6 +23,20 @@ class Clientes(models.Model):
     zap_mail = models.CharField("Zap", max_length=100, blank=True, null=True)
     cliente_dia = models.CharField("New", max_length=100, blank=True, null=True)
     data_registro = models.CharField("Data Registro", max_length=100, blank=True, null=True)
+    # novos campos
+    frequencia_contato = models.CharField(max_length=100, blank=True, null=True)
+    onbording_acomp_per = models.CharField(max_length=100, blank=True, null=True)
+    onbording_acomp_rf = models.CharField(max_length=100, blank=True, null=True)
+    onbording_acomp_acoes = models.CharField(max_length=100, blank=True, null=True)
+    onbording_acomp_fii = models.CharField(max_length=100, blank=True, null=True)
+    onbording_acomp_fiinvest = models.CharField(max_length=100, blank=True, null=True)
+    onbording_obs = models.TextField(blank=True, null=True)
+    onbording_email = models.TextField(blank=True, null=True)
+    onbording_envio_sugestao = models.TextField(blank=True, null=True)
+    onbording_impl_envio_sugestao = models.TextField(blank=True, null=True)
+    onbording_perfil_preenchido = models.TextField(blank=True, null=True)
+    token = models.TextField(blank=True, null=True)
+
 
 
 # Create your models here.
@@ -43,6 +57,14 @@ class NovoEmail(models.Model):
     data_status = models.DateField(blank=True, null=True)
     manual = models.CharField(max_length=100, blank=True, null=True)
     data_manual = models.DateField(blank=True, null=True)
+
+
+class RegistroAtividades(models.Model):
+    cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
+    registro = models.CharField(max_length=100, blank=True, null=True)
+    descricao = models.TextField(blank=True, null=True)
+    assessor_responsavel = models.CharField(max_length=100, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
 
 
 

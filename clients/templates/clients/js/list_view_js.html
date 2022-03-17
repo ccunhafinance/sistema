@@ -1,21 +1,25 @@
 {% load static %}
 <script src="{% static 'js/datagrid/datatables/datatables.bundle.js' %}"></script>
 <script src="{% static 'js/notifications/sweetalert2/sweetalert2.bundle.js' %}"></script>
+<script src="{% static 'js/notifications/toastr/toastr.js' %}"></script>
+
 <!-- Clipboard -->
 <script src="{% static 'js/clipboard/clipboard.min.js' %}"></script>
 <script>
 
-$(document).ready(function (){
 
-               new Clipboard('.bt-copy');
 
-           });
+    $(document).ready(function (){
 
-function copiei() {
+                   new Clipboard('.bt-copy');
 
-              $('#copiado').html('<span class="badge badge-success" style="float:right">Corpo do email copiado</span>').delay(2000).fadeOut('slow');
+               });
 
-           }
+    function copiei() {
+
+                  $('#copiado').html('<span class="badge badge-success" style="float:right">Corpo do email copiado</span>').delay(2000).fadeOut('slow');
+
+               }
 
     $(document).ready(function()
             {
@@ -455,6 +459,25 @@ function copiei() {
             {#"columns": [null,{ "orderSequence": [ "asc" ] },]#}
         });
 
+        $('#dt-basic-example9').dataTable(
+        {
+            order: [[ 2, "desc" ]],
+            paging: false,
+            responsive: {
+            breakpoints: [
+                { name: 'desktop', width: Infinity },
+                { name: 'tablet',  width: 1024 },
+                { name: 'fablet',  width: 768 },
+                { name: 'phone',   width: 480 }
+            ]
+        },
+            columnDefs: [
+
+            { details: true, targets: 0 },
+
+            ],
+        });
+
         $('#dt-basic-example4').dataTable(
         {
             responsive: true,
@@ -480,6 +503,416 @@ function copiei() {
         });
 
     });
+
+    function change_contato(val, valor){
+
+        var token = '{{ csrf_token }}';
+        var zap_mail = valor.value
+        var id = val
+
+            $.ajax({
+                type: "POST",
+                url: '{% url 'clients:change-tipo-contato' %}',
+                data: {
+                    csrfmiddlewaretoken: token,
+                    zap_mail: zap_mail,
+                    id: id,
+                },
+               success: function (response) {
+
+                        toastr.success('Tipo de contato alterado com sucesso!', zap_mail);
+                        toastr.options.timeOut = 1500; // 3s
+
+
+               },
+
+            })
+    }
+
+    function checkAcomPerm(id, val){
+
+        if (val.checked) {
+            check = 1
+            {#alert(check)#}
+        }
+        else {
+            check = 0
+            {#alert(check)#}
+        }
+
+        var token = '{{ csrf_token }}';
+
+            $.ajax({
+                type: "POST",
+                url: '{% url 'clients:acomp-perm' %}',
+                data: {
+                    csrfmiddlewaretoken: token,
+                    onbording_acomp_per: check,
+                    id: id,
+                },
+               success: function (response) {
+
+                     if( check == 1){
+                        toastr.success(' Adicionado!', 'Acompanhamento Permanente');
+                        toastr.options.timeOut = 1500; // 3s
+                    }else{
+                      toastr.error('Removido!', 'Acompanhamento Permanente');
+                        toastr.options.timeOut = 1500; // 3s
+                    }
+
+               },
+
+            })
+    }
+    function OptRf(id, val){
+
+        if (val.checked) {
+            check = 1
+            {#alert(check)#}
+        }
+        else {
+            check = 0
+            {#alert(check)#}
+        }
+
+        var token = '{{ csrf_token }}';
+
+            $.ajax({
+                type: "POST",
+                url: '{% url 'clients:acomp-rf' %}',
+                data: {
+                    csrfmiddlewaretoken: token,
+                    onbording_acomp_rf: check,
+                    id: id,
+                },
+               success: function (response) {
+
+                    if( check == 1){
+                        toastr.success('Adicionado!', 'Oportunidade de RF');
+                        toastr.options.timeOut = 1500; // 3s
+                    }else{
+                      toastr.error('Removida!', 'Oportunidade de RF');
+                        toastr.options.timeOut = 1500; // 3s
+                    }
+
+
+
+               },
+
+            })
+    }
+    function OptAcoes(id, val){
+
+        if (val.checked) {
+            check = 1
+            {#alert(check)#}
+        }
+        else {
+            check = 0
+            {#alert(check)#}
+        }
+
+        var token = '{{ csrf_token }}';
+
+            $.ajax({
+                type: "POST",
+                url: '{% url 'clients:acomp-acoes' %}',
+                data: {
+                    csrfmiddlewaretoken: token,
+                    onbording_acomp_acoes: check,
+                    id: id,
+                },
+               success: function (response) {
+
+                    if( check == 1){
+                        toastr.success('Adicionado!', 'Oportunidade Ações');
+                        toastr.options.timeOut = 1500; // 3s
+                    }else{
+                      toastr.error('Removida!', 'Oportunidade Ações');
+                        toastr.options.timeOut = 1500; // 3s
+                    }
+
+               },
+
+            })
+    }
+    function OptFii(id, val){
+
+        if (val.checked) {
+            check = 1
+            {#alert(check)#}
+        }
+        else {
+            check = 0
+            {#alert(check)#}
+        }
+
+        var token = '{{ csrf_token }}';
+
+            $.ajax({
+                type: "POST",
+                url: '{% url 'clients:acomp-fii' %}',
+                data: {
+                    csrfmiddlewaretoken: token,
+                    onbording_acomp_fii: check,
+                    id: id,
+                },
+               success: function (response) {
+
+                    if( check == 1){
+                        toastr.success('Adicionado!', 'Oportunidade de Fii');
+                        toastr.options.timeOut = 1500; // 3s
+                    }else{
+                      toastr.error('Removida!', 'Oportunidade de Fii');
+                        toastr.options.timeOut = 1500; // 3s
+                    }
+
+               },
+
+            })
+    }
+    function OptFinvest(id, val){
+
+        if (val.checked) {
+            check = 1
+            {#alert(check)#}
+        }
+        else {
+            check = 0
+            {#alert(check)#}
+        }
+
+        var token = '{{ csrf_token }}';
+
+            $.ajax({
+                type: "POST",
+                url: '{% url 'clients:acomp-fiinvest' %}',
+                data: {
+                    csrfmiddlewaretoken: token,
+                    onbording_acomp_fiinvest: check,
+                    id: id,
+                },
+               success: function (response) {
+
+                    if( check == 1){
+                        toastr.success('Adicionado!', 'Oportunidade Fundo de Investimento');
+                        toastr.options.timeOut = 1500; // 3s
+                    }else{
+                      toastr.error('Removida!', 'Oportunidade Fundo de Investimento');
+                        toastr.options.timeOut = 1500; // 3s
+                    }
+
+               },
+
+            })
+    }
+
+    function obsOpen(id, obs){
+        document.getElementById('pegaid').value = id
+        document.getElementById('modl_obs').value += obs
+    }
+
+    function enviarSugest(id){
+        var token = '{{ csrf_token }}';
+
+            $.ajax({
+                type: "POST",
+                url: '{% url 'clients:enviar-sugest' %}',
+                data: {
+                    csrfmiddlewaretoken: token,
+                    id: id,
+                },
+               success: function (response) {
+
+                   toastr.success('Enviado!', 'Envio Sujestão');
+                    toastr.options.timeOut = 1500; // 3s
+
+
+               },
+
+            })
+    }
+
+    function enviarImplement(id){
+        var token = '{{ csrf_token }}';
+
+            $.ajax({
+                type: "POST",
+                url: '{% url 'clients:enviar-implement' %}',
+                data: {
+                    csrfmiddlewaretoken: token,
+                    id: id,
+                },
+               success: function (response) {
+
+                   toastr.success('Enviado!', 'Envio Implementação Sujestão');
+                    toastr.options.timeOut = 1500; // 3s
+
+               },
+
+            })
+    }
+
+    function salvarObs(){
+        id = document.getElementById('pegaid').value
+        obs = document.getElementById('modl_obs').value
+
+         var token = '{{ csrf_token }}';
+
+            $.ajax({
+                type: "POST",
+                url: '{% url 'clients:update-observacao' %}',
+                data: {
+                    csrfmiddlewaretoken: token,
+                    obs: obs,
+                    id: id,
+                },
+               success: function (response) {
+
+                    toastr.success('Salvo!', 'Observação');
+                    toastr.options.timeOut = 1500; // 3s
+
+               },
+
+            })
+    }
+
+    function perfilPreenchido(id){
+        var token = '{{ csrf_token }}';
+        $.ajax({
+                type: "POST",
+                url: '{% url 'clients:perfil-preenchido' %}',
+                data: {
+                    csrfmiddlewaretoken: token,
+                    id: id,
+                },
+               success: function (response) {
+
+                   toastr.success('Salvo!', 'Perfil Preenchido');
+                    toastr.options.timeOut = 1500; // 3s
+
+
+               },
+
+            })
+    }
+
+    function get_category_template(sel) {
+       var token = '{{ csrf_token }}';
+
+        var choice = document.getElementById('select2insidemodal').value
+
+       {#alert();#}
+
+        $('#responsavel').html(sel.options[sel.selectedIndex].text);
+
+
+       if(choice)
+       {
+           $.ajax({
+               type: 'POST',
+               url: '{% url 'mail:get-all-templates' %}',
+               data: {
+                   choice: choice,
+                   csrfmiddlewaretoken: token
+               },
+               success: function (response) {
+
+                    {#console.log(response)#}
+
+                    $('#response').html(response);
+                    $(document).ready(function() {
+
+                        "use strict";
+                        $("#js-sweetalert2-example-8").on("click", function()
+                        {
+                            var swalWithBootstrapButtons = Swal.mixin(
+                            {
+                                customClass:
+                                {
+                                    confirmButton: "btn btn-primary",
+                                    cancelButton: "btn btn-danger mr-2"
+                                },
+                                buttonsStyling: false
+                            });
+                            swalWithBootstrapButtons
+                                .fire(
+                                {
+                                    title: "Deseja excluir a categoria?",
+                                    text: "Todos os templates relacionados a ela serão exluidos!",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonText: "Sim",
+                                    cancelButtonText: "Não",
+                                    reverseButtons: true
+                                })
+                                .then(function(result)
+                                {
+                                    if (result.value)
+                                    {
+                                        swalWithBootstrapButtons.fire(
+                                            "Excluido!",
+                                            "Todos os dados foram apagados.",
+                                            "success"
+                                        ).then(function() {
+                                                        {#window.location = "{% url 'mail:delete-template' kwargs={'num':id} %}";#}
+                                                        window.location = "/mail/delete_template/"+document.getElementById('id_category').value;
+                                                    });
+                                    }
+                                    else if (
+                                        // Read more about handling dismissals
+                                        result.dismiss === Swal.DismissReason.cancel
+                                    )
+                                    {
+                                        swalWithBootstrapButtons.fire(
+                                            "Ok",
+                                            "Os dados foram mantidos!",
+                                            "error"
+                                        );
+                                    }
+                                });
+                        });
+
+
+
+
+                    });
+
+               },
+           });
+       }
+       else
+       {
+           $('#response').html("");
+
+       }
+
+}
+
+    function sendEmailQuestionario(id){
+        var token = '{{ csrf_token }}';
+        $.ajax({
+                type: "POST",
+                url: '{% url 'clients:mail-ondemand' %}',
+                data: {
+                    csrfmiddlewaretoken: token,
+                    id: id,
+                },
+               success: function (response) {
+
+                   toastr.success('Enviado!', 'Email Ondemand');
+                    toastr.options.timeOut = 1500; // 3s
+
+
+               },
+
+            })
+    }
+
+
+    {#$('#zap_mail').change(function () {#}
+    {#    #}
+    {#    });#}
 
 </script>
 

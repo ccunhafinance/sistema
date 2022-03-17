@@ -39,5 +39,5 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
 
 def teste(request):
     # sleepy.delay(10)
-    # send_email_teste.delay()
+    send_email_teste.delay()
     return HttpResponse('ok')
