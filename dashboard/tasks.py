@@ -10,6 +10,7 @@ from mail.models import *
 
 
 
+
 @shared_task
 def sleepy(duration):
     sleep(duration)
@@ -55,6 +56,7 @@ def send_email_teste():
             NovoEmail.objects.filter(id=a_email.id).update(
                 status='OK',
             )
+            sleepy(60)
 
 
         return None

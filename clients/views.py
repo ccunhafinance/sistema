@@ -486,9 +486,10 @@ def send_email_ondemand(request):
         'Inove Investimentos | Seu Futuro Positivo',
         # 'Renda Fixa',
         body,
-        'Questionário Inove Investimentos <web@inoveinvestimentos.com.br>',
-        # ['ccunhafinance@hotmail.com', ],
-        ['ccunhafinance@gmail.com','bruno.martins@inoveinvestimentos.com.BR'],
+        'web@inoveinvestimentos.com.br',
+        ['ccunhafinance@hotmail.com', ],
+        # ['ccunhafinance@gmail.com','bruno.martins@inoveinvestimentos.com.BR'],
+        # ['ccunhafinance@gmail.com','bruno.martins@inoveinvestimentos.com.BR'],
         reply_to=['ondemand@inoveinvestimentos.com.br'],
         headers={'Message-ID': 'foo'},
     )
