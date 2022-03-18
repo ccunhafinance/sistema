@@ -518,11 +518,6 @@ def save_by_client(request):
 
     print(Clientes.objects.get(nickname=codigo).id)
     onbording_acomp_acoes = request.POST.get('onbording_acomp_acoes', False)
-    onbording_acomp_fii = request.POST.get('onbording_acomp_fii', False)
-    onbording_acomp_fiinvest = request.POST.get('onbording_acomp_fiinvest', False)
-    onbording_acomp_per = request.POST.get('onbording_acomp_per', False)
-    onbording_acomp_rf = request.POST.get('onbording_acomp_rf', False)
-
     if onbording_acomp_acoes != False:
         onbording_acomp_acoes = 1
     else:

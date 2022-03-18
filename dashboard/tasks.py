@@ -44,8 +44,8 @@ def send_email_teste():
                 dados[0].nome,
                 # 'Renda Fixa',
                 refresh,
-                'Inove Investimentos <web@inoveinvestimentos.com.br>',
-                ['ccunhafinance@hotmail.com',],
+                'Inove Investimentos <cunhafinance@hotmail.com>',
+                ['ccunhafinance@gmail.com',],
                 # ['ccunhafinance@gmail.com','bruno.martins@inoveinvestimentos.com.BR'],
                 reply_to=['ondemand@inoveinvestimentos.com.br'],
                 headers={'Message-ID': 'foo'},
@@ -56,10 +56,10 @@ def send_email_teste():
             NovoEmail.objects.filter(id=a_email.id).update(
                 status='OK',
             )
-            sleepy(60)
+            sleepy(5)
 
 
-        return None
+        return 'Email Enviado!'
 
     except Exception as e:
         print(e)
