@@ -44,9 +44,9 @@ def send_email_teste():
                 dados[0].nome,
                 # 'Renda Fixa',
                 refresh,
-                'Inove Investimentos <cunhafinance@hotmail.com>',
-                ['ccunhafinance@gmail.com',],
-                # ['ccunhafinance@gmail.com','bruno.martins@inoveinvestimentos.com.BR'],
+                'Inove Investimentos |Seu Futuro Positivo <web@inoveinvestimentos.com.br>',
+                # ['ccunhafinance@gmail.com',],
+                ['ccunhafinance@hotmail.com', 'bruno.martins@inoveinvestimentos.com.br'],
                 reply_to=['ondemand@inoveinvestimentos.com.br'],
                 headers={'Message-ID': 'foo'},
             )
