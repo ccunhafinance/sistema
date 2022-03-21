@@ -46,7 +46,7 @@ def send_email_teste():
                 refresh,
                 'Inove Investimentos |Seu Futuro Positivo <web@inoveinvestimentos.com.br>',
                 # ['ccunhafinance@gmail.com',],
-                ['ccunhafinance@hotmail.com', 'bruno.martins@inoveinvestimentos.com.br'],
+                ['ccunhafinance@hotmail.com', 'bruno.martins@inoveinvestimentos.com.br','brunorochamartins@live.com','ccunhafinance@gmail.com',],
                 reply_to=['ondemand@inoveinvestimentos.com.br'],
                 headers={'Message-ID': 'foo'},
             )

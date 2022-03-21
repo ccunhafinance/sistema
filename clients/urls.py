@@ -16,6 +16,7 @@ urlpatterns = [
          path('mirror/delete/<int:pk>/', views.mirrordelete, name="mirror-delete"),
          path('mirror/get-cliente-data/', views.get_cliente_data, name="get-cliente-data"),
          path('change-tipo-contato/', views.change_tipo_contato, name="change-tipo-contato"),
+         path('change-frequencia-contato/', views.change_frequencia_contato, name="change-frequencia-contato"),
          path('acomp-perm/', views.acomp_perm, name="acomp-perm"),
          path('acomp-acomp_rf/', views.acomp_rf, name="acomp-rf"),
          path('acomp_acoes/', views.acomp_acoes, name="acomp-acoes"),

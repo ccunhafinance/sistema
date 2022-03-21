@@ -19,26 +19,43 @@
       <hr>
 
       <form method="post" action="{% url 'clients:save-by-client' %}">
-          {% csrf_token %}
+      {% csrf_token %}
           <input hidden name="codigo" value="{{ cliente.nickname }}">
+            <div class="form-group row">
+    <label for="zap_mail" class="col-4 col-form-label">Meio de Comunicação</label>
+    <div class="col-8">
+      <select id="zap_mail" name="zap_mail" aria-describedby="zap_mailHelpBlock" required="required" class="custom-select">
+        <option value="WhatsApp">WhatsApp</option>
+        <option value="Telefone">Telefone</option>
+        <option value="Email">Email</option>
+      </select>
+      <span id="zap_mailHelpBlock" class="form-text text-muted">Qual o melhor meio para nos comunicarmos?</span>
+    </div>
+    </div>
+          <hr>
           <div class="form-group row">
-            <label for="zap_mail" class="col-4 col-form-label">Meio de Comunicação</label>
+            <label for="frequencia_contato" class="col-4 col-form-label">Frequência de contato</label>
             <div class="col-8">
-              <select id="zap_mail" name="zap_mail" aria-describedby="zap_mailHelpBlock" required="required" class="custom-select">
-                <option value="WhatsApp">WhatsApp</option>
-                <option value="Telefone">Telefone</option>
-                <option value="E-mail">E-mail</option>
+              <select id="frequencia_contato" name="frequencia_contato" aria-describedby="frequencia_contatoHelpBlock" required="required" class="custom-select">
+                <option value="1 mês">1 mês</option>
+                <option value="3 mêses">3 mêses</option>
+                <option value="6 mêses">6 mêses</option>
+                <option value="12 mêses">12 mêses</option>
               </select>
-              <span id="zap_mailHelpBlock" class="form-text text-muted">Qual o melhor meio para nos comunicarmos?</span>
+              <span id="frequencia_contatoHelpBlock" class="form-text text-muted">Com qual frequência gostaria que entremos en contatos?</span>
             </div>
           </div>
           <hr>
           <div class="form-group row">
             <label class="col-4">Acompanhamento Permanente</label>
             <div class="col-8">
-              <div class="custom-control custom-checkbox custom-control-inline">
-                <input name="onbording_acomp_per" id="onbording_acomp_per_0" type="checkbox" aria-describedby="onbording_acomp_perHelpBlock" class="custom-control-input" value="1">
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="onbording_acomp_per" id="onbording_acomp_per_0" type="radio" aria-describedby="onbording_acomp_perHelpBlock" required="required" class="custom-control-input" value="Sim" checked>
                 <label for="onbording_acomp_per_0" class="custom-control-label">Sim</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="onbording_acomp_per" id="onbording_acomp_per_1" type="radio" aria-describedby="onbording_acomp_perHelpBlock" required="required" class="custom-control-input" value="Não">
+                <label for="onbording_acomp_per_1" class="custom-control-label">Não</label>
               </div>
               <span id="onbording_acomp_perHelpBlock" class="form-text text-muted">Você gostaria de receber o acompanhamento permanente da sua conta? Acompanhamento de vencimento de renda fixa, expiração de cadastro e suitability, saldo negativo.</span>
             </div>
@@ -47,9 +64,13 @@
           <div class="form-group row">
             <label class="col-4">Oportunidades de Renda Fixa</label>
             <div class="col-8">
-              <div class="custom-control custom-checkbox custom-control-inline">
-                <input name="onbording_acomp_rf" id="onbording_acomp_rf_0" type="checkbox" aria-describedby="onbording_acomp_rfHelpBlock" class="custom-control-input" value="1">
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="onbording_acomp_rf" id="onbording_acomp_rf_0" type="radio" aria-describedby="onbording_acomp_rfHelpBlock" required="required" class="custom-control-input" value="Sim" checked>
                 <label for="onbording_acomp_rf_0" class="custom-control-label">Sim</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="onbording_acomp_rf" id="onbording_acomp_rf_1" type="radio" aria-describedby="onbording_acomp_rfHelpBlock" required="required" class="custom-control-input" value="Não">
+                <label for="onbording_acomp_rf_1" class="custom-control-label">Não</label>
               </div>
               <span id="onbording_acomp_rfHelpBlock" class="form-text text-muted">Você gostaria de receber oportunidades de renda fixa?</span>
             </div>
@@ -58,9 +79,13 @@
           <div class="form-group row">
             <label class="col-4">Oportunidades de Fundos de Investimentos</label>
             <div class="col-8">
-              <div class="custom-control custom-checkbox custom-control-inline">
-                <input name="onbording_acomp_fiinvest" id="onbording_acomp_fiinvest_0" type="checkbox" aria-describedby="onbording_acomp_fiinvestHelpBlock" class="custom-control-input" value="1">
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="onbording_acomp_fiinvest" id="onbording_acomp_fiinvest_0" type="radio" aria-describedby="onbording_acomp_fiinvestHelpBlock" required="required" class="custom-control-input" value="Sim" checked>
                 <label for="onbording_acomp_fiinvest_0" class="custom-control-label">Sim</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="onbording_acomp_fiinvest" id="onbording_acomp_fiinvest_1" type="radio" aria-describedby="onbording_acomp_fiinvestHelpBlock" required="required" class="custom-control-input" value="Não">
+                <label for="onbording_acomp_fiinvest_1" class="custom-control-label">Não</label>
               </div>
               <span id="onbording_acomp_fiinvestHelpBlock" class="form-text text-muted">Você gostaria de receber oportunidades de fundos de investimentos?</span>
             </div>
@@ -69,9 +94,13 @@
           <div class="form-group row">
             <label class="col-4">Oportunidades de Ações</label>
             <div class="col-8">
-              <div class="custom-control custom-checkbox custom-control-inline">
-                <input name="onbording_acomp_acoes" id="onbording_acomp_acoes_0" type="checkbox" aria-describedby="onbording_acomp_acoesHelpBlock" class="custom-control-input" value="1">
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="onbording_acomp_acoes" id="onbording_acomp_acoes_0" type="radio" aria-describedby="onbording_acomp_acoesHelpBlock" class="custom-control-input" value="Sim" checked>
                 <label for="onbording_acomp_acoes_0" class="custom-control-label">Sim</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="onbording_acomp_acoes" id="onbording_acomp_acoes_1" type="radio" aria-describedby="onbording_acomp_acoesHelpBlock" class="custom-control-input" value="Não">
+                <label for="onbording_acomp_acoes_1" class="custom-control-label">Não</label>
               </div>
               <span id="onbording_acomp_acoesHelpBlock" class="form-text text-muted">Você gostaria de receber oportunidades de ações?</span>
             </div>
@@ -80,9 +109,13 @@
           <div class="form-group row">
             <label class="col-4">Oportunidades de Fundos Imobiliários</label>
             <div class="col-8">
-              <div class="custom-control custom-checkbox custom-control-inline">
-                <input name="onbording_acomp_fii" id="onbording_acomp_fii_0" type="checkbox" aria-describedby="onbording_acomp_fiiHelpBlock" class="custom-control-input" value="1">
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="onbording_acomp_fii" id="onbording_acomp_fii_0" type="radio" aria-describedby="onbording_acomp_fiiHelpBlock" required="required" class="custom-control-input" value="Sim" checked>
                 <label for="onbording_acomp_fii_0" class="custom-control-label">Sim</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="onbording_acomp_fii" id="onbording_acomp_fii_1" type="radio" aria-describedby="onbording_acomp_fiiHelpBlock" required="required" class="custom-control-input" value="Não">
+                <label for="onbording_acomp_fii_1" class="custom-control-label">Não</label>
               </div>
               <span id="onbording_acomp_fiiHelpBlock" class="form-text text-muted">Você gostaria de receber oportunidades de fundos imobiliários?</span>
             </div>
@@ -91,7 +124,7 @@
           <div class="form-group row">
             <label for="onbording_obs" class="col-4 col-form-label">Observações</label>
             <div class="col-8">
-              <textarea id="onbording_obs" name="onbording_obs" cols="40" rows="5" aria-describedby="onbording_obsHelpBlock" class="form-control"></textarea>
+              <textarea id="onbording_obs" name="onbording_obs" cols="40" rows="8" aria-describedby="onbording_obsHelpBlock" class="form-control"></textarea>
               <span id="onbording_obsHelpBlock" class="form-text text-muted">Sinta-se à vontade para deixar abaixo suas críticas e sugestões. Diga-nos como podemos melhorar o nosso contato com você.</span>
             </div>
           </div>
@@ -102,6 +135,7 @@
             </div>
           </div>
     </form>
+
 
       {% else %}
           <h1 style="margin-top: 300px" class="text-center text-danger">Esta página não está mais acessível!</h1>

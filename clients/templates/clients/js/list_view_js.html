@@ -504,6 +504,27 @@
 
     });
 
+    function change_frequencia(val, valor){
+        var token = '{{ csrf_token }}';
+        var frequencia_contato = valor.value
+
+            $.ajax({
+                type: "POST",
+                url: '{% url 'clients:change-frequencia-contato' %}',
+                data: {
+                    csrfmiddlewaretoken: token,
+                    frequencia_contato: frequencia_contato,
+                    id: val,
+                },
+               success: function (response) {
+                toastr.success('Frequencia de contato alterada com sucesso!', frequencia_contato );
+                toastr.options.timeOut = 1500; // 3s
+               },
+
+            })
+    }
+
+
     function change_contato(val, valor){
 
         var token = '{{ csrf_token }}';
@@ -519,11 +540,8 @@
                     id: id,
                 },
                success: function (response) {
-
-                        toastr.success('Tipo de contato alterado com sucesso!', zap_mail);
-                        toastr.options.timeOut = 1500; // 3s
-
-
+                toastr.success('Tipo de contato alterado com sucesso!', zap_mail);
+                toastr.options.timeOut = 1500; // 3s
                },
 
             })
@@ -532,11 +550,11 @@
     function checkAcomPerm(id, val){
 
         if (val.checked) {
-            check = 1
+            check = 'Sim'
             {#alert(check)#}
         }
         else {
-            check = 0
+            check = 'Não'
             {#alert(check)#}
         }
 
@@ -552,7 +570,7 @@
                 },
                success: function (response) {
 
-                     if( check == 1){
+                     if( check == 'Sim'){
                         toastr.success(' Adicionado!', 'Acompanhamento Permanente');
                         toastr.options.timeOut = 1500; // 3s
                     }else{
@@ -567,11 +585,11 @@
     function OptRf(id, val){
 
         if (val.checked) {
-            check = 1
+            check = 'Sim'
             {#alert(check)#}
         }
         else {
-            check = 0
+            check = 'Não'
             {#alert(check)#}
         }
 
@@ -587,7 +605,7 @@
                 },
                success: function (response) {
 
-                    if( check == 1){
+                    if( check == 'Sim'){
                         toastr.success('Adicionado!', 'Oportunidade de RF');
                         toastr.options.timeOut = 1500; // 3s
                     }else{
@@ -604,11 +622,11 @@
     function OptAcoes(id, val){
 
         if (val.checked) {
-            check = 1
+            check = 'Sim'
             {#alert(check)#}
         }
         else {
-            check = 0
+            check = 'Não'
             {#alert(check)#}
         }
 
@@ -624,7 +642,7 @@
                 },
                success: function (response) {
 
-                    if( check == 1){
+                    if( check == 'Sim'){
                         toastr.success('Adicionado!', 'Oportunidade Ações');
                         toastr.options.timeOut = 1500; // 3s
                     }else{
@@ -639,11 +657,11 @@
     function OptFii(id, val){
 
         if (val.checked) {
-            check = 1
+            check = 'Sim'
             {#alert(check)#}
         }
         else {
-            check = 0
+            check = 'Não'
             {#alert(check)#}
         }
 
@@ -659,7 +677,7 @@
                 },
                success: function (response) {
 
-                    if( check == 1){
+                    if( check == 'Sim'){
                         toastr.success('Adicionado!', 'Oportunidade de Fii');
                         toastr.options.timeOut = 1500; // 3s
                     }else{
@@ -674,11 +692,11 @@
     function OptFinvest(id, val){
 
         if (val.checked) {
-            check = 1
+            check = 'Sim'
             {#alert(check)#}
         }
         else {
-            check = 0
+            check = 'Não'
             {#alert(check)#}
         }
 
@@ -694,7 +712,7 @@
                 },
                success: function (response) {
 
-                    if( check == 1){
+                    if( check == 'Sim'){
                         toastr.success('Adicionado!', 'Oportunidade Fundo de Investimento');
                         toastr.options.timeOut = 1500; // 3s
                     }else{

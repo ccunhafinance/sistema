@@ -287,7 +287,7 @@
                                 <tbody>
                                 {% for cliente in clientes %}
 
-                                        <tr {% if cliente.status == 'Inativo' %} class="disabled" {% endif %} {% if cliente.status == 'Novo' %} class="text-success" {% endif %}>
+                                        <tr {% if cliente.status == 'Inativo' %} class="disabled" {% endif %} >
                                             <td>
                                                 <a href="{% url 'clients:rotina_emails' cliente.id %}">
                                                     {{ cliente.nickname }}
@@ -295,12 +295,12 @@
 
 
                                             </td>
-                                            <td>{{ cliente.nome }}</td>
-                                            <td>{{ cliente.sexo }}</td>
-                                            <td>{{ cliente.email|default:'<span class=""></span>' }}</td>
-                                            <td>{{ cliente.telefone }}</td>
-                                            <td>{{ cliente.assessor }}</td>
-                                            <td>{{ cliente.data_nascimento }}</td>
+                                            <td>{{ cliente.nome|default:'' }}</td>
+                                            <td>{{ cliente.sexo|default:'' }}</td>
+                                            <td>{{ cliente.email|default:'' }}</td>
+                                            <td>{{ cliente.telefone|default:'' }}</td>
+                                            <td>{{ cliente.assessor|default:'' }}</td>
+                                            <td>{{ cliente.data_nascimento|default:'' }}</td>
                                             <td class="text-center">{% if cliente.rotina == '1' %}<i class="fal fa-check"></i>{% endif %}</td>
                                             <td class="text-center">{{ cliente.zap_mail|default:"-" }}</td>
                                         </tr>
@@ -334,14 +334,14 @@
                                         {% if cliente.status != 'Inativo' %}
 
                                         <tr >
-                                            <td>{{ cliente.nickname }}</td>
-                                            <td>{{ cliente.nome }}</td>
-                                            <td>{{ cliente.sexo }}</td>
-                                            <td>{{ cliente.email }}</td>
-                                            <td>{{ cliente.telefone }}</td>
-                                            <td>{{ cliente.assessor }}</td>
-                                            <td>{{ cliente.data_nascimento }}</td>
-                                            <td>{{ cliente.data_registro }}</td>
+                                            <td>{{ cliente.nickname|default:'' }}</td>
+                                            <td>{{ cliente.nome|default:'' }}</td>
+                                            <td>{{ cliente.sexo|default:'' }}</td>
+                                            <td>{{ cliente.email|default:'' }}</td>
+                                            <td>{{ cliente.telefone|default:'' }}</td>
+                                            <td>{{ cliente.assessor|default:'' }}</td>
+                                            <td>{{ cliente.data_nascimento|default:'' }}</td>
+                                            <td>{{ cliente.data_registro|default:'' }}</td>
                                         </tr>
                                         {% endif %}
 
@@ -372,14 +372,14 @@
                                     {% for cliente in inativo %}
 
                                         <tr>
-                                            <td>{{ cliente.nickname }}</td>
-                                            <td>{{ cliente.nome }}</td>
-                                            <td>{{ cliente.sexo }}</td>
-                                            <td>{{ cliente.email }}</td>
-                                            <td>{{ cliente.telefone }}</td>
-                                            <td>{{ cliente.assessor }}</td>
-                                            <td>{{ cliente.data_nascimento }}</td>
-                                            <td>{{ cliente.data_registro }}</td>
+                                            <td>{{ cliente.nickname|default:'' }}</td>
+                                            <td>{{ cliente.nome|default:'' }}</td>
+                                            <td>{{ cliente.sexo|default:'' }}</td>
+                                            <td>{{ cliente.email|default:'' }}</td>
+                                            <td>{{ cliente.telefone|default:'' }}</td>
+                                            <td>{{ cliente.assessor|default:'' }}</td>
+                                            <td>{{ cliente.data_nascimento|default:'' }}</td>
+                                            <td>{{ cliente.data_registro|default:'' }}</td>
                                         </tr>
 
                                     {% endfor %}
@@ -427,9 +427,9 @@
                                                             <option value="F" {% if cliente.sexo == 'F' %} selected {% endif %}>F</option>
                                                         </select>
                                                     </td>
-                                                    <td><input type="text" class="form-control" name="email" value="{{ cliente.email }}" required></td>
-                                                    <td><input type="text" class="form-control" name="telefone" value="{{ cliente.telefone }}" required></td>
-                                                    <td><input type="text" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento }}" required></td>
+                                                    <td><input type="text" class="form-control" name="email" value="{{ cliente.email|default:'' }}" required></td>
+                                                    <td><input type="text" class="form-control" name="telefone" value="{{ cliente.telefone|default:'' }}" required></td>
+                                                    <td><input type="text" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento|default:'' }}" required></td>
                                                     <td class="text-center">
                                                         <input type="checkbox" style="margin-top: 15px" name="rotina" value="1" checked>
                                                     </td>
@@ -497,21 +497,20 @@
 
                                 <thead>
                                     <tr>
-                                        <th style="white-space:nowrap;">Status</th>
+                                        <th style="white-space:nowrap;">Email onboarding</th>
                                         <th style="white-space:nowrap;">Cod</th>
                                         <th style="white-space:nowrap;">Nome</th>
                                         <th style="white-space:nowrap;">Freq. de contato</th>
-                                        <th class="" style="white-space:nowrap;">Contato</th>
+                                        <th style="white-space:nowrap;">Perfil preenchido</th>
+                                        <th class="" style="white-space:nowrap;">Meio de Contato</th>
                                         <th class="" style="white-space:nowrap;">Acomp. Perm.</th>
                                         <th class="" style="white-space:nowrap;">Oport. RF</th>
                                         <th class="" style="white-space:nowrap;">Oport. Ações</th>
                                         <th class="" style="white-space:nowrap;">Oport. Fii</th>
                                         <th class="" style="white-space:nowrap;">Oport. F. Invest.</th>
-                                        <th class="phone">Observação</th>
-                                        <th class="phone">Enviar email onboarding</th>
                                         <th class="phone">Envio Sugestão (botão para salvar data)</th>
                                         <th class="phone">Implementação Sugestão (botão para salvar data)</th>
-                                        <th class="phone">Perfil preenchido</th>
+                                        <th class="phone">Observação</th>
                                     </tr>
                                 </thead>
 
@@ -519,20 +518,27 @@
                                 {% for cliente in onbording %}
 
                                         <tr>
-                                            <td>
-                                                {% if cliente.onbording_perfil_preenchido == None %}
-                                                    <i class="fal fa-minus-circle text-danger"></i>
-                                                {% else %}
-                                                    <i class="fal fa-check text-success"></i>
-                                                {% endif %}
-
-
-                                            </td>
+                                            <td><button class="btn btn-sm btn-default" onclick="sendEmailQuestionario('{{ cliente.id }}')">Enviar</button></td>
                                             <td>
                                                 {{ cliente.nickname }}
                                             </td>
                                             <td>{{ cliente.nome|split:' '|first }}</td>
-                                            <td>frequencia</td>
+                                            <td>
+                                                <select id="frequencia_contato" class="form-control" name="frequencia_contato" required onchange="change_frequencia('{{ cliente.id }}', this)">
+                                                    <option value="Não Definido" {% if cliente.frequencia_contato == 'Não Definido' %} selected {% endif %}>Não Definido</option>
+                                                    <option value="1 mês" {% if cliente.frequencia_contato == '1 mês' %} selected {% endif %}>1 mês</option>
+                                                    <option value="3 mêses" {% if cliente.frequencia_contato == '3 mêses' %} selected {% endif %}>3 mêses</option>
+                                                    <option value="6 mêses" {% if cliente.frequencia_contato == '6 mêses' %} selected {% endif %}>6 mêses</option>
+                                                    <option value="12 mêses" {% if cliente.frequencia_contato == '12 mêses' %} selected {% endif %}>12 mêses</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                {% if cliente.onbording_perfil_preenchido == None or cliente.onbording_perfil_preenchido == '' %}
+                                                    <button class="btn btn-sm btn-default" onclick="perfilPreenchido('{{ cliente.id }}')">Perfil Preenchido</button>
+                                                {% else %}
+                                                    <button class="btn btn-sm btn-default disabled" >Preenchido <i class="fal fa-check-circle text-success"></i></button>
+                                                {% endif %}
+                                            </td>
                                             <td>
                                                 <select id="zap_mail" class="form-control" name="zap_mail" required onchange="change_contato('{{ cliente.id }}', this)">
                                                     <option value="Não Definido" {% if cliente.zap_mail == 'Não Definido' %} selected {% endif %}>Não Definido</option>
@@ -541,13 +547,11 @@
                                                     <option value="Email" {% if cliente.zap_mail == 'Email' %} selected {% endif %}>Email</option>
                                                 </select>
                                             </td>
-                                            <td><input type="checkbox" {% if cliente.onbording_acomp_per == '1' %} checked {% endif %}  onchange="checkAcomPerm('{{ cliente.id }}', this)"></td>
-                                            <td><input type="checkbox" {% if cliente.onbording_acomp_rf == '1' %} checked {% endif %} onchange="OptRf('{{ cliente.id }}', this)"></td>
-                                            <td><input type="checkbox" {% if cliente.onbording_acomp_acoes == '1' %} checked {% endif %} onchange="OptAcoes('{{ cliente.id }}', this)"></td>
-                                            <td><input type="checkbox" {% if cliente.onbording_acomp_fii == '1' %} checked {% endif %} onchange="OptFii('{{ cliente.id }}', this)"></td>
-                                            <td><input type="checkbox" {% if cliente.onbording_acomp_fiinvest == '1' %} checked {% endif %} onchange="OptFinvest('{{ cliente.id }}', this)"></td>
-                                            <td><button id="addobserva" class="btn btn-sm btn-default" data-toggle="modal" data-target="#default-example-modal" onclick="obsOpen('{{ cliente.id }}', '{{ cliente.onbording_obs }}')">Observações</button> &nbsp; {{ cliente.onbording_obs|default:'Nenhuma observação adicionada até o momento' }}</td>
-                                            <td><button class="btn btn-sm btn-default" onclick="sendEmailQuestionario('{{ cliente.id }}')">Enviar Email Onbording</button></td>
+                                            <td><input type="checkbox" {% if cliente.onbording_acomp_per == 'Sim' %} checked {% endif %}  onchange="checkAcomPerm('{{ cliente.id }}', this)"></td>
+                                            <td><input type="checkbox" {% if cliente.onbording_acomp_rf == 'Sim' %} checked {% endif %} onchange="OptRf('{{ cliente.id }}', this)"></td>
+                                            <td><input type="checkbox" {% if cliente.onbording_acomp_acoes == 'Sim' %} checked {% endif %} onchange="OptAcoes('{{ cliente.id }}', this)"></td>
+                                            <td><input type="checkbox" {% if cliente.onbording_acomp_fii == 'Sim' %} checked {% endif %} onchange="OptFii('{{ cliente.id }}', this)"></td>
+                                            <td><input type="checkbox" {% if cliente.onbording_acomp_fiinvest == 'Sim' %} checked {% endif %} onchange="OptFinvest('{{ cliente.id }}', this)"></td>
                                             <td>
                                                 {% if cliente.onbording_envio_sugestao == None or cliente.onbording_envio_sugestao == '' %}
                                                     <button id="btnSujest_{{ cleinte.id }}" class="btn btn-sm btn-default" onclick="enviarSugest('{{ cliente.id }}')">Enviar sugestão</button>
@@ -563,15 +567,9 @@
                                                 {% endif %}
 
                                             </td>
-                                            <td>
-                                                {% if cliente.onbording_perfil_preenchido == None or cliente.onbording_perfil_preenchido == '' %}
-                                                    <button class="btn btn-sm btn-default" onclick="perfilPreenchido('{{ cliente.id }}')">Perfil Preenchido</button>
-                                                {% else %}
-                                                    <button class="btn btn-sm btn-default disabled" >Preenchido <i class="fal fa-check-circle text-success"></i></button>
-                                                {% endif %}
+                                            <td><button id="addobserva" class="btn btn-sm btn-default" data-toggle="modal" data-target="#default-example-modal" onclick="obsOpen('{{ cliente.id }}', '{{ cliente.onbording_obs }}')">Adicionar</button> &nbsp; {{ cliente.onbording_obs|default:'Nenhuma observação adicionada até o momento' }}</td>
 
 
-                                            </td>
                                         </tr>
 
                                 {% endfor %}
@@ -655,7 +653,7 @@
                                         {% for contato in contatos %}
 
                                             <tr>
-                                                <td>{{ contato.nome|split:' '|first|lower|capfirst }}/{{ contato.nome|split:' '|last|lower|capfirst }}/{{ contato.nickname }}</td>
+                                                <td>{{ contato.nome|split:' '|first|lower|capfirst }} {{ contato.nome|split:' '|last|lower|capfirst }} {{ contato.nickname }}</td>
                                                 <td>{{ contato.telefone }}</td>
                                             </tr>
 

@@ -256,6 +256,24 @@ def change_tipo_contato(request):
 
     return HttpResponse(response)
 
+def change_frequencia_contato(request):
+    Clientes.objects.filter(id=request.POST['id']).update(
+        id=request.POST['id'],
+        frequencia_contato=request.POST['frequencia_contato'],
+    )
+
+    data = RegistroAtividades(
+        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
+        registro='Frequência de contato do cliente foi alterado',
+        descricao=request.POST['frequencia_contato'],
+        assessor_responsavel=request.user.id
+    )
+    data.save()
+
+    response ='ok'
+
+    return HttpResponse(response)
+
 def acomp_perm(request):
     Clientes.objects.filter(id=request.POST['id']).update(
         id=request.POST['id'],
@@ -483,13 +501,13 @@ def send_email_ondemand(request):
     body = 'Responda o questionário no link abaixo <br> <a href="'+request.build_absolute_uri('/clientes/questionario/'+str(codigo)+'/'+str(token)+'/')+'">Responder questionário</a>'
 
     email = EmailMessage(
-        'Inove Investimentos | Seu Futuro Positivo',
+        'Questionário Onbording',
         # 'Renda Fixa',
         body,
-        'web@inoveinvestimentos.com.br',
-        ['ccunhafinance@hotmail.com', ],
-        # ['ccunhafinance@gmail.com','bruno.martins@inoveinvestimentos.com.BR'],
-        # ['ccunhafinance@gmail.com','bruno.martins@inoveinvestimentos.com.BR'],
+        'Inove Investimentos |Seu Futuro Positivo <web@inoveinvestimentos.com.br>',
+        # ['ccunhafinance@hotmail.com', ],
+        ['ccunhafinance@gmail.com','bruno.martins@inoveinvestimentos.com.br'],
+        # ['ccunhafinance@gmail.com','bruno.martins@inoveinvestimentos.com.br'],
         reply_to=['ondemand@inoveinvestimentos.com.br'],
         headers={'Message-ID': 'foo'},
     )
@@ -516,47 +534,17 @@ def send_email_ondemand(request):
 def save_by_client(request):
     codigo = request.POST['codigo']
 
-    print(Clientes.objects.get(nickname=codigo).id)
-    onbording_acomp_acoes = request.POST.get('onbording_acomp_acoes', False)
-    if onbording_acomp_acoes != False:
-        onbording_acomp_acoes = 1
-    else:
-        onbording_acomp_acoes = 0
-
-    onbording_acomp_fii = request.POST.get('onbording_acomp_fii', False)
-    if onbording_acomp_fii != False:
-        onbording_acomp_fii = 1
-    else:
-        onbording_acomp_fii = 0
-
-    onbording_acomp_fiinvest = request.POST.get('onbording_acomp_fiinvest', False)
-    onbording_acomp_fiinvest = request.POST.get('onbording_acomp_fii', False)
-    if onbording_acomp_fiinvest != False:
-        onbording_acomp_fiinvest = 1
-    else:
-        onbording_acomp_fiinvest = 0
-    onbording_acomp_per = request.POST.get('onbording_acomp_per', False)
-    if onbording_acomp_per != False:
-        onbording_acomp_per = 1
-    else:
-        onbording_acomp_per = 0
-    onbording_acomp_rf = request.POST.get('onbording_acomp_rf', False)
-    if onbording_acomp_rf != False:
-        onbording_acomp_rf = 1
-    else:
-        onbording_acomp_rf = 0
-
-
     Clientes.objects.filter(nickname=codigo).update(
         id=Clientes.objects.get(nickname=codigo).id,
 
         zap_mail=request.POST['zap_mail'],
+        frequencia_contato=request.POST['frequencia_contato'],
 
-        onbording_acomp_acoes=onbording_acomp_acoes,
-        onbording_acomp_fii=onbording_acomp_fii,
-        onbording_acomp_fiinvest=onbording_acomp_fiinvest,
-        onbording_acomp_per=onbording_acomp_per,
-        onbording_acomp_rf=onbording_acomp_rf,
+        onbording_acomp_acoes=request.POST['onbording_acomp_acoes'],
+        onbording_acomp_fii=request.POST['onbording_acomp_fii'],
+        onbording_acomp_fiinvest=request.POST['onbording_acomp_fiinvest'],
+        onbording_acomp_per=request.POST['onbording_acomp_per'],
+        onbording_acomp_rf=request.POST['onbording_acomp_rf'],
 
         onbording_obs=request.POST['onbording_obs'],
         token='false'
@@ -564,38 +552,13 @@ def save_by_client(request):
     )
 
 
-    if onbording_acomp_per == 1:
-        a = 'sim'
-    else:
-        a = 'Não'
-
-    if onbording_acomp_rf == 1:
-        b = 'sim'
-    else:
-        b = 'Não'
-
-    if onbording_acomp_fiinvest == 1:
-        c = 'sim'
-    else:
-        c = 'Não'
-
-    if onbording_acomp_acoes == 1:
-        d = 'sim'
-    else:
-        d = 'Não'
-
-    if onbording_acomp_fii == 1:
-        e = 'sim'
-    else:
-        e = 'Não'
-
-
-    dados = ' - Meio de comunicação: '+request.POST['zap_mail']+'<br>'+\
-            '- Acompanhamento Permanente: '+a+\
-            '<br>- Oportunidades de Renda Fixa: '+b+\
-            '<br>- Oportunidades de Fundos de Investimentos: '+c+\
-            '<br>- Oportunidades de Ações: '+d+\
-            '<br>- Oportunidades de Fundos Imobiliários: '+e+\
+    dados = ' - Meio de comunicação: '+request.POST['zap_mail']+'<br>'+ \
+            ' - Frenquência de contato: ' + request.POST['frequencia_contato'] + '<br>' + \
+            '- Acompanhamento Permanente: '+request.POST['onbording_acomp_per']+\
+            '<br>- Oportunidades de Renda Fixa: '+request.POST['onbording_acomp_rf']+\
+            '<br>- Oportunidades de Fundos de Investimentos: '+request.POST['onbording_acomp_fiinvest']+\
+            '<br>- Oportunidades de Ações: '+request.POST['onbording_acomp_acoes']+\
+            '<br>- Oportunidades de Fundos Imobiliários: '+request.POST['onbording_acomp_fii']+\
             '<br>- Observações: <br>'+request.POST['onbording_obs']
 
 
