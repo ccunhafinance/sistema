@@ -34,7 +34,7 @@ class ModalidadeIpoForm(forms.ModelForm):
         }
 
 class OfferRfForm(forms.ModelForm):
-    about_comp = forms.CharField(label='Sobre a Empresa', widget=SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '400px'}}))
+    # about_comp = forms.CharField(label='Sobre a Empresa', widget=SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '400px'}}))
 
     class Meta:
         model = OfferRf
@@ -45,6 +45,7 @@ class OfferRfForm(forms.ModelForm):
             'bookbuilding': forms.DateInput(attrs={'type': 'date'}),
             'liquid': forms.DateInput(attrs={'type': 'date'}),
             'about_comp': forms.Textarea(attrs={'class': 'summernote'}),
+
         }
 
 class SeriesRfForm(forms.ModelForm):
