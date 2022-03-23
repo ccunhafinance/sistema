@@ -44,7 +44,7 @@ class OfferRfForm(forms.ModelForm):
             'end_reserv': forms.DateInput(attrs={'type': 'date'}),
             'bookbuilding': forms.DateInput(attrs={'type': 'date'}),
             'liquid': forms.DateInput(attrs={'type': 'date'}),
-            # 'about_comp': forms.(attrs={'class': 'summernote'}),
+            'about_comp': forms.Textarea(attrs={'class': 'summernote'}),
         }
 
 class SeriesRfForm(forms.ModelForm):
