@@ -32,7 +32,7 @@ def moeda(value):
     else:
         locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
         valor = locale.currency(value, grouping=True, symbol=None)
-        valor = 'R$ %s' % +valor
+        valor = 'R$ '+valor
         return valor
 
 # Retorna diferença entre datas em modalidades
