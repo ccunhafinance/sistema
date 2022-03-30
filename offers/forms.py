@@ -45,6 +45,7 @@ class OfferRfForm(forms.ModelForm):
             'bookbuilding': forms.DateInput(attrs={'type': 'date'}),
             'liquid': forms.DateInput(attrs={'type': 'date'}),
             'about_comp': forms.Textarea(attrs={'class': 'summernote'}),
+            'invet_min': forms.TextInput(attrs={'onkeyup': 'formatCash(this)'}),
 
         }
 
@@ -56,7 +57,7 @@ class SeriesRfForm(forms.ModelForm):
     # duration = forms.CharField(label='Duration (em anos)')
     # amort = forms.CharField(label='Amortização')
     amort_beg = forms.DateField(label='Início da Amortização', widget=forms.TextInput(attrs={'type':'date'}))
-    jurus = forms.CharField(label='Jurus')
+    jurus = forms.CharField(label='Juros')
     current_tax = forms.CharField(label='Taxa Atual Aproximada')
     obs = forms.CharField(label='Observações', required=False, widget=forms.Textarea(attrs={'placeholder': 'Observaçoões'}))
 
@@ -65,6 +66,7 @@ class SeriesRfForm(forms.ModelForm):
         fields = "__all__"
         widgets = {
             'venciment': forms.DateInput(attrs={'type': 'date'}),
+            'tax_ref': forms.TextInput(attrs={'onkeyup': 'formatPercent(this)'}),
             # 'end_reserv': forms.DateInput(attrs={'type': 'date'}),
             # 'bookbuilding': forms.DateInput(attrs={'type': 'date'}),
             # 'liquid': forms.DateInput(attrs={'type': 'date'}),
