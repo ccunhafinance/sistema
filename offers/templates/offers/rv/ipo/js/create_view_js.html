@@ -16,6 +16,52 @@
 
         });
     });
+
+     {# FORMAT VALUE INTO CASH #}
+     function formatCash(i) {
+        var v = i.value.replace(/\D/g,'');
+        v = (v/100).toFixed(2) + '';
+        v = v.replace(".", ",");
+        v = v.replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,");
+        v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
+        i.value = 'R$ '+v;
+    }
+
+    {# FORMAT VALUE INTO PERCENTAGE #}
+    function formatPercent(i) {
+        var v = i.value.replace(/\D/g,'');
+        v = (v/100).toFixed(2) + '';
+        v = v.replace(".", ",");
+        v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
+        i.value = v+'%';
+    }
+
+    function putValue(i){
+        document.getElementById('id_main-start_fx_ind').value = i;
+    }
+
+    document.getElementById('div_id_main-start_fx_ind').innerHTML += '\
+    <small>\
+        &nbsp<a href="#div_id_main-invet_min"  onclick="putValue('+"'R$ 1.000,00'"+')">R$ 1.000,00</a>\
+        &nbsp<a href="#div_id_main-invet_min"  onclick="putValue('+"'R$ 5.000,00'"+')">R$ 5.000,00</a>\
+        &nbsp<a href="#div_id_main-invet_min"  onclick="putValue('+"'R$ 10.000,00'"+')">R$ 10.000,00</a>\
+        &nbsp<a href="#div_id_main-invet_min"  onclick="putValue('+"'R$ 50.000,00'"+')">R$ 50.000,00</a>\
+        &nbsp<a href="#div_id_main-invet_min"  onclick="putValue('+"'R$ 100.000,00'"+')">R$ 100.000,00</a>\
+    </small>'
+
+    function putValuedois(i){
+        document.getElementById('id_main-end_fx_ind').value = i;
+    }
+
+    document.getElementById('div_id_main-end_fx_ind').innerHTML += '\
+    <small>\
+        &nbsp<a href="#div_id_main-invet_min"  onclick="putValuedois('+"'R$ 1.000,00'"+')">R$ 1.000,00</a>\
+        &nbsp<a href="#div_id_main-invet_min"  onclick="putValuedois('+"'R$ 5.000,00'"+')">R$ 5.000,00</a>\
+        &nbsp<a href="#div_id_main-invet_min"  onclick="putValuedois('+"'R$ 10.000,00'"+')">R$ 10.000,00</a>\
+        &nbsp<a href="#div_id_main-invet_min"  onclick="putValuedois('+"'R$ 50.000,00'"+')">R$ 50.000,00</a>\
+        &nbsp<a href="#div_id_main-invet_min"  onclick="putValuedois('+"'R$ 100.000,00'"+')">R$ 100.000,00</a>\
+    </small>'
+
 </script>
 
 <script type="text/html" id="item-order">

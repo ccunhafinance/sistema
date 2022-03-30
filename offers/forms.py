@@ -14,6 +14,8 @@ class OfferRvIpoForm(forms.ModelForm):
             'book': forms.DateInput(attrs={'type': 'date'}),
             'star_neg': forms.DateInput(attrs={'type': 'date'}),
             'liquid': forms.DateInput(attrs={'type': 'date'}),
+            'start_fx_ind': forms.DateInput(attrs={'onkeyup': 'formatCash(this)'}),
+            'end_fx_ind': forms.DateInput(attrs={'onkeyup': 'formatCash(this)'}),
         }
 
 class ModalidadeIpoForm(forms.ModelForm):

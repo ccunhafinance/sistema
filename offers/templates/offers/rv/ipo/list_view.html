@@ -244,13 +244,13 @@
                                             {{ oferta.end_fx_ind|moeda }}
                                         </td>
                                         <td>
-                                            <i style="color:#1d8458" class="ni ni-lock-open"></i> - {{ oferta.start_per_res|date:"SHORT_DATE_FORMAT" }}<br>
-                                            <i style="color:#d27800" class="ni ni-lock"></i> - {{ oferta.end_per_res|date:"SHORT_DATE_FORMAT" }}<br>
-                                            <i style="color:#FC1349" class="ni ni-lock-nav"></i> - {{ oferta.end_vinc|date:"SHORT_DATE_FORMAT" }}
+                                            <i style="color:#1d8458" class="ni ni-lock-open"></i> - {{ oferta.start_per_res|date:"d/m/Y" }}<br>
+                                            <i style="color:#d27800" class="ni ni-lock"></i> - {{ oferta.end_per_res|date:"d/m/Y" }}<br>
+                                            <i style="color:#FC1349" class="ni ni-lock-nav"></i> - {{ oferta.end_vinc|date:"d/m/Y" }}
                                         </td>
-                                        <td>{{ oferta.book|date:"SHORT_DATE_FORMAT" }}</td>
-                                        <td>{{ oferta.star_neg|date:"SHORT_DATE_FORMAT" }}</td>
-                                        <td>{{ oferta.liquid|date:"SHORT_DATE_FORMAT" }}</td>
+                                        <td>{{ oferta.book|date:"d/m/Y" }}</td>
+                                        <td>{{ oferta.star_neg|date:"d/m/Y" }}</td>
+                                        <td>{{ oferta.liquid|date:"d/m/Y" }}</td>
                                         <td>
                                             <table class="table table-border border-bottom border-left  table-responsive">
                                                 <thead>
@@ -273,7 +273,7 @@
                                                             <td>{{ modalidade.garant }}%</td>
                                                             <td>{{ modalidade.min_reserv|moeda }}</td>
                                                             <td>{{ modalidade.max_reserv|moeda }}</td>
-                                                            <td>{{ modalidade.lock_end|date:"SHORT_DATE_FORMAT" }}</td>
+                                                            <td>{{ modalidade.lock_end|date:"d/m/Y" }}</td>
                                                             <td>{{ modalidade.obs }}</td>
                                                         </tr>
                                                     {% endfor %}
