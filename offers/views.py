@@ -619,8 +619,8 @@ class OfferRvSubscriptionDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 def get_ticker_price(request):
 
-    # ticker = 'TSLA34'
-    ticker = request.POST['ticker']
+    ticker = 'TSLA34'
+    # ticker = request.POST['ticker']
     result = requests.get('https://www.google.com/finance/quote/'+ticker+':BVMF?hl=pt')
     src = result.content
     soup = bs(src, 'lxml')
@@ -650,9 +650,9 @@ def get_ticker_price(request):
         # print(data_convertida)
         # print(hora_final[1])
 
-        response =     '<input hidden id="price_goo" value="'+price.text+'">' \
-                       '<input hidden id="date_goo" value="'+data_convertida+'">' \
-                       '<input hidden id="time_goo" value="'+hora_final[1]+'">' \
+        response =     '<input  id="price_goo" value="'+price.text+'">' \
+                       '<input  id="date_goo" value="'+data_convertida+'">' \
+                       '<input  id="time_goo" value="'+hora_final[1]+'">' \
                       
     
     return HttpResponse(response)
