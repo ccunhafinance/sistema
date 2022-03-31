@@ -16,6 +16,60 @@
 
         });
     });
+
+    {# FORMAT VALUE INTO CASH #}
+    function formatCash(i) {
+        var v = i.value.replace(/\D/g,'');
+        v = (v/100).toFixed(2) + '';
+        v = v.replace(".", ",");
+        v = v.replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,");
+        v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
+        i.value = 'R$ '+v;
+    }
+
+    {# FORMAT VALUE INTO PERCENTAGE #}
+    function formatPercent(i) {
+        var v = i.value.replace(/\D/g,'');
+        v = (v/100).toFixed(2) + '';
+        v = v.replace(".", ",");
+        v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
+        i.value = v+'%';
+    }
+
+    document.getElementById('div_id_mkt_price').innerHTML += '<span id="response_pm"></span>'
+
+    function get_ticker_price(i){
+        var token = '{{csrf_token}}'
+            // alert(i.value)
+        $.ajax({
+                type: 'POST',
+                url: '{% url 'offers:get-ticker' %}',
+                data: {
+                    ticker: i.value,
+                    csrfmiddlewaretoken: token
+                },
+                success: function (response) {
+
+
+                    if(response == 'No'){
+                        // alert('erro')
+                        document.getElementById('response_pm').innerHTML = '<small class="text-danger">Ticker naão encontrado!</small>'
+                        document.getElementById('id_mkt_price').value = 'R$ 00,00'
+                        document.getElementById('id_mkt_price_date').value = ''
+                        document.getElementById('id_mkt_price_time').value = ''
+                   }else{
+                        document.getElementById('response_goo').innerHTML += response
+                        document.getElementById('id_mkt_price').value = document.getElementById('price_goo').value 
+                        document.getElementById('id_mkt_price_date').value = document.getElementById('date_goo').value 
+                        document.getElementById('id_mkt_price_time').value = document.getElementById('time_goo').value 
+                        document.getElementById('response_pm').innerHTML = '<small class="text-success">Valor atual!</small>'
+                        // alert('ok')
+                        document.getElementById('response_goo').innerHTML = '' 
+                   } 
+                },
+            })
+        }
+
 </script>
 
 <script type="text/html" id="item-order">

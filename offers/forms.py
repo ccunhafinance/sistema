@@ -30,6 +30,8 @@ class ModalidadeIpoForm(forms.ModelForm):
         fields = "__all__"
         widgets = {
             'lock_end': forms.DateInput(attrs={'type': 'date'}),
+            'fee': forms.DateInput(attrs={'onkeyup': 'formatPercent(this)'}),
+            'garant': forms.DateInput(attrs={'onkeyup': 'formatPercent(this)'}),
             # 'end_reserv': forms.DateInput(attrs={'type': 'date'}),
             # 'bookbuilding': forms.DateInput(attrs={'type': 'date'}),
             # 'liquid': forms.DateInput(attrs={'type': 'date'}),
@@ -114,6 +116,11 @@ class SubscriptionForm(forms.ModelForm):
             'end_reser': forms.DateInput(attrs={'type': 'date'}),
             'liquid': forms.DateInput(attrs={'type': 'date'}),
             'date_ex': forms.DateInput(attrs={'type': 'date'}),
+            'mkt_price': forms.TextInput(attrs={'onkeyup': 'formatCash(this)'}),
+            'ex_price': forms.TextInput(attrs={'onkeyup':'formatCash(this)'}),
+            'dir_price': forms.TextInput(attrs={'onkeyup':'formatCash(this)'}),
+            'code_subs': forms.TextInput(attrs={'onchange':'get_ticker_price(this)'}),
+            'mkt_price_time': forms.TextInput(attrs={'type':'time'}),
         }
 
 class FiiEditForm(forms.ModelForm):

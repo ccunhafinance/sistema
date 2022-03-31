@@ -17,6 +17,45 @@
 
         });
     });
+
+     {# FORMAT VALUE INTO CASH #}
+     function formatCash(i) {
+        var v = i.value.replace(/\D/g,'');
+        v = (v/100).toFixed(2) + '';
+        v = v.replace(".", ",");
+        v = v.replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,");
+        v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
+        i.value = 'R$ '+v;
+    }
+
+    {# FORMAT VALUE INTO PERCENTAGE #}
+    function formatPercent(i) {
+        var v = i.value.replace(/\D/g,'');
+        v = (v/100).toFixed(2) + '';
+        v = v.replace(".", ",");
+        v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
+        i.value = v+'%';
+    }
+
+    function get_price_ticker(i){
+    var token = {{csrf_token}}
+
+        $.ajax({
+            type: 'POST',
+            dataType : 'html',
+            url: '{% url 'offers:get-ticker' %}',
+            data: {
+                ticker: i,
+                csrfmiddlewaretoken: token
+            },
+            
+            success: function (response) {
+                    document.getElementById('id_mkt_price').value = response
+                
+           },
+       });
+    }
+
 </script>
 
 <script type="text/html" id="item-order">

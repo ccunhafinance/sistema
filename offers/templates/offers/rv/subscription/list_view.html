@@ -205,26 +205,26 @@
                                         <td>{{ oferta.code_subs }}</td>
                                         <td>
                                             {{ oferta.mkt_price|moeda }}<br>
-                                            {{ oferta.mkt_price_date|date:"SHORT_DATE_FORMAT" }}
+                                            {{ oferta.mkt_price_date|date:"d/m/Y" }}
                                         </td>
                                         <td>{{ oferta.ex_price|moeda }}</td>
                                         <td>
                                             {{ oferta.dir_price|moeda }}<br>
-                                            {{ oferta.dir_price_date|date:"SHORT_DATE_FORMAT" }}
+                                            {{ oferta.dir_price_date|date:"d/m/Y" }}
                                         </td>
                                         <td>
-                                            {{ oferta.start_deal_dir|date:"SHORT_DATE_FORMAT" }}<br>
-                                            {{ oferta.end_deal_dir|date:"SHORT_DATE_FORMAT" }}
+                                            {{ oferta.start_deal_dir|date:"d/m/Y" }}<br>
+                                            {{ oferta.end_deal_dir|date:"d/m/Y" }}
                                         </td>
                                         <td>
-                                            {{ oferta.start_reser|date:"SHORT_DATE_FORMAT" }}
-                                            {{ oferta.end_reser|date:"SHORT_DATE_FORMAT" }}
+                                            {{ oferta.start_reser|date:"d/m/Y" }}
+                                            {{ oferta.end_reser|date:"d/m/Y" }}
                                         </td>
-                                        <td>{{ oferta.liquid|date:"SHORT_DATE_FORMAT" }}</td>
+                                        <td>{{ oferta.liquid|date:"d/m/Y" }}</td>
                                         <td>{{ oferta.fee }}</td>
                                         <td>{{ oferta.link_pdf }}</td>
                                         <td>{{ oferta.fact }}</td>
-                                        <td>{{ oferta.date_ex|date:"SHORT_DATE_FORMAT" }}</td>
+                                        <td>{{ oferta.date_ex|date:"d/m/Y" }}</td>
                                         <td>
                                             <div class='d-flex mt-2'>
                                                 <a href='{% url 'offers:delete-rv-subscription' oferta.pk %}' class='btn btn-sm btn-outline-danger mr-2' title='Delete Record'><i class="fal fa-times"></i> Excluir Oferta</a>

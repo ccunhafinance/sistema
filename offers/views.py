@@ -1,6 +1,6 @@
 import csv
 from django.core.mail import EmailMessage
-
+from googlefinance import getQuotes
 import requests
 from django.core.files.storage import FileSystemStorage
 from django.forms import inlineformset_factory
@@ -21,6 +21,8 @@ from pathlib import Path
 from datetime import datetime, timezone
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+import time
+import locale
 
 # Gbobal Variables
 main_icon = 'ni ni-tag'
@@ -615,7 +617,48 @@ class OfferRvSubscriptionDeleteView(LoginRequiredMixin, generic.DeleteView):
 
         return context
 
+def get_ticker_price(request):
+
+    # ticker = 'TSLA34'
+    ticker = request.POST['ticker']
+    result = requests.get('https://www.google.com/finance/quote/'+ticker+':BVMF?hl=pt')
+    src = result.content
+    soup = bs(src, 'lxml')
+    price = soup.find('div', attrs={'class': 'YMlKec fxKbKc'})
+    data_site = soup.find('div', attrs={'class': 'ygUjEc'})
+
+    if price == None:
+        response = 'No'
+    else:
+
+        divide = data_site.text.split('.')
+        pega_data = divide[0]
+        pega_hora = divide[1].split('·')
+        hora_final = pega_hora[0].split(' ')
+
+        data_format = pega_data.split(' ')
+        dia = data_format[0]
+        mes = data_format[2]
+        ano = datetime.now().year
+
+        nova_data = str(mes) + ' '+ str(dia) + ' '+ str(ano)
+
+        locale.setlocale(locale.LC_ALL, 'pt_br')
+        # from_date="mar 15 2010"
+        conv=time.strptime(nova_data,"%b %d %Y")
+        data_convertida = time.strftime("%Y-%m-%d",conv)
+        # print(data_convertida)
+        # print(hora_final[1])
+
+        response =     '<input hidden id="price_goo" value="'+price.text+'">' \
+                       '<input hidden id="date_goo" value="'+data_convertida+'">' \
+                       '<input hidden id="time_goo" value="'+hora_final[1]+'">' \
+                      
+    
+    return HttpResponse(response)
+
 # FII
+
 # --------------------------------------------------------------------------------
 
 # Listar

@@ -51,6 +51,8 @@ urlpatterns = [
     path('rv/direito-de-subscricao/editar/<int:pk>/', OfferRvSubscriptionEditView.as_view(), name="edit-rv-subscription"),
     # Deletar
     path('rv/direito-de-subscricao/deletar/<int:pk>/', OfferRvSubscriptionDeleteView.as_view(), name="delete-rv-subscription"),
+    # Get Ticker
+    path('rv/get_ticker/', views.get_ticker_price, name="get-ticker"),
 
     # Fii
     # ------------------------------------------------------------------------------------------------------------------
