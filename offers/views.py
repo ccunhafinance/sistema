@@ -643,7 +643,7 @@ def get_ticker_price(request):
 
         nova_data = str(mes) + ' '+ str(dia) + ' '+ str(ano)
 
-        locale.setlocale(locale.LC_ALL, 'pt_br')
+        locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
         # from_date="mar 15 2010"
         conv=time.strptime(nova_data,"%b %d %Y")
         data_convertida = time.strftime("%Y-%m-%d",conv)
