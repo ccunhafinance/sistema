@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
+import numpy
 from clients.models import Espelhamento, NovoEmail, RegistroAtividades
 from users.models import CustomUser, UserProfile
 from .models import Clientes
@@ -122,17 +123,34 @@ def update_new_cliente(request):
 
 def upload_clientes(request):
 
+    clientes_resource = ClientesResources()
+    dataset = Dataset()
+    clientes = Clientes.objects.all()
+
     if request.method == 'POST':
         new_cliente = request.FILES['myfile']
+        xls = pd.ExcelFile(new_cliente)
 
         if not new_cliente.name.endswith('xlsx'):
             messages.info('Formato de arquivo não suportado')
             return redirect(reverse('clients:clients-list'))
 
         else:
+            
+            if len(clientes)==0:
+                
+                primeiro = pd.read_excel(xls)
+                # imported_data = dataset.load(new_cliente.read(), format='xlsx')
+                # print(primeiro.to_json())
+                # print(pd.read_json(primeiro.to_json()))
 
-            upload_novos_clientes.delay(new_cliente)
-            return redirect(reverse('clients:clients-list'))
+                upload_novos_clientes.delay(primeiro.to_json())
+            else:
+                df1 = pd.read_excel(xls, 'tab2')
+                df2 = pd.read_excel(xls, 'tab1')
+                segundo_upload.delay(df1.to_json(),df2.to_json())
+
+    return redirect(reverse('clients:clients-list'))
 
 # funcoes ombording
 
