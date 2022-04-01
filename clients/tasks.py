@@ -20,6 +20,11 @@ import datetime
 
 import pandas as pd
 
+@shared_task
+def sleepy(duration):
+    sleep(duration)
+    return None
+
 @app.task(name='upload_novos_clientes')
 def upload_novos_clientes(new_cliente):
 
@@ -130,6 +135,7 @@ def upload_novos_clientes(new_cliente):
                             d4=data[7],
                             data_registro=data_em_texto
                         )
+                        
 
 
                 else:
@@ -146,6 +152,7 @@ def upload_novos_clientes(new_cliente):
                         data_registro=data_em_texto
                     )
                     value.save()
+                    sleep(1)
 
             for data in df2.to_numpy():
                 # print(data)
