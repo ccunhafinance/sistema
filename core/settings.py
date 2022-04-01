@@ -182,5 +182,7 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 from core.local_settings import *
 
+TIMEOUT = None
+
 
 
