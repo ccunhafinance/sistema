@@ -56,7 +56,6 @@ def send_email_teste():
             NovoEmail.objects.filter(id=a_email.id).update(
                 status='OK',
             )
-            sleepy(5)
 
 
         return 'Email Enviado!'
