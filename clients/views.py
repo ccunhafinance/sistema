@@ -121,8 +121,18 @@ def update_new_cliente(request):
     return redirect(reverse('clients:clients-list'))
 
 def upload_clientes(request):
-    upload_novos_clientes(request)
-    return redirect(reverse('clients:clients-list'))
+
+    if request.method == 'POST':
+        new_cliente = request.FILES['myfile']
+
+        if not new_cliente.name.endswith('xlsx'):
+            messages.info('Formato de arquivo não suportado')
+            return redirect(reverse('clients:clients-list'))
+
+        else:
+
+            upload_novos_clientes(new_cliente)
+            return redirect(reverse('clients:clients-list'))
 
 # funcoes ombording
 

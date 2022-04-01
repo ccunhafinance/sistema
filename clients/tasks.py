@@ -5,7 +5,6 @@ from core.celery import app
 import datetime
 from clients.models import *
 from datetime import date
-from mail.models import *
 
 from django.core.mail import EmailMessage
 from django.shortcuts import redirect
@@ -22,19 +21,10 @@ import datetime
 import pandas as pd
 
 @app.task(name='upload_novos_clientes')
-def upload_novos_clientes(request):
+def upload_novos_clientes(new_cliente):
 
-   if request.method == 'POST':
         clientes_resource = ClientesResources()
         dataset = Dataset()
-        new_cliente = request.FILES['myfile']
-
-        if not new_cliente.name.endswith('xlsx'):
-            messages.info('Formato de arquivo não suportado')
-            return redirect(reverse('clients:clients-list'))
-
-        
-
         clientes = Clientes.objects.all()
 
         data_atual =  datetime.datetime.now()

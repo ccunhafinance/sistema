@@ -175,7 +175,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 # Email
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-
+DATA_UPLOAD_MAX_NUMBER_FIELDS = None
 
 # import_export
 IMPORT_EXPORT_USE_TRANSACTIONS = True
