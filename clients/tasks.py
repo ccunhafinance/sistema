@@ -21,7 +21,7 @@ import datetime
 
 import pandas as pd
 
-
+@app.task(name='upload_novos_clientes')
 def upload_novos_clientes(request):
 
    if request.method == 'POST':
