@@ -189,3 +189,5 @@ def upload_novos_clientes(request):
                         data_registro=data[6]
                     )
                     value.save()
+
+   return 'taskdone'              
