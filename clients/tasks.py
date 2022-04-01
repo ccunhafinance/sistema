@@ -25,6 +25,8 @@ def sleepy(duration):
     sleep(duration)
     return None
 
+   
+
 @app.task(name='upload_novos_clientes')
 def upload_novos_clientes(new_cliente):
 

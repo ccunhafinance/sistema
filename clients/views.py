@@ -131,7 +131,7 @@ def upload_clientes(request):
 
         else:
 
-            upload_novos_clientes(new_cliente)
+            upload_novos_clientes(new_cliente).delay()
             return redirect(reverse('clients:clients-list'))
 
 # funcoes ombording
