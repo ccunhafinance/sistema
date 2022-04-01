@@ -8,7 +8,6 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from clients.models import Espelhamento, NovoEmail, RegistroAtividades
 from users.models import CustomUser, UserProfile
-
 from .models import Clientes
 from mail.models import *
 from .resources import ClientesResources
@@ -18,8 +17,10 @@ from datetime import date
 from datetime import timedelta, date
 import datetime
 
-main_icon = 'ni ni-users'
+import pandas as pd
 
+
+main_icon = 'ni ni-users'
 
 def google_sheets(request):
     UserProfile.objects.filter(id=request.POST['id']).update(
@@ -127,7 +128,7 @@ def upload_clientes(request):
             messages.info('Formato de arquivo não suportado')
             return redirect(reverse('clients:clients-list'))
 
-        imported_data = dataset.load(new_cliente.read(), format='xlsx')
+        
 
         clientes = Clientes.objects.all()
 
@@ -136,9 +137,15 @@ def upload_clientes(request):
 
         # print (len(clientes))
 
+        # print(imported_data)
+
         if len(clientes)==0:
 
+            imported_data = dataset.load(new_cliente.read(), format='xlsx')
+
             for data in imported_data:
+
+                # print(data)
 
                 try:
                     listing = Clientes.objects.get(nickname=data[1])
@@ -157,8 +164,22 @@ def upload_clientes(request):
                     value.save()
 
         else:
+            # imported_data = pd.read_excel(new_cliente, sheet_name='tab2')
+            # pd.set_option('display.max_rows', None)
+            xls = pd.ExcelFile(new_cliente)
+            df1 = pd.read_excel(xls, 'tab2')
+            df2 = pd.read_excel(xls, 'tab1')
 
-            t = len(imported_data)
+
+            # print(xls)
+            # print(df1.to_numpy()[34][0])
+            # print(len(df1))
+            # print(df1['nickname'][0])
+            # print(df1['nickname'])
+            # print(df1.columns.tolist())
+
+
+            t = len(df1)
             a = 0
             primeiro =[]
             segundo = []
@@ -168,7 +189,7 @@ def upload_clientes(request):
                 primeiro.append(str(cliente.nickname))
 
                 if a < t:
-                    segundo.append(str(imported_data[a][0]))
+                    segundo.append(str(df1.to_numpy()[a][0]))
 
                 a += 1
 
@@ -176,7 +197,7 @@ def upload_clientes(request):
                 return list(set(li1) - set(li2))
 
             # Inativa Cliente
-            print(Diff(primeiro, segundo))
+            # print(Diff(primeiro, segundo))
 
             inativos = Diff(primeiro, segundo)
 
@@ -186,11 +207,8 @@ def upload_clientes(request):
                     data_registro=data_em_texto
                 )
 
-            for data in imported_data:
-
-
-
-
+            for data in df1.to_numpy():
+                # print(data)
                 if len(Clientes.objects.filter(nickname=data[0])) == 1:
 
                     if str(Clientes.objects.filter(nickname=data[0])[0].assessor) != str(data[2]):
@@ -203,7 +221,7 @@ def upload_clientes(request):
                             d2=data[5],
                             d3=data[6],
                             d4=data[7],
-                            troca='existe',
+                            troca='interna',
                             data_registro=data_em_texto
                         )
                     else:
@@ -233,6 +251,40 @@ def upload_clientes(request):
                         data_registro=data_em_texto
                     )
                     value.save()
+
+            for data in df2.to_numpy():
+                # print(data)
+
+                if len(Clientes.objects.filter(nickname=data[1])) == 1 and  len(data[3]) > 1 and data[7] == 'CONCLUÍDO':
+                    Clientes.objects.filter(nickname=data[1]).update(
+                            # nome=str(data[1]).title(),
+                            assessor=data[3].split('-')[0].replace(" ", ""),
+                            # antigo_assessor=Clientes.objects.filter(nickname=data[0])[0].assessor,
+                            # d0=data[3],
+                            # d1=data[4],
+                            # d2=data[5],
+                            # d3=data[6],
+                            # d4=data[7],
+                            troca='externa',
+                            status='Novo',
+                            data_registro=data[6]
+                        )
+                elif len(data[3]) > 1 and data[7] == 'CONCLUÍDO':
+                    value = Clientes(
+                        nickname=data[1],
+                        # nome=str(data[1]).title(),
+                        assessor=data[3].split('-')[0].replace(" ", ""),
+                        # d0=data[3],
+                        # d1=data[4],
+                        # d2=data[5],
+                        # d3=data[6],
+                        # d4=data[7],
+                        troca='externa',
+                        status='Novo',
+                        data_registro=data[6]
+                    )
+                    value.save()
+
 
     return redirect(reverse('clients:clients-list'))
 
@@ -628,6 +680,7 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
 
         clientes = Clientes.objects.filter(assessor=f)
         n_clientes = len(clientes)
+
         novos_clientes = Clientes.objects.filter(status='Novo',assessor=f)
         inativo = Clientes.objects.filter(status='Inativo',assessor=f)
         google = Clientes.objects.filter(cliente_dia='sim', assessor=f)
@@ -635,11 +688,19 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
         n_inativo = len(inativo)
         n_novos_clientes = len(novos_clientes)
 
-        i = Clientes.objects.filter(troca='existe',assessor=f)
+        i = Clientes.objects.filter(troca='interna',assessor=f)
+        j = Clientes.objects.filter(troca='externa',assessor=f)
 
+    
         num_clientes_ativos = int(len(clientes)) - int(len(inativo))
 
-        troca = len(i)
+        troca_interna = len(i)
+        troca_externa = len(j)
+
+        print(i)
+        # print('-----------')
+        # print(j)
+        # print('-----------')
 
         context = {
             'n_onboarding': n_onboarding,
@@ -650,8 +711,10 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
             'n_inativo': n_inativo,
             'novos_clientes': novos_clientes,
             'n_novos_clientes': n_novos_clientes,
-            'n_troca_assessor': troca,
+            'n_troca_assessor': troca_interna,
+            'n_troca_assessor_externa': troca_externa,
             'troca_assessor': i,
+            'troca_assessor_externa': j,
             'contatos': google,
             'n_contatos': n_contatos,
             'num_clientes_ativos': num_clientes_ativos,

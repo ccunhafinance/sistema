@@ -7,22 +7,68 @@
 <script src="{% static 'js/clipboard/clipboard.min.js' %}"></script>
 <script>
 
+    {% comment %} document.getElementById("inputGroupFile01").addEventListener("change", checkFilebtn); {% endcomment %}
+
+    $('input[name=myfile]').change(function(ev) {
+
+        document.getElementById('inputGroupFileAddon01').removeAttribute('disabled')
+
+    });
 
 
-    $(document).ready(function (){
+  
+   
+    $("#inputGroupFileAddon01").on("click", function()
+                {
+                    var timerInterval;
+                    Swal.fire(
+                    {
+                        title: "Fazendo Upload do arquivo",
+                        html: "Carregando <strong></strong> ...",
+                        timer: 50000,
+                        onBeforeOpen: function onBeforeOpen()
+                        {
+                            Swal.showLoading();
+                            timerInterval = setInterval(function()
+                            {
+                                Swal.getContent().querySelector(
+                                    "strong"
+                                ).textContent = Swal.getTimerLeft();
+                            }, 100);
+                        },
+                        onClose: function onClose()
+                        {
+                            clearInterval(timerInterval);
+                        }
+                    }).then(function(result)
+                    {
+                        if (
+                            // Read more about handling dismissals
+                            result.dismiss === Swal.DismissReason.timer
+                        )
+                        {
+                            console.log("I was closed by the timer");
+                        }
+                    });
+                }); //Right-to-left support for Arabic, Hebrew, and other RTL languages
+    
+    
+    
+                $(document).ready(function (){
 
-                   new Clipboard('.bt-copy');
+        new Clipboard('.bt-copy');
 
-               });
+        
+
+    });
 
     function copiei() {
 
-                  $('#copiado').html('<span class="badge badge-success" style="float:right">Corpo do email copiado</span>').delay(2000).fadeOut('slow');
+        $('#copiado').html('<span class="badge badge-success" style="float:right">Corpo do email copiado</span>').delay(2000).fadeOut('slow');
 
-               }
+    }
 
-    $(document).ready(function()
-            {
+    $(document).ready(function(){
 
                 "use strict";
 
@@ -415,11 +461,21 @@
 
 
 
-            });
+    });
 
     $(document).ready(function()
     {
         $('#dt-basic-example').dataTable(
+        {
+            responsive: true,
+            pageLength: 50,
+            order: [
+                [1, 'asc']
+            ],
+            {#"columns": [null,{ "orderSequence": [ "asc" ] },]#}
+        });
+
+        $('#dt-basic-exampleA').dataTable(
         {
             responsive: true,
             pageLength: 50,

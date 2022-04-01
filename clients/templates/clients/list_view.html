@@ -9,6 +9,7 @@
         .escondido{
             display:none
         }
+
     </style>
 {% endblock %}
 <!-- END page Style -->
@@ -25,11 +26,11 @@
 
         <div class="input-group">
             <div class="input-group-prepend">
-                <button type="submit" class="btn btn-sm btn-success" id="inputGroupFileAddon01">Upload Clientes</button>
+                <button type="submit" class="btn btn-sm btn-success" id="inputGroupFileAddon01" disabled  onclick='timerActive()'>Upload Clientes</button>
             </div>
             <div class="custom-file">
-                <input name="myfile" type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" required>
-                <label class="custom-file-label" for="inputGroupFile01">Selecione o arquivo</label>
+                <input name="myfile" type="file" class="custom-file-input" id="inputGroupFile01"  aria-describedby="inputGroupFileAddon01" required >
+                <label class="custom-file-label" for="inputGroupFile01" >Selecione o arquivo</label>
             </div>
         </div>
 
@@ -46,636 +47,698 @@
 <!-- BEGIN page content -->
 {% block content %}
 
-<div id="js-page-content-demopanels">
-    <div class="col-xl-12">
-        <div id="panel-1" class="panel">
-            <div class="panel-hdr">
-                <h2>
-                    Lista de Clientes <span class="fw-300"><i></i></span>
-                    <a href="javascript:void(0);" class="btn btn-outline-danger" id="js-sweetalert2-example-8">
-                        <i class="fal fa-engine-warning"></i> Excluir todos os dados!</a>
-                </h2>
-                <div class="panel-toolbar" style="margin-right: 25px">
-                    <button class="btn btn-primary btn-sm" data-toggle="dropdown">Estilo da Tabela</button>
-                    <div class="dropdown-menu dropdown-menu-animated dropdown-menu-right position-absolute pos-top">
-                        <button class="dropdown-item active" data-action="toggle" data-class="table-bordered" data-target="#dt-basic-example"> Tabela com Bordas </button>
-                        <button class="dropdown-item active" data-action="toggle" data-class="table-sm" data-target="#dt-basic-example"> Tabela Menor </button>
-                        <button class="dropdown-item" data-action="toggle" data-class="table-dark" data-target="#dt-basic-example"> Tabela Escura </button>
-                        <button class="dropdown-item active" data-action="toggle" data-class="table-hover" data-target="#dt-basic-example"> Destacar Linha </button>
-                        <button class="dropdown-item active" data-action="toggle" data-class="table-stripe" data-target="#dt-basic-example"> Tabela Listrada </button>
-                        <div class="dropdown-divider m-0"></div>
-                        <div class="dropdown-multilevel dropdown-multilevel-left">
-                            <div class="dropdown-item">
-                                Cor do Corpo
-                            </div>
-                            <div class="dropdown-menu no-transition-delay">
-                                <div class="js-tbody-colors dropdown-multilevel dropdown-multilevel-left d-flex flex-wrap" style="width: 15.9rem; padding: 0.5rem">
-                                    <a href="javascript:void(0);" data-bg="bg-primary-100" class="btn d-inline-block bg-primary-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-primary-200" class="btn d-inline-block bg-primary-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-primary-300" class="btn d-inline-block bg-primary-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-primary-400" class="btn d-inline-block bg-primary-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-primary-500" class="btn d-inline-block bg-primary-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-primary-600" class="btn d-inline-block bg-primary-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-primary-700" class="btn d-inline-block bg-primary-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-primary-800" class="btn d-inline-block bg-primary-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-primary-900" class="btn d-inline-block bg-primary-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-success-100" class="btn d-inline-block bg-success-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-success-200" class="btn d-inline-block bg-success-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-success-300" class="btn d-inline-block bg-success-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-success-400" class="btn d-inline-block bg-success-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-success-500" class="btn d-inline-block bg-success-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-success-600" class="btn d-inline-block bg-success-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-success-700" class="btn d-inline-block bg-success-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-success-800" class="btn d-inline-block bg-success-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-success-900" class="btn d-inline-block bg-success-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-info-100" class="btn d-inline-block bg-info-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-info-200" class="btn d-inline-block bg-info-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-info-300" class="btn d-inline-block bg-info-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-info-400" class="btn d-inline-block bg-info-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-info-500" class="btn d-inline-block bg-info-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-info-600" class="btn d-inline-block bg-info-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-info-700" class="btn d-inline-block bg-info-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-info-800" class="btn d-inline-block bg-info-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-info-900" class="btn d-inline-block bg-info-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-danger-100" class="btn d-inline-block bg-danger-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-danger-200" class="btn d-inline-block bg-danger-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-danger-300" class="btn d-inline-block bg-danger-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-danger-400" class="btn d-inline-block bg-danger-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-danger-500" class="btn d-inline-block bg-danger-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-danger-600" class="btn d-inline-block bg-danger-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-danger-700" class="btn d-inline-block bg-danger-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-danger-800" class="btn d-inline-block bg-danger-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-danger-900" class="btn d-inline-block bg-danger-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-warning-100" class="btn d-inline-block bg-warning-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-warning-200" class="btn d-inline-block bg-warning-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-warning-300" class="btn d-inline-block bg-warning-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-warning-400" class="btn d-inline-block bg-warning-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-warning-500" class="btn d-inline-block bg-warning-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-warning-600" class="btn d-inline-block bg-warning-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-warning-700" class="btn d-inline-block bg-warning-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-warning-800" class="btn d-inline-block bg-warning-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-warning-900" class="btn d-inline-block bg-warning-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-fusion-100" class="btn d-inline-block bg-fusion-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-fusion-200" class="btn d-inline-block bg-fusion-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-fusion-300" class="btn d-inline-block bg-fusion-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-fusion-400" class="btn d-inline-block bg-fusion-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-fusion-500" class="btn d-inline-block bg-fusion-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-fusion-600" class="btn d-inline-block bg-fusion-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-fusion-700" class="btn d-inline-block bg-fusion-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-fusion-800" class="btn d-inline-block bg-fusion-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-fusion-900" class="btn d-inline-block bg-fusion-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="" class="btn d-inline-block bg-white border width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+
+
+    <div id="js-page-content-demopanels">
+        <div class="col-xl-12">
+
+            <div class="loader"></div>
+            <div id="panel-1" class="panel">
+
+                
+                <div class="panel-hdr">
+                    <h2>
+                        Lista de Clientes <span class="fw-300"><i></i></span>
+                        <a href="javascript:void(0);" class="btn btn-outline-danger" id="js-sweetalert2-example-8">
+                            <i class="fal fa-engine-warning"></i> Excluir todos os dados!</a>
+                    </h2>
+                    <div class="panel-toolbar" style="margin-right: 25px">
+                        <button class="btn btn-primary btn-sm" data-toggle="dropdown">Estilo da Tabela</button>
+                        <div class="dropdown-menu dropdown-menu-animated dropdown-menu-right position-absolute pos-top">
+                            <button class="dropdown-item active" data-action="toggle" data-class="table-bordered" data-target="#dt-basic-example"> Tabela com Bordas </button>
+                            <button class="dropdown-item active" data-action="toggle" data-class="table-sm" data-target="#dt-basic-example"> Tabela Menor </button>
+                            <button class="dropdown-item" data-action="toggle" data-class="table-dark" data-target="#dt-basic-example"> Tabela Escura </button>
+                            <button class="dropdown-item active" data-action="toggle" data-class="table-hover" data-target="#dt-basic-example"> Destacar Linha </button>
+                            <button class="dropdown-item active" data-action="toggle" data-class="table-stripe" data-target="#dt-basic-example"> Tabela Listrada </button>
+                            <div class="dropdown-divider m-0"></div>
+                            <div class="dropdown-multilevel dropdown-multilevel-left">
+                                <div class="dropdown-item">
+                                    Cor do Corpo
+                                </div>
+                                <div class="dropdown-menu no-transition-delay">
+                                    <div class="js-tbody-colors dropdown-multilevel dropdown-multilevel-left d-flex flex-wrap" style="width: 15.9rem; padding: 0.5rem">
+                                        <a href="javascript:void(0);" data-bg="bg-primary-100" class="btn d-inline-block bg-primary-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-200" class="btn d-inline-block bg-primary-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-300" class="btn d-inline-block bg-primary-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-400" class="btn d-inline-block bg-primary-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-500" class="btn d-inline-block bg-primary-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-600" class="btn d-inline-block bg-primary-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-700" class="btn d-inline-block bg-primary-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-800" class="btn d-inline-block bg-primary-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-900" class="btn d-inline-block bg-primary-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-100" class="btn d-inline-block bg-success-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-200" class="btn d-inline-block bg-success-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-300" class="btn d-inline-block bg-success-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-400" class="btn d-inline-block bg-success-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-500" class="btn d-inline-block bg-success-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-600" class="btn d-inline-block bg-success-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-700" class="btn d-inline-block bg-success-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-800" class="btn d-inline-block bg-success-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-900" class="btn d-inline-block bg-success-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-100" class="btn d-inline-block bg-info-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-200" class="btn d-inline-block bg-info-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-300" class="btn d-inline-block bg-info-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-400" class="btn d-inline-block bg-info-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-500" class="btn d-inline-block bg-info-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-600" class="btn d-inline-block bg-info-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-700" class="btn d-inline-block bg-info-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-800" class="btn d-inline-block bg-info-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-900" class="btn d-inline-block bg-info-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-100" class="btn d-inline-block bg-danger-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-200" class="btn d-inline-block bg-danger-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-300" class="btn d-inline-block bg-danger-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-400" class="btn d-inline-block bg-danger-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-500" class="btn d-inline-block bg-danger-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-600" class="btn d-inline-block bg-danger-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-700" class="btn d-inline-block bg-danger-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-800" class="btn d-inline-block bg-danger-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-900" class="btn d-inline-block bg-danger-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-100" class="btn d-inline-block bg-warning-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-200" class="btn d-inline-block bg-warning-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-300" class="btn d-inline-block bg-warning-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-400" class="btn d-inline-block bg-warning-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-500" class="btn d-inline-block bg-warning-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-600" class="btn d-inline-block bg-warning-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-700" class="btn d-inline-block bg-warning-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-800" class="btn d-inline-block bg-warning-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-900" class="btn d-inline-block bg-warning-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-100" class="btn d-inline-block bg-fusion-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-200" class="btn d-inline-block bg-fusion-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-300" class="btn d-inline-block bg-fusion-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-400" class="btn d-inline-block bg-fusion-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-500" class="btn d-inline-block bg-fusion-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-600" class="btn d-inline-block bg-fusion-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-700" class="btn d-inline-block bg-fusion-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-800" class="btn d-inline-block bg-fusion-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-900" class="btn d-inline-block bg-fusion-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="" class="btn d-inline-block bg-white border width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="dropdown-multilevel dropdown-multilevel-left">
-                            <div class="dropdown-item">
-                                Cor do Cabeçalho
-                            </div>
-                            <div class="dropdown-menu no-transition-delay">
-                                <div class="js-thead-colors dropdown-multilevel dropdown-multilevel-left d-flex flex-wrap" style="width: 15.9rem; padding: 0.5rem">
-                                    <a href="javascript:void(0);" data-bg="bg-primary-100" class="btn d-inline-block bg-primary-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-primary-200" class="btn d-inline-block bg-primary-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-primary-300" class="btn d-inline-block bg-primary-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-primary-400" class="btn d-inline-block bg-primary-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-primary-500" class="btn d-inline-block bg-primary-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-primary-600" class="btn d-inline-block bg-primary-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-primary-700" class="btn d-inline-block bg-primary-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-primary-800" class="btn d-inline-block bg-primary-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-primary-900" class="btn d-inline-block bg-primary-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-success-100" class="btn d-inline-block bg-success-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-success-200" class="btn d-inline-block bg-success-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-success-300" class="btn d-inline-block bg-success-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-success-400" class="btn d-inline-block bg-success-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-success-500" class="btn d-inline-block bg-success-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-success-600" class="btn d-inline-block bg-success-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-success-700" class="btn d-inline-block bg-success-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-success-800" class="btn d-inline-block bg-success-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-success-900" class="btn d-inline-block bg-success-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-info-100" class="btn d-inline-block bg-info-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-info-200" class="btn d-inline-block bg-info-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-info-300" class="btn d-inline-block bg-info-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-info-400" class="btn d-inline-block bg-info-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-info-500" class="btn d-inline-block bg-info-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-info-600" class="btn d-inline-block bg-info-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-info-700" class="btn d-inline-block bg-info-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-info-800" class="btn d-inline-block bg-info-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-info-900" class="btn d-inline-block bg-info-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-danger-100" class="btn d-inline-block bg-danger-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-danger-200" class="btn d-inline-block bg-danger-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-danger-300" class="btn d-inline-block bg-danger-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-danger-400" class="btn d-inline-block bg-danger-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-danger-500" class="btn d-inline-block bg-danger-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-danger-600" class="btn d-inline-block bg-danger-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-danger-700" class="btn d-inline-block bg-danger-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-danger-800" class="btn d-inline-block bg-danger-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-danger-900" class="btn d-inline-block bg-danger-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-warning-100" class="btn d-inline-block bg-warning-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-warning-200" class="btn d-inline-block bg-warning-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-warning-300" class="btn d-inline-block bg-warning-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-warning-400" class="btn d-inline-block bg-warning-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-warning-500" class="btn d-inline-block bg-warning-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-warning-600" class="btn d-inline-block bg-warning-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-warning-700" class="btn d-inline-block bg-warning-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-warning-800" class="btn d-inline-block bg-warning-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-warning-900" class="btn d-inline-block bg-warning-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-fusion-100" class="btn d-inline-block bg-fusion-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-fusion-200" class="btn d-inline-block bg-fusion-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-fusion-300" class="btn d-inline-block bg-fusion-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-fusion-400" class="btn d-inline-block bg-fusion-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-fusion-500" class="btn d-inline-block bg-fusion-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-fusion-600" class="btn d-inline-block bg-fusion-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-fusion-700" class="btn d-inline-block bg-fusion-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-fusion-800" class="btn d-inline-block bg-fusion-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="bg-fusion-900" class="btn d-inline-block bg-fusion-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
-                                    <a href="javascript:void(0);" data-bg="" class="btn d-inline-block bg-white border width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                            <div class="dropdown-multilevel dropdown-multilevel-left">
+                                <div class="dropdown-item">
+                                    Cor do Cabeçalho
+                                </div>
+                                <div class="dropdown-menu no-transition-delay">
+                                    <div class="js-thead-colors dropdown-multilevel dropdown-multilevel-left d-flex flex-wrap" style="width: 15.9rem; padding: 0.5rem">
+                                        <a href="javascript:void(0);" data-bg="bg-primary-100" class="btn d-inline-block bg-primary-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-200" class="btn d-inline-block bg-primary-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-300" class="btn d-inline-block bg-primary-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-400" class="btn d-inline-block bg-primary-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-500" class="btn d-inline-block bg-primary-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-600" class="btn d-inline-block bg-primary-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-700" class="btn d-inline-block bg-primary-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-800" class="btn d-inline-block bg-primary-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-primary-900" class="btn d-inline-block bg-primary-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-100" class="btn d-inline-block bg-success-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-200" class="btn d-inline-block bg-success-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-300" class="btn d-inline-block bg-success-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-400" class="btn d-inline-block bg-success-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-500" class="btn d-inline-block bg-success-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-600" class="btn d-inline-block bg-success-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-700" class="btn d-inline-block bg-success-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-800" class="btn d-inline-block bg-success-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-success-900" class="btn d-inline-block bg-success-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-100" class="btn d-inline-block bg-info-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-200" class="btn d-inline-block bg-info-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-300" class="btn d-inline-block bg-info-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-400" class="btn d-inline-block bg-info-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-500" class="btn d-inline-block bg-info-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-600" class="btn d-inline-block bg-info-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-700" class="btn d-inline-block bg-info-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-800" class="btn d-inline-block bg-info-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-info-900" class="btn d-inline-block bg-info-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-100" class="btn d-inline-block bg-danger-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-200" class="btn d-inline-block bg-danger-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-300" class="btn d-inline-block bg-danger-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-400" class="btn d-inline-block bg-danger-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-500" class="btn d-inline-block bg-danger-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-600" class="btn d-inline-block bg-danger-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-700" class="btn d-inline-block bg-danger-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-800" class="btn d-inline-block bg-danger-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-danger-900" class="btn d-inline-block bg-danger-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-100" class="btn d-inline-block bg-warning-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-200" class="btn d-inline-block bg-warning-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-300" class="btn d-inline-block bg-warning-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-400" class="btn d-inline-block bg-warning-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-500" class="btn d-inline-block bg-warning-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-600" class="btn d-inline-block bg-warning-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-700" class="btn d-inline-block bg-warning-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-800" class="btn d-inline-block bg-warning-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-warning-900" class="btn d-inline-block bg-warning-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-100" class="btn d-inline-block bg-fusion-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-200" class="btn d-inline-block bg-fusion-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-300" class="btn d-inline-block bg-fusion-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-400" class="btn d-inline-block bg-fusion-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-500" class="btn d-inline-block bg-fusion-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-600" class="btn d-inline-block bg-fusion-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-700" class="btn d-inline-block bg-fusion-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-800" class="btn d-inline-block bg-fusion-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="bg-fusion-900" class="btn d-inline-block bg-fusion-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                        <a href="javascript:void(0);" data-bg="" class="btn d-inline-block bg-white border width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                  
+                <div class="panel-container show">
+                    <div class="panel-content">
+                        {#<div class="panel-tag">#}
+                        {# </div>#}
 
-            <div class="panel-container show">
-                <div class="panel-content">
-{#                  <div class="panel-tag">#}
-{#                  </div>#}
+                    <!-- datatable start -->
 
-                <!-- datatable start -->
-
-                <div class="demo-v-spacing">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-0" role="tab">
-                                <i class="fal fa-user-friends"></i>
-                                <span class="hidden-sm-down ml-1">Todos{% if n_clientes > 0 %} <span class="badge ml-2">{{ n_clientes }}</span> {% endif %}</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-1" role="tab">
-                                <i class="fal fa-user-check text-success"></i>
-                                <span class="hidden-sm-down ml-1">Ativos/Inativos {% if num_clientes_ativos > 0 %} <span class="badge bg-success-300 ml-2">{{ num_clientes_ativos }}</span> {% endif %}</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-4" role="tab">
-                                <i class="fal fa-user-times text-danger"></i>
-                                <span class="hidden-sm-down ml-1">Perdidos {% if n_inativo > 0 %} <span class="badge bg-danger-300 ml-2">{{ n_inativo }}</span> {% endif %}</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-2" role="tab">
-                                <i class="fal fa-user-plus text-warning"></i>
-                                <span class="hidden-sm-down ml-1">Novos  {% if n_novos_clientes > 0 %} <span class="badge bg-warning-300 ml-2">{{ n_novos_clientes }}</span> {% endif %}</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-3" role="tab">
-                                <i class="fal fa-handshake text-primary"></i>
-                                <span class="hidden-sm-down ml-1">Troca de Assessor {% if n_troca_assessor > 0 %} <span class="badge bg-primary-300 ml-2">{{ n_troca_assessor }}</span> {% endif %}</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-9" role="tab">
-                                <i class="fal fa-check-double"></i>
-                                <span class="hidden-sm-down ml-1">Rotina Onbording {% if n_onboarding > 0 %} <span class="badge bg-success-300 ml-2">{{ n_onboarding }}</span> {% endif %}</span>
-                            </a>
-                        </li>
-
-                        {% if n_contatos > 0 %}
+                    <div class="demo-v-spacing">
+                        <ul class="nav nav-tabs" role="tablist">
+                            
 
                             <li class="nav-item">
-                                <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-5" role="tab">
-                                    <i class="fal fa-handshake text-primary"></i>
-                                    <span class="hidden-sm-down ml-1">Contatos Google  <span class="badge bg-primary-300 ml-2">{{ n_contatos }}</span> </span>
+                                <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-1" role="tab">
+                                    <i class="fal fa-user-check text-success"></i>
+                                    <span class="hidden-sm-down ml-1">Ativos/Inativos {% if num_clientes_ativos > 0 %} <span class="badge bg-success-300 ml-2">{{ num_clientes_ativos }}</span> {% endif %}</span>
                                 </a>
                             </li>
 
-                        {% endif %}
+                            
+
+                            <li class="nav-item">
+                                <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-2" role="tab">
+                                    <i class="fal fa-user-plus text-warning"></i>
+                                    <span class="hidden-sm-down ml-1">Novos  {% if n_novos_clientes > 0 %} <span class="badge bg-warning-300 ml-2">{{ n_novos_clientes }}</span> {% endif %}</span>
+                                </a>
+                            </li>
+                            
+                            
+                            <li class="nav-item">
+                                <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-e" role="tab">
+                                    <i class="fal fa-arrows-h text-info"></i>
+                                    <span class="hidden-sm-down ml-1">Troca de Assessor Externa {% if n_troca_assessor_externa > 0 %} <span class="badge bg-primary-300 ml-2">{{ n_troca_assessor_externa }}</span> {% endif %}</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-3" role="tab">
+                                    <i class="fal fa-handshake text-primary"></i>
+                                    <span class="hidden-sm-down ml-1">Troca de Assessor Interna {% if n_troca_assessor > 0 %} <span class="badge bg-primary-300 ml-2">{{ n_troca_assessor }}</span> {% endif %}</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-9" role="tab">
+                                    <i class="fal fa-check-double"></i>
+                                    <span class="hidden-sm-down ml-1">Rotina Onbording {% if n_onboarding > 0 %} <span class="badge bg-success-300 ml-2">{{ n_onboarding }}</span> {% endif %}</span>
+                                </a>
+                            </li>
+
+                            {% if n_contatos > 0 %}
+
+                                <li class="nav-item">
+                                    <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-5" role="tab">
+                                        <i class="fal fa-handshake text-primary"></i>
+                                        <span class="hidden-sm-down ml-1">Contatos Google  <span class="badge bg-primary-300 ml-2">{{ n_contatos }}</span> </span>
+                                    </a>
+                                </li>
+
+                            {% endif %}
+
+                            <li class="nav-item justify-content-end" style="position: absolute; right:125px">
+                                <a class="nav-link active fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-0" role="tab">
+                                    <i class="fal fa-user-friends"></i>
+                                    <span class="hidden-sm-down ml-1">Todos{% if n_clientes > 0 %} <span class="badge ml-2">{{ n_clientes }}</span> {% endif %}</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item justify-content-end" style="position: absolute; right:7px">
+                                <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-4" role="tab">
+                                    <i class="fal fa-user-times text-danger"></i>
+                                    <span class="hidden-sm-down ml-1">Perdidos {% if n_inativo > 0 %} <span class="badge bg-danger-300 ml-2">{{ n_inativo }}</span> {% endif %}</span>
+                                </a>
+                            </li>
 
 
 
 
-                    </ul>
+                        </ul>
 
-                    <div class="tab-content p-3">
+                        <div class="tab-content p-3">
 
-                        <!-- Todos os clientes -->
-                        <div class="tab-pane fade show active" id="tab_default-0" role="tabpanel">
-                            <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100 table-sm">
+                            <!-- Todos os clientes -->
+                            <div class="tab-pane fade show active" id="tab_default-0" role="tabpanel">
+                                <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100 table-sm">
 
-                                <thead>
-                                    <tr>
-                                        <th>Código</th>
-                                        <th>Nome</th>
-                                        <th>Sexo</th>
-                                        <th>E-mail</th>
-                                        <th>Telefone</th>
-                                        <th>Assessor</th>
-                                        <th>Nascimento</th>
-                                        <th>Rotina</th>
-                                        <th>Whats/E-mail</th>
+                                    <thead>
+                                        <tr>
+                                            <th>Código</th>
+                                            <th>Nome</th>
+                                            <th>Sexo</th>
+                                            <th>E-mail</th>
+                                            <th>Telefone</th>
+                                            <th>Assessor</th>
+                                            <th>Nascimento</th>
+                                            <th>Rotina</th>
+                                            <th>Whats/E-mail</th>
 
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                {% for cliente in clientes %}
-
-                                        <tr {% if cliente.status == 'Inativo' %} class="disabled" {% endif %} >
-                                            <td>
-                                                <a href="{% url 'clients:rotina_emails' cliente.id %}">
-                                                    {{ cliente.nickname }}
-                                                </a>
-
-
-                                            </td>
-                                            <td>{{ cliente.nome|default:'' }}</td>
-                                            <td>{{ cliente.sexo|default:'' }}</td>
-                                            <td>{{ cliente.email|default:'' }}</td>
-                                            <td>{{ cliente.telefone|default:'' }}</td>
-                                            <td>{{ cliente.assessor|default:'' }}</td>
-                                            <td>{{ cliente.data_nascimento|default:'' }}</td>
-                                            <td class="text-center">{% if cliente.rotina == '1' %}<i class="fal fa-check"></i>{% endif %}</td>
-                                            <td class="text-center">{{ cliente.zap_mail|default:"-" }}</td>
                                         </tr>
+                                    </thead>
 
-                                {% endfor %}
-                                </tbody>
-
-                            </table>
-                        </div>
-
-                        <!-- Clientes Ativos -->
-                        <div class="tab-pane fade show" id="tab_default-1" role="tabpanel">
-                            <table id="dt-basic-example1" class="table table-bordered table-hover table-striped w-100 table-sm">
-
-                                <thead>
-                                    <tr>
-                                        <th>Código</th>
-                                        <th>Nome</th>
-                                        <th>Sexo</th>
-                                        <th>E-mail</th>
-                                        <th>Telefone</th>
-                                        <th>Assessor</th>
-                                        <th>Nascimento</th>
-                                        <th>Data</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
+                                    <tbody>
                                     {% for cliente in clientes %}
 
-                                        {% if cliente.status != 'Inativo' %}
+                                            <tr {% if cliente.status == 'Inativo' %} class="disabled" {% endif %} >
+                                                <td>
+                                                    <a href="{% url 'clients:rotina_emails' cliente.id %}">
+                                                        {{ cliente.nickname }}
+                                                    </a>
 
-                                        <tr >
-                                            <td>{{ cliente.nickname|default:'' }}</td>
-                                            <td>{{ cliente.nome|default:'' }}</td>
-                                            <td>{{ cliente.sexo|default:'' }}</td>
-                                            <td>{{ cliente.email|default:'' }}</td>
-                                            <td>{{ cliente.telefone|default:'' }}</td>
-                                            <td>{{ cliente.assessor|default:'' }}</td>
-                                            <td>{{ cliente.data_nascimento|default:'' }}</td>
-                                            <td>{{ cliente.data_registro|default:'' }}</td>
-                                        </tr>
-                                        {% endif %}
+
+                                                </td>
+                                                <td>{{ cliente.nome|default:'' }}</td>
+                                                <td>{{ cliente.sexo|default:'' }}</td>
+                                                <td>{{ cliente.email|default:'' }}</td>
+                                                <td>{{ cliente.telefone|default:'' }}</td>
+                                                <td>{{ cliente.assessor|default:'' }}</td>
+                                                <td>{{ cliente.data_nascimento|default:'' }}</td>
+                                                <td class="text-center">{% if cliente.rotina == '1' %}<i class="fal fa-check"></i>{% endif %}</td>
+                                                <td class="text-center">{{ cliente.zap_mail|default:"-" }}</td>
+                                            </tr>
 
                                     {% endfor %}
-                                </tbody>
+                                    </tbody>
 
-                            </table>
-                        </div>
+                                </table>
+                            </div>
 
-                        <!-- Clientes Inativos -->
-                        <div class="tab-pane fade" id="tab_default-4" role="tabpanel">
-                            <table id="dt-basic-example4" class="table table-bordered table-hover table-striped w-100 table-sm">
+                            <!-- Clientes Ativos -->
+                            <div class="tab-pane fade show" id="tab_default-1" role="tabpanel">
+                                <table id="dt-basic-example1" class="table table-bordered table-hover table-striped w-100 table-sm">
 
-                                <thead>
-                                    <tr>
-                                        <th>Código</th>
-                                        <th>Nome</th>
-                                        <th>Sexo</th>
-                                        <th>E-mail</th>
-                                        <th>Telefone</th>
-                                        <th>Assessor</th>
-                                        <th>Nascimento</th>
-                                        <th>Data</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {% for cliente in inativo %}
-
+                                    <thead>
                                         <tr>
-                                            <td>{{ cliente.nickname|default:'' }}</td>
-                                            <td>{{ cliente.nome|default:'' }}</td>
-                                            <td>{{ cliente.sexo|default:'' }}</td>
-                                            <td>{{ cliente.email|default:'' }}</td>
-                                            <td>{{ cliente.telefone|default:'' }}</td>
-                                            <td>{{ cliente.assessor|default:'' }}</td>
-                                            <td>{{ cliente.data_nascimento|default:'' }}</td>
-                                            <td>{{ cliente.data_registro|default:'' }}</td>
+                                            <th>Código</th>
+                                            <th>Nome</th>
+                                            <th>Sexo</th>
+                                            <th>E-mail</th>
+                                            <th>Telefone</th>
+                                            <th>Assessor</th>
+                                            <th>Nascimento</th>
+                                            <th>Data</th>
                                         </tr>
+                                    </thead>
 
-                                    {% endfor %}
-                                </tbody>
+                                    <tbody>
+                                        {% for cliente in clientes %}
 
-                            </table>
-                        </div>
+                                            {% if cliente.status != 'Inativo' %}
 
-                        <!-- Novos clientes -->
-                        <div class="tab-pane fade" id="tab_default-2" role="tabpanel">
-                            <table id="dt-basic-example2" class="table table-bordered table-hover table-striped w-100 table-sm">
+                                            <tr >
+                                                <td>{{ cliente.nickname|default:'' }}</td>
+                                                <td>{{ cliente.nome|default:'' }}</td>
+                                                <td>{{ cliente.sexo|default:'' }}</td>
+                                                <td>{{ cliente.email|default:'' }}</td>
+                                                <td>{{ cliente.telefone|default:'' }}</td>
+                                                <td>{{ cliente.assessor|default:'' }}</td>
+                                                <td>{{ cliente.data_nascimento|default:'' }}</td>
+                                                <td>{{ cliente.data_registro|default:'' }}</td>
+                                            </tr>
+                                            {% endif %}
 
-                                <thead>
-                                    <tr>
-                                        <th>Código</th>
-                                        <th>Nome</th>
-                                        <th>Sexo</th>
-                                        <th>E-mail</th>
-                                        <th>Telefone</th>
-                                        <th>Nascimento</th>
-                                        <th>Rotina</th>
-{#                                        <th>Whats/E-mail</th>#}
-                                        <th>Data</th>
-                                        <th>Açoes</th>
-                                    </tr>
-                                </thead>
+                                        {% endfor %}
+                                    </tbody>
 
-                                <tbody>
+                                </table>
+                            </div>
 
-                                    {% for cliente in clientes %}
+                            <!-- Clientes Inativos -->
+                            <div class="tab-pane fade" id="tab_default-4" role="tabpanel">
+                                <table id="dt-basic-example4" class="table table-bordered table-hover table-striped w-100 table-sm">
 
-                                        {% if cliente.status == 'Novo' %}
-
-                                                <tr>
-                                                <form method="post" action="{% url 'clients:update_cliente_novo' %}">
-                                                    {% csrf_token %}
-
-
-                                                    <td class="text-center"><span style="margin-top: 150px">{{ cliente.nickname }}</span> <input  hidden value="{{ cliente.id }}" name="id"></td>
-                                                    <td><input   type="text" class="form-control" name="nome" value="{{ cliente.nome|split:' '|first }}" required></td>
-                                                    <td>
-                                                        <select class="form-control" name="sexo" required>
-                                                            <option value="">Definir sexo</option>
-                                                            <option value="M" {% if cliente.sexo == 'M' %} selected {% endif %}>M</option>
-                                                            <option value="F" {% if cliente.sexo == 'F' %} selected {% endif %}>F</option>
-                                                        </select>
-                                                    </td>
-                                                    <td><input type="text" class="form-control" name="email" value="{{ cliente.email|default:'' }}" required></td>
-                                                    <td><input type="text" class="form-control" name="telefone" value="{{ cliente.telefone|default:'' }}" required></td>
-                                                    <td><input type="text" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento|default:'' }}" required></td>
-                                                    <td class="text-center">
-                                                        <input type="checkbox" style="margin-top: 15px" name="rotina" value="1" checked>
-                                                    </td>
-                                                    <td>{{ cliente.data_registro }}</td>
-                                                    <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
-                                                </form>
-                                                </tr>
-
-                                        {% endif %}
-
-                                    {% endfor %}
-
-                                </tbody>
-
-                            </table>
-                        </div>
-
-                        <!-- Troca de Assessor -->
-                        <div class="tab-pane fade" id="tab_default-3" role="tabpanel">
-                            <table id="dt-basic-example3" class="table table-bordered table-hover table-striped w-100 table-sm">
-
-                                <thead>
-                                    <tr>
-                                        <th>Código</th>
-                                        <th>Nome</th>
-                                        <th>Sexo</th>
-                                        <th>Assessor</th>
-                                        <th>Antigo Assessor</th>
-                                        <th>Rotina</th>
-{#                                        <th>Whats/E-mail</th>#}
-                                        <th>Data</th>
-                                        <th>Ações</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {% for troca in troca_assessor %}
-
+                                    <thead>
                                         <tr>
-                                            <td>{{ troca.nickname }}</td>
-                                            <td>{{ troca.nome|lower|capfirst }}</td>
-                                            <td>{{ troca.sexo }}</td>
-                                            <td>{{ troca.assessor }}</td>
-                                            <td>{{ troca.antigo_assessor }}</td>
-
-                                            <form method="post" action="{% url 'clients:update_troca_assessor' %}">
-                                                {% csrf_token %}
-
-
-                                                <td class="text-center"><input name="id" hidden value="{{ troca.id }}"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1" checked ></td>
-                                                <td>{{ troca.data_registro }} </td>
-                                                <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
-                                            </form>
+                                            <th>Código</th>
+                                            <th>Nome</th>
+                                            <th>Sexo</th>
+                                            <th>E-mail</th>
+                                            <th>Telefone</th>
+                                            <th>Assessor</th>
+                                            <th>Nascimento</th>
+                                            <th>Data</th>
                                         </tr>
+                                    </thead>
 
-                                    {% endfor %}
-                                </tbody>
-
-                            </table>
-                        </div>
-
-                        <!-- Rotina Onbording -->
-                        <div class="tab-pane fade" id="tab_default-9" role="tabpanel">
-                            <table id="dt-basic-example9" class="table table-bordered table-hover table-striped w-100 table-sm" >
-
-                                <thead>
-                                    <tr>
-                                        <th style="white-space:nowrap;">Email OnB.</th>
-                                        <th style="white-space:nowrap;">Cod</th>
-                                        <th style="white-space:nowrap;">Nome</th>
-                                        <th style="white-space:nowrap;">Freq. de cont.</th>
-                                        <th style="white-space:nowrap;">Perfil preen.</th>
-                                        <th class="" style="white-space:nowrap;">Meio de con.</th>
-                                        <th class="" style="white-space:nowrap;">Acomp. Perm.</th>
-                                        <th class="" style="white-space:nowrap;">Oport. RF</th>
-                                        <th class="" style="white-space:nowrap;">Oport. Ações</th>
-                                        <th class="" style="white-space:nowrap;">Oport. Fii</th>
-                                        <th class="" style="white-space:nowrap;">Oport. F. Invest.</th>
-                                        <th style="white-space:nowrap;">Sugestão</th>
-                                        <th style="white-space:nowrap;">Implm. Sugestão</th>
-                                        <th class="phone">Observação</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                {% for cliente in onbording %}
-
-                                        <tr>
-                                            <td><button class="btn btn-sm btn-default" onclick="sendEmailQuestionario('{{ cliente.id }}')">Enviar</button></td>
-                                            <td>
-                                                {{ cliente.nickname }}
-                                            </td>
-                                            <td>{{ cliente.nome|split:' '|first }}</td>
-                                            <td>
-                                                <select id="frequencia_contato" class="form-control" name="frequencia_contato" required onchange="change_frequencia('{{ cliente.id }}', this)">
-                                                    <option value="Não Definido" {% if cliente.frequencia_contato == 'Não Definido' %} selected {% endif %}>Não Definido</option>
-                                                    <option value="1 mês" {% if cliente.frequencia_contato == '1 mês' %} selected {% endif %}>1 mês</option>
-                                                    <option value="3 mêses" {% if cliente.frequencia_contato == '3 mêses' %} selected {% endif %}>3 mêses</option>
-                                                    <option value="6 mêses" {% if cliente.frequencia_contato == '6 mêses' %} selected {% endif %}>6 mêses</option>
-                                                    <option value="12 mêses" {% if cliente.frequencia_contato == '12 mêses' %} selected {% endif %}>12 mêses</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                {% if cliente.onbording_perfil_preenchido == None or cliente.onbording_perfil_preenchido == '' %}
-                                                    <button class="btn btn-sm btn-default" onclick="perfilPreenchido('{{ cliente.id }}')">Perfil Preenchido</button>
-                                                {% else %}
-                                                    <button class="btn btn-sm btn-default disabled" >Preenchido <i class="fal fa-check-circle text-success"></i></button>
-                                                {% endif %}
-                                            </td>
-                                            <td>
-                                                <select id="zap_mail" class="form-control" name="zap_mail" required onchange="change_contato('{{ cliente.id }}', this)">
-                                                    <option value="Não Definido" {% if cliente.zap_mail == 'Não Definido' %} selected {% endif %}>Não Definido</option>
-                                                    <option value="WhatsApp" {% if cliente.zap_mail == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
-                                                    <option value="Telefone" {% if cliente.zap_mail == 'Telefone' %} selected {% endif %}>Telefone</option>
-                                                    <option value="Email" {% if cliente.zap_mail == 'Email' %} selected {% endif %}>Email</option>
-                                                </select>
-                                            </td>
-                                            <td><input type="checkbox" {% if cliente.onbording_acomp_per == 'Sim' %} checked {% endif %}  onchange="checkAcomPerm('{{ cliente.id }}', this)"></td>
-                                            <td><input type="checkbox" {% if cliente.onbording_acomp_rf == 'Sim' %} checked {% endif %} onchange="OptRf('{{ cliente.id }}', this)"></td>
-                                            <td><input type="checkbox" {% if cliente.onbording_acomp_acoes == 'Sim' %} checked {% endif %} onchange="OptAcoes('{{ cliente.id }}', this)"></td>
-                                            <td><input type="checkbox" {% if cliente.onbording_acomp_fii == 'Sim' %} checked {% endif %} onchange="OptFii('{{ cliente.id }}', this)"></td>
-                                            <td><input type="checkbox" {% if cliente.onbording_acomp_fiinvest == 'Sim' %} checked {% endif %} onchange="OptFinvest('{{ cliente.id }}', this)"></td>
-                                            <td>
-                                                {% if cliente.onbording_envio_sugestao == None or cliente.onbording_envio_sugestao == '' %}
-                                                    <button id="btnSujest_{{ cleinte.id }}" class="btn btn-sm btn-default" onclick="enviarSugest('{{ cliente.id }}')">Enviar sugestão</button>
-                                                {% else %}
-                                                    <button class="btn btn-sm btn-default disabled" >Enviado <i class="fal fa-check-circle text-success"></i></button>
-                                                {% endif %}
-                                            </td>
-                                            <td>
-                                                {% if cliente.onbording_impl_envio_sugestao == None or cliente.onbording_impl_envio_sugestao == '' %}
-                                                    <button class="btn btn-sm btn-default" onclick="enviarImplement('{{ cliente.id }}')">Implementaão de sugestão</button>
-                                                {% else %}
-                                                    <button class="btn btn-sm btn-default disabled" >Enviado <i class="fal fa-check-circle text-success"></i></button>
-                                                {% endif %}
-
-                                            </td>
-                                            <td><button id="addobserva" class="btn btn-sm btn-default" data-toggle="modal" data-target="#default-example-modal" onclick="obsOpen('{{ cliente.id }}', '{{ cliente.onbording_obs }}')">Adicionar</button> &nbsp; {{ cliente.onbording_obs|default:'Nenhuma observação adicionada até o momento' }}</td>
-
-
-                                        </tr>
-
-                                {% endfor %}
-                                </tbody>
-
-                            </table>
-                        </div>
-
-                        {% if n_contatos > 0 %}
-
-                            <!-- Contatos google -->
-                            <div class="tab-pane fade" id="tab_default-5" role="tabpanel">
-
-                                {% if request.user.id|url_google_sheets == None %}
-                                    <button style="margin-bottom: 20px" type="button" class="btn btn-warning" data-toggle="modal" data-target="#default-example-modal-center">Cadastre o link do google Sheets para transferir seus contatos!</button>
-
-                                    <div class="modal fade" id="default-example-modal-center" tabindex="-1" role="dialog" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">
-                                                        Google Sheets
-                                                        <small class="m-0 text-muted">
-                                                            Cadastrar Link
-                                                        </small>
-                                                    </h4>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
-                                                    </button>
-                                                </div>
-                                                <form method="post" action="{% url 'clients:url_google_sheets' %}">
-                                                    {% csrf_token %}
-                                                    <input hidden name="id" value="{{ request.user.id }}">
-
-                                                    <div class="modal-body">
-
-                                                        <img src="{% static 'img/google-sheets.png' %}" class="img-fluid">
-
-                                                        <br>
-                                                        <br>
-
-                                                        <div class="form-group">
-                                                            <label class="form-label">Insira sua url abaixo.</label>
-                                                            <div class="input-group input-group-lg bg-white shadow-inset-2">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text bg-transparent border-right-0 py-1 px-3">
-                                                                        <span class="icon-stack fs-xxl">
-                                                                            <i class="base-7 icon-stack-3x color-primary-500"></i>
-                                                                            <i class="fal fa-link icon-stack-1x text-white"></i>
-                                                                        </span>
-                                                                    </span>
-                                                                </div>
-                                                                <input type="url" class="form-control border-left-0 bg-transparent pl-0" placeholder="https://docs.google.com/spreadsheets/......"  name="google_sheets">
-                                                            </div>
-                                                        </div>
-
-
-
-
-                                                    </div>
-
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                                                        <button type="submit" class="btn btn-primary">Cadastrar</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                {% else %}
-                                    <a style="color:#fff; margin-bottom: 20px" data-clipboard-target=".foo" onclick="copiei(), liberaBtnEnviarEAssunto()" href="{{ request.user.id|url_google_sheets }}" target="_blank" class="btn btn-sm btn-success pull-right bt-copy" >Transferir Contatos</a>
-                                {% endif %}
-
-                                <table id="dt-basic-example3" class="table table-bordered table-hover table-striped w-100 table-sm foo">
-
-
-
-                                    <tbody id="">
-                                        {% for contato in contatos %}
+                                    <tbody>
+                                        {% for cliente in inativo %}
 
                                             <tr>
-                                                <td>{{ contato.nome|split:' '|first|lower|capfirst }} {{ contato.nome|split:' '|last|lower|capfirst }} {{ contato.nickname }}</td>
-                                                <td>{{ contato.telefone }}</td>
+                                                <td>{{ cliente.nickname|default:'' }}</td>
+                                                <td>{{ cliente.nome|default:'' }}</td>
+                                                <td>{{ cliente.sexo|default:'' }}</td>
+                                                <td>{{ cliente.email|default:'' }}</td>
+                                                <td>{{ cliente.telefone|default:'' }}</td>
+                                                <td>{{ cliente.assessor|default:'' }}</td>
+                                                <td>{{ cliente.data_nascimento|default:'' }}</td>
+                                                <td>{{ cliente.data_registro|default:'' }}</td>
                                             </tr>
 
                                         {% endfor %}
                                     </tbody>
 
                                 </table>
-
                             </div>
 
-                        {% endif %}
+                            <!-- Novos clientes -->
+                            <div class="tab-pane fade" id="tab_default-2" role="tabpanel">
+                                <table id="dt-basic-example2" class="table table-bordered table-hover table-striped w-100 table-sm">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Código</th>
+                                            <th>Nome</th>
+                                            <th>Sexo</th>
+                                            <th>E-mail</th>
+                                            <th>Telefone</th>
+                                            <th>Nascimento</th>
+                                            <th>Rotina</th>
+                                            {# <th>Whats/E-mail</th>#}
+                                            <th>Data</th>
+                                            <th>Açoes</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                        {% for cliente in clientes %}
+
+                                            {% if cliente.status == 'Novo' %}
+
+                                                    <tr>
+                                                    <form method="post" action="{% url 'clients:update_cliente_novo' %}">
+                                                        {% csrf_token %}
+
+
+                                                        <td class="text-center"><span style="margin-top: 150px">{{ cliente.nickname }}</span> <input  hidden value="{{ cliente.id }}" name="id"></td>
+                                                        <td><input   type="text" class="form-control" name="nome" value="{{ cliente.nome|split:' '|first }}" required></td>
+                                                        <td>
+                                                            <select class="form-control" name="sexo" required>
+                                                                <option value="">Definir</option>
+                                                                <option value="M" {% if cliente.sexo == 'M' %} selected {% endif %}>M</option>
+                                                                <option value="F" {% if cliente.sexo == 'F' %} selected {% endif %}>F</option>
+                                                            </select>
+                                                        </td>
+                                                        <td><input type="text" class="form-control" name="email" value="{{ cliente.email|default:'' }}" required></td>
+                                                        <td><input type="text" class="form-control" name="telefone" value="{{ cliente.telefone|default:'' }}" required></td>
+                                                        <td><input type="text" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento|default:'' }}" required></td>
+                                                        <td class="text-center">
+                                                            <input type="checkbox" style="margin-top: 15px" name="rotina" value="1" checked>
+                                                        </td>
+                                                        <td>{{ cliente.data_registro }}</td>
+                                                        <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
+                                                    </form>
+                                                    </tr>
+
+                                            {% endif %}
+
+                                        {% endfor %}
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                            <!-- Troca de Assessor Externa -->
+                            <div class="tab-pane fade" id="tab_default-e" role="tabpanel">
+                                <table id="dt-basic-exampleA" class="table table-bordered table-hover table-striped w-100 table-sm">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Código</th>
+                                            <th>Nome</th>
+                                            <th>Sexo</th>
+                                            <th>Assessor</th>
+                                            <th>Antigo Assessor</th>
+                                            <th>Rotina</th>
+                                            {#<th>Whats/E-mail</th>#}
+                                            <th>Data</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for troca in troca_assessor_externa %}
+
+                                            <tr>
+                                                <td>{{ troca.nickname }}</td>
+                                                <td>{{ troca.nome|lower|capfirst }}</td>
+                                                <td>{{ troca.sexo }}</td>
+                                                <td>{{ troca.assessor }}</td>
+                                                <td>{{ troca.antigo_assessor }}</td>
+
+                                                <form method="post" action="{% url 'clients:update_troca_assessor' %}">
+                                                    {% csrf_token %}
+
+
+                                                    <td class="text-center"><input name="id" hidden value="{{ troca.id }}"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1" checked ></td>
+                                                    <td>{{ troca.data_registro }} </td>
+                                                    <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
+                                                </form>
+                                            </tr>
+
+                                        {% endfor %}
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                            <!-- Troca de Assessor Interna -->
+                            <div class="tab-pane fade" id="tab_default-3" role="tabpanel">
+                                <table id="dt-basic-example3" class="table table-bordered table-hover table-striped w-100 table-sm">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Código</th>
+                                            <th>Nome</th>
+                                            <th>Sexo</th>
+                                            <th>Assessor</th>
+                                            <th>Antigo Assessor</th>
+                                            <th>Rotina</th>
+                                            {#<th>Whats/E-mail</th>#}
+                                            <th>Data</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for troca in troca_assessor %}
+
+                                            <tr>
+                                                <td>{{ troca.nickname }}</td>
+                                                <td>{{ troca.nome|lower|capfirst }}</td>
+                                                <td>{{ troca.sexo }}</td>
+                                                <td>{{ troca.assessor }}</td>
+                                                <td>{{ troca.antigo_assessor }}</td>
+
+                                                <form method="post" action="{% url 'clients:update_troca_assessor' %}">
+                                                    {% csrf_token %}
+
+
+                                                    <td class="text-center"><input name="id" hidden value="{{ troca.id }}"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1" checked ></td>
+                                                    <td>{{ troca.data_registro }} </td>
+                                                    <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
+                                                </form>
+                                            </tr>
+
+                                        {% endfor %}
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                            <!-- Rotina Onbording -->
+                            <div class="tab-pane fade" id="tab_default-9" role="tabpanel">
+                                <table id="dt-basic-example9" class="table table-bordered table-hover table-striped w-100 table-sm" >
+
+                                    <thead>
+                                        <tr>
+                                            <th style="white-space:nowrap;">Email OnB.</th>
+                                            <th style="white-space:nowrap;">Cod</th>
+                                            <th style="white-space:nowrap;">Nome</th>
+                                            <th style="white-space:nowrap;">Freq. de cont.</th>
+                                            <th style="white-space:nowrap;">Perfil preen.</th>
+                                            <th class="" style="white-space:nowrap;">Meio de con.</th>
+                                            <th class="" style="white-space:nowrap;">Acomp. Perm.</th>
+                                            <th class="" style="white-space:nowrap;">Oport. RF</th>
+                                            <th class="" style="white-space:nowrap;">Oport. Ações</th>
+                                            <th class="" style="white-space:nowrap;">Oport. Fii</th>
+                                            <th class="" style="white-space:nowrap;">Oport. F. Invest.</th>
+                                            <th style="white-space:nowrap;">Sugestão</th>
+                                            <th style="white-space:nowrap;">Implm. Sugestão</th>
+                                            <th class="phone">Observação</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for cliente in onbording %}
+
+                                            <tr>
+                                                <td><button class="btn btn-sm btn-default" onclick="sendEmailQuestionario('{{ cliente.id }}')">Enviar</button></td>
+                                                <td>
+                                                    {{ cliente.nickname }}
+                                                </td>
+                                                <td>{{ cliente.nome|split:' '|first }}</td>
+                                                <td>
+                                                    <select id="frequencia_contato" class="form-control" name="frequencia_contato" required onchange="change_frequencia('{{ cliente.id }}', this)">
+                                                        <option value="Não Definido" {% if cliente.frequencia_contato == 'Não Definido' %} selected {% endif %}>Não Definido</option>
+                                                        <option value="1 mês" {% if cliente.frequencia_contato == '1 mês' %} selected {% endif %}>1 mês</option>
+                                                        <option value="3 mêses" {% if cliente.frequencia_contato == '3 mêses' %} selected {% endif %}>3 mêses</option>
+                                                        <option value="6 mêses" {% if cliente.frequencia_contato == '6 mêses' %} selected {% endif %}>6 mêses</option>
+                                                        <option value="12 mêses" {% if cliente.frequencia_contato == '12 mêses' %} selected {% endif %}>12 mêses</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    {% if cliente.onbording_perfil_preenchido == None or cliente.onbording_perfil_preenchido == '' %}
+                                                        <button class="btn btn-sm btn-default" onclick="perfilPreenchido('{{ cliente.id }}')">Perfil Preenchido</button>
+                                                    {% else %}
+                                                        <button class="btn btn-sm btn-default disabled" >Preenchido <i class="fal fa-check-circle text-success"></i></button>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <select id="zap_mail" class="form-control" name="zap_mail" required onchange="change_contato('{{ cliente.id }}', this)">
+                                                        <option value="Não Definido" {% if cliente.zap_mail == 'Não Definido' %} selected {% endif %}>Não Definido</option>
+                                                        <option value="WhatsApp" {% if cliente.zap_mail == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
+                                                        <option value="Telefone" {% if cliente.zap_mail == 'Telefone' %} selected {% endif %}>Telefone</option>
+                                                        <option value="Email" {% if cliente.zap_mail == 'Email' %} selected {% endif %}>Email</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="checkbox" {% if cliente.onbording_acomp_per == 'Sim' %} checked {% endif %}  onchange="checkAcomPerm('{{ cliente.id }}', this)"></td>
+                                                <td><input type="checkbox" {% if cliente.onbording_acomp_rf == 'Sim' %} checked {% endif %} onchange="OptRf('{{ cliente.id }}', this)"></td>
+                                                <td><input type="checkbox" {% if cliente.onbording_acomp_acoes == 'Sim' %} checked {% endif %} onchange="OptAcoes('{{ cliente.id }}', this)"></td>
+                                                <td><input type="checkbox" {% if cliente.onbording_acomp_fii == 'Sim' %} checked {% endif %} onchange="OptFii('{{ cliente.id }}', this)"></td>
+                                                <td><input type="checkbox" {% if cliente.onbording_acomp_fiinvest == 'Sim' %} checked {% endif %} onchange="OptFinvest('{{ cliente.id }}', this)"></td>
+                                                <td>
+                                                    {% if cliente.onbording_envio_sugestao == None or cliente.onbording_envio_sugestao == '' %}
+                                                        <button id="btnSujest_{{ cleinte.id }}" class="btn btn-sm btn-default" onclick="enviarSugest('{{ cliente.id }}')">Enviar sugestão</button>
+                                                    {% else %}
+                                                        <button class="btn btn-sm btn-default disabled" >Enviado <i class="fal fa-check-circle text-success"></i></button>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if cliente.onbording_impl_envio_sugestao == None or cliente.onbording_impl_envio_sugestao == '' %}
+                                                        <button class="btn btn-sm btn-default" onclick="enviarImplement('{{ cliente.id }}')">Implementaão de sugestão</button>
+                                                    {% else %}
+                                                        <button class="btn btn-sm btn-default disabled" >Enviado <i class="fal fa-check-circle text-success"></i></button>
+                                                    {% endif %}
+
+                                                </td>
+                                                <td><button id="addobserva" class="btn btn-sm btn-default" data-toggle="modal" data-target="#default-example-modal" onclick="obsOpen('{{ cliente.id }}', '{{ cliente.onbording_obs }}')">Adicionar</button> &nbsp; {{ cliente.onbording_obs|default:'Nenhuma observação adicionada até o momento' }}</td>
+
+
+                                            </tr>
+
+                                    {% endfor %}
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                            {% if n_contatos > 0 %}
+
+                                <!-- Contatos google -->
+                                <div class="tab-pane fade" id="tab_default-5" role="tabpanel">
+
+                                    {% if request.user.id|url_google_sheets == None %}
+                                        <button style="margin-bottom: 20px" type="button" class="btn btn-warning" data-toggle="modal" data-target="#default-example-modal-center">Cadastre o link do google Sheets para transferir seus contatos!</button>
+
+                                        <div class="modal fade" id="default-example-modal-center" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">
+                                                            Google Sheets
+                                                            <small class="m-0 text-muted">
+                                                                Cadastrar Link
+                                                            </small>
+                                                        </h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                                                        </button>
+                                                    </div>
+                                                    <form method="post" action="{% url 'clients:url_google_sheets' %}">
+                                                        {% csrf_token %}
+                                                        <input hidden name="id" value="{{ request.user.id }}">
+
+                                                        <div class="modal-body">
+
+                                                            <img src="{% static 'img/google-sheets.png' %}" class="img-fluid">
+
+                                                            <br>
+                                                            <br>
+
+                                                            <div class="form-group">
+                                                                <label class="form-label">Insira sua url abaixo.</label>
+                                                                <div class="input-group input-group-lg bg-white shadow-inset-2">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text bg-transparent border-right-0 py-1 px-3">
+                                                                            <span class="icon-stack fs-xxl">
+                                                                                <i class="base-7 icon-stack-3x color-primary-500"></i>
+                                                                                <i class="fal fa-link icon-stack-1x text-white"></i>
+                                                                            </span>
+                                                                        </span>
+                                                                    </div>
+                                                                    <input type="url" class="form-control border-left-0 bg-transparent pl-0" placeholder="https://docs.google.com/spreadsheets/......"  name="google_sheets">
+                                                                </div>
+                                                            </div>
+
+
+
+
+                                                        </div>
+
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                                                            <button type="submit" class="btn btn-primary">Cadastrar</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    {% else %}
+                                        <a style="color:#fff; margin-bottom: 20px" data-clipboard-target=".foo" onclick="copiei(), liberaBtnEnviarEAssunto()" href="{{ request.user.id|url_google_sheets }}" target="_blank" class="btn btn-sm btn-success pull-right bt-copy" >Transferir Contatos</a>
+                                    {% endif %}
+
+                                    <table id="dt-basic-example3" class="table table-bordered table-hover table-striped w-100 table-sm foo">
+
+
+
+                                        <tbody id="">
+                                            {% for contato in contatos %}
+
+                                                <tr>
+                                                    <td>{{ contato.nome|split:' '|first|lower|capfirst }} {{ contato.nome|split:' '|last|lower|capfirst }} {{ contato.nickname }}</td>
+                                                    <td>{{ contato.telefone }}</td>
+                                                </tr>
+
+                                            {% endfor %}
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
 
                     </div>
 
-                </div>
-
-                    <!-- datatable end -->
+                        <!-- datatable end -->
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
     <textarea hidden id="foo">
@@ -696,9 +759,9 @@
                 <div class="modal-header">
                     <h4 class="modal-title">
                         Adicionar Observaçao ao usuário
-{#                        <small class="m-0 text-muted">#}
-{#                            Below is a static modal example#}
-{#                        </small>#}
+                        {# <small class="m-0 text-muted">#}
+                                {# Below is a static modal example#}
+                                {#</small>#}
                     </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><i class="fal fa-times"></i></span>
