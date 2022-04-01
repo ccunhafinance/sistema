@@ -180,4 +180,4 @@ def upload_novos_clientes(new_cliente):
                     )
                     value.save()
 
-   return 'taskdone'              
+        return 'taskdone'              
