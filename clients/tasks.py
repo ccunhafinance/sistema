@@ -162,7 +162,7 @@ def segundo_upload(a, b):
                   data_registro=data_em_texto
               )
               value.save()
-          time.sleep(1)
+          
 
       for data in df2.to_numpy():
           # print(data)
