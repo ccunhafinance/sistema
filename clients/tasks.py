@@ -28,7 +28,7 @@ def sleepy(duration):
 
    
 
-@shared_task(bind=True, acks_late=False, ignore_result=True, max_retries=None)
+@shared_task
 def upload_novos_clientes(primeiro):
 
       primeiro_file = pd.read_json(primeiro)
@@ -70,7 +70,7 @@ def upload_novos_clientes(primeiro):
       return True  
           
 
-@shared_task(bind=True, acks_late=False, ignore_result=True, max_retries=None)
+@shared_task
 def segundo_upload(a, b):
       clientes_resource = ClientesResources()
       dataset = Dataset()
