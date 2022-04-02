@@ -65,10 +65,7 @@ def upload_novos_clientes(primeiro):
                       data_nascimento=data[7],
                       data_registro=data_em_texto
                   )
-                  value.save()
-
-      return True  
-          
+                  value.save()          
 
 @shared_task
 def segundo_upload(a, b):
@@ -197,4 +194,3 @@ def segundo_upload(a, b):
               )
               value.save()
 
-      return True  
