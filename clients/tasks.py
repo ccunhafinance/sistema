@@ -17,6 +17,7 @@ from django.contrib import messages
 from tablib import Dataset
 from datetime import date
 import datetime
+import time
 
 import pandas as pd
 
@@ -66,7 +67,7 @@ def upload_novos_clientes(primeiro):
                   )
                   value.save()
 
-      
+              time.sleep(1)
 
       return True  
           
@@ -163,7 +164,7 @@ def segundo_upload(a, b):
                   data_registro=data_em_texto
               )
               value.save()
-          # sleepy(1)
+          time.sleep(1)
 
       for data in df2.to_numpy():
           # print(data)
@@ -197,6 +198,6 @@ def segundo_upload(a, b):
                   data_registro=data[6]
               )
               value.save()
-          # sleepy(1)
+          time.sleep(1)
 
       return True  
