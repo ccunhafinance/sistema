@@ -67,8 +67,6 @@ def upload_novos_clientes(primeiro):
                   )
                   value.save()
 
-              time.sleep(1)
-
       return True  
           
 
@@ -198,6 +196,5 @@ def segundo_upload(a, b):
                   data_registro=data[6]
               )
               value.save()
-          time.sleep(1)
 
       return True  
