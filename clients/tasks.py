@@ -44,7 +44,6 @@ def upload_novos_clientes(primeiro):
 
       if len(clientes)==0:
 
-
           for data in primeiro_file.to_numpy():
               # print(data)
 

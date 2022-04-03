@@ -144,13 +144,13 @@ def upload_clientes(request):
                 # print(primeiro.to_json())
                 # print(pd.read_json(primeiro.to_json()))
 
-                upload_novos_clientes.delay(primeiro.to_json())
-                # upload_novos_clientes(primeiro.to_json()) #no deley
+                # upload_novos_clientes.delay(primeiro.to_json())
+                upload_novos_clientes(primeiro.to_json()) #no deley
             else:
                 df1 = pd.read_excel(xls, 'tab2')
                 df2 = pd.read_excel(xls, 'tab1')
-                segundo_upload.delay(df1.to_json(),df2.to_json())
-                # segundo_upload(df1.to_json(),df2.to_json()) #no deley
+                # segundo_upload.delay(df1.to_json(),df2.to_json())
+                segundo_upload(df1.to_json(),df2.to_json()) #no deley
 
     return redirect(reverse('clients:clients-list'))
 
