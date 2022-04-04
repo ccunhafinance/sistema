@@ -44,27 +44,28 @@ def upload_novos_clientes(primeiro):
 
       if len(clientes)==0:
 
-          for data in primeiro_file.to_numpy():
-              # print(data)
+          with transaction.atomic():
+            for data in primeiro_file.to_numpy():
+                # print(data)
 
-              # print(primeiro_file)
-              # print(data)
+                # print(primeiro_file)
+                # print(data)
 
-              try:
-                  listing = Clientes.objects.get(nickname=data[1])
+                try:
+                    listing = Clientes.objects.get(nickname=data[1])
 
-              except Clientes.DoesNotExist:
-                  value = Clientes(
-                      nickname=data[1],
-                      nome=str(data[2]).title(),
-                      sexo=data[3],
-                      email=data[4],
-                      telefone=data[5],
-                      assessor=data[6],
-                      data_nascimento=data[7],
-                      data_registro=data_em_texto
-                  )
-                  value.save()
+                except Clientes.DoesNotExist:
+                    value = Clientes(
+                        nickname=data[1],
+                        nome=str(data[2]).title(),
+                        sexo=data[3],
+                        email=data[4],
+                        telefone=data[5],
+                        assessor=data[6],
+                        data_nascimento=data[7],
+                        data_registro=data_em_texto
+                    )
+                    value.save()
 
 @shared_task
 def segundo_upload(a, b):
@@ -109,58 +110,58 @@ def segundo_upload(a, b):
       # print(Diff(primeiro, segundo))
 
       inativos = Diff(primeiro, segundo)
+      with transaction.atomic():
+        for x in inativos:
+            Clientes.objects.filter(nickname=x).update(
+                status='Inativo',
+                data_registro=data_em_texto
+            )
+      with transaction.atomic():
+        for data in df1.to_numpy():
+            # print(data)
+            if len(Clientes.objects.filter(nickname=data[0])) == 1:
 
-      for x in inativos:
-          Clientes.objects.filter(nickname=x).update(
-              status='Inativo',
-              data_registro=data_em_texto
-          )
+                if str(Clientes.objects.filter(nickname=data[0])[0].assessor) != str(data[2]):
+                    Clientes.objects.filter(nickname=data[0]).update(
+                        nome=str(data[1]).title(),
+                        assessor=data[2],
+                        antigo_assessor=Clientes.objects.filter(nickname=data[0])[0].assessor,
+                        d0=data[3],
+                        d1=data[4],
+                        d2=data[5],
+                        d3=data[6],
+                        d4=data[7],
+                        troca='interna',
+                        data_registro=data_em_texto
+                    )
+                else:
 
-      for data in df1.to_numpy():
-          # print(data)
-          if len(Clientes.objects.filter(nickname=data[0])) == 1:
-
-              if str(Clientes.objects.filter(nickname=data[0])[0].assessor) != str(data[2]):
-                  Clientes.objects.filter(nickname=data[0]).update(
-                      nome=str(data[1]).title(),
-                      assessor=data[2],
-                      antigo_assessor=Clientes.objects.filter(nickname=data[0])[0].assessor,
-                      d0=data[3],
-                      d1=data[4],
-                      d2=data[5],
-                      d3=data[6],
-                      d4=data[7],
-                      troca='interna',
-                      data_registro=data_em_texto
-                  )
-              else:
-
-                  Clientes.objects.filter(nickname=data[0]).update(
-                      nome=str(data[1]).title(),
-                      d0=data[3],
-                      d1=data[4],
-                      d2=data[5],
-                      d3=data[6],
-                      d4=data[7],
-                      data_registro=data_em_texto
-                  )
-          else:
-              value = Clientes(
-                  nickname=data[0],
-                  nome=str(data[1]).title(),
-                  assessor=data[2],
-                  d0=data[3],
-                  d1=data[4],
-                  d2=data[5],
-                  d3=data[6],
-                  d4=data[7],
-                  status='Novo',
-                  data_registro=data_em_texto
-              )
-              value.save()
-          
-
-      for data in df2.to_numpy():
+                    Clientes.objects.filter(nickname=data[0]).update(
+                        nome=str(data[1]).title(),
+                        d0=data[3],
+                        d1=data[4],
+                        d2=data[5],
+                        d3=data[6],
+                        d4=data[7],
+                        data_registro=data_em_texto
+                    )
+            else:
+                value = Clientes(
+                    nickname=data[0],
+                    nome=str(data[1]).title(),
+                    assessor=data[2],
+                    d0=data[3],
+                    d1=data[4],
+                    d2=data[5],
+                    d3=data[6],
+                    d4=data[7],
+                    status='Novo',
+                    data_registro=data_em_texto
+                )
+                value.save()
+            
+      with transaction.atomic():
+        for data in df2.to_numpy():
           # print(data)
 
           if len(Clientes.objects.filter(nickname=data[1])) == 1 and  len(data[3]) > 1 and data[7] == 'CONCLUÍDO':
