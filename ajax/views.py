@@ -160,8 +160,6 @@ def get_mail_ipo(request):
 def send_mail_rf(request):
     html_content = request.POST['email_body']
 
-    print(html_content)
-
     email = EmailMessage(
         request.POST['assunto'],
         # 'Renda Fixa',
@@ -176,7 +174,7 @@ def send_mail_rf(request):
 
         remetente = request.POST['remetente']
 
-        print(request.POST['chave'])
+        print(request.POST['email_body'])
 
         data = EmailRf(
             id_oferta=OfferRf.objects.get(pk=request.POST['chave']),
@@ -189,7 +187,7 @@ def send_mail_rf(request):
             serie=request.POST['serie'],
             taxa=request.POST['taxa'],
             valor=request.POST['valor'],
-            email_body=request.POST.get('email_body', False),
+            email_body=html_content,
             email=request.POST['email'],
             assunto=request.POST['assunto'],
         )
