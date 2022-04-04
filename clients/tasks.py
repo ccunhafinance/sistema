@@ -159,6 +159,7 @@ def segundo_upload(a, b):
                 insert_cleintes.append(value)
       Clientes.objects.bulk_create(insert_cleintes)
             
+      ncliente =[]
       for data in df2.to_numpy():
           # print(data)
 
@@ -190,5 +191,6 @@ def segundo_upload(a, b):
                   status='Novo',
                   data_registro=data[6]
               )
-              value.save()
+              ncliente.append(value)
+      Clientes.objects.bulk_create(insert_cleintes)   
 
