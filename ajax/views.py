@@ -187,7 +187,7 @@ def send_mail_rf(request):
             serie=request.POST['serie'],
             taxa=request.POST['taxa'],
             valor=request.POST['valor'],
-            # email_body=html_content,
+            email_body='oi',
             email=request.POST['email'],
             assunto=request.POST['assunto'],
         )
