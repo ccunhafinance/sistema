@@ -9,6 +9,8 @@ from offers.models import EmailIpo, OfferRvIpo, EmailRf, OfferRf
 import numpy as np
 from datetime import datetime
 from pytz import timezone
+from django.contrib.auth.decorators import login_required
+
 
 def get_client(request):
     # with open('data/clientes/clientes.txt', encoding='latin-1') as json_file:
@@ -154,7 +156,7 @@ def get_mail_ipo(request):
 
 # Ofertas RF
 
-
+@login_required(login_url='/')
 def send_mail_rf(request):
     html_content = request.POST['email_body']
 
