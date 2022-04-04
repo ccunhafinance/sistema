@@ -121,6 +121,7 @@ def update_new_cliente(request):
 
     return redirect(reverse('clients:clients-list'))
 
+@transaction.atomic
 def upload_clientes(request):
 
     clientes_resource = ClientesResources()
@@ -136,21 +137,22 @@ def upload_clientes(request):
             return redirect(reverse('clients:clients-list'))
 
         else:
-            
-            if len(clientes)==0:
-                
-                primeiro = pd.read_excel(xls)
-                # imported_data = dataset.load(new_cliente.read(), format='xlsx')
-                # print(primeiro.to_json())
-                # print(pd.read_json(primeiro.to_json()))
+            with transaction.atomic():
+                if len(clientes)==0:
+                    
+                    primeiro = pd.read_excel(xls)
+                    # imported_data = dataset.load(new_cliente.read(), format='xlsx')
+                    # print(primeiro.to_json())
+                    # print(pd.read_json(primeiro.to_json()))
 
-                # upload_novos_clientes.delay(primeiro.to_json())
-                upload_novos_clientes(primeiro.to_json()) #no deley
-            else:
-                df1 = pd.read_excel(xls, 'tab2')
-                df2 = pd.read_excel(xls, 'tab1')
-                # segundo_upload.delay(df1.to_json(),df2.to_json())
-                segundo_upload(df1.to_json(),df2.to_json()) #no deley
+                    # upload_novos_clientes.delay(primeiro.to_json())
+                    
+                    upload_novos_clientes(primeiro.to_json()) #no deley
+                else:
+                    df1 = pd.read_excel(xls, 'tab2')
+                    df2 = pd.read_excel(xls, 'tab1')
+                    # segundo_upload.delay(df1.to_json(),df2.to_json())
+                    segundo_upload(df1.to_json(),df2.to_json()) #no deley
 
     return redirect(reverse('clients:clients-list'))
 

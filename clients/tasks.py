@@ -29,7 +29,6 @@ def sleepy(duration):
    
 
 @shared_task
-@transaction.commit_manually
 def upload_novos_clientes(primeiro):
 
       primeiro_file = pd.read_json(primeiro)
