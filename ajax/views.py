@@ -160,12 +160,14 @@ def get_mail_ipo(request):
 def send_mail_rf(request):
     html_content = request.POST['email_body']
 
+    print(html_content)
+
     email = EmailMessage(
         request.POST['assunto'],
         # 'Renda Fixa',
         html_content,
         'Inove Investimentos <web@inoveinvestimentos.com.br>',
-        [request.POST['email']],
+        [request.POST['email'],],
         reply_to=['ordens@inoveinvestimentos.com.br'],
         headers={'Message-ID': 'foo'},
     )
@@ -187,7 +189,7 @@ def send_mail_rf(request):
             serie=request.POST['serie'],
             taxa=request.POST['taxa'],
             valor=request.POST['valor'],
-            email_body=request.POST['email_body'],
+            email_body=request.POST.get('email_body', False),
             email=request.POST['email'],
             assunto=request.POST['assunto'],
         )
