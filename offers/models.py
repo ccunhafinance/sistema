@@ -79,6 +79,7 @@ class EmailRf(models.Model):
 
 # Ofertas RV -----------------
 
+
 # IPO
 class OfferRvIpo(models.Model):
 
