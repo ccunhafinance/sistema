@@ -158,16 +158,16 @@ def get_mail_ipo(request):
 
 @login_required(login_url='/')
 def send_mail_rf(request):
-    html_content = request.POST['assunto']
+    html_content = request.GET['assunto']
 
     print(html_content)
 
     email = EmailMessage(
-        request.POST['assunto'],
+        request.GET['assunto'],
         # 'Renda Fixa',
         html_content,
         'Inove Investimentos <web@inoveinvestimentos.com.br>',
-        [request.POST['email'],],
+        [request.GET['email'],],
         reply_to=['ordens@inoveinvestimentos.com.br'],
         headers={'Message-ID': 'foo'},
     )
