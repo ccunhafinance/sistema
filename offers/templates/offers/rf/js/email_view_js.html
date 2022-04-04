@@ -357,8 +357,8 @@
         var assessor_responsavel = document.getElementById('assessor_responsavel').value
 
         $.ajax({
-            type: 'GET',
-            dataType : 'html',
+            type: 'POST',
+            dataType : 'json',
             url: "{% url 'ajax:send-mail-rf' %}",
             data: {
                 chave: {{ oferta.id }},

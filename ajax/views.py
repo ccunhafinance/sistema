@@ -158,55 +158,48 @@ def get_mail_ipo(request):
 
 @login_required(login_url='/')
 def send_mail_rf(request):
-    html_content = request.GET['assunto']
+    html_content = request.POST['email_body']
 
     print(html_content)
 
     email = EmailMessage(
-        request.GET['assunto'],
+        request.POST['assunto'],
         # 'Renda Fixa',
         html_content,
         'Inove Investimentos <web@inoveinvestimentos.com.br>',
-        [request.GET['email'],],
+        [request.POST['email'],],
         reply_to=['ordens@inoveinvestimentos.com.br'],
         headers={'Message-ID': 'foo'},
     )
     email.content_subtype = "html"
 
+    if email.send():
 
-    email.send()
+        remetente = request.POST['remetente']
 
-    response = 'ok'
+        print(request.POST['email_body'])
 
+        data = EmailRf(
+            id_oferta=OfferRf.objects.get(pk=request.POST['chave']),
+            assessor_responsavel=request.POST['assessor_responsavel'],
+            id_sender=request.user.id,
+            nome_oferta=request.POST['nome_oferta'],
+            remetente=remetente.split('-')[0].replace(' ',''),
+            codigo_cliente=request.POST['codigo'],
+            nome_cliente=request.POST['nome'],
+            serie=request.POST['serie'],
+            taxa=request.POST['taxa'],
+            valor=request.POST['valor'],
+            email_body=html_content,
+            email=request.POST['email'],
+            assunto=request.POST['assunto'],
+        )
 
+        data.save()
 
-    # if email.send():
-
-    #     remetente = request.POST['remetente']
-
-    #     print(request.POST['email_body'])
-
-    #     data = EmailRf(
-    #         id_oferta=OfferRf.objects.get(pk=request.POST['chave']),
-    #         assessor_responsavel=request.POST['assessor_responsavel'],
-    #         id_sender=request.user.id,
-    #         nome_oferta=request.POST['nome_oferta'],
-    #         remetente=remetente.split('-')[0].replace(' ',''),
-    #         codigo_cliente=request.POST['codigo'],
-    #         nome_cliente=request.POST['nome'],
-    #         serie=request.POST['serie'],
-    #         taxa=request.POST['taxa'],
-    #         valor=request.POST['valor'],
-    #         email_body=html_content,
-    #         email=request.POST['email'],
-    #         assunto=request.POST['assunto'],
-    #     )
-
-    #     data.save()
-
-    #     response = "Email enviado"
-    # else:
-    #     response = 'false'
+        response = "Email enviado"
+    else:
+        response = 'false'
 
     # Redirect to same page after form submit
     return HttpResponse(response)
