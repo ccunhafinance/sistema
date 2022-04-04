@@ -257,6 +257,13 @@
                         putNome(document.getElementById('got_name').value)
 
                         $( '#unknow' ).html('<span style="color: #2ecc71"><i class="fal fa-check-circle"></i> Cleinte encontrado</span>');
+                        if(document.getElementById('got_email').value == 'None'){
+                            $( '#tememail' ).html('<span style="color: #e74c3c"><i class="fal fa-sad-tear"></i> Email nao cadastrado!</span>');
+                            document.getElementById('emeincliente').value = ''
+                        }else{
+                            $( '#tememail' ).html('<span style="color: #2ecc71"><i class="fal fa-check-circle"></i> Cleinte encontrado</span>');
+                        }
+                        
 
                         $('.especial_form').each(function(){
                           document.getElementById("remetente").focus();
@@ -268,6 +275,7 @@
                         document.getElementById('nome').value = '';
                         document.getElementById('emeincliente').value = '';
                         $( '#unknow' ).html('<span style="color: #e74c3c"><i class="fal fa-sad-tear"></i> Cleinte nao encontrado ou nao faz parte do seu espelhamento!</span>');
+                        
                         $('.especial_form').each(function(){
                           document.getElementById("codigo").focus();
                         });

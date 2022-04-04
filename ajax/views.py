@@ -4,15 +4,17 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 # import requests
 from users.models import CustomUser
-from clients.models import Espelhamento
+from clients.models import *
 from offers.models import EmailIpo, OfferRvIpo, EmailRf, OfferRf
 import numpy as np
 from datetime import datetime
 from pytz import timezone
 
 def get_client(request):
-    with open('data/clientes/clientes.txt', encoding='latin-1') as json_file:
-        clientes = json.load(json_file)
+    # with open('data/clientes/clientes.txt', encoding='latin-1') as json_file:
+    #     clientes = json.load(json_file)
+
+    clientes = Clientes.objects.all()
 
     code = request.POST['code']
     # code = '71057'
@@ -33,23 +35,26 @@ def get_client(request):
     all_clients_to_check = []
     for permission in permitidos:
         for cliente in clientes:
-            permission == cliente['CODIGO_XP_ASSESSOR']
-            all_clients_to_check.append(cliente)
+            if permission == cliente.assessor:
+                all_clients_to_check.append(cliente)
+
+    # print(all_clients_to_check)
 
     response = ''
     for i in all_clients_to_check:
-        if i['CODIGO_XP_CLIENTE'] == int(code):
-            nome = i['PRIMEIRO_NOME_CLIENTE']
-            nome = i['PRIMEIRO_NOME_CLIENTE']
+        if int(i.nickname) == int(code):
+            # nome = i['PRIMEIRO_NOME_CLIENTE']
 
-            assessor_owner = CustomUser.objects.get(codigo=i['CODIGO_XP_ASSESSOR'])
+            assessor_owner = CustomUser.objects.get(codigo=i.assessor)
 
-            assessor_permited = str(i['CODIGO_XP_ASSESSOR'])+ ' - '+ str(assessor_owner.first_name)+ ' ' + str(assessor_owner.last_name) + ' - ' + str(assessor_owner.email)
-            code_name_last = str(i['CODIGO_XP_ASSESSOR'])+ ' - '+ str(assessor_owner.first_name)+ ' ' + str(assessor_owner.last_name)
-            assessor_responsavel = str(i['CODIGO_XP_ASSESSOR'])
+            assessor_permited = str(i.assessor)+ ' - '+ str(assessor_owner.first_name)+ ' ' + str(assessor_owner.last_name) + ' - ' + str(assessor_owner.email)
+            code_name_last = str(i.assessor)+ ' - '+ str(assessor_owner.first_name)+ ' ' + str(assessor_owner.last_name)
+            assessor_responsavel = str(i.assessor)
 
-            response = '<input hidden id="got_name" value="'+nome.capitalize()+'">' \
-                       '<input hidden id="got_email" value="'+i['EMAIL_CLIENTE']+'">' \
+          
+
+            response = '<input hidden id="got_name" value="'+str(i.nome.capitalize().split()[0])+'">' \
+                       '<input hidden id="got_email" value="'+str(i.email)+'">' \
                        '<input hidden id="got_assessor_owner" value="'+assessor_permited+'">' \
                        '<input hidden id="code_name_last" value="'+code_name_last+'">' \
                        '<input hidden id="got_responsavel" value="'+assessor_responsavel+'">' \
