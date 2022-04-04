@@ -18,7 +18,7 @@ from tablib import Dataset
 from datetime import date
 import datetime
 import time
-
+from django.db import transaction
 import pandas as pd
 
 @shared_task
@@ -29,6 +29,7 @@ def sleepy(duration):
    
 
 @shared_task
+@transaction.commit_manually
 def upload_novos_clientes(primeiro):
 
       primeiro_file = pd.read_json(primeiro)
@@ -64,7 +65,8 @@ def upload_novos_clientes(primeiro):
                       data_nascimento=data[7],
                       data_registro=data_em_texto
                   )
-                  value.save()          
+                  value.save()
+              transaction.commit()          
 
 @shared_task
 def segundo_upload(a, b):
