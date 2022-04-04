@@ -114,6 +114,7 @@ def segundo_upload(a, b):
                 data_registro=data_em_texto
             )
       insert_cleintes = []
+      
       for data in df1.to_numpy():
             # print(data)
             if len(Clientes.objects.filter(nickname=data[0])) == 1:
@@ -192,5 +193,5 @@ def segundo_upload(a, b):
                   data_registro=data[6]
               )
               ncliente.append(value)
-      Clientes.objects.bulk_create(insert_cleintes)   
+      Clientes.objects.bulk_create(ncliente)   
 
