@@ -342,7 +342,8 @@
 
         document.getElementById('emai_text').value = document.getElementById('email_body').innerHTML;
         var token = '{{ csrf_token }}';
-        var email_body = document.getElementById('emai_text').value
+        {% comment %} var email_body = document.getElementById('emai_text').value {% endcomment %}
+        var email_body = document.getElementById('email_body').innerHTML
         {% comment %} alert(email_body) {% endcomment %}
         var assunto = document.getElementById('assunto').value
         var email = document.getElementById('emeincliente').value
@@ -369,7 +370,7 @@
                 serie: serie,
                 taxa: taxa,
                 valor: valor,
-                teste: email_body,
+                email_body: email_body,
                 email: email,
                 assunto: assunto,
 

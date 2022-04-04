@@ -158,7 +158,9 @@ def get_mail_ipo(request):
 
 @login_required(login_url='/')
 def send_mail_rf(request):
-    html_content = request.POST['teste']
+    html_content = request.POST['email_body']
+
+    print(html_content)
 
     email = EmailMessage(
         request.POST['assunto'],
