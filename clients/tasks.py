@@ -65,7 +65,6 @@ def upload_novos_clientes(primeiro):
                       data_registro=data_em_texto
                   )
                   value.save()
-              transaction.commit()          
 
 @shared_task
 def segundo_upload(a, b):
