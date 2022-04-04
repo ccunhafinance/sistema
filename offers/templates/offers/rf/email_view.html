@@ -153,7 +153,7 @@
                                <input type="text" name="val_reserva" class="form-control"  id='val_reserva' onkeyup="formatCash(this), putVal(this)" required>
                             </div>
 
-                            <textarea  class="form-control" id="emai_text" name="email_body"></textarea>
+                            <textarea hidden class="form-control" id="emai_text" name="email_body"></textarea>
 
                             <input hidden id="email_from" name="email_from" value="{{ request.user.email }}">
 
