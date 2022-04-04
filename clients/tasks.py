@@ -44,28 +44,26 @@ def upload_novos_clientes(primeiro):
 
       if len(clientes)==0:
 
-          with transaction.atomic():
-            for data in primeiro_file.to_numpy():
-                # print(data)
+        insert_list = []
+        for data in primeiro_file.to_numpy():
+            
+            try:
+                listing = Clientes.objects.get(nickname=data[1])
 
-                # print(primeiro_file)
-                # print(data)
-
-                try:
-                    listing = Clientes.objects.get(nickname=data[1])
-
-                except Clientes.DoesNotExist:
-                    value = Clientes(
-                        nickname=data[1],
-                        nome=str(data[2]).title(),
-                        sexo=data[3],
-                        email=data[4],
-                        telefone=data[5],
-                        assessor=data[6],
-                        data_nascimento=data[7],
-                        data_registro=data_em_texto
-                    )
-                    value.save()
+            except Clientes.DoesNotExist:
+                value = Clientes(
+                    nickname=data[1],
+                    nome=str(data[2]).title(),
+                    sexo=data[3],
+                    email=data[4],
+                    telefone=data[5],
+                    assessor=data[6],
+                    data_nascimento=data[7],
+                    data_registro=data_em_texto
+                )
+                insert_list.append(value)
+        Clientes.objects.bulk_create(insert_list)
+                
 
 @shared_task
 def segundo_upload(a, b):
@@ -110,14 +108,13 @@ def segundo_upload(a, b):
       # print(Diff(primeiro, segundo))
 
       inativos = Diff(primeiro, segundo)
-      with transaction.atomic():
-        for x in inativos:
+      for x in inativos:
             Clientes.objects.filter(nickname=x).update(
                 status='Inativo',
                 data_registro=data_em_texto
             )
-      with transaction.atomic():
-        for data in df1.to_numpy():
+      insert_cleintes = []
+      for data in df1.to_numpy():
             # print(data)
             if len(Clientes.objects.filter(nickname=data[0])) == 1:
 
@@ -146,6 +143,7 @@ def segundo_upload(a, b):
                         data_registro=data_em_texto
                     )
             else:
+
                 value = Clientes(
                     nickname=data[0],
                     nome=str(data[1]).title(),
@@ -158,10 +156,10 @@ def segundo_upload(a, b):
                     status='Novo',
                     data_registro=data_em_texto
                 )
-                value.save()
+                insert_cleintes.append(value)
+      Clientes.objects.bulk_create(insert_cleintes)
             
-      with transaction.atomic():
-        for data in df2.to_numpy():
+      for data in df2.to_numpy():
           # print(data)
 
           if len(Clientes.objects.filter(nickname=data[1])) == 1 and  len(data[3]) > 1 and data[7] == 'CONCLUÍDO':
