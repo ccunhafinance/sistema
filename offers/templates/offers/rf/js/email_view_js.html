@@ -358,8 +358,13 @@
 
         $.ajax({
             type: 'POST',
-            dataType : 'json',
+            {% comment %} dataType : 'html', {% endcomment %}
             url: "{% url 'ajax:send-mail-rf' %}",
+            statusCode: {
+                500: function() {
+                  alert("Script exhausted");
+                }
+             },
             data: {
                 chave: {{ oferta.id }},
                 nome_oferta:'{{ oferta.ativo }} - {{ oferta.emissor }}',
