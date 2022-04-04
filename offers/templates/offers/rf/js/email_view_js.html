@@ -357,7 +357,7 @@
         var assessor_responsavel = document.getElementById('assessor_responsavel').value
 
         $.ajax({
-            type: 'POST',
+            type: 'GET',
             dataType : 'html',
             url: "{% url 'ajax:send-mail-rf' %}",
             data: {
