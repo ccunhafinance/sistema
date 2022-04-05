@@ -31,4 +31,8 @@ urlpatterns = [
          path('save_by_client/', views.save_by_client, name="save-by-client"),
          path('obrigado/', views.obrigado_questionario, name="obrigado-questionario"),
 
+         path('teste_insert/', views.teste_insert, name="obrigado-questionario"),
+
+
+
 ]

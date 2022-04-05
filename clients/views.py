@@ -121,6 +121,96 @@ def update_new_cliente(request):
 
     return redirect(reverse('clients:clients-list'))
 
+def teste_insert(request):
+    # --------Default date configuration
+    data_atual =  datetime.datetime.now()
+    data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
+    # -------- EXEL FILE
+    file_1 = './data/clientes/base_1.xlsx'
+    file_2 = './data/clientes/testecicero.xlsx'
+    file_1_read = pd.ExcelFile(file_1)
+    file_2_read = pd.ExcelFile(file_2)
+    
+    base_exel_all = pd.read_excel(file_2_read, 'tab2').to_numpy()
+    base_exel_external = pd.read_excel(file_2, 'tab1').to_numpy()
+    
+    # ---------- Clientes
+    clientes = Clientes.objects.all()
+
+    assessores_clientes = []
+    for cliente in clientes:
+        assessores_clientes.append(cliente.assessor)
+
+    # print(assessores_clientes)
+
+    # Insert inicial base
+
+    if len(clientes) == 0:
+        first_base = pd.read_excel(file_1_read).to_numpy()
+        print(first_base)
+
+        clients_first_upload = []
+        for data in first_base:
+            value = Clientes(
+                    nickname=data[1],
+                    nome=str(data[2]).title(),
+                    sexo=data[3],
+                    email=data[4],
+                    telefone=data[5],
+                    assessor=data[6],
+                    data_nascimento=data[7],
+                    data_registro=data_em_texto
+                )
+            clients_first_upload.append(value)
+        Clientes.objects.bulk_create(clients_first_upload)
+
+    else:
+        # ----------- check clientes inativos
+        t = len(base_exel_all)
+        a = 0
+
+        db_clientes =[]
+        for cliente in clientes:
+            db_clientes.append(str(cliente.nickname))
+
+        xsl_sheet = []
+        for cliente in base_exel_all:
+            if a < t:
+                xsl_sheet.append(str(base_exel_all[a][0]))
+            a += 1
+
+        def Diff(li1, li2):
+            return list(set(li1) - set(li2))
+
+        inativos = Diff(db_clientes, xsl_sheet)
+
+        for x in inativos:
+            Clientes.objects.filter(nickname=x).update(
+                status='Inativo',
+                data_registro=data_em_texto
+            )
+
+        xls_assessores = []
+        for assessor in base_exel_all:
+            xls_assessores.append(assessor[2])
+
+    
+        trans_interna = Diff(assessores_clientes, xls_assessores)
+
+        print(trans_interna)
+
+
+    # print(clientes)
+    return HttpResponse(clientes)
+
+
+
+
+
+
+
+
+
 @transaction.atomic
 def upload_clientes(request):
 
