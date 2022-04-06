@@ -17,6 +17,8 @@ from tablib import Dataset
 from datetime import date
 from datetime import timedelta, date
 import datetime
+from django.db import transaction
+
 
 import pandas as pd
 from .tasks import *
@@ -121,18 +123,28 @@ def update_new_cliente(request):
 
     return redirect(reverse('clients:clients-list'))
 
-def teste_insert(request):
+@transaction.atomic
+def upload_clientes(request):
+
+    if request.method == 'POST':
+        new_cliente = request.FILES['myfile']
+        xls = pd.ExcelFile(new_cliente)
+
+        if not new_cliente.name.endswith('xlsx'):
+            messages.info('Formato de arquivo não suportado')
+            return redirect(reverse('clients:clients-list'))
+
     # --------Default date configuration
     data_atual =  datetime.datetime.now()
     data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
     # -------- EXEL FILE
-    file_1 = './data/clientes/base_1.xlsx'
-    file_2 = './data/clientes/testecicero.xlsx'
-    file_1_read = pd.ExcelFile(file_1)
-    file_2_read = pd.ExcelFile(file_2)
+    # file_1 = './data/clientes/base_1.xlsx'
+    # file_2 = './data/clientes/testecicero.xlsx'
+    # file_1_read = pd.ExcelFile(file_1)
+    # file_2_read = pd.ExcelFile(file_2)
     
-    base_exel_all = pd.read_excel(file_2_read, 'tab2').to_numpy()
-    base_exel_external = pd.read_excel(file_2, 'tab1').to_numpy()
+    # base_exel_all = pd.read_excel(file_2_read, 'tab2').to_numpy()
+    # base_exel_external = pd.read_excel(file_2_read, 'tab1').to_numpy()
     
     # ---------- Clientes
     clientes = Clientes.objects.all()
@@ -146,7 +158,8 @@ def teste_insert(request):
     # Insert inicial base
 
     if len(clientes) == 0:
-        first_base = pd.read_excel(file_1_read).to_numpy()
+
+        first_base = pd.read_excel(xls).to_numpy()
         print(first_base)
 
         clients_first_upload = []
@@ -164,7 +177,9 @@ def teste_insert(request):
             clients_first_upload.append(value)
         Clientes.objects.bulk_create(clients_first_upload)
 
-    else:
+    if len(clientes) > 0:
+        base_exel_all = pd.read_excel(xls, 'tab2').to_numpy()
+        base_exel_external = pd.read_excel(xls, 'tab1').to_numpy()
         # ----------- check clientes inativos
         t = len(base_exel_all)
         a = 0
@@ -184,24 +199,124 @@ def teste_insert(request):
 
         inativos = Diff(db_clientes, xsl_sheet)
 
-        for x in inativos:
-            Clientes.objects.filter(nickname=x).update(
-                status='Inativo',
-                data_registro=data_em_texto
-            )
+        if len(inativos) > 0:
+            with transaction.atomic():
+                for x in inativos:
+                    Clientes.objects.filter(nickname=x).update(
+                        status='Inativo',
+                        data_registro=data_em_texto
+                    )
 
-        xls_assessores = []
-        for assessor in base_exel_all:
-            xls_assessores.append(assessor[2])
+        # # Check se tem troca de assessores internos
+        def func():
+            for x in base_exel_all:
+                yield x
 
-    
-        trans_interna = Diff(assessores_clientes, xls_assessores)
+        troca_interna = func()
+        for item in troca_interna:
+            for cliente in clientes:
+                if str(cliente.nickname) == str(item[0]) and str(cliente.assessor) != str(item[2]):
+                    Clientes.objects.filter(nickname=cliente.nickname).update(
+                        nome=str(item[1]).title(),
+                        assessor=item[2],
+                        antigo_assessor=cliente.assessor,
+                        d0=item[3],
+                        d1=item[4],
+                        d2=item[5],
+                        d3=item[6],
+                        d4=item[7],
+                        troca='interna',
+                        data_registro=data_em_texto
+                    )
+               
+        # Check se cliente que ja existe tem algum campo alterado
 
-        print(trans_interna)
+        alteracao_dados = func()
+        with transaction.atomic():
+            for item in alteracao_dados:
+                for cliente in clientes:
+                    if str(cliente.nickname) == str(item[0]):
+                        Clientes.objects.filter(nickname=cliente.nickname).update(
+                        nome=str(item[1]).title(),
+                        d0=item[3],
+                        d1=item[4],
+                        d2=item[5],
+                        d3=item[6],
+                        d4=item[7],
+                        data_registro=data_em_texto
+                    )
+
+        # Novos Clientes
+
+        v = len(base_exel_all)
+        b = 0
+
+        ex_clientes = []
+        for cliente in clientes:
+            ex_clientes.append([str(cliente.nickname), cliente.nome, str(cliente.assessor), cliente.d0, cliente.d1, cliente.d2, cliente.d3, cliente.d4])
+
+        tab_clientes = []
+        for cliente in base_exel_all:
+            if b < v:
+                tab_clientes.append([str(base_exel_all[b][0]), base_exel_all[b][1], base_exel_all[b][2], base_exel_all[b][3], base_exel_all[b][4], base_exel_all[b][5], base_exel_all[b][6], base_exel_all[b][7]])
+            b += 1
+
+        def igual(x, y):
+            if x[0] == y[0]:
+                return True
+            else:
+                return False
+       
+        novos_clientes = []
+        for x in tab_clientes:
+            tem = False
+            for y in ex_clientes:
+                if igual(x,y):
+                    tem =True
+                    break
+            if not tem:
+                novos_clientes.append(x)
+
+        # print(len(novos_clientes))
+
+        if len(novos_clientes) > 0:
+            new_insert = []
+            for cliente in novos_clientes:
+                value = Clientes(
+                    nickname=cliente[0],
+                    nome=str(cliente[1]).title(),
+                    assessor=cliente[2],
+                    d0=cliente[3],
+                    d1=cliente[4],
+                    d2=cliente[5],
+                    d3=cliente[6],
+                    d4=cliente[7],
+                    status='Novo',
+                    data_registro=data_em_texto
+                )
+                new_insert.append(value)
+            Clientes.objects.bulk_create(new_insert)
+        
+        tran_externa = []
+        for data in base_exel_external:
+            if data[3] != '-' and data[7] == 'CONCLUÍDO':
+                tran_externa.append([str(data[1])])
+
+       
+        with transaction.atomic():
+            for t_x in tran_externa:
+                print(Clientes.objects.filter(nickname=str(t_x[0])))
+                Clientes.objects.filter(nickname=t_x[0]).update(
+                        troca='externa',
+                        status='Novo',
+                        data_registro=data_em_texto
+                    )
+
+        
 
 
     # print(clientes)
-    return HttpResponse(clientes)
+    return redirect(reverse('clients:clients-list'))
 
 
 
@@ -212,7 +327,7 @@ def teste_insert(request):
 
 
 @transaction.atomic
-def upload_clientes(request):
+def teste_insert(request):
 
     clientes_resource = ClientesResources()
     dataset = Dataset()
