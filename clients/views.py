@@ -18,6 +18,7 @@ from datetime import date
 from datetime import timedelta, date
 import datetime
 from django.db import transaction
+from .tasks import *
 
 
 import pandas as pd
@@ -181,7 +182,7 @@ def upload_clientes(request):
         pass
         df1 = pd.read_excel(xls, 'tab2')
         df2 = pd.read_excel(xls, 'tab1')
-        segundo_upload.delay(df1.to_json(),df2.to_json())
+        segundo_upload.apply_async((df1.to_json(), df2.to_json()), kwargs='')
         # segundo_upload(df1.to_json(),df2.to_json()) #no deley
         
 
