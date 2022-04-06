@@ -178,144 +178,151 @@ def upload_clientes(request):
         Clientes.objects.bulk_create(clients_first_upload)
 
     if len(clientes) > 0:
-        base_exel_all = pd.read_excel(xls, 'tab2').to_numpy()
-        base_exel_external = pd.read_excel(xls, 'tab1').to_numpy()
-        # ----------- check clientes inativos
-        t = len(base_exel_all)
-        a = 0
+        pass
+        df1 = pd.read_excel(xls, 'tab2')
+        df2 = pd.read_excel(xls, 'tab1')
+        segundo_upload.delay(df1.to_json(),df2.to_json())
+        # segundo_upload(df1.to_json(),df2.to_json()) #no deley
+        
 
-        db_clientes =[]
-        for cliente in clientes:
-            db_clientes.append(str(cliente.nickname))
+        # base_exel_all = pd.read_excel(xls, 'tab2').to_numpy()
+        # base_exel_external = pd.read_excel(xls, 'tab1').to_numpy()
+        # # ----------- check clientes inativos
+        # t = len(base_exel_all)
+        # a = 0
 
-        xsl_sheet = []
-        for cliente in base_exel_all:
-            if a < t:
-                xsl_sheet.append(str(base_exel_all[a][0]))
-            a += 1
+        # db_clientes =[]
+        # for cliente in clientes:
+        #     db_clientes.append(str(cliente.nickname))
 
-        def Diff(li1, li2):
-            return list(set(li1) - set(li2))
+        # xsl_sheet = []
+        # for cliente in base_exel_all:
+        #     if a < t:
+        #         xsl_sheet.append(str(base_exel_all[a][0]))
+        #     a += 1
 
-        inativos = Diff(db_clientes, xsl_sheet)
+        # def Diff(li1, li2):
+        #     return list(set(li1) - set(li2))
 
-        if len(inativos) > 0:
-            with transaction.atomic():
-                for x in inativos:
-                    Clientes.objects.filter(nickname=x).update(
-                        status='Inativo',
-                        data_registro=data_em_texto
-                    )
+        # inativos = Diff(db_clientes, xsl_sheet)
 
-        # # Check se tem troca de assessores internos
-        def func():
-            for x in base_exel_all:
-                yield x
+        # if len(inativos) > 0:
+        #     with transaction.atomic():
+        #         for x in inativos:
+        #             Clientes.objects.filter(nickname=x).update(
+        #                 status='Inativo',
+        #                 data_registro=data_em_texto
+        #             )
 
-        troca_interna = func()
-        for item in troca_interna:
-            for cliente in clientes:
-                if str(cliente.nickname) == str(item[0]) and str(cliente.assessor) != str(item[2]):
-                    Clientes.objects.filter(nickname=cliente.nickname).update(
-                        nome=str(item[1]).title(),
-                        assessor=item[2],
-                        antigo_assessor=cliente.assessor,
-                        d0=item[3],
-                        d1=item[4],
-                        d2=item[5],
-                        d3=item[6],
-                        d4=item[7],
-                        troca='interna',
-                        data_registro=data_em_texto
-                    )
+        # # # Check se tem troca de assessores internos
+        # def func():
+        #     for x in base_exel_all:
+        #         yield x
+
+        # troca_interna = func()
+        # for item in troca_interna:
+        #     for cliente in clientes:
+        #         if str(cliente.nickname) == str(item[0]) and str(cliente.assessor) != str(item[2]):
+        #             Clientes.objects.filter(nickname=cliente.nickname).update(
+        #                 nome=str(item[1]).title(),
+        #                 assessor=item[2],
+        #                 antigo_assessor=cliente.assessor,
+        #                 d0=item[3],
+        #                 d1=item[4],
+        #                 d2=item[5],
+        #                 d3=item[6],
+        #                 d4=item[7],
+        #                 troca='interna',
+        #                 data_registro=data_em_texto
+        #             )
                
-        # Check se cliente que ja existe tem algum campo alterado
+        # # Check se cliente que ja existe tem algum campo alterado
 
-        alteracao_dados = func()
-        with transaction.atomic():
-            for item in alteracao_dados:
-                for cliente in clientes:
-                    if str(cliente.nickname) == str(item[0]):
-                        Clientes.objects.filter(nickname=cliente.nickname).update(
-                        nome=str(item[1]).title(),
-                        d0=item[3],
-                        d1=item[4],
-                        d2=item[5],
-                        d3=item[6],
-                        d4=item[7],
-                        data_registro=data_em_texto
-                    )
+        # alteracao_dados = func()
+        # with transaction.atomic():
+        #     for item in alteracao_dados:
+        #         for cliente in clientes:
+        #             if str(cliente.nickname) == str(item[0]):
+        #                 Clientes.objects.filter(nickname=cliente.nickname).update(
+        #                 nome=str(item[1]).title(),
+        #                 d0=item[3],
+        #                 d1=item[4],
+        #                 d2=item[5],
+        #                 d3=item[6],
+        #                 d4=item[7],
+        #                 data_registro=data_em_texto
+        #             )
 
-        # Novos Clientes
+        # # Novos Clientes
 
-        v = len(base_exel_all)
-        b = 0
+        # v = len(base_exel_all)
+        # b = 0
 
-        ex_clientes = []
-        for cliente in clientes:
-            ex_clientes.append([str(cliente.nickname), cliente.nome, str(cliente.assessor), cliente.d0, cliente.d1, cliente.d2, cliente.d3, cliente.d4])
+        # ex_clientes = []
+        # for cliente in clientes:
+        #     ex_clientes.append([str(cliente.nickname), cliente.nome, str(cliente.assessor), cliente.d0, cliente.d1, cliente.d2, cliente.d3, cliente.d4])
 
-        tab_clientes = []
-        for cliente in base_exel_all:
-            if b < v:
-                tab_clientes.append([str(base_exel_all[b][0]), base_exel_all[b][1], base_exel_all[b][2], base_exel_all[b][3], base_exel_all[b][4], base_exel_all[b][5], base_exel_all[b][6], base_exel_all[b][7]])
-            b += 1
+        # tab_clientes = []
+        # for cliente in base_exel_all:
+        #     if b < v:
+        #         tab_clientes.append([str(base_exel_all[b][0]), base_exel_all[b][1], base_exel_all[b][2], base_exel_all[b][3], base_exel_all[b][4], base_exel_all[b][5], base_exel_all[b][6], base_exel_all[b][7]])
+        #     b += 1
 
-        def igual(x, y):
-            if x[0] == y[0]:
-                return True
-            else:
-                return False
+        # def igual(x, y):
+        #     if x[0] == y[0]:
+        #         return True
+        #     else:
+        #         return False
        
-        novos_clientes = []
-        for x in tab_clientes:
-            tem = False
-            for y in ex_clientes:
-                if igual(x,y):
-                    tem =True
-                    break
-            if not tem:
-                novos_clientes.append(x)
+        # novos_clientes = []
+        # for x in tab_clientes:
+        #     tem = False
+        #     for y in ex_clientes:
+        #         if igual(x,y):
+        #             tem =True
+        #             break
+        #     if not tem:
+        #         novos_clientes.append(x)
 
-        # print(len(novos_clientes))
+        # # print(len(novos_clientes))
 
-        if len(novos_clientes) > 0:
-            new_insert = []
-            for cliente in novos_clientes:
-                value = Clientes(
-                    nickname=cliente[0],
-                    nome=str(cliente[1]).title(),
-                    assessor=cliente[2],
-                    d0=cliente[3],
-                    d1=cliente[4],
-                    d2=cliente[5],
-                    d3=cliente[6],
-                    d4=cliente[7],
-                    status='Novo',
-                    data_registro=data_em_texto
-                )
-                new_insert.append(value)
-            Clientes.objects.bulk_create(new_insert)
+        # if len(novos_clientes) > 0:
+        #     new_insert = []
+        #     for cliente in novos_clientes:
+        #         value = Clientes(
+        #             nickname=cliente[0],
+        #             nome=str(cliente[1]).title(),
+        #             assessor=cliente[2],
+        #             d0=cliente[3],
+        #             d1=cliente[4],
+        #             d2=cliente[5],
+        #             d3=cliente[6],
+        #             d4=cliente[7],
+        #             status='Novo',
+        #             data_registro=data_em_texto
+        #         )
+        #         new_insert.append(value)
+        #     Clientes.objects.bulk_create(new_insert)
         
-        tran_externa = []
-        for data in base_exel_external:
-            if data[3] != '-' and data[7] == 'CONCLUÍDO':
-                tran_externa.append([str(data[1])])
+        # tran_externa = []
+        # for data in base_exel_external:
+        #     if data[3] != '-' and data[7] == 'CONCLUÍDO':
+        #         tran_externa.append([str(data[1])])
 
        
-        with transaction.atomic():
-            for t_x in tran_externa:
-                print(Clientes.objects.filter(nickname=str(t_x[0])))
-                Clientes.objects.filter(nickname=t_x[0]).update(
-                        troca='externa',
-                        status='Novo',
-                        data_registro=data_em_texto
-                    )
+        # with transaction.atomic():
+        #     for t_x in tran_externa:
+        #         print(Clientes.objects.filter(nickname=str(t_x[0])))
+        #         Clientes.objects.filter(nickname=t_x[0]).update(
+        #                 troca='externa',
+        #                 status='Novo',
+        #                 data_registro=data_em_texto
+        #             )
 
         
 
 
-    # print(clientes)
+        # print(clientes)
     return redirect(reverse('clients:clients-list'))
 
 
