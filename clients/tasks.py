@@ -65,7 +65,7 @@ def upload_novos_clientes(primeiro):
         Clientes.objects.bulk_create(insert_list)
                 
 
-@app.task(name='segundo_upload')
+@shared_task
 def segundo_upload(a, b):
     clientes_resource = ClientesResources()
     dataset = Dataset()
