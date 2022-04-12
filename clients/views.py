@@ -227,7 +227,7 @@ def upload_clientes(request):
         pass
         df1 = pd.read_excel(xls, 'tab2')
         df2 = pd.read_excel(xls, 'tab1')
-        segundo_upload.apply_async((df1.to_json(), df2.to_json()), kwargs='')
+        segundo_upload.apply_async([df1.to_json(), df2.to_json()], kwargs='')
        
     return redirect(reverse('clients:clients-list'))
 
