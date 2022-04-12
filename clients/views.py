@@ -162,6 +162,7 @@ def update_new_cliente(request):
 
     return redirect(reverse('clients:clients-list'))
 
+@transaction.atomic
 def upload_clientes(request):
 
     if request.method == 'POST':
@@ -193,7 +194,7 @@ def upload_clientes(request):
       data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
 
       clients_first_upload = []
-      for data in primeiro_file:
+      for data in first_base:
 
             replacement = data[7]
             s = data[1].split()
