@@ -184,9 +184,9 @@ def upload_clientes(request):
     if len(clientes) == 0:
 
         first_base = pd.read_excel(xls)
-        a = 1
 
-        upload_novos_clientes.apply_async((first_base.to_json(), a), kwargs='')
+        upload_novos_clientes.apply_async([first_base.to_json()], kwargs='')
+        
 
     if len(clientes) > 0:
         df1 = pd.read_excel(xls, 'tab2')
