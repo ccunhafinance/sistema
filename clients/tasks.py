@@ -30,35 +30,8 @@ def sleepy(duration):
 
 @shared_task
 def upload_novos_clientes(primeiro):
-
-      primeiro_file = pd.read_json(primeiro)
-      data_atual =  datetime.datetime.now()
-      data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
-
-      # print (len(clientes))
-
-      # print(imported_data)
-
-      clients_first_upload = []
-      for data in primeiro_file:
-
-            replacement = data[7]
-            s = data[1].split()
-            s[0] = replacement
-            nome_atualiazado = ' '.join(s)
-
-            value = Clientes(
-                    nickname='cu',
-                    nome=str(nome_atualiazado).title(),
-                    assessor=data[2],
-                    sexo=data[3],
-                    email=data[4],
-                    telefone=data[5],
-                    data_nascimento=data[6],
-                    data_registro=data_em_texto
-                )
-            clients_first_upload.append(value)
-      Clientes.objects.bulk_create(clients_first_upload)
+    pass
+      
                 
 
 @shared_task
