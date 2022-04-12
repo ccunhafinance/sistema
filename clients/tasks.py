@@ -42,20 +42,20 @@ def upload_novos_clientes(primeiro):
       clients_first_upload = []
       for data in primeiro_file:
 
-            data[7]
-            replacement = data[7]
-            s = data[1].split()
+            data[8]
+            replacement = data[8]
+            s = data[2].split()
             s[0] = replacement
             nome_atualiazado = ' '.join(s)
 
             value = Clientes(
-                    nickname=data[0],
+                    nickname=data[1],
                     nome=str(nome_atualiazado).title(),
-                    assessor=data[2],
-                    sexo=data[3],
-                    email=data[4],
-                    telefone=data[5],
-                    data_nascimento=data[6],
+                    assessor=data[3],
+                    sexo=data[4],
+                    email=data[5],
+                    telefone=data[6],
+                    data_nascimento=data[7],
                     data_registro=data_em_texto
                 )
             clients_first_upload.append(value)
