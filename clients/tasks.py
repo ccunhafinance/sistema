@@ -29,7 +29,7 @@ def sleepy(duration):
    
 
 @shared_task
-def upload_novos_clientes(primeiro):
+def upload_novos_clientes(primeiro, a):
 
       primeiro_file = pd.read_json(primeiro).to_numpy()
       data_atual =  datetime.datetime.now()
@@ -64,8 +64,6 @@ def upload_novos_clientes(primeiro):
 
 @shared_task
 def segundo_upload(a, b):
-    clientes_resource = ClientesResources()
-    dataset = Dataset()
     clientes = Clientes.objects.all()
     data_atual =  datetime.datetime.now()
     data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')

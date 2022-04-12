@@ -174,33 +174,19 @@ def upload_clientes(request):
             return redirect(reverse('clients:clients-list'))
 
     # --------Default date configuration
-    data_atual =  datetime.datetime.now()
-    data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
-    # -------- EXEL FILE
-    # file_1 = './data/clientes/base_1.xlsx'
-    # file_2 = './data/clientes/testecicero.xlsx'
-    # file_1_read = pd.ExcelFile(file_1)
-    # file_2_read = pd.ExcelFile(file_2)
-    
-    # base_exel_all = pd.read_excel(file_2_read, 'tab2').to_numpy()
-    # base_exel_external = pd.read_excel(file_2_read, 'tab1').to_numpy()
-    
-    # ---------- Clientes
+   
     clientes = Clientes.objects.all()
 
     assessores_clientes = []
     for cliente in clientes:
         assessores_clientes.append(cliente.assessor)
 
-    # print(assessores_clientes)
-
-    # Insert inicial base
-
     if len(clientes) == 0:
 
         first_base = pd.read_excel(xls)
+        a = 1
 
-        upload_novos_clientes.apply_async(first_base.to_json(), kwargs='')
+        upload_novos_clientes.apply_async((first_base.to_json(), a), kwargs='')
 
     if len(clientes) > 0:
         df1 = pd.read_excel(xls, 'tab2')
