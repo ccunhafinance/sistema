@@ -31,7 +31,7 @@ def sleepy(duration):
 @shared_task
 def upload_novos_clientes(primeiro):
 
-      primeiro_file = pd.read_json(primeiro)
+      primeiro_file = pd.read_json(primeiro).to_numpy()
       data_atual =  datetime.datetime.now()
       data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
 
@@ -58,7 +58,7 @@ def upload_novos_clientes(primeiro):
                     data_registro=data_em_texto
                 )
             clients_first_upload.append(value)
-      Clientes.objects.bulk_create(clients_first_upload)
+    #   Clientes.objects.bulk_create(clients_first_upload)
                 
 
 @shared_task
