@@ -31,10 +31,7 @@ def sleepy(duration):
 @shared_task
 def upload_novos_clientes(primeiro):
 
-      primeiro_file = pd.read_json(primeiro)
-      clientes_resource = ClientesResources()
-      dataset = Dataset()
-      clientes = Clientes.objects.all()
+      primeiro_file = pd.read_json(primeiro).to_numpy()
       data_atual =  datetime.datetime.now()
       data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
 
@@ -42,27 +39,27 @@ def upload_novos_clientes(primeiro):
 
       # print(imported_data)
 
-      if len(clientes)==0:
+      clients_first_upload = []
+      for data in primeiro_file:
 
-        insert_list = []
-        for data in primeiro_file.to_numpy():
-            
-            try:
-                listing = Clientes.objects.get(nickname=data[1])
+            data[7]
+            replacement = data[7]
+            s = data[1].split()
+            s[0] = replacement
+            nome_atualiazado = ' '.join(s)
 
-            except Clientes.DoesNotExist:
-                value = Clientes(
-                    nickname=data[1],
-                    nome=str(data[2]).title(),
+            value = Clientes(
+                    nickname=data[0],
+                    nome=str(nome_atualiazado).title(),
+                    assessor=data[2],
                     sexo=data[3],
                     email=data[4],
                     telefone=data[5],
-                    assessor=data[6],
-                    data_nascimento=data[7],
+                    data_nascimento=data[6],
                     data_registro=data_em_texto
                 )
-                insert_list.append(value)
-        Clientes.objects.bulk_create(insert_list)
+            clients_first_upload.append(value)
+      Clientes.objects.bulk_create(clients_first_upload)
                 
 
 @shared_task
