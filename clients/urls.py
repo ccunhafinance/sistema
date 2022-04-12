@@ -12,6 +12,7 @@ urlpatterns = [
          path('delete-all/', views.delet_all, name="delet_all"),
          path('update_cliente_novo/', views.update_new_cliente, name="update_cliente_novo"),
          path('update_troca_assessor/', views.update_troca_assessor, name="update_troca_assessor"),
+         path('update_troca_assessor_externo/', views.update_troca_assessor_externo, name="update_troca_assessor_externo"),
          path('url_google_sheets/', views.google_sheets, name="url_google_sheets"),
          path('mirror/delete/<int:pk>/', views.mirrordelete, name="mirror-delete"),
          path('mirror/get-cliente-data/', views.get_cliente_data, name="get-cliente-data"),
@@ -32,6 +33,7 @@ urlpatterns = [
          path('obrigado/', views.obrigado_questionario, name="obrigado-questionario"),
 
          path('teste_insert/', views.teste_insert, name="obrigado-questionario"),
+         path('get-my-clients/', views.getMyClients, name="get-my-clientes"),
 
 
 

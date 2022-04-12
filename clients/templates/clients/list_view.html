@@ -214,12 +214,12 @@
                         <ul class="nav nav-tabs" role="tablist">
                             
 
-                            <li class="nav-item">
+                            {% comment %} <li class="nav-item">
                                 <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-1" role="tab">
                                     <i class="fal fa-user-check text-success"></i>
                                     <span class="hidden-sm-down ml-1">Ativos/Inativos {% if num_clientes_ativos > 0 %} <span class="badge bg-success-300 ml-2">{{ num_clientes_ativos }}</span> {% endif %}</span>
                                 </a>
-                            </li>
+                            </li> {% endcomment %}
 
                             
 
@@ -284,7 +284,7 @@
 
                         <div class="tab-content p-3">
 
-                            <!-- Todos os clientes -->
+                             <!-- Todos os clientes -->
                             <div class="tab-pane fade show active" id="tab_default-0" role="tabpanel">
                                 <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100 table-sm">
 
@@ -303,32 +303,8 @@
                                         </tr>
                                     </thead>
 
-                                    <tbody>
-                                    {% for cliente in clientes %}
-
-                                            <tr {% if cliente.status == 'Inativo' %} class="disabled" {% endif %} >
-                                                <td>
-                                                    <a href="{% url 'clients:rotina_emails' cliente.id %}">
-                                                        {{ cliente.nickname }}
-                                                    </a>
-
-
-                                                </td>
-                                                <td>{{ cliente.nome|default:'' }}</td>
-                                                <td>{{ cliente.sexo|default:'' }}</td>
-                                                <td>{{ cliente.email|default:'' }}</td>
-                                                <td>{{ cliente.telefone|default:'' }}</td>
-                                                <td>{{ cliente.assessor|default:'' }}</td>
-                                                <td>{{ cliente.data_nascimento|default:'' }}</td>
-                                                <td class="text-center">{% if cliente.rotina == '1' %}<i class="fal fa-check"></i>{% endif %}</td>
-                                                <td class="text-center">{{ cliente.zap_mail|default:"-" }}</td>
-                                            </tr>
-
-                                    {% endfor %}
-                                    </tbody>
-
                                 </table>
-                            </div>
+                            </div> 
 
                             <!-- Clientes Ativos -->
                             <div class="tab-pane fade show" id="tab_default-1" role="tabpanel">
@@ -344,28 +320,12 @@
                                             <th>Assessor</th>
                                             <th>Nascimento</th>
                                             <th>Data</th>
+                                            <th></th>
+                                            
                                         </tr>
                                     </thead>
 
-                                    <tbody>
-                                        {% for cliente in clientes %}
-
-                                            {% if cliente.status != 'Inativo' %}
-
-                                            <tr >
-                                                <td>{{ cliente.nickname|default:'' }}</td>
-                                                <td>{{ cliente.nome|default:'' }}</td>
-                                                <td>{{ cliente.sexo|default:'' }}</td>
-                                                <td>{{ cliente.email|default:'' }}</td>
-                                                <td>{{ cliente.telefone|default:'' }}</td>
-                                                <td>{{ cliente.assessor|default:'' }}</td>
-                                                <td>{{ cliente.data_nascimento|default:'' }}</td>
-                                                <td>{{ cliente.data_registro|default:'' }}</td>
-                                            </tr>
-                                            {% endif %}
-
-                                        {% endfor %}
-                                    </tbody>
+                                    
 
                                 </table>
                             </div>
@@ -422,7 +382,6 @@
                                             <th>Rotina</th>
                                             {# <th>Whats/E-mail</th>#}
                                             <th>Data</th>
-                                            <th>Açoes</th>
                                         </tr>
                                     </thead>
 
@@ -438,7 +397,7 @@
 
 
                                                         <td class="text-center"><span style="margin-top: 150px">{{ cliente.nickname }}</span> <input  hidden value="{{ cliente.id }}" name="id"></td>
-                                                        <td><input   type="text" class="form-control" name="nome" value="{{ cliente.nome|split:' '|first }}" required></td>
+                                                        <td><input   type="text" class="form-control" name="nome" value="{{ cliente.nome}}" required></td>
                                                         <td>
                                                             <select class="form-control" name="sexo" required>
                                                                 <option value="">Definir</option>
@@ -475,35 +434,46 @@
                                             <th>Código</th>
                                             <th>Nome</th>
                                             <th>Sexo</th>
-                                            <th>Assessor</th>
-                                            <th>Antigo Assessor</th>
+                                            <th>E-mail</th>
+                                            <th>Telefone</th>
+                                            <th>Nascimento</th>
                                             <th>Rotina</th>
-                                            {#<th>Whats/E-mail</th>#}
+                                            {# <th>Whats/E-mail</th>#}
                                             <th>Data</th>
-                                            <th>Ações</th>
+                                            <th></th>
+
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        {% for troca in troca_assessor_externa %}
+                                        {% for cliente in troca_assessor_externa %}
 
-                                            <tr>
-                                                <td>{{ troca.nickname }}</td>
-                                                <td>{{ troca.nome|lower|capfirst }}</td>
-                                                <td>{{ troca.sexo }}</td>
-                                                <td>{{ troca.assessor }}</td>
-                                                <td>{{ troca.antigo_assessor }}</td>
-
-                                                <form method="post" action="{% url 'clients:update_troca_assessor' %}">
-                                                    {% csrf_token %}
+                                        <tr>
+                                            <form method="post" action="{% url 'clients:update_troca_assessor_externo' %}">
+                                                {% csrf_token %}
 
 
-                                                    <td class="text-center"><input name="id" hidden value="{{ troca.id }}"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1" checked ></td>
-                                                    <td>{{ troca.data_registro }} </td>
-                                                    <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
-                                                </form>
+                                                <td class="text-center"><span style="margin-top: 150px">{{ cliente.nickname }}</span> <input  hidden value="{{ cliente.id }}" name="id"></td>
+                                                <td><input   type="text" class="form-control" name="nome" value="{{ cliente.nome}}" required></td>
+                                                <td>
+                                                    <select class="form-control" name="sexo" required>
+                                                        <option value="">Definir</option>
+                                                        <option value="M" {% if cliente.sexo == 'M' %} selected {% endif %}>M</option>
+                                                        <option value="F" {% if cliente.sexo == 'F' %} selected {% endif %}>F</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="text" class="form-control" name="email" value="{{ cliente.email|default:'' }}" required></td>
+                                                <td><input type="text" class="form-control" name="telefone" value="{{ cliente.telefone|default:'' }}" required></td>
+                                                <td><input type="text" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento|default:'' }}" required></td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" style="margin-top: 15px" name="rotina" value="1" checked>
+                                                </td>
+                                                <td>{{ cliente.data_registro }}</td>
+                                                <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
+                                            </form>
                                             </tr>
 
+            
                                         {% endfor %}
                                     </tbody>
 

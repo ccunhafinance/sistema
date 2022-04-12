@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 import numpy
+from requests import request
 from clients.models import Espelhamento, NovoEmail, RegistroAtividades
 from users.models import CustomUser, UserProfile
 from .models import Clientes
@@ -19,14 +20,23 @@ from datetime import timedelta, date
 import datetime
 from django.db import transaction
 from .tasks import *
-
+from django.http import JsonResponse
 
 import pandas as pd
 from .tasks import *
 
-
-
 main_icon = 'ni ni-users'
+# ---------------------
+
+def getMyClients(request):
+    clients = []
+    for cliente in Clientes.objects.filter(assessor=request.user.codigo):
+        clients.append([cliente.nickname, cliente.nome,cliente.sexo,cliente.email,cliente.telefone,cliente.assessor, cliente.data_nascimento, cliente.rotina, cliente.zap_mail])
+        
+
+    return JsonResponse({"data": clients})
+
+# ---------------------
 
 def google_sheets(request):
     UserProfile.objects.filter(id=request.POST['id']).update(
@@ -46,6 +56,34 @@ def delet_all(request):
 
     return redirect(reverse('clients:clients-list'))
 
+def update_troca_assessor_externo(request):
+    rotina = request.POST.get('rotina', False)
+
+    if rotina != False:
+        rotina = '1'
+    else:
+        rotina = '0'
+
+    data_atual = datetime.datetime.now()
+    data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
+
+    Clientes.objects.filter(id=request.POST['id']).update(
+        id=request.POST['id'],
+        nome=request.POST['nome'],
+        sexo=request.POST['sexo'],
+        email=request.POST['email'],
+        telefone=request.POST['telefone'],
+        data_nascimento=request.POST['data_nascimento'],
+        rotina=rotina,
+        # zap_mail=request.POST['zap_mail'],
+        status='ok',
+        cliente_dia='sim',
+        data_registro=data_em_texto
+
+    )
+
+    return redirect(reverse('clients:clients-list'))
+    
 def update_troca_assessor(request):
     rotina = request.POST.get('rotina', False)
 
@@ -165,14 +203,21 @@ def upload_clientes(request):
 
         clients_first_upload = []
         for data in first_base:
+
+            data[7]
+            replacement = data[7]
+            s = data[1].split()
+            s[0] = replacement
+            nome_atualiazado = ' '.join(s)
+
             value = Clientes(
-                    nickname=data[1],
-                    nome=str(data[2]).title(),
+                    nickname=data[0],
+                    nome=str(nome_atualiazado).title(),
+                    assessor=data[2],
                     sexo=data[3],
                     email=data[4],
                     telefone=data[5],
-                    assessor=data[6],
-                    data_nascimento=data[7],
+                    data_nascimento=data[6],
                     data_registro=data_em_texto
                 )
             clients_first_upload.append(value)
@@ -325,14 +370,6 @@ def upload_clientes(request):
 
         # print(clientes)
     return redirect(reverse('clients:clients-list'))
-
-
-
-
-
-
-
-
 
 @transaction.atomic
 def teste_insert(request):
@@ -719,7 +756,6 @@ def save_by_client(request):
     email.send()
 
     return redirect(reverse('clients:obrigado-questionario'))
-
 
 class ListViewClients(LoginRequiredMixin, generic.TemplateView):
     template_name = "clients/list_view.html"
