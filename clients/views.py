@@ -182,11 +182,36 @@ def upload_clientes(request):
 
     if len(clientes) == 0:
 
-        first_base = pd.read_excel(xls)
+      first_base = pd.read_excel(xls)
 
-        print(pd.read_json(first_base.to_json()).to_numpy())
+        # print(pd.read_json(first_base.to_json()).to_numpy())
 
-        upload_novos_clientes.apply_async([first_base.to_json()], kwargs='')
+        # upload_novos_clientes.apply_async([first_base.to_json()], kwargs='')
+
+      primeiro_file = pd.read_json(first_base).to_numpy()
+      data_atual =  datetime.datetime.now()
+      data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
+
+      clients_first_upload = []
+      for data in primeiro_file:
+
+            replacement = data[7]
+            s = data[1].split()
+            s[0] = replacement
+            nome_atualiazado = ' '.join(s)
+
+            value = Clientes(
+                    nickname='cu',
+                    nome=str(nome_atualiazado).title(),
+                    assessor=data[2],
+                    sexo=data[3],
+                    email=data[4],
+                    telefone=data[5],
+                    data_nascimento=data[6],
+                    data_registro=data_em_texto
+                )
+            clients_first_upload.append(value)
+      Clientes.objects.bulk_create(clients_first_upload)
         
 
     if len(clientes) > 0:
