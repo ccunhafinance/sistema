@@ -168,9 +168,9 @@ def upload_clientes(request):
         new_cliente = request.FILES['myfile']
         xls = pd.ExcelFile(new_cliente)
 
-        if not new_cliente.name.endswith('xlsx'):
-            messages.info('Formato de arquivo não suportado')
-            return redirect(reverse('clients:clients-list'))
+    if not new_cliente.name.endswith('xlsx'):
+        messages.info('Formato de arquivo não suportado')
+        return redirect(reverse('clients:clients-list'))
 
     # --------Default date configuration
    
@@ -196,42 +196,7 @@ def upload_clientes(request):
        
     return redirect(reverse('clients:clients-list'))
 
-@transaction.atomic
-def teste_insert(request):
 
-    clientes_resource = ClientesResources()
-    dataset = Dataset()
-    clientes = Clientes.objects.all()
-
-    if request.method == 'POST':
-        new_cliente = request.FILES['myfile']
-        xls = pd.ExcelFile(new_cliente)
-
-        if not new_cliente.name.endswith('xlsx'):
-            messages.info('Formato de arquivo não suportado')
-            return redirect(reverse('clients:clients-list'))
-
-        else:
-            
-            if len(clientes)==0:
-                
-                primeiro = pd.read_excel(xls)
-                # imported_data = dataset.load(new_cliente.read(), format='xlsx')
-                # print(primeiro.to_json())
-                # print(pd.read_json(primeiro.to_json()))
-
-                # upload_novos_clientes.delay(primeiro.to_json())
-                
-                upload_novos_clientes(primeiro.to_json()) #no deley
-            else:
-                df1 = pd.read_excel(xls, 'tab2')
-                df2 = pd.read_excel(xls, 'tab1')
-                # segundo_upload.delay(df1.to_json(),df2.to_json())
-                segundo_upload(df1.to_json(),df2.to_json()) #no deley
-
-    return redirect(reverse('clients:clients-list'))
-
-# funcoes ombording
 
 def change_tipo_contato(request):
     Clientes.objects.filter(id=request.POST['id']).update(
