@@ -162,7 +162,6 @@ def update_new_cliente(request):
 
     return redirect(reverse('clients:clients-list'))
 
-@transaction.atomic
 def upload_clientes(request):
 
     if request.method == 'POST':

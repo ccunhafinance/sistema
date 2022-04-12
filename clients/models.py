@@ -8,7 +8,7 @@ class Clientes(models.Model):
     nome_completo = models.CharField("Nome Completo", max_length=100, blank=True, null=True)
     assessor = models.CharField("Assessor", max_length=100, blank=True, null=True)
     sexo = models.CharField("Sexo", max_length=100, blank=True, null=True)
-    email = models.CharField("Telefone", max_length=100, blank=True, null=True)
+    email = models.CharField("Email", max_length=100, blank=True, null=True)
     telefone = models.CharField("Telefone", max_length=100, blank=True, null=True)
     data_nascimento = models.CharField("Data de Nascimento", max_length=100, blank=True, null=True)
     nome = models.CharField("Nome", max_length=100, blank=True, null=True)
