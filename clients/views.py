@@ -185,6 +185,8 @@ def upload_clientes(request):
 
         first_base = pd.read_excel(xls)
 
+        print(pd.read_json(first_base.to_json()).to_numpy())
+
         upload_novos_clientes.apply_async([first_base.to_json()], kwargs='')
         
 
