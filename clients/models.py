@@ -11,7 +11,7 @@ class Clientes(models.Model):
     email = models.CharField("Email", max_length=100, blank=True, null=True)
     telefone = models.CharField("Telefone", max_length=100, blank=True, null=True)
     data_nascimento = models.CharField("Data de Nascimento", max_length=100, blank=True, null=True)
-    nome = models.CharField("Nome", max_length=100, blank=True, null=True)
+    nome = models.CharField("Nome", max_length=255, blank=True, null=True)
     antigo_assessor = models.CharField("Antigo Assessor", max_length=100, blank=True, null=True)
     d0 = models.CharField("Saldo em D0", max_length=100, blank=True, null=True)
     d1 = models.CharField("Saldo em D1", max_length=100, blank=True, null=True)
