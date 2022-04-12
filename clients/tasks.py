@@ -48,7 +48,7 @@ def upload_novos_clientes(primeiro):
             nome_atualiazado = ' '.join(s)
 
             value = Clientes(
-                    nickname=data[0],
+                    nickname='cu',
                     nome=str(nome_atualiazado).title(),
                     assessor=data[2],
                     sexo=data[3],
