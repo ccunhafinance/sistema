@@ -174,35 +174,44 @@ def upload_clientes(request):
             return redirect(reverse('clients:clients-list'))
 
     # --------Default date configuration
-   
+    data_atual =  datetime.datetime.now()
+    data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
+    # -------- EXEL FILE
+    # file_1 = './data/clientes/base_1.xlsx'
+    # file_2 = './data/clientes/testecicero.xlsx'
+    # file_1_read = pd.ExcelFile(file_1)
+    # file_2_read = pd.ExcelFile(file_2)
+    
+    # base_exel_all = pd.read_excel(file_2_read, 'tab2').to_numpy()
+    # base_exel_external = pd.read_excel(file_2_read, 'tab1').to_numpy()
+    
+    # ---------- Clientes
     clientes = Clientes.objects.all()
 
     assessores_clientes = []
     for cliente in clientes:
         assessores_clientes.append(cliente.assessor)
 
+    # print(assessores_clientes)
+
+    # Insert inicial base
+
     if len(clientes) == 0:
 
-      first_base = pd.read_excel(xls)
+        first_base = pd.read_excel(xls).to_numpy()
+        print(first_base)
 
-        # print(pd.read_json(first_base.to_json()).to_numpy())
+        clients_first_upload = []
+        for data in first_base:
 
-        # upload_novos_clientes.apply_async([first_base.to_json()], kwargs='')
-
-      primeiro_file = pd.read_json(first_base).to_numpy()
-      data_atual =  datetime.datetime.now()
-      data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
-
-      clients_first_upload = []
-      for data in first_base:
-
+            data[7]
             replacement = data[7]
             s = data[1].split()
             s[0] = replacement
             nome_atualiazado = ' '.join(s)
 
             value = Clientes(
-                    nickname='cu',
+                    nickname=data[0],
                     nome=str(nome_atualiazado).title(),
                     assessor=data[2],
                     sexo=data[3],
@@ -212,10 +221,10 @@ def upload_clientes(request):
                     data_registro=data_em_texto
                 )
             clients_first_upload.append(value)
-      Clientes.objects.bulk_create(clients_first_upload)
-        
+        Clientes.objects.bulk_create(clients_first_upload)
 
     if len(clientes) > 0:
+        pass
         df1 = pd.read_excel(xls, 'tab2')
         df2 = pd.read_excel(xls, 'tab1')
         segundo_upload.apply_async((df1.to_json(), df2.to_json()), kwargs='')
