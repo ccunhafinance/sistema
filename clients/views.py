@@ -1,3 +1,4 @@
+# from asyncio.windows_events import NULL
 import json
 
 from django.core.mail import EmailMessage
@@ -21,9 +22,22 @@ import datetime
 from django.db import transaction
 from .tasks import *
 from django.http import JsonResponse
+import datetime
 
 import pandas as pd
 from .tasks import *
+import pytz
+import datetime
+import time
+from django.conf import settings
+
+
+def ctodatetime(ctimeinput):
+    # etime = time.ctime(int(ctimeinput))
+    btime = datetime.datetime.strptime(ctimeinput, "%a %b %d %H:%M:%S %Y")
+    tz_aware_datetetime = btime.replace(tzinfo=pytz.timezone(settings.TIME_ZONE))
+    print(tz_aware_datetetime)
+    return tz_aware_datetetime
 
 main_icon = 'ni ni-users'
 # ---------------------
@@ -31,7 +45,7 @@ main_icon = 'ni ni-users'
 def getMyClients(request):
     clients = []
     for cliente in Clientes.objects.filter(assessor=request.user.codigo):
-        clients.append([cliente.nickname, cliente.nome,cliente.sexo,cliente.email,cliente.telefone,cliente.assessor, cliente.data_nascimento, cliente.rotina, cliente.zap_mail])
+        clients.append([cliente.nickname, cliente.nome,cliente.sexo,cliente.email,cliente.telefone,cliente.data_nascimento, cliente.rotina])
         
 
     return JsonResponse({"data": clients})
@@ -58,64 +72,80 @@ def delet_all(request):
 
 def update_troca_assessor_externo(request):
     rotina = request.POST.get('rotina', False)
+    id = request.POST['id']
 
     if rotina != False:
-        rotina = '1'
-    else:
-        rotina = '0'
+        rotina = True
 
-    data_atual = datetime.datetime.now()
-    data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
-
-    Clientes.objects.filter(id=request.POST['id']).update(
-        id=request.POST['id'],
+    Clientes.objects.filter(id=id).update(
+        id=id,
         nome=request.POST['nome'],
         sexo=request.POST['sexo'],
         email=request.POST['email'],
         telefone=request.POST['telefone'],
         data_nascimento=request.POST['data_nascimento'],
         rotina=rotina,
-        # zap_mail=request.POST['zap_mail'],
-        status='ok',
-        cliente_dia='sim',
-        data_registro=data_em_texto
-
+        cliente_dia=True,
     )
+
+    if rotina == True:
+
+        ClientsOnbording(
+                cliente=Clientes.objects.get(id=id),
+                email=False,
+                frequencia_contato='Não Definido',
+                meio_contato='Não Definido',
+                assessor=request.POST['assessor'],
+                perfil_preenchido=None,
+                acomp_permanente=False,
+                oportunidade_rf=False,
+                oportunidade_acoes=False,
+                oportunidade_fii=False,
+                oportunidade_fundos=False,
+                sujestao=None,
+                alocacao=None,
+                obs=''
+            ).save()
 
     return redirect(reverse('clients:clients-list'))
     
 def update_troca_assessor(request):
     rotina = request.POST.get('rotina', False)
+    id = request.POST['id']
 
     if rotina != False:
-        rotina = '1'
-    else:
-        rotina = '0'
+        rotina = True
 
-    data_atual = datetime.datetime.now()
-    data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
-
-    Clientes.objects.filter(id=request.POST['id']).update(
-        id=request.POST['id'],
+    Clientes.objects.filter(id=id).update(
+        id=id,
+        nome=request.POST['nome'],
         rotina=rotina,
-        # zap_mail=request.POST['zap_mail'],
-        status='ok',
-        troca='ok',
-        cliente_dia='sim',
-        data_registro=data_em_texto
-
+        cliente_dia=True,
     )
 
+    if rotina == True:
+
+        ClientsOnbording(
+                cliente=Clientes.objects.get(id=id),
+                email=False,
+                frequencia_contato='Não Definido',
+                meio_contato='Não Definido',
+                assessor=request.POST['assessor'],
+                perfil_preenchido=None,
+                acomp_permanente=False,
+                oportunidade_rf=False,
+                oportunidade_acoes=False,
+                oportunidade_fii=False,
+                oportunidade_fundos=False,
+                sujestao=None,
+                alocacao=None,
+                obs=''
+            ).save()
+
     id_categ = Categoria.objects.first()
-
-    print(id_categ.id)
-
-    teste = EmailCategoria.objects.filter(EmailCategoria_id=id_categ)
-
+    emailCateg = EmailCategoria.objects.filter(EmailCategoria_id=id_categ)
     dias = date.today() + timedelta(days=0)
-    for a in teste:
-        # print(a.nome)
-
+    for a in emailCateg:
         value = NovoEmail(
             cliente_id=request.POST['id'],
             id_email=a.id,
@@ -128,37 +158,46 @@ def update_troca_assessor(request):
 
         dias = dias + timedelta(days=7)
 
-
-
-
-
     return redirect(reverse('clients:clients-list'))
 
 def update_new_cliente(request):
     rotina = request.POST.get('rotina', False)
+    id = request.POST['id']
 
     if rotina != False:
-        rotina = '1'
-    else:
-        rotina = '0'
+        rotina = True
 
-    data_atual = datetime.datetime.now()
-    data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
-
-    Clientes.objects.filter(id=request.POST['id']).update(
-        id=request.POST['id'],
+    Clientes.objects.filter(id=id).update(
+        id=id,
         nome=request.POST['nome'],
         sexo=request.POST['sexo'],
         email=request.POST['email'],
         telefone=request.POST['telefone'],
         data_nascimento=request.POST['data_nascimento'],
         rotina=rotina,
-        # zap_mail=request.POST['zap_mail'],
-        status='ok',
-        cliente_dia='sim',
-        data_registro=data_em_texto
-
+        cliente_dia=True,
     )
+    
+    if rotina == True:
+
+        ClientsOnbording(
+                cliente=Clientes.objects.get(id=id),
+                email=False,
+                frequencia_contato='Não Definido',
+                meio_contato='Não Definido',
+                assessor=request.POST['assessor'],
+                perfil_preenchido=None,
+                acomp_permanente=False,
+                oportunidade_rf=False,
+                oportunidade_acoes=False,
+                oportunidade_fii=False,
+                oportunidade_fundos=False,
+                sujestao=None,
+                alocacao=None,
+                obs=''
+            ).save()
+
+    
 
     return redirect(reverse('clients:clients-list'))
 
@@ -172,19 +211,7 @@ def upload_clientes(request):
         if not new_cliente.name.endswith('xlsx'):
             messages.info('Formato de arquivo não suportado')
             return redirect(reverse('clients:clients-list'))
-
-    # --------Default date configuration
-    data_atual =  datetime.datetime.now()
-    data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
-    # -------- EXEL FILE
-    # file_1 = './data/clientes/base_1.xlsx'
-    # file_2 = './data/clientes/testecicero.xlsx'
-    # file_1_read = pd.ExcelFile(file_1)
-    # file_2_read = pd.ExcelFile(file_2)
-    
-    # base_exel_all = pd.read_excel(file_2_read, 'tab2').to_numpy()
-    # base_exel_external = pd.read_excel(file_2_read, 'tab1').to_numpy()
-    
+  
     # ---------- Clientes
     clientes = Clientes.objects.all()
 
@@ -192,14 +219,9 @@ def upload_clientes(request):
     for cliente in clientes:
         assessores_clientes.append(cliente.assessor)
 
-    # print(assessores_clientes)
-
-    # Insert inicial base
-
     if len(clientes) == 0:
 
         first_base = pd.read_excel(xls).to_numpy()
-        print(first_base)
 
         clients_first_upload = []
         for data in first_base:
@@ -210,6 +232,9 @@ def upload_clientes(request):
             s[0] = replacement
             nome_atualiazado = ' '.join(s)
 
+
+            # print(birth)
+
             value = Clientes(
                     nickname=data[0],
                     nome=str(nome_atualiazado).title(),
@@ -218,7 +243,6 @@ def upload_clientes(request):
                     email=data[4],
                     telefone=data[5],
                     data_nascimento=data[6],
-                    data_registro=data_em_texto
                 )
             clients_first_upload.append(value)
         Clientes.objects.bulk_create(clients_first_upload)
@@ -234,8 +258,6 @@ def upload_clientes(request):
 @transaction.atomic
 def teste_insert(request):
 
-    clientes_resource = ClientesResources()
-    dataset = Dataset()
     clientes = Clientes.objects.all()
 
     if request.method == 'POST':
@@ -250,172 +272,219 @@ def teste_insert(request):
             
             if len(clientes)==0:
                 
-                primeiro = pd.read_excel(xls)
-                # imported_data = dataset.load(new_cliente.read(), format='xlsx')
-                # print(primeiro.to_json())
-                # print(pd.read_json(primeiro.to_json()))
-
-                # upload_novos_clientes.delay(primeiro.to_json())
-                
+                primeiro = pd.read_excel(xls) 
                 upload_novos_clientes(primeiro.to_json()) #no deley
             else:
                 df1 = pd.read_excel(xls, 'tab2')
                 df2 = pd.read_excel(xls, 'tab1')
-                # segundo_upload.delay(df1.to_json(),df2.to_json())
                 segundo_upload(df1.to_json(),df2.to_json()) #no deley
 
     return redirect(reverse('clients:clients-list'))
 
 # funcoes ombording
 
-def change_tipo_contato(request):
-    Clientes.objects.filter(id=request.POST['id']).update(
-        id=request.POST['id'],
-        zap_mail=request.POST['zap_mail'],
-    )
+def updateOnbording(request):
 
-    data = RegistroAtividades(
-        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
-        registro='Tipo de contato do cliente foi alterado',
-        descricao=request.POST['zap_mail'],
-        assessor_responsavel=request.user.id
-    )
-    data.save()
+    id = request.POST['id']
+    name = request.POST['name']
+    choice = request.POST['choice']
 
-    response ='ok'
+    response= ''
 
-    return HttpResponse(response)
+    # FREQUENCIA DE CONTATO ---------------------------------------------------------
+    if name == 'frequenciaContato':
+        ClientsOnbording.objects.filter(cliente_id=id).update(
+            frequencia_contato=choice,
+        )
 
-def change_frequencia_contato(request):
-    Clientes.objects.filter(id=request.POST['id']).update(
-        id=request.POST['id'],
-        frequencia_contato=request.POST['frequencia_contato'],
-    )
+        RegistroAtividades(
+            cliente_id=Clientes.objects.get(id=id).id,
+            registro='Frequencia de contato alterada!',
+            descricao=choice,
+            assessor_responsavel=request.user.id
+        ).save()
 
-    data = RegistroAtividades(
-        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
-        registro='Frequência de contato do cliente foi alterado',
-        descricao=request.POST['frequencia_contato'],
-        assessor_responsavel=request.user.id
-    )
-    data.save()
+        response = 'Frequencia de contato alterada para : <br>'+choice
 
-    response ='ok'
+    # PERFIL PREENCHIDO --------------------------------------------------------- 
+    if name == 'perfilPreenchido':
+        ClientsOnbording.objects.filter(cliente_id=id).update(
+            perfil_preenchido=str(datetime.datetime.now()),
+        )
 
-    return HttpResponse(response)
+        RegistroAtividades(
+            cliente_id=Clientes.objects.get(id=id).id,
+            registro='Perfil preenchido!',
+            descricao=str(datetime.datetime.now()),
+            assessor_responsavel=request.user.id
+        ).save()
 
-def acomp_perm(request):
-    Clientes.objects.filter(id=request.POST['id']).update(
-        id=request.POST['id'],
-        onbording_acomp_per=request.POST['onbording_acomp_per'],
-    )
+        response = 'O perfil foi preenchido na data de : <br>'+str(datetime.datetime.now())
 
-    if request.POST['onbording_acomp_per'] == 1:
-        acomp = 'Desejado'
-    else:
-        acomp = 'Indesejado'
+    # MEIO DE CONTATO---------------------------------------------------------
+    if name == 'meioDeContato':
+        ClientsOnbording.objects.filter(cliente_id=id).update(
+            meio_contato=choice,
+        )
 
-    data = RegistroAtividades(
-        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
-        registro='Acompanhamento permnente foi alterado',
-        descricao=acomp,
-        assessor_responsavel=request.user.id
-    )
-    data.save()
+        RegistroAtividades(
+            cliente_id=Clientes.objects.get(id=id).id,
+            registro='Meio de Contato alterado!',
+            descricao=choice,
+            assessor_responsavel=request.user.id
+        ).save()
 
-    response = 'ok'
+        response = 'Meio de Contato alterado para :'+choice
 
-    return HttpResponse(response)
+    # ACOMPANHAMENTO PERMANENTE  ---------------------------------------------------------
+    if name == 'acompanhamentoPermanente':
+        check = ClientsOnbording.objects.get(cliente_id=id).acomp_permanente
 
-def acomp_rf(request):
-    Clientes.objects.filter(id=request.POST['id']).update(
-        id=request.POST['id'],
-        onbording_acomp_rf=request.POST['onbording_acomp_rf'],
-    )
+        print(check)
 
-    if request.POST['onbording_acomp_rf'] == 1:
-        acomp = 'Desejado'
-    else:
-        acomp = 'Indesejado'
+        if check == True:
+            choice = False
+        else:
+            choice = True
 
-    data = RegistroAtividades(
-        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
-        registro='Oportunidade RF foi alterado',
-        descricao=acomp,
-        assessor_responsavel=request.user.id
-    )
-    data.save()
+        ClientsOnbording.objects.filter(cliente_id=id).update(
+            acomp_permanente=choice,
+        )
 
-    response = 'ok'
+        RegistroAtividades(
+            cliente_id=Clientes.objects.get(id=id).id,
+            registro='Acompanhamento Permanente alterado!',
+            descricao=choice,
+            assessor_responsavel=request.user.id
+        ).save()
 
-    return HttpResponse(response)
+        response = 'Acompanhamento Permanente alterado para : <br>'+str(choice)
 
-def acomp_acoes(request):
-    Clientes.objects.filter(id=request.POST['id']).update(
-        id=request.POST['id'],
-        onbording_acomp_acoes=request.POST['onbording_acomp_acoes'],
-    )
+    # OPORTUNIDADE RF ---------------------------------------------------------
+    if name == 'opRF':
+        check = ClientsOnbording.objects.get(cliente_id=id).oportunidade_rf
 
-    if request.POST['onbording_acomp_acoes'] == 1:
-        acomp = 'Desejado'
-    else:
-        acomp = 'Indesejado'
+        print(check)
 
-    data = RegistroAtividades(
-        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
-        registro='Oportunidade RF foi alterado',
-        descricao=acomp,
-        assessor_responsavel=request.user.id
-    )
-    data.save()
+        if check == True:
+            choice = False
+        else:
+            choice = True
 
-    response = 'ok'
+        ClientsOnbording.objects.filter(cliente_id=id).update(
+            oportunidade_rf=choice,
+        )
 
-    return HttpResponse(response)
+        RegistroAtividades(
+            cliente_id=Clientes.objects.get(id=id).id,
+            registro='Oportunidade RF alterada!',
+            descricao=choice,
+            assessor_responsavel=request.user.id
+        ).save()
 
-def acomp_fii(request):
-    Clientes.objects.filter(id=request.POST['id']).update(
-        id=request.POST['id'],
-        onbording_acomp_fii=request.POST['onbording_acomp_fii'],
-    )
+        response = 'Oportunidade RF alterada para : <br>'+str(choice)
 
-    if request.POST['onbording_acomp_fii'] == 1:
-        acomp = 'Desejado'
-    else:
-        acomp = 'Indesejado'
+    # OPORTUNIDADE ACOES ---------------------------------------------------------
+    if name == 'opAcoes':
+        check = ClientsOnbording.objects.get(cliente_id=id).oportunidade_acoes
 
-    data = RegistroAtividades(
-        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
-        registro='Oportunidade FII foi alterado',
-        descricao=acomp,
-        assessor_responsavel=request.user.id
-    )
-    data.save()
+        print(check)
 
-    response = 'ok'
+        if check == True:
+            choice = False
+        else:
+            choice = True
 
-    return HttpResponse(response)
+        ClientsOnbording.objects.filter(cliente_id=id).update(
+            oportunidade_acoes=choice,
+        )
 
-def acomp_fiinvest(request):
-    Clientes.objects.filter(id=request.POST['id']).update(
-        id=request.POST['id'],
-        onbording_acomp_fiinvest=request.POST['onbording_acomp_fiinvest'],
-    )
+        RegistroAtividades(
+            cliente_id=Clientes.objects.get(id=id).id,
+            registro='Oportunidade Ações alterada!',
+            descricao=choice,
+            assessor_responsavel=request.user.id
+        ).save()
 
-    if request.POST['onbording_acomp_fiinvest'] == 1:
-        acomp = 'Desejado'
-    else:
-        acomp = 'Indesejado'
+        response = 'Oportunidade Ações alterada para : <br>'+str(choice)
 
-    data = RegistroAtividades(
-        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
-        registro='Oportunidade Fundo de Investimento foi alterado',
-        descricao=acomp,
-        assessor_responsavel=request.user.id
-    )
-    data.save()
+    # OPORTUNIDADE FII ---------------------------------------------------------
+    if name == 'opFII':
+        check = ClientsOnbording.objects.get(cliente_id=id).oportunidade_fii
 
-    response = 'ok'
+        print(check)
+
+        if check == True:
+            choice = False
+        else:
+            choice = True
+
+        ClientsOnbording.objects.filter(cliente_id=id).update(
+            oportunidade_fii=choice,
+        )
+
+        RegistroAtividades(
+            cliente_id=Clientes.objects.get(id=id).id,
+            registro='Oportunidade FII alterada!',
+            descricao=choice,
+            assessor_responsavel=request.user.id
+        ).save()
+
+        response = 'Oportunidade FII alterada para : <br>'+str(choice)
+
+    # OPORTUNIDADE FUNDOS ---------------------------------------------------------
+    if name == 'opFundos':
+        check = ClientsOnbording.objects.get(cliente_id=id).oportunidade_fundos
+
+        print(check)
+
+        if check == True:
+            choice = False
+        else:
+            choice = True
+
+        ClientsOnbording.objects.filter(cliente_id=id).update(
+            oportunidade_fundos=choice,
+        )
+
+        RegistroAtividades(
+            cliente_id=Clientes.objects.get(id=id).id,
+            registro='Oportunidade Fundos alterada!',
+            descricao=choice,
+            assessor_responsavel=request.user.id
+        ).save()
+
+        response = 'Oportunidade Fundos alterada para : <br>'+str(choice)
+
+    # SUJESTAO ENVIADA ---------------------------------------------------------
+    if name == 'sugestao':
+        ClientsOnbording.objects.filter(cliente_id=id).update(
+            sujestao=str(datetime.datetime.now()),
+        )
+
+        RegistroAtividades(
+            cliente_id=Clientes.objects.get(id=id).id,
+            registro='Sujestao Enviada alterada!',
+            descricao=str(datetime.datetime.now()),
+            assessor_responsavel=request.user.id
+        ).save()
+
+        response = 'Sujestao Enviada : <br>'+str(datetime.datetime.now())
+
+    # SUJESTAO ALOCADA ---------------------------------------------------------
+    if name == 'alocacao':
+        ClientsOnbording.objects.filter(cliente_id=id).update(
+            alocacao=str(datetime.datetime.now()),
+        )
+
+        RegistroAtividades(
+            cliente_id=Clientes.objects.get(id=id).id,
+            registro='Sujestao Alocada alterada!',
+            descricao=str(datetime.datetime.now()),
+            assessor_responsavel=request.user.id
+        ).save()
+
+        response = 'Sujestao Alocada : <br>'+str(datetime.datetime.now())
 
     return HttpResponse(response)
 
@@ -430,72 +499,6 @@ def update_observacao(request):
         cliente_id=Clientes.objects.get(id=request.POST['id']).id,
         registro='O Campo Observação foi alterado',
         descricao=request.POST['obs'],
-        assessor_responsavel=request.user.id
-    )
-    data.save()
-
-    response = 'ok'
-
-    return HttpResponse(response)
-
-def enviar_implement(request):
-    data_atual = datetime.datetime.now()
-    data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
-
-    Clientes.objects.filter(id=request.POST['id']).update(
-        id=request.POST['id'],
-        onbording_impl_envio_sugestao=data_em_texto,
-    )
-
-
-    data = RegistroAtividades(
-        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
-        registro='Envio de Implementação',
-        descricao='-',
-        assessor_responsavel=request.user.id
-    )
-    data.save()
-
-    response = 'ok'
-
-    return HttpResponse(response)
-
-def enviar_sujest(request):
-    data_atual = datetime.datetime.now()
-    data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
-
-    Clientes.objects.filter(id=request.POST['id']).update(
-        id=request.POST['id'],
-        onbording_envio_sugestao=data_em_texto,
-    )
-
-
-    data = RegistroAtividades(
-        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
-        registro='Envio de Sujestão',
-        descricao='-',
-        assessor_responsavel=request.user.id
-    )
-    data.save()
-
-    response = 'ok'
-
-    return HttpResponse(response)
-
-def perfil_preenchido(request):
-    data_atual = datetime.datetime.now()
-    data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
-
-    Clientes.objects.filter(id=request.POST['id']).update(
-        id=request.POST['id'],
-        onbording_perfil_preenchido=data_em_texto,
-    )
-
-
-    data = RegistroAtividades(
-        cliente_id=Clientes.objects.get(id=request.POST['id']).id,
-        registro='Perfil Ondemand Preenchido',
-        descricao='-',
         assessor_responsavel=request.user.id
     )
     data.save()
@@ -544,6 +547,7 @@ def send_email_ondemand(request):
 
     email.content_subtype = "html"
     email.send()
+    
 
     Clientes.objects.filter(id=request.POST['id']).update(
         id=request.POST['id'],
@@ -621,52 +625,24 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
     template_name = "clients/list_view.html"
     login_url = '/'
 
-    # id_categ = Categoria.objects.first()
-    #
-    # print(id_categ)
-    #
-    # teste = EmailCategoria.objects.filter(EmailCategoria_id=id_categ)
-    #
-    # for a in teste:
-    #     print (a.nome)
-
-
-
-
     def get_context_data(self, **kwargs):
 
-        # Load Clients based on the internal files
-        # with open('data/clientes/clientes.txt', encoding='latin1') as json_file:
-        #     clientes = json.load(json_file)
 
-        # load Clients from DB
-
-        # print(self.request.user.id)
-
-        assessores = CustomUser.objects.all()
-
-        f = ''
-        for assessor in assessores:
-            if assessor.id == self.request.user.id:
-                f = assessor.codigo
-
-        # print(f)
-
-        onbording = Clientes.objects.filter(rotina="1")
+        onbording = ClientsOnbording.objects.filter(assessor=self.request.user.codigo).order_by('-id')
         n_onboarding = len(onbording)
 
-        clientes = Clientes.objects.filter(assessor=f)
+        clientes = Clientes.objects.filter(assessor=self.request.user.codigo)
         n_clientes = len(clientes)
 
-        novos_clientes = Clientes.objects.filter(status='Novo',assessor=f)
-        inativo = Clientes.objects.filter(status='Inativo',assessor=f)
-        google = Clientes.objects.filter(cliente_dia='sim', assessor=f)
-        n_contatos = len(Clientes.objects.filter(cliente_dia='sim', assessor=f))
+        novos_clientes = Clientes.objects.filter(status='Novo',assessor=self.request.user.codigo).exclude(cliente_dia=True)
+        inativo = Clientes.objects.filter(status='Inativo',assessor=self.request.user.codigo)
+        google = Clientes.objects.filter(cliente_dia=True, assessor=self.request.user.codigo)
+        n_contatos = len(Clientes.objects.filter(cliente_dia=True, assessor=self.request.user.codigo))
         n_inativo = len(inativo)
         n_novos_clientes = len(novos_clientes)
 
-        i = Clientes.objects.filter(troca='interna',assessor=f)
-        j = Clientes.objects.filter(troca='externa',assessor=f)
+        i = Clientes.objects.filter(troca='interna',assessor=self.request.user.codigo).exclude(cliente_dia=True)
+        j = Clientes.objects.filter(troca='externa',assessor=self.request.user.codigo).exclude(cliente_dia=True)
 
     
         num_clientes_ativos = int(len(clientes)) - int(len(inativo))
@@ -674,10 +650,6 @@ class ListViewClients(LoginRequiredMixin, generic.TemplateView):
         troca_interna = len(i)
         troca_externa = len(j)
 
-        print(i)
-        # print('-----------')
-        # print(j)
-        # print('-----------')
 
         context = {
             'n_onboarding': n_onboarding,

@@ -60,7 +60,7 @@ urlpatterns = [
     # Listar
     path('rv/fii/listar/', views.ofertarvfiiview, name="listar-rv-fii"),
     # Eviar Email
-    path('rv/fii/enviar-email-rv-fii/<str:ticker>/<str:emissor>/', views.sendemailrvfii, name="send-mail-rv-fii"),
+    path('rv/fii/enviar-email-rv-fii/<str:id>/<str:ticker>/', views.sendemailrvfii, name="send-mail-rv-fii"),
     # Enviar
     path('rv/fii/envia_email_fii/', views.envia_email_fii, name="envia-email-fii"),
 

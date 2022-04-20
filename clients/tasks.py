@@ -67,18 +67,11 @@ def upload_novos_clientes(primeiro):
 
 @shared_task
 def segundo_upload(a, b):
-    clientes_resource = ClientesResources()
-    dataset = Dataset()
     clientes = Clientes.objects.all()
-    data_atual =  datetime.datetime.now()
-    data_em_texto = data_atual.strftime('%d/%m/%Y %H:%M:%S')
     base_exel_external = pd.read_json(b).to_numpy()
     base_exel_all = pd.read_json(a).to_numpy()
 
-    # print(base_exel_external)
-    # print(base_exel_all)
 
-    # ----------- check clientes inativos
     t = len(base_exel_all)
     a = 0
 
@@ -102,7 +95,6 @@ def segundo_upload(a, b):
             for x in inativos:
                 Clientes.objects.filter(nickname=x).update(
                     status='Inativo',
-                    data_registro=data_em_texto
                 )
 
     # # Check se tem troca de assessores internos
@@ -124,7 +116,6 @@ def segundo_upload(a, b):
                     d3=item[6],
                     d4=item[7],
                     troca='interna',
-                    data_registro=data_em_texto
                 )
             
     # Check se cliente que ja existe tem algum campo alterado
@@ -141,7 +132,6 @@ def segundo_upload(a, b):
                     d2=item[5],
                     d3=item[6],
                     d4=item[7],
-                    data_registro=data_em_texto
                 )
 
     # Novos Clientes
@@ -190,7 +180,6 @@ def segundo_upload(a, b):
                 d3=cliente[6],
                 d4=cliente[7],
                 status='Novo',
-                data_registro=data_em_texto
             )
             new_insert.append(value)
         Clientes.objects.bulk_create(new_insert)
@@ -207,119 +196,4 @@ def segundo_upload(a, b):
             Clientes.objects.filter(nickname=t_x[0]).update(
                     troca='externa',
                     status='Novo',
-                    data_registro=data_em_texto
                 )
-
-      
-
-      
-
-
-    #   t = len(df1)
-    #   a = 0
-    #   primeiro =[]
-    #   segundo = []
-
-    #   for cliente in clientes:
-
-    #       primeiro.append(str(cliente.nickname))
-
-    #       if a < t:
-    #           segundo.append(str(df1.to_numpy()[a][0]))
-
-    #       a += 1
-
-    #   def Diff(li1, li2):
-    #       return list(set(li1) - set(li2))
-
-    #   # Inativa Cliente
-    #   # print(Diff(primeiro, segundo))
-
-    #   inativos = Diff(primeiro, segundo)
-    #   for x in inativos:
-    #         Clientes.objects.filter(nickname=x).update(
-    #             status='Inativo',
-    #             data_registro=data_em_texto
-    #         )
-    #   insert_cleintes = []
-      
-    #   for data in df1.to_numpy():
-    #         # print(data)
-    #         if len(Clientes.objects.filter(nickname=data[0])) == 1:
-
-    #             if str(Clientes.objects.filter(nickname=data[0])[0].assessor) != str(data[2]):
-    #                 Clientes.objects.filter(nickname=data[0]).update(
-    #                     nome=str(data[1]).title(),
-    #                     assessor=data[2],
-    #                     antigo_assessor=Clientes.objects.filter(nickname=data[0])[0].assessor,
-    #                     d0=data[3],
-    #                     d1=data[4],
-    #                     d2=data[5],
-    #                     d3=data[6],
-    #                     d4=data[7],
-    #                     troca='interna',
-    #                     data_registro=data_em_texto
-    #                 )
-    #             else:
-
-    #                 Clientes.objects.filter(nickname=data[0]).update(
-    #                     nome=str(data[1]).title(),
-    #                     d0=data[3],
-    #                     d1=data[4],
-    #                     d2=data[5],
-    #                     d3=data[6],
-    #                     d4=data[7],
-    #                     data_registro=data_em_texto
-    #                 )
-    #         else:
-
-    #             value = Clientes(
-    #                 nickname=data[0],
-    #                 nome=str(data[1]).title(),
-    #                 assessor=data[2],
-    #                 d0=data[3],
-    #                 d1=data[4],
-    #                 d2=data[5],
-    #                 d3=data[6],
-    #                 d4=data[7],
-    #                 status='Novo',
-    #                 data_registro=data_em_texto
-    #             )
-    #             insert_cleintes.append(value)
-    #   Clientes.objects.bulk_create(insert_cleintes)
-            
-    #   ncliente =[]
-    #   for data in df2.to_numpy():
-    #       # print(data)
-
-    #       if len(Clientes.objects.filter(nickname=data[1])) == 1 and  len(data[3]) > 1 and data[7] == 'CONCLUÍDO':
-    #           Clientes.objects.filter(nickname=data[1]).update(
-    #                   # nome=str(data[1]).title(),
-    #                   assessor=data[3].split('-')[0].replace(" ", ""),
-    #                   # antigo_assessor=Clientes.objects.filter(nickname=data[0])[0].assessor,
-    #                   # d0=data[3],
-    #                   # d1=data[4],
-    #                   # d2=data[5],
-    #                   # d3=data[6],
-    #                   # d4=data[7],
-    #                   troca='externa',
-    #                   status='Novo',
-    #                   data_registro=data[6]
-    #               )
-    #       elif len(data[3]) > 1 and data[7] == 'CONCLUÍDO':
-    #           value = Clientes(
-    #               nickname=data[1],
-    #               # nome=str(data[1]).title(),
-    #               assessor=data[3].split('-')[0].replace(" ", ""),
-    #               # d0=data[3],
-    #               # d1=data[4],
-    #               # d2=data[5],
-    #               # d3=data[6],
-    #               # d4=data[7],
-    #               troca='externa',
-    #               status='Novo',
-    #               data_registro=data[6]
-    #           )
-    #           ncliente.append(value)
-    #   Clientes.objects.bulk_create(ncliente)   
-

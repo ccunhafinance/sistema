@@ -209,7 +209,7 @@ class FiiEdit(models.Model):
 # Fii
 class EmailFii(models.Model):
     ticker = models.CharField(max_length=100)
-    emissao = models.CharField(max_length=100)
+    # emissao = models.CharField(max_length=100)
     id_sender = models.IntegerField(null=True, blank=True)
     nome_oferta = models.CharField(max_length=100)
     remetente = models.CharField(max_length=100)
@@ -220,7 +220,7 @@ class EmailFii(models.Model):
     valor_financeiro = models.CharField(max_length=200)
 
     email_body = models.TextField(blank=True, null=True)
-    email_body = models.TextField(blank=True, null=True)
+    # email_body = models.TextField(blank=True, null=True)
     email = models.CharField(max_length=200)
     assunto = models.CharField(max_length=200)
     data_sent = models.DateTimeField(default=datetime.now, blank=True)

@@ -47,88 +47,138 @@
             </div>
             <div class="panel-container show">
                 <div class="panel-content" id="dados_da_oferta">
-                    <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100 table-sm">
-                        <thead>
+                    <table  class="table  table-responsive table-hover table-bordered table-sm">
+                        <thead class="text-center">
                             <tr>
-                                    <th>Detalhar</th>
-
-                                    <th>Fundo</th>
-                                    <th>Preço</th>
-                                    <th>Cotação</th>
-                                    <th>Data-base</th>
-                                    <th>Pretíodo das Negociações</th>
-                                    <th>Preríodo de Preferência</th>
-                                    <th>Preríodo de Sobra</th>
-                                    <th>Período público</th>
-{#                                    <th>Upload</th>#}
-                                    <th class="phone">Etapa</th>
-                                    <th class="phone">Tipo de Oferta:	</th>
-                                    <th class="phone">Preço e Taxa:	</th>
-                                    <th class="phone">Data Encerramento:</th>
-                                    <th class="phone">Proporção de Preferência:</th>
-                                    <th class="phone">Proporção de Sobras:</th>
-                                    <th class="phone">Investimento Mínimo:</th>
-                                    <th class="phone">Captação Mínima:</th>
-                                    <th class="phone">Captação Máxima:</th>
-                                    <th class="phone">Coordenador Líder:</th>
-                                    <th class="phone">Data de Encerramento:</th>
-                                    <th class="phone">Método de Rateio:</th>
-                                    <th class="phone">Resultado do Rateio:</th>
-                                    <th class="phone">Observações:</th>
-                                    <th class="phone">Documentação:</th>
-                                </tr>
+                                <th nowrap rowspan="2">Ticker</th>
+                                <th nowrap rowspan="2">ICVM</th>
+                                <th nowrap rowspan="2">Total por Cota</th>
+                                <th nowrap rowspan="2">Valor mínimo</th>
+                                <th nowrap rowspan="2">Preço</th>
+                                <th nowrap rowspan="2">Cotação</th>
+                                <th nowrap colspan="3">Direitos dos Cotistas</th>
+                                <th nowrap colspan="3">Fase Direito de Preferência</th>
+                                <th nowrap colspan="3">Fase Sobras Dir. de Preferência</th>
+                                <th nowrap colspan="3">Fase Pública</th>
+                                
+                               
+                                
+                              
+                            </tr>
+                            <tr>
+                                
+                                <th nowrap>Preferência</th>
+                                <th nowrap>Negociável</th>
+                                <th nowrap>Data Com</th>
+                                <th nowrap>Início</th>
+                                <th nowrap>Término</th>
+                                <th nowrap>Liquidação</th>
+                                <th nowrap>Início</th>
+                                <th nowrap>Término</th>
+                                <th nowrap>Liquidação</th>
+                                <th nowrap>Início</th>
+                                <th nowrap>Término</th>
+                                <th nowrap>Liquidação</th>
+                               
+                            </tr>
+                           
                         </thead>
                         <tbody>
-                            <tr>
-                                        <td class="text-center"><i class="ni ni-list fa-2x"></i></td>
+                        
 
+                                    <td nowrap> {{ oferta.ticker|replace_documentacao|safe }}<br>
+                                        {%if oferta.ticker|getjustnamefii|takeoff11|grab_fii_name != "" %}
+                                        <small>{{oferta.ticker|getjustnamefii|takeoff11|grab_fii_name}}</small>
+                                        {%endif%}
+                                    </td>
+                                    <td 
+                                    
+                                    {%if oferta.icvm == 'Ofertas aguardando anúncio de início:'%} 
+                                        style="position:absolute; border:none;background:#f1c40f"
+                                    {%endif%}
 
-                                        <td>
-                                            {{ oferta.Fundo }} ({{ oferta.Emissão }} emissão)<br>
-                                            <span style="font-size: 10px">{{ oferta.Fundo|takeoff11|grab_fii_name }}</span>
-                                       </td>
-                                        <td>{{ oferta.PreçoeCotação|split:"Cotação:"|first}}</td>
-                                        <td>
-                                            {% if oferta.PreçoeCotação|find_negative == 'nada'  %}
-                                            {% elif  oferta.PreçoeCotação|find_negative %}
-                                                {{ oferta.PreçoeCotação|split:"Cotação:"|last|split:"("|first }}<br>
-                                                 <span class="text-danger"> <i class="fal fa-long-arrow-down"></i>  {{ oferta.PreçoeCotação|split:"Cotação:"|last|split:"("|last|replace_close_parent }}</span>
-                                            {% else %}
-                                                {{ oferta.PreçoeCotação|split:"Cotação:"|last|split:"("|first }}<br>
-                                                  <span class="text-success"><i class="fal fa-long-arrow-up"></i>  {{ oferta.PreçoeCotação|split:"Cotação:"|last|split:"("|last|replace_close_parent }}</span>
-                                            {% endif %}
-                                        </td>
-                                        <td>{{ oferta.Database|dot_to_bar }}</td>
-                                        <td>
-                                            {{ oferta.PeríododeNegociação|dot_to_bar|ate_trace|safe }}
-                                        </td>
-                                        <td>{{ oferta.PeríododePreferência|dot_to_bar|ate_trace|liquidacao|safe }}</td>
-                                        <td>{{ oferta.PeríododeSobras|dot_to_bar|ate_trace|liquidacao|safe }}</td>
-                                        <td>{{ oferta.PeríodoPúblico|dot_to_bar|ate_trace|liquidacao|safe }}</td>
-{#                                        <td>#}
-{#                                            <a href="#" id="_id-{{ oferta.Fundo }}" onclick="get_ticker('{{ oferta.Fundo }}')" class="btn {{ oferta.Fundo|isfile_here }} btn-icon rounded-circle waves-effect waves-themed" data-toggle="modal" data-target="#default-example-modal-lg-center">#}
-{#                                                <i class="fal fa-cloud-upload"></i>#}
-{#                                            </a>#}
-{#                                        </td>#}
+                                    {%if oferta.icvm == 'Ofertas Encerradas'%} 
+                                        style="position:absolute; border:none;background:#e74c3c"
+                                    {%endif%}
 
-                                        {# hidden fields #}
-                                        <td>{% include './fases.html' %}</td>
-                                        <td>{{ oferta.TipodeOferta }}</td>
-                                        <td>{{ oferta.PreçoeTaxa }}</td>
-                                        <td>{{ oferta.DataEncerramento }}</td>
-                                        <td>{{ oferta.ProporçãodePreferência }}</td>
-                                        <td>{{ oferta.ProporçãodeSobras }}</td>
-                                        <td>{{ oferta.InvestimentoMínimo }}</td>
-                                        <td>{{ oferta.CaptaçãoMínima }}</td>
-                                        <td>{{ oferta.CaptaçãoMáxima }}</td>
-                                        <td>{{ oferta.CoordenadorLíder }}</td>
-                                        <td>{{ oferta.DatadeEncerramento }}</td>
-                                        <td>{{ oferta.MétododeRateio }}</td>
-                                        <td>{{ oferta.ResultadodoRateio }}</td>
-                                        <td>{{ oferta.Observações }}</td>
-                                       <td> {{ oferta.Documentação|replace_documentacao|safe }}</td>
-                                    </tr>
+                                    {%if oferta.icvm == 'Ofertas Canceladas'%} 
+                                        style="position:absolute; border:none;background:#c0392b"
+                                    {%endif%}
+                                    
+                                    >
+
+                                    {%if oferta.icvm == 'Ofertas aguardando anúncio de início:'%} 
+                                        <span style="color:#fff">{{oferta.icvm}}</span>
+                                    {%elif oferta.icvm == 'Ofertas Encerradas'%} 
+                                        <span style="color:#fff">{{oferta.icvm}}</span>
+                                    {%elif oferta.icvm == 'Ofertas Canceladas'%} 
+                                        <span style="color:#fff">{{oferta.icvm}}</span>
+                                    {%else%}
+                                        {{oferta.icvm}}<br>
+                                        
+
+                                    {%endif%}
+
+                                       
+                                    </td>
+                                    <td nowrap>{{oferta.totaldecotas}}</td>
+                                    <td nowrap>{{oferta.valorminimo}}</td>
+                                    <td nowrap>{{oferta.cotacao}}</td>
+                                    <td nowrap>{{oferta.cotacaooferta|tiraporcentagem|safe}}</td>
+                                    <td nowrap>{{oferta.preferencia}}</td>
+                                    <td nowrap>{{oferta.negociaveil}}</td>
+                                    <td nowrap>
+                                    <span class="text-muted">
+                                        {{oferta.datacom}}
+                                    </span>
+                                    </td>
+                                   
+                                    <td nowrap>
+                                        <span class="{{  oferta.Dinicio|checkdatainicio:oferta.Dtermino }}">
+                                            {{oferta.Dinicio}}
+                                        </span>
+                                    </td>
+
+                                    <td nowrap>
+                                        <span class="{{ oferta.Dinicio|checkdatainicio:oferta.Dtermino }}">
+                                            {{oferta.Dtermino}}
+                                        </span>
+                                    </td>
+                                    <td nowrap>
+                                        {{oferta.Dliquidacao|checkdata|safe}}
+                                    </td>
+                                    <td nowrap>
+                                        <span class="{{ oferta.Finicio|checkdatainicio:oferta.Ftermino }}">
+                                            {{oferta.Finicio}}
+                                        </span>
+                                    </td>
+                                    <td nowrap>
+                                        <span class="{{ oferta.Finicio|checkdatainicio:oferta.Ftermino }}">
+                                            {{oferta.Ftermino}}
+                                        </span>
+                                    </td>
+                                    <td nowrap>
+                                        {{oferta.Fliquidacao|checkdata|safe}}
+                                    </td>
+                                    <td nowrap>
+                                        <span class="{{  oferta.Pinicio|checkdatainicio:oferta.Ptermino }}">
+                                            {{oferta.Pinicio}}
+                                        </span>
+                                    </td>
+                                    <td nowrap>
+                                        <span class="{{  oferta.Pinicio|checkdatainicio:oferta.Ptermino }}">
+                                            {{oferta.Ptermino}}
+                                        </span>
+                                    </td>
+                                    <td nowrap>{{oferta.Pliquidacao|checkdata|safe}}</td>
+
+                                   
+                                    
+                                   
+                                </tr>
+                         
                         </tbody>
+
                     </table>
                 </div>
             </div>
@@ -146,10 +196,35 @@
             </div>
             <div class="panel-container show">
                 <div class="panel-content" id="dados_da_oferta">
-                    <b>Etapa:</b> {% include './fases.html' %}<br><br>
+                    <b>Etapa:</b> 
+
+                        {%if oferta.Dinicio|checkdatainicio:oferta.Dtermino == 'text-info'%}
+                            Fase Direito de Preferência
+                        {%endif%}
+                        
+                        {% if '<span class="text-danger">' in oferta.Dliquidacao|checkdata %}
+                            Fase Direito de Preferência (Liquidação)
+                        {%endif%}
+
+                        {%if oferta.Finicio|checkdatainicio:oferta.Ftermino == 'text-info'%}
+                            Fase Sobras Dir. de Preferência
+                        {%endif%}
+                        {% if '<span class="text-danger">' in oferta.Fliquidacao|checkdata %}
+                            Fase Sobras Dir. de Preferência (Liquidação)
+                        {%endif%}
+
+                        {%if oferta.Pinicio|checkdatainicio:oferta.Ptermino == 'text-info'%}
+                            Fase Pública
+                        {%endif%}
+                        {% if '<span class="text-danger">' in oferta.Pliquidacao|checkdata %}
+                            Fase Pública (Liquidação)
+                        {%endif%}
+
+
+                     <br><br>
                     <b>Mensagem:</b>
 
-                        <p id='display' onClick='copyText(this)'>{% include './mensagens.html' %}</p>
+                        <p id='display' onClick='copyText(this)'></p>
 
                 </div>
             </div>
@@ -183,21 +258,21 @@
                                 <th>Assessor</th>
                                 <th>Cod. Cliente</th>
                                 <th>Nome Cliente</th>
-                                <th>Telefone</th>
+                                <th>Telefone <i class="fab fa-whatsapp"></i></th>
                                 <th>Qtd. de Cotas</th>
                                 <th>Valor Financeiro</th>
-                                <th>Status</th>
+                                <th>Registro</th>
+                                <th class='phone'>Registro de emails Fii</th>
                             </tr>
                         </thead>
 
                         <tbody id="tablemail">
                             {% for cliente in clientes %}
-{#                                {{request.user.id|str_val }}#}
 
                                 {% if request.user.id|str_val == cliente.CodAssessor|get_assessor_id|str_val or cliente.CodAssessor|get_assessor_id|check_espelhamento_fii:request.user.id == 'True' %}
                                     <tr class="item">
                                         <td class="text-center">
-                                            <a href="" onclick="get_values('{{ request.user.id }}','{{ cliente.CodAssessor|get_assessor_id }}','{{ cliente.CodigoCliente|get_cliente_first_nome|title }}','{{ cliente.CodigoCliente }}', '{{ cliente.QuantidadeDisponivel }}', '{{ oferta.PreçoeCotação|split:"Cotação:"|first|calc_val_financeiro:cliente.QuantidadeDisponivel|moeda }}','{{ request.user.id|get_user_fii_data }}','{{ cliente.CodAssessor }} - {{ cliente.CodAssessor|get_assessor_fii_data }}')" data-toggle="modal" data-target=".default-example-modal-left-lg"><span class="ni ni-envelope fa-2x" style="z-index: 999999"></span></a>
+                                            <a href="" onclick="get_values('{{ request.user.id }}','{{ cliente.CodAssessor|get_assessor_id }}','{{ cliente.CodigoCliente|get_cliente_first_nome|split:' '|first  }}','{{ cliente.CodigoCliente }}', '{{ cliente.QuantidadeDisponivel }}', '{{ oferta.cotacao|calc_val_financeiro:cliente.QuantidadeDisponivel|moeda }}','{{ request.user.id|get_user_fii_data }}','{{ cliente.CodAssessor }} - {{ cliente.CodAssessor|get_assessor_fii_data }}')" data-toggle="modal" data-target=".default-example-modal-left-lg"><span class="ni ni-envelope fa-2x" style="z-index: 999999"></span></a>
                                         </td>
                                         <td>
                                             {% if cliente.CodAssessor|get_assessor_id != request.user.id|str_val %}
@@ -208,12 +283,35 @@
                                         </td>
                                         <td>{{ cliente.CodigoCliente }}</td>
                                         <td>{{ cliente.CodigoCliente|get_cliente_nome|title }}</td>
-                                        <td><a style="color:#25D366; text-decoration: none" href="https://api.whatsapp.com/send?phone=552135542850&amp;text=Teste" target="_blank" rel="noopener">(32) 9 9999-9999</a></td>
+                                        <td><a style="color:#25D366; text-decoration: none" href="https://api.whatsapp.com/send?phone={{cliente.CodigoCliente|getzapClean}}&amp;text={{ saldacao }}, {{ cliente.CodigoCliente|get_cliente_first_nome|split:' '|first  }}" target="_blank" rel="noopener">{{cliente.CodigoCliente|getzap}}</a></td>
                                         <td>{{ cliente.QuantidadeDisponivel }}</td>
-                                        <td>{{ oferta.PreçoeCotação|split:"Cotação:"|first|calc_val_financeiro:cliente.QuantidadeDisponivel|moeda }}</td>
+                                        <td>{{ oferta.cotacao|calc_val_financeiro:cliente.QuantidadeDisponivel|moeda }}</td>
                                         <td class="text-center">
-{#                                            <i class="fal fa-check-circle text-success"></i>#}
                                             <i class="fal fa-minus-circle text-danger text-center"></i>
+                                        </td>
+                                        <td>
+
+                                            <table id="tabela_enviados" class="table table-bordered table-hover table-striped w-100 table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Ver</th>
+                                                        <th>Enviado Por</th>
+                                                        <th>Remetente</th>
+                                                        <th>Data</th>
+                                                        
+                                                    </tr>
+                                                </thead>
+                        
+                                                <tbody>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                        
+                                                </tbody>
+                                            </table>
+
+
                                         </td>
                                     </tr>
                                 {% endif %}
@@ -260,17 +358,7 @@
                         </thead>
 
                         <tbody id="tablemail">
-{#                            {% for modalidade in modalidades %}#}
-{#                                <tr>#}
-{#                                    <td>{{ modalidade.name }}</td>#}
-{#                                    <td>{{ modalidade.fee }}%</td>#}
-{#                                    <td>{{ modalidade.garant|moeda }}</td>#}
-{#                                    <td>{{ modalidade.min_reserv|moeda }}</td>#}
-{#                                    <td>{{ modalidade.max_reserv|moeda }}</td>#}
-{#                                    <td>{{ modalidade.lock_end|date:'d/m/Y' }}</td>#}
-{#                                    <td>{{ modalidade.obs }}</td>#}
-{#                                </tr>#}
-{#                            {% endfor %}#}
+
                         </tbody>
                     </table>
 
@@ -308,43 +396,35 @@
 
                         <label><b>Remetente</b></label>
                         <select id="remetente" class="form-control especial_form" name="remetente" onchange="">
-    {#                        <option value="{{ request.user.id|get_assessor_code_nome_email  }}" selected>{{ request.user.id|get_assessor_ifos }}</option>#}
                             <div id="opcoes">
 
                             </div>
                         </select>
 
                           <div class="form-group">
-{#                             <label>ticker</label>#}
-                             <input hidden class="form-control" type="text" id="ticker" name="ticker" value="{{ ticker }}">
+
+                             <input  class="form-control" type="text" id="ticker" name="ticker" value="{{ oferta.ticker|getjustnamefii }}">
                          </div>
                           <div class="form-group">
-{#                             <label>emissor</label>#}
-                             <input hidden class="form-control" type="text" id="emissor" name="emissor" value="{{ emissor }}">
+                             <input  class="form-control" type="text" id="id" name="id" value="{{ oferta.id }}">
                          </div>
                          <div class="form-group">
-{#                             <label>enviado por USER</label>#}
-                             <input hidden class="form-control" type="text" name="enviado_por" id="enviado_por">
+                             <input  class="form-control" type="text" name="enviado_por" id="enviado_por">
                          </div>
                          <div class="form-group">
-{#                             <label>Email do cliente</label>#}
-                             <input hidden class="form-control" type="text" id="climail">
+                             <input  class="form-control" type="text" id="climail" name='climail'>
                          </div>
                          <div class="form-group">
-{#                             <label>Assessor responsavel</label>#}
-                             <input hidden class="form-control" type="text" name="responsavel" id="responsavel">
+                             <input  class="form-control" type="text" name="responsavel" id="responsavel">
                          </div>
                          <div class="form-group">
-{#                             <label>REMETENTE</label>#}
-                             <input hidden class="form-control" type="text" name="remetente" id="remete">
+                             <input  class="form-control" type="text" name="remetente" id="remete">
                          </div>
                          <div class="form-group">
-{#                             <label>Assunto</label>#}
-                             <input hidden class="form-control" type="text" id="climail" name="assunto" value="Confirmação de reserva da Oferta Pública {{ oferta.Fundo }} - {{ oferta.Fundo|takeoff11|grab_fii_name }} ">
+                             <input  class="form-control" type="text" id="assunto" name="assunto" value="Confirmação de reserva da Oferta Pública {{ oferta.ticker|getjustnamefii }} - {{ oferta.ticke|getjustnamefii|takeoff11|grab_fii_name }} ">
                          </div>
                          <div class="form-group">
-{#                             <label></label>#}
-                             <textarea hidden class="form-control" id="emai_text" name="corpo_email"></textarea>
+                             <textarea  class="form-control" id="emai_text" name="corpo_email"></textarea>
                          </div>
 
 
@@ -365,15 +445,16 @@
 
                         Gostaria de confirmar a reserva de compra no seu código <span id='text_code'> <span class="text-danger b-1">[CÓDIGO DO CLIENTE]</span> </span> na XP:
                         <br><br>
-                        Oferta: {{ oferta.Fundo }} - {{ oferta.Fundo|takeoff11|grab_fii_name }}
+                        Oferta: {{ oferta.ticker|getjustnamefii }} - {{ oferta.ticker|getjustnamefii|takeoff11|grab_fii_name }}
                         <br><br>
                         Quantidade de cotas: <span id='text_quantidade'> <span class="text-danger b-1">[QUANTIDADE]</span> </span>
                         <br><br>
-                        Valor da cota: {{ oferta.PreçoeCotação|split:"Cotação:"|last|split:"("|first }}
+                        Valor da cota: {{ oferta.cotacao}}
                         <br><br>
                         Valor Financeiro: <span id='text_valor_financeiro'> <span class="text-danger b-1">[VALOR FINANCEIRO]</span> </span>
                         <br><br>
-                        Observações importantes: Para adesão à reserva é expressamente recomendada a leitura integral do Prospecto da Oferta Pública, onde constam todas as demais informações sobre a Oferta, incluindo os riscos envolvidos na operação. Para consultar o prospecto clique aqui.
+                        Observações importantes: Para adesão à reserva é expressamente recomendada a leitura integral do Prospecto da Oferta Pública, onde constam todas as demais informações sobre a Oferta, incluindo os riscos envolvidos na operação. Para consultar o prospecto clique 
+                        <a href='{{oferta.ticker|getcliqueaqui}}' target="_blank">aqui</a>
                         <br><br>
                         Aguardo a sua confirmação para realizar a reserva.
 
@@ -394,83 +475,6 @@
     </div>
 </div>
 
-
-
-
-    {# FORMILÁRIO DE ENVIO   #}
-{#    <div class="col-md-4">#}
-{#        <div id="panel-2" class="panel panel-locked" data-panel-lock="false" data-panel-close="false"    data-panel-locked="false" data-panel-refresh="false">#}
-{#            <div class="panel-hdr">#}
-{#                <h2>#}
-{#                    Formulário de envio <span class="fw-300"><i></i></span>#}
-{#                </h2>#}
-{#                <div class="panel-toolbar" style="margin-right: 25px">#}
-{##}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="panel-container show">#}
-{#                <div class="panel-content">#}
-{#                    <form  id="form" method="post">#}
-{#                            <input hidden type="" name="csrfmiddlewaretoken" id="token" value="{{csrf_token}}">#}
-{#                            <input hidden name="cod_assessor_mail" id="cod_assessor_mail">#}
-{##}
-{#                            <div id="response"></div>#}
-{##}
-{#                            <div class="form-group">#}
-{#                               <label>Código do cliente</label>#}
-{#                               <input type="text" name="codigo" class="form-control especial_form" placeholder="Código" id="codigo" required onkeyup="putCodigo()" onchange="getClient(this)">#}
-{#                               <small class="text-danger" id="table_ipo"></small>#}
-{#                               <small id="unknow" class="text-danger"></small>#}
-{#                            </div>#}
-{##}
-{#                            <div class="form-group">#}
-{#                               <label>Nome do cliente</label>#}
-{#                               <input type="text" name="nome" id="nome" class="form-control especial_form" placeholder="Nome"  required onchange="putNome()">#}
-{#                            </div>#}
-{##}
-{#                            <div class="form-group">#}
-{#                               <label>Email</label>#}
-{#                               <input type="email" name="email" id="emeincliente" class="form-control especial_form" placeholder="Email" required >#}
-{#                               <input type="text" hidden id="email_assessor" name="email_assessor">#}
-{#                            </div>#}
-{##}
-{#                            <div class="form-group">#}
-{#                               <label>Remetente</label>#}
-{#                                <select id="remetente" class="form-control especial_form" name="remetente" onchange="">#}
-{#                                    <option value="{{ request.user.id|get_assessor_code_nome_email  }}" selected>{{ request.user.id|get_assessor_ifos }}</option>#}
-{#                                </select>#}
-{#                               <small class="text-danger" id="table_ipo"></small>#}
-{#                            </div>#}
-{#                            <input hidden name="assessor_responsavel" id="assessor_responsavel" >#}
-{##}
-{#                            <div class="form-group">#}
-{#                               <label>Quantidade </label>#}
-{#                               <input name="quantidade" title="number" class="form-control especial_form"  required id="quantidade" >#}
-{#                            </div>#}
-{##}
-{#                            <textarea hidden class="form-control" id="emai_text" name="email_body"></textarea>#}
-{##}
-{#                            <input hidden id="email_from" name="email_from" value="{{ request.user.email }}">#}
-{##}
-{#                            <input hidden name="assunto" id="assunto" value="">#}
-{##}
-{#                            <br>#}
-{##}
-{##}
-{#                      </form>#}
-{#                        <div id="sender">#}
-{#                        <button id="sendform"  class="btn btn-primary isDisable ladda-button" data-style="expand-right" onclick="sendmail()">Enviar E-mail</button>#}
-{#                        <span id="notificacao"></span>#}
-{#                        </div>#}
-{##}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{##}
-
-
-    {#  REGISTRO DE EMAILS ENVIADOS  #}
 
 
 

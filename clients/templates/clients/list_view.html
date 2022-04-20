@@ -9,7 +9,6 @@
         .escondido{
             display:none
         }
-
     </style>
 {% endblock %}
 <!-- END page Style -->
@@ -295,40 +294,14 @@
                                             <th>Sexo</th>
                                             <th>E-mail</th>
                                             <th>Telefone</th>
-                                            <th>Assessor</th>
                                             <th>Nascimento</th>
                                             <th>Rotina</th>
-                                            <th>Whats/E-mail</th>
 
                                         </tr>
                                     </thead>
 
                                 </table>
                             </div> 
-
-                            <!-- Clientes Ativos -->
-                            <div class="tab-pane fade show" id="tab_default-1" role="tabpanel">
-                                <table id="dt-basic-example1" class="table table-bordered table-hover table-striped w-100 table-sm">
-
-                                    <thead>
-                                        <tr>
-                                            <th>Código</th>
-                                            <th>Nome</th>
-                                            <th>Sexo</th>
-                                            <th>E-mail</th>
-                                            <th>Telefone</th>
-                                            <th>Assessor</th>
-                                            <th>Nascimento</th>
-                                            <th>Data</th>
-                                            <th></th>
-                                            
-                                        </tr>
-                                    </thead>
-
-                                    
-
-                                </table>
-                            </div>
 
                             <!-- Clientes Inativos -->
                             <div class="tab-pane fade" id="tab_default-4" role="tabpanel">
@@ -380,20 +353,19 @@
                                             <th>Telefone</th>
                                             <th>Nascimento</th>
                                             <th>Rotina</th>
-                                            {# <th>Whats/E-mail</th>#}
                                             <th>Data</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
 
-                                        {% for cliente in clientes %}
+                                        {% for cliente in novos_clientes %}
 
-                                            {% if cliente.status == 'Novo' %}
 
                                                     <tr>
                                                     <form method="post" action="{% url 'clients:update_cliente_novo' %}">
                                                         {% csrf_token %}
+                                                        <input hidden name='assessor' value='{{cliente.assessor}}'>
 
 
                                                         <td class="text-center"><span style="margin-top: 150px">{{ cliente.nickname }}</span> <input  hidden value="{{ cliente.id }}" name="id"></td>
@@ -405,18 +377,19 @@
                                                                 <option value="F" {% if cliente.sexo == 'F' %} selected {% endif %}>F</option>
                                                             </select>
                                                         </td>
-                                                        <td><input type="text" class="form-control" name="email" value="{{ cliente.email|default:'' }}" required></td>
-                                                        <td><input type="text" class="form-control" name="telefone" value="{{ cliente.telefone|default:'' }}" required></td>
-                                                        <td><input type="text" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento|default:'' }}" required></td>
+                                                        <td><input type="email" class="form-control" name="email" value="{{ cliente.email|default:'' }}" required></td>
+                                                        <td><input type="text" class="form-control" name="telefone" data-inputmask="'mask': '99 99999-9999'" value="{{ cliente.telefone|default:'' }}" required></td>
+                                                        <td>
+                            <input type="date" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento|format_aniversario}}" required>
+                                                        </td>
                                                         <td class="text-center">
                                                             <input type="checkbox" style="margin-top: 15px" name="rotina" value="1" checked>
                                                         </td>
-                                                        <td>{{ cliente.data_registro }}</td>
+                                                        <td>{{ cliente.data_registro|date:'d/m/Y H:s:i' }}</td>
                                                         <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
                                                     </form>
                                                     </tr>
 
-                                            {% endif %}
 
                                         {% endfor %}
 
@@ -438,7 +411,6 @@
                                             <th>Telefone</th>
                                             <th>Nascimento</th>
                                             <th>Rotina</th>
-                                            {# <th>Whats/E-mail</th>#}
                                             <th>Data</th>
                                             <th></th>
 
@@ -451,6 +423,7 @@
                                         <tr>
                                             <form method="post" action="{% url 'clients:update_troca_assessor_externo' %}">
                                                 {% csrf_token %}
+                                                <input hidden name='assessor' value='{{cliente.assessor}}'>
 
 
                                                 <td class="text-center"><span style="margin-top: 150px">{{ cliente.nickname }}</span> <input  hidden value="{{ cliente.id }}" name="id"></td>
@@ -463,12 +436,12 @@
                                                     </select>
                                                 </td>
                                                 <td><input type="text" class="form-control" name="email" value="{{ cliente.email|default:'' }}" required></td>
-                                                <td><input type="text" class="form-control" name="telefone" value="{{ cliente.telefone|default:'' }}" required></td>
-                                                <td><input type="text" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento|default:'' }}" required></td>
+                                                <td><input type="text" class="form-control" name="telefone" data-inputmask="'mask': '99 99999-9999'" value="{{ cliente.telefone|default:'' }}" required></td>
+                                                <td><input type="date" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento|format_aniversario }}" required></td>
                                                 <td class="text-center">
                                                     <input type="checkbox" style="margin-top: 15px" name="rotina" value="1" checked>
                                                 </td>
-                                                <td>{{ cliente.data_registro }}</td>
+                                                <td>{{ cliente.data_registro|date:'d/m/Y H:s:i' }}</td>
                                                 <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
                                             </form>
                                             </tr>
@@ -492,7 +465,6 @@
                                             <th>Assessor</th>
                                             <th>Antigo Assessor</th>
                                             <th>Rotina</th>
-                                            {#<th>Whats/E-mail</th>#}
                                             <th>Data</th>
                                             <th>Ações</th>
                                         </tr>
@@ -503,17 +475,18 @@
 
                                             <tr>
                                                 <td>{{ troca.nickname }}</td>
-                                                <td>{{ troca.nome|lower|capfirst }}</td>
-                                                <td>{{ troca.sexo }}</td>
-                                                <td>{{ troca.assessor }}</td>
-                                                <td>{{ troca.antigo_assessor }}</td>
-
                                                 <form method="post" action="{% url 'clients:update_troca_assessor' %}">
                                                     {% csrf_token %}
-
-
-                                                    <td class="text-center"><input name="id" hidden value="{{ troca.id }}"><input type="checkbox" style="margin-top: 15px" name="rotina" value="1" checked ></td>
-                                                    <td>{{ troca.data_registro }} </td>
+                                                    <input hidden name='assessor' value='{{troca.assessor}}'>
+                                                    <td><input name="nome" class="form-control" value="{{ troca.nome|lower|capfirst }}"></td>
+                                                    <td>{{ troca.sexo }}</td>
+                                                    <td>{{ troca.assessor }}</td>
+                                                    <td>{{ troca.antigo_assessor }}</td>
+                                                    <td class="text-center">
+                                                        <input name="id" hidden value="{{ troca.id }}">
+                                                        <input type="checkbox" style="margin-top: 15px" name="rotina" value="1" checked >
+                                                    </td>
+                                                    <td>{{ troca.data_registro|date:'d/m/Y H:s:i' }} </td>
                                                     <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
                                                 </form>
                                             </tr>
@@ -529,21 +502,24 @@
                                 <table id="dt-basic-example9" class="table table-bordered table-hover table-striped w-100 table-sm" >
 
                                     <thead>
+                                        <tr class="text-center">
+                                            <th style="white-space:nowrap;" rowspan="2">Código</th>
+                                            <th style="white-space:nowrap;" rowspan="2">Nome</th>
+                                            <th style="white-space:nowrap;" rowspan="2">Email <br> On Bording</th>
+                                            <th style="white-space:nowrap;" rowspan="2">Frequência <br> de Contato</th>
+                                            <th style="white-space:nowrap;" rowspan="2">Perfil <br> Preenchido</th>
+                                            <th style="white-space:nowrap;" rowspan="2">Meio <br> de Contato</th>
+                                            <th style="white-space:nowrap;" rowspan="2">Acomp. <br> Permanente</th>
+                                            <th colspan="4">Oportunidades</th>
+                                            <th style="white-space:nowrap;" rowspan="2">Sugestão <br> Enviada </th>
+                                            <th style="white-space:nowrap;" rowspan="2">Sugestão <br> Alocada</th>
+                                            <th class="phone" rowspan="2">Observação</th>
+                                        </tr>
                                         <tr>
-                                            <th style="white-space:nowrap;">Email OnB.</th>
-                                            <th style="white-space:nowrap;">Cod</th>
-                                            <th style="white-space:nowrap;">Nome</th>
-                                            <th style="white-space:nowrap;">Freq. de cont.</th>
-                                            <th style="white-space:nowrap;">Perfil preen.</th>
-                                            <th class="" style="white-space:nowrap;">Meio de con.</th>
-                                            <th class="" style="white-space:nowrap;">Acomp. Perm.</th>
-                                            <th class="" style="white-space:nowrap;">Oport. RF</th>
-                                            <th class="" style="white-space:nowrap;">Oport. Ações</th>
-                                            <th class="" style="white-space:nowrap;">Oport. Fii</th>
-                                            <th class="" style="white-space:nowrap;">Oport. F. Invest.</th>
-                                            <th style="white-space:nowrap;">Sugestão</th>
-                                            <th style="white-space:nowrap;">Implm. Sugestão</th>
-                                            <th class="phone">Observação</th>
+                                            <th style="white-space:nowrap;">RF</th>
+                                            <th style="white-space:nowrap;">Ações</th>
+                                            <th style="white-space:nowrap;">FII</th>
+                                            <th style="white-space:nowrap;">Fundos</th>
                                         </tr>
                                     </thead>
 
@@ -551,56 +527,128 @@
                                     {% for cliente in onbording %}
 
                                             <tr>
-                                                <td><button class="btn btn-sm btn-default" onclick="sendEmailQuestionario('{{ cliente.id }}')">Enviar</button></td>
-                                                <td>
-                                                    {{ cliente.nickname }}
+                                                <td>{{ cliente.cliente_id|getCodeClient }}</td>
+                                                <td>{{ cliente.cliente_id|getNameClient|split:' '|first }}</td>
+
+                                                <td class='text-center'> 
+                                                    <a href="javascript:void(0);" class="btn btn-default btn-sm btn-icon waves-effect waves-themed thisButton" >
+                                                        <i class="fal fa-times"></i>
+                                                    </a>
                                                 </td>
-                                                <td>{{ cliente.nome|split:' '|first }}</td>
+                                                
+
                                                 <td>
-                                                    <select id="frequencia_contato" class="form-control" name="frequencia_contato" required onchange="change_frequencia('{{ cliente.id }}', this)">
-                                                        <option value="Não Definido" {% if cliente.frequencia_contato == 'Não Definido' %} selected {% endif %}>Não Definido</option>
-                                                        <option value="1 mês" {% if cliente.frequencia_contato == '1 mês' %} selected {% endif %}>1 mês</option>
-                                                        <option value="3 mêses" {% if cliente.frequencia_contato == '3 mêses' %} selected {% endif %}>3 mêses</option>
-                                                        <option value="6 mêses" {% if cliente.frequencia_contato == '6 mêses' %} selected {% endif %}>6 mêses</option>
-                                                        <option value="12 mêses" {% if cliente.frequencia_contato == '12 mêses' %} selected {% endif %}>12 mêses</option>
+                                                    <select class="form-control" id="frequencia_contato"  name="frequencia_contato"  onchange="updateOnbording('{{ cliente.cliente_id }}','frequenciaContato', this)">
+                                                        <option value="Não Definido" {%if cliente.frequencia_contato == "Não Definido"%} selected{%endif%}>Não Definido</option>
+                                                        <option value="1 mes" {%if cliente.frequencia_contato == "1 mes"%} selected{%endif%}>1 mes</option>
+                                                        <option value="3 meses" {%if cliente.frequencia_contato == "3 meses"%} selected{%endif%}>3 meses</option>
+                                                        <option value="6 meses" {%if cliente.frequencia_contato == "6 meses"%} selected{%endif%}>6 meses</option>
+                                                        <option value="12 meses" {%if cliente.frequencia_contato == "12 meses"%} selected{%endif%}>12 meses</option>
                                                     </select>
                                                 </td>
-                                                <td>
-                                                    {% if cliente.onbording_perfil_preenchido == None or cliente.onbording_perfil_preenchido == '' %}
-                                                        <button class="btn btn-sm btn-default" onclick="perfilPreenchido('{{ cliente.id }}')">Perfil Preenchido</button>
-                                                    {% else %}
-                                                        <button class="btn btn-sm btn-default disabled" >Preenchido <i class="fal fa-check-circle text-success"></i></button>
-                                                    {% endif %}
+
+                                                <td class="text-center">
+                                                    <a href="javascript:void(0);" class="btn {%if cliente.id|check_preenchido == 'vazio'%} btn-default {%else%} btn-success {%endif%} btn-sm btn-icon waves-effect waves-themed thisButton" onclick="updateOnbording('{{ cliente.cliente_id }}','perfilPreenchido', 1)">
+                                                        {%if cliente.id|check_preenchido == 'vazio'%}
+                                                        <i class="fal fa-times"></i>
+                                                        {%else%}
+                                                        <i class="fal fa-check"></i>
+                                                        {%endif%}
+                                                    </a>
                                                 </td>
+
                                                 <td>
-                                                    <select id="zap_mail" class="form-control" name="zap_mail" required onchange="change_contato('{{ cliente.id }}', this)">
-                                                        <option value="Não Definido" {% if cliente.zap_mail == 'Não Definido' %} selected {% endif %}>Não Definido</option>
-                                                        <option value="WhatsApp" {% if cliente.zap_mail == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
-                                                        <option value="Telefone" {% if cliente.zap_mail == 'Telefone' %} selected {% endif %}>Telefone</option>
-                                                        <option value="Email" {% if cliente.zap_mail == 'Email' %} selected {% endif %}>Email</option>
+                                                    <select id="zap_mail" class="form-control" name="zap_mail" required onchange="updateOnbording('{{ cliente.cliente_id }}','meioDeContato', this)">
+                                                        <option value="Não Definido" {% if cliente.meio_contato == 'Não Definido' %} selected {% endif %}>Não Definido</option>
+                                                        <option value="WhatsApp" {% if cliente.meio_contato == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
+                                                        <option value="Telefone" {% if cliente.meio_contato == 'Telefone' %} selected {% endif %}>Telefone</option>
+                                                        <option value="Email" {% if cliente.meio_contato == 'Email' %} selected {% endif %}>Email</option>
                                                     </select>
                                                 </td>
-                                                <td><input type="checkbox" {% if cliente.onbording_acomp_per == 'Sim' %} checked {% endif %}  onchange="checkAcomPerm('{{ cliente.id }}', this)"></td>
-                                                <td><input type="checkbox" {% if cliente.onbording_acomp_rf == 'Sim' %} checked {% endif %} onchange="OptRf('{{ cliente.id }}', this)"></td>
-                                                <td><input type="checkbox" {% if cliente.onbording_acomp_acoes == 'Sim' %} checked {% endif %} onchange="OptAcoes('{{ cliente.id }}', this)"></td>
-                                                <td><input type="checkbox" {% if cliente.onbording_acomp_fii == 'Sim' %} checked {% endif %} onchange="OptFii('{{ cliente.id }}', this)"></td>
-                                                <td><input type="checkbox" {% if cliente.onbording_acomp_fiinvest == 'Sim' %} checked {% endif %} onchange="OptFinvest('{{ cliente.id }}', this)"></td>
-                                                <td>
-                                                    {% if cliente.onbording_envio_sugestao == None or cliente.onbording_envio_sugestao == '' %}
-                                                        <button id="btnSujest_{{ cleinte.id }}" class="btn btn-sm btn-default" onclick="enviarSugest('{{ cliente.id }}')">Enviar sugestão</button>
-                                                    {% else %}
-                                                        <button class="btn btn-sm btn-default disabled" >Enviado <i class="fal fa-check-circle text-success"></i></button>
-                                                    {% endif %}
+
+                                                <td class="text-center">
+                                                    <a href="javascript:void(0);" class="btn {%if cliente.acomp_permanente == False %}btn-default{%else%}btn-success{%endif%} btn-sm btn-icon waves-effect waves-themed thisButtonToggle btnFalse" onclick="updateOnbording('{{ cliente.cliente_id }}','acompanhamentoPermanente', 1)">
+                                                        {%if cliente.acomp_permanente == False %}
+                                                        <i class="fal fa-times"></i>
+                                                        {%else%}
+                                                        <i class="fal fa-check"></i>
+                                                        {%endif%}
+                                                    </a>
+                                                    </a>
                                                 </td>
-                                                <td>
-                                                    {% if cliente.onbording_impl_envio_sugestao == None or cliente.onbording_impl_envio_sugestao == '' %}
+
+                                                <td class="text-center">
+                                                    <a href="javascript:void(0);" class="btn {%if cliente.oportunidade_rf == False %}btn-default{%else%}btn-success{%endif%} btn-sm btn-icon waves-effect waves-themed thisButtonToggle btnFalse" onclick="updateOnbording('{{ cliente.cliente_id }}','opRF', 1)">
+                                                        {%if cliente.oportunidade_rf == False %}
+                                                        <i class="fal fa-times"></i>
+                                                        {%else%}
+                                                        <i class="fal fa-check"></i>
+                                                        {%endif%}
+                                                    </a>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <a href="javascript:void(0);" class="btn {%if cliente.oportunidade_acoes == False %}btn-default{%else%}btn-success{%endif%} btn-sm btn-icon waves-effect waves-themed thisButtonToggle btnFalse" onclick="updateOnbording('{{ cliente.cliente_id }}','opAcoes', 1)">
+                                                        {%if cliente.oportunidade_acoes == False %}
+                                                        <i class="fal fa-times"></i>
+                                                        {%else%}
+                                                        <i class="fal fa-check"></i>
+                                                        {%endif%}
+                                                    </a>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <a href="javascript:void(0);" class="btn {%if cliente.oportunidade_fii == False %}btn-default{%else%}btn-success{%endif%} btn-sm btn-icon waves-effect waves-themed thisButtonToggle btnFalse" onclick="updateOnbording('{{ cliente.cliente_id }}','opFII', 1)">
+                                                        {%if cliente.oportunidade_fii == False %}
+                                                        <i class="fal fa-times"></i>
+                                                        {%else%}
+                                                        <i class="fal fa-check"></i>
+                                                        {%endif%}
+                                                    </a>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <a href="javascript:void(0);" class="btn {%if cliente.oportunidade_fundos == False %}btn-default{%else%}btn-success{%endif%} btn-sm btn-icon waves-effect waves-themed thisButtonToggle btnFalse" onclick="updateOnbording('{{ cliente.cliente_id }}','opFundos', 1)">
+                                                        {%if cliente.oportunidade_fundos == False %}
+                                                        <i class="fal fa-times"></i>
+                                                        {%else%}
+                                                        <i class="fal fa-check"></i>
+                                                        {%endif%}
+                                                    </a>
+                                                </td>
+                                                
+                                                <td class="text-center">
+                                                    <a href="javascript:void(0);" class="btn {%if cliente.id|check_sugestao == 'vazio'%} btn-default{%else%} btn-success {%endif%} btn-sm btn-icon waves-effect waves-themed thisButton btnFalse" onclick="updateOnbording('{{ cliente.cliente_id }}','sugestao', 1)">
+                                                        {%if cliente.id|check_sugestao == 'vazio' %}
+                                                        <i class="fal fa-times"></i>
+                                                        {%else%}
+                                                        <i class="fal fa-check"></i>
+                                                        {%endif%}
+                                                    </a>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <a href="javascript:void(0);" class="btn {%if cliente.id|check_alocacao == 'vazio'%} btn-default{%else%} btn-success {%endif%} btn-sm btn-icon waves-effect waves-themed thisButton btnFalse" onclick="updateOnbording('{{ cliente.cliente_id }}','alocacao', 1)">
+                                                        {%if cliente.id|check_alocacao == 'vazio'%}
+                                                        <i class="fal fa-times"></i>
+                                                        {%else%}
+                                                        <i class="fal fa-check"></i>
+                                                        {%endif%}
+                                                    </a>
+                                                    {% comment %} {% if cliente.onbording_impl_envio_sugestao == None or cliente.onbording_impl_envio_sugestao == '' %}
                                                         <button class="btn btn-sm btn-default" onclick="enviarImplement('{{ cliente.id }}')">Implementaão de sugestão</button>
                                                     {% else %}
                                                         <button class="btn btn-sm btn-default disabled" >Enviado <i class="fal fa-check-circle text-success"></i></button>
-                                                    {% endif %}
+                                                    {% endif %} {% endcomment %}
 
                                                 </td>
-                                                <td><button id="addobserva" class="btn btn-sm btn-default" data-toggle="modal" data-target="#default-example-modal" onclick="obsOpen('{{ cliente.id }}', '{{ cliente.onbording_obs }}')">Adicionar</button> &nbsp; {{ cliente.onbording_obs|default:'Nenhuma observação adicionada até o momento' }}</td>
+
+                                                <td class="text-center"> 
+                                                    <button id="addobserva" class="btn btn-sm btn-default" data-toggle="modal" data-target="#default-example-modal" onclick="obsOpen('{{ cliente.id }}', '{{ cliente.onbording_obs }}')">Adicionar</button> &nbsp; {{ cliente.onbording_obs|default:'' }} 
+                                                    <a href="javascript:void(0);" class="btn btn-default btn-sm btn-icon waves-effect waves-themed thisButton" >
+                                                        <i class="fal fa-times"></i>
+                                                    </a>
+                                                </td>
 
 
                                             </tr>

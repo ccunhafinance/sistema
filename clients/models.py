@@ -11,39 +11,49 @@ class Clientes(models.Model):
     telefone = models.CharField("Telefone", max_length=100, blank=True, null=True)
     assessor = models.CharField("Assessor", max_length=100, blank=True, null=True)
     antigo_assessor = models.CharField("Antigo Assessor", max_length=100, blank=True, null=True)
-    data_nascimento = models.CharField("Data de Nascimento", max_length=100, blank=True, null=True)
+    data_nascimento =models.CharField("Nascimento", max_length=100, blank=True, null=True)
+
     d0 = models.CharField("Saldo em D0", max_length=100, blank=True, null=True)
     d1 = models.CharField("Saldo em D1", max_length=100, blank=True, null=True)
     d2 = models.CharField("Saldo em D2", max_length=100, blank=True, null=True)
     d3 = models.CharField("Saldo em D3", max_length=100, blank=True, null=True)
     d4 = models.CharField("Saldo em D4", max_length=100, blank=True, null=True)
+
     status = models.CharField("Status", max_length=100, blank=True, null=True)
     troca = models.CharField("Troca", max_length=100, blank=True, null=True)
-    rotina = models.CharField("Rotina", max_length=100, blank=True, null=True)
-    zap_mail = models.CharField("Zap", max_length=100, blank=True, null=True)
-    cliente_dia = models.CharField("New", max_length=100, blank=True, null=True)
-    data_registro = models.CharField("Data Registro", max_length=100, blank=True, null=True)
-    # novos campos
-    frequencia_contato = models.CharField(max_length=100, blank=True, null=True)
-    onbording_acomp_per = models.CharField(max_length=100, blank=True, null=True)
-    onbording_acomp_rf = models.CharField(max_length=100, blank=True, null=True)
-    onbording_acomp_acoes = models.CharField(max_length=100, blank=True, null=True)
-    onbording_acomp_fii = models.CharField(max_length=100, blank=True, null=True)
-    onbording_acomp_fiinvest = models.CharField(max_length=100, blank=True, null=True)
-    onbording_obs = models.TextField(blank=True, null=True)
-    onbording_email = models.TextField(blank=True, null=True)
-    onbording_envio_sugestao = models.TextField(blank=True, null=True)
-    onbording_impl_envio_sugestao = models.TextField(blank=True, null=True)
-    onbording_perfil_preenchido = models.TextField(blank=True, null=True)
+    rotina = models.BooleanField(default=False)
+    cliente_dia = models.BooleanField(default=False)
+    data_registro = models.DateTimeField(auto_now_add=True, blank=True)
+    last_update = models.DateTimeField(auto_now=True, blank=True, null=True)
     token = models.TextField(blank=True, null=True)
 
+class ClientsOnbording(models.Model):
+    choiceFreqContato = (("Não Definido", "Não Definido"),("1 mes", "1 mes"),("3 meses", "3 meses"),("6 meses", "6 meses"),("12 meses", "12 meses"))
+    choiceAcompanPerm = (("Não Definido", "Não Definido"),("WhatsApp", "WhatsApp"),("Telefone", "Telefone"),("Email", "Email"))
 
+    cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
+    assessor = models.CharField("Assessor", max_length=100, blank=True, null=True)
 
-# Create your models here.
+    email = models.BooleanField(default=False, blank=True, null=True)
+    frequencia_contato = models.CharField(max_length=12, choices=choiceFreqContato, blank=True, null=True)
+    perfil_preenchido = models.DateTimeField(blank=True, null=True)
+    meio_contato = models.CharField(max_length=12, choices=choiceAcompanPerm, blank=True, null=True)
+    acomp_permanente = models.BooleanField(default=False, blank=True, null=True)
+
+    oportunidade_rf = models.BooleanField(default=False, blank=True, null=True)
+    oportunidade_acoes = models.BooleanField(default=False, blank=True, null=True)
+    oportunidade_fii = models.BooleanField(default=False, blank=True, null=True)
+    oportunidade_fundos = models.BooleanField(default=False, blank=True, null=True)
+
+    sujestao = models.DateTimeField(blank=True, null=True)
+    alocacao = models.DateTimeField(blank=True, null=True)
+
+    obs = models.TextField(blank=True, null=True)
+
 class Espelhamento(models.Model):
     assessor = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     assessor_permited = models.IntegerField('Assessor a Espelhar')
-    data = models.DateField(default=date.today)
+    data = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.assessor.first_name)

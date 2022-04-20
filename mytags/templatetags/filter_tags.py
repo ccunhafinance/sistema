@@ -1,7 +1,10 @@
 import json
 import os
+from numpy import safe_eval
 
-from clients.models import Espelhamento, Clientes
+from yaml import SafeDumper, safe_dump, safe_dump_all, safe_load
+
+from clients.models import Espelhamento, Clientes, ClientsOnbording
 from mail.models import EmailCategoria, Categoria
 from offers.models import *
 from django import template
@@ -9,6 +12,11 @@ import locale
 from datetime import date
 from datetime import datetime
 from users.models import UserProfile, CustomUser
+from bs4 import BeautifulSoup
+import time
+import pandas as pd
+
+
 
 register = template.Library()
 
@@ -102,10 +110,110 @@ def liquidacao(value):
     return second
 
 @register.filter
+def tiraporcentagem(value):
+    
+        a = value.replace('%', '')
+        a = a.replace(',', '.')
+        a = a.replace('', '')
+        if a == '#N/D' or a == 'n/a' or a == '':
+            return 'n/a'
+        else:
+            final = float(a)-100
+            val = ('%.2f' %final)
+
+            if final < 0:
+                return "<span class='text-danger'> "+val.replace('.',',')+'%'+'</span>'
+            else:
+                return "<span class='text-success'> "+val.replace('.',',')+'%'+'</span>'
+      
+
+
+@register.filter
 def replace_documentacao(value):
-    first = value.replace('<td>', '')
-    second = first.replace('</td>', '')
-    return second
+    if value == '':
+        return "<span style='color:#fff'>>>>>>>></span>"
+    else:
+        soup = BeautifulSoup(value, 'lxml')
+        text = soup.a
+        if text == None:
+            return soup.get_text()
+        else:
+       
+            return text 
+
+@register.filter
+def getcliqueaqui(value):
+   
+        soup = BeautifulSoup(value, 'lxml')
+        text = soup.a['href']
+
+        # print(soup)
+       
+        return text
+
+
+@register.filter
+def checkdata(value):
+
+    if value == 'n/a' or value == '':
+
+        return '<span class="text-muted">'+value+"</span>"
+
+    else:
+        
+        today = datetime.today().strftime('%d/%m/%Y')
+        newdate1 = time.strptime(value, "%d/%m/%Y")
+        newdate2 = time.strptime(today, "%d/%m/%Y")
+
+        # print(newdate2)
+
+        if newdate1 == newdate2:
+            return '<span class="text-danger">'+value+"</span>"
+        else:
+            return '<span class="text-muted">'+value+"</span>"
+
+@register.filter
+def checkdatainicio(inicio, fim):
+
+    if inicio == 'n/a' or inicio == '':
+
+        return 'text-muted'
+
+    else:
+
+        today = datetime.today().strftime('%d/%m/%Y')
+        start = time.strptime(inicio, "%d/%m/%Y")
+        end = time.strptime(fim, "%d/%m/%Y")
+        hoje = time.strptime(today, "%d/%m/%Y")
+
+        if start <= hoje <= end:
+            return 'text-info'
+        else:
+            return 'text-muted'
+
+
+
+       
+    
+
+  
+
+@register.filter
+def getzap(value):
+    return Clientes.objects.get(nickname=value).telefone
+
+@register.filter
+def getzapClean(value):
+    zap =  Clientes.objects.get(nickname=value).telefone
+    zap = zap.replace('-','')
+    zap = zap.replace(' ','')
+    return zap
+
+@register.filter
+def getjustnamefii(value):
+    soup = BeautifulSoup(value, 'lxml')
+    text = soup.get_text()
+    return text
 
 @register.filter
 def takeoff11(value):
@@ -212,41 +320,77 @@ def get_user_fii_data(value):
 
     return assessor.codigo+ ' - ' +assessor.first_name + ' ' + assessor.last_name
 
+
+@register.filter
+def getCodeClient(value):
+    return Clientes.objects.get(id=value).nickname
+
+@register.filter
+def format_aniversario(value):
+
+    if str(value) == '00:00:00':
+        return ''
+    else:
+        return str(value).split()[0]
+
+    
+
+
+@register.filter
+def check_preenchido(value):
+    t =  ClientsOnbording.objects.get(id=value).perfil_preenchido
+
+    if t == None:
+        return 'vazio'
+    else:
+        'ok'
+
+@register.filter
+def check_sugestao(value):
+    t =  ClientsOnbording.objects.get(id=value).sujestao
+
+    if t == None:
+        return 'vazio'
+    else:
+        'ok'
+
+@register.filter
+def check_alocacao(value):
+    t =  ClientsOnbording.objects.get(id=value).alocacao
+
+    if t == None:
+        return 'vazio'
+    else:
+        'ok'
+
+
+@register.filter
+def getNameClient(value):
+    return Clientes.objects.get(id=value).nome
+
 @register.filter
 def get_cliente_nome(value):
 
-    clientes = Clientes.objects.all()
+    return Clientes.objects.get(nickname=str(value)).nome
 
-    nome = ''
-    for cliente in clientes:
-        if cliente['nickname'] == int(value):
-            nome = cliente['nome']
-
-    # print(nome)
-
-    return nome
+    
 
 @register.filter
 def get_cliente_first_nome(value):
-    clientes = Clientes.objects.all()
+    return Clientes.objects.get(nickname=str(value)).nome
 
-    nome = ''
-    for cliente in clientes:
-        if cliente['nickname'] == int(value):
-            nome = cliente['nome']
-
-    # print(nome)
-
-    return nome
+   
 
 
 @register.filter
 def calc_val_financeiro(preco, quant):
 
-    a = preco.replace('R$ ','')
-    b = a.replace(',','.')
+    a = preco.replace('R$ ', '')
+    a = a.replace(',', '.')
+    a = a.replace(' ', '')
+    print(a)
 
-    press = float(b)
+    press = float(str(a))
     quantidade = int(quant)
 
     return press*quantidade

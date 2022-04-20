@@ -1,477 +1,132 @@
 {% load static %}
 <script src="{% static 'js/notifications/sweetalert2/sweetalert2.bundle.js' %}"></script>
 <script src="{% static 'js/notifications/toastr/toastr.js' %}"></script>
+<script src="{% static 'js/clipboard/clipboard.min.js' %}"></script>
+<script src="{% static 'js/formplugins/inputmask/inputmask.bundle.js' %}"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.11.5/af-2.3.7/b-2.2.2/b-colvis-2.2.2/b-html5-2.2.2/b-print-2.2.2/cr-1.5.5/date-1.1.2/fc-4.0.2/fh-3.2.2/kt-2.6.4/r-2.2.9/rg-1.1.4/rr-1.2.8/sc-2.0.5/sb-1.3.2/sp-2.0.0/sl-1.3.4/sr-1.1.0/datatables.min.js"></script> 
-
-<!-- Clipboard -->
-<script src="{% static 'js/clipboard/clipboard.min.js' %}"></script>
-
-
-
 
 <script>
 
     {% comment %} document.getElementById("inputGroupFile01").addEventListener("change", checkFilebtn); {% endcomment %}
 
-    $('input[name=myfile]').change(function(ev) {
-
-        document.getElementById('inputGroupFileAddon01').removeAttribute('disabled')
-
-    });
-
-    $("#inputGroupFileAddon01").on("click", function()
-                {
-                    var timerInterval;
-                    Swal.fire(
-                    {
-                        title: "Fazendo Upload do arquivo",
-                        html: "Carregando <strong></strong> ...",
-                        timer: 50000,
-                        onBeforeOpen: function onBeforeOpen()
-                        {
-                            Swal.showLoading();
-                            timerInterval = setInterval(function()
-                            {
-                                Swal.getContent().querySelector(
-                                    "strong"
-                                ).textContent = Swal.getTimerLeft();
-                            }, 100);
-                        },
-                        onClose: function onClose()
-                        {
-                            clearInterval(timerInterval);
-                        }
-                    }).then(function(result)
-                    {
-                        if (
-                            // Read more about handling dismissals
-                            result.dismiss === Swal.DismissReason.timer
-                        )
-                        {
-                            console.log("I was closed by the timer");
-                        }
-                    });
-                }); //Right-to-left support for Arabic, Hebrew, and other RTL languages
     
-    
-    
-                $(document).ready(function (){
-
-        new Clipboard('.bt-copy');
-
-        
-
-    });
-
-    function copiei() {
-
-        $('#copiado').html('<span class="badge badge-success" style="float:right">Corpo do email copiado</span>').delay(2000).fadeOut('slow');
-
-    }
 
     $(document).ready(function(){
 
-                "use strict";
+        $(":input").inputmask();
 
-                //A basic message
-                $("#js-sweetalert2-example-1").on("click", function()
+        new Clipboard('.bt-copy');
+
+        $('input[name=myfile]').change(function(ev){
+            document.getElementById('inputGroupFileAddon01').removeAttribute('disabled')
+        });
+
+        $("#inputGroupFileAddon01").on("click", function(){
+            var timerInterval;
+            Swal.fire(
+            {
+                title: "Fazendo Upload do arquivo",
+                html: "Carregando <strong></strong> ...",
+                timer: 50000,
+                onBeforeOpen: function onBeforeOpen()
                 {
-                    Swal.fire("Any fool can use a computer");
-                }); //A title with a text under
-
-                $("#js-sweetalert2-example-2").on("click", function()
+                    Swal.showLoading();
+                    timerInterval = setInterval(function()
+                    {
+                        Swal.getContent().querySelector(
+                            "strong"
+                        ).textContent = Swal.getTimerLeft();
+                    }, 100);
+                },
+                onClose: function onClose()
                 {
-                    Swal.fire("The Internet?", "That thing is still around?", "question");
-                }); //A modal with a title, an error icon, a text, and a footer
-
-                $("#js-sweetalert2-example-3").on("click", function()
+                    clearInterval(timerInterval);
+                }
+            }).then(function(result)
+            {
+                if (
+                    // Read more about handling dismissals
+                    result.dismiss === Swal.DismissReason.timer
+                )
                 {
-                    Swal.fire(
-                    {
-                        type: "error",
-                        title: "Oops...",
-                        text: "Something went wrong!",
-                        footer: "<a href>Why do I have this issue?</a>"
-                    });
-                }); //A modal window with a long content inside:
+                    console.log("I was closed by the timer");
+                }
+            });
+        });
 
-                $("#js-sweetalert2-example-4").on("click", function()
+        $("#js-sweetalert2-example-8").on("click", function(){
+            var swalWithBootstrapButtons = Swal.mixin(
+            {
+                customClass:
                 {
-                    Swal.fire(
-                    {
-                        imageUrl: "https://placeholder.pics/svg/300x1500",
-                        imageHeight: 1500,
-                        imageAlt: "A tall image"
-                    });
-                }); //Custom HTML description and buttons with ARIA labels
-
-                $("#js-sweetalert2-example-5").on("click", function()
+                    confirmButton: "btn btn-primary",
+                    cancelButton: "btn btn-danger mr-2"
+                },
+                buttonsStyling: false
+            });
+            swalWithBootstrapButtons
+                .fire(
                 {
-                    Swal.fire(
-                    {
-                        title: "<strong>HTML <u>example</u></strong>",
-                        type: "info",
-                        html: "You can use <b>bold text</b>, " +
-                            '<a href="//github.com">links</a> ' +
-                            "and other HTML tags",
-                        showCloseButton: true,
-                        showCancelButton: true,
-                        focusConfirm: false,
-                        confirmButtonText: '<i class="fal fa-thumbs-up"></i> Great!',
-                        confirmButtonAriaLabel: "Thumbs up, great!",
-                        cancelButtonText: '<i class="fal fa-thumbs-down"></i>',
-                        cancelButtonAriaLabel: "Thumbs down"
-                    });
-                }); //A custom positioned dialog
-
-                $("#js-sweetalert2-example-6").on("click", function()
+                    title: "Tem certeza que deseja excluir toda a base de dados?",
+                    text: "Você não será capaz de reverter este processo!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Sim, excluir!",
+                    cancelButtonText: "Não, cancelar!",
+                    reverseButtons: true
+                })
+                .then(function(result)
                 {
-                    Swal.fire(
+                    if (result.value)
                     {
-                        position: "top-end",
-                        type: "success",
-                        title: "Your work has been saved",
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }); //A confirm dialog, with a function attached to the "Confirm"-button...
-
-                $("#js-sweetalert2-example-7").on("click", function()
-                {
-                    Swal.fire(
-                    {
-                        title: "Are you sure?",
-                        text: "You won't be able to revert this!",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonText: "Yes, delete it!"
-                    }).then(function(result)
-                    {
-                        if (result.value)
-                        {
-                            Swal.fire("Deleted!", "Your file has been deleted.", "success");
-                        }
-                    });
-                }); // ... and by passing a parameter, you can execute something else for "Cancel".
-
-                $("#js-sweetalert2-example-8").on("click", function()
-                {
-                    var swalWithBootstrapButtons = Swal.mixin(
-                    {
-                        customClass:
-                        {
-                            confirmButton: "btn btn-primary",
-                            cancelButton: "btn btn-danger mr-2"
-                        },
-                        buttonsStyling: false
-                    });
-                    swalWithBootstrapButtons
-                        .fire(
-                        {
-                            title: "Tem certeza que deseja excluir toda a base de dados?",
-                            text: "Você não será capaz de reverter este processo!",
-                            type: "warning",
-                            showCancelButton: true,
-                            confirmButtonText: "Sim, excluir!",
-                            cancelButtonText: "Não, cancelar!",
-                            reverseButtons: true
-                        })
-                        .then(function(result)
-                        {
-                            if (result.value)
-                            {
-                                swalWithBootstrapButtons.fire(
-                                    "Excluido!",
-                                    "Todos os dados foram apagados.",
-                                    "success"
-                                ).then(function() {
-                                                window.location = "{% url 'clients:delet_all' %}";
-                                            });
-                            }
-                            else if (
-                                // Read more about handling dismissals
-                                result.dismiss === Swal.DismissReason.cancel
-                            )
-                            {
-                                swalWithBootstrapButtons.fire(
-                                    "Ok",
-                                    "Os dados foram mantidos!",
-                                    "error"
-                                );
-                            }
-                        });
-                }); // A message with a custom image and CSS animation disabled
-
-                $("#js-sweetalert2-example-9").on("click", function()
-                {
-                    Swal.fire(
-                    {
-                        title: "Sweet!",
-                        text: "Modal with a custom image.",
-                        imageUrl: "https://unsplash.it/400/200",
-                        imageWidth: 400,
-                        imageHeight: 200,
-                        imageAlt: "Custom image",
-                        animation: false
-                    });
-                }); //A message with custom width, padding, background and animated Nyan Cat
-
-                $("#js-sweetalert2-example-10").on("click", function()
-                {
-                    Swal.fire(
-                    {
-                        title: "Custom width, padding, background.",
-                        width: 600,
-                        padding: "3em",
-                        background: "#fff url(/images/trees.png)",
-                        backdrop: '\n\t\t\t    rgba(0,0,123,0.4)\n\t\t\t    url("/images/nyan-cat.gif")\n\t\t\t    center left\n\t\t\t    no-repeat\n\t\t\t  '
-                    });
-                }); // A message with auto close timer
-
-                $("#js-sweetalert2-example-11").on("click", function()
-                {
-                    var timerInterval;
-                    Swal.fire(
-                    {
-                        title: "Auto close alert!",
-                        html: "I will close in <strong></strong> seconds.",
-                        timer: 2000,
-                        onBeforeOpen: function onBeforeOpen()
-                        {
-                            Swal.showLoading();
-                            timerInterval = setInterval(function()
-                            {
-                                Swal.getContent().querySelector(
-                                    "strong"
-                                ).textContent = Swal.getTimerLeft();
-                            }, 100);
-                        },
-                        onClose: function onClose()
-                        {
-                            clearInterval(timerInterval);
-                        }
-                    }).then(function(result)
-                    {
-                        if (
-                            // Read more about handling dismissals
-                            result.dismiss === Swal.DismissReason.timer
-                        )
-                        {
-                            console.log("I was closed by the timer");
-                        }
-                    });
-                }); //Right-to-left support for Arabic, Hebrew, and other RTL languages
-
-                $("#js-sweetalert2-example-12").on("click", function()
-                {
-                    Swal.fire(
-                    {
-                        title: "هل تريد الاستمرار؟",
-                        type: "question",
-                        customClass:
-                        {
-                            icon: "swal2-arabic-question-mark"
-                        },
-                        confirmButtonText: "نعم",
-                        cancelButtonText: "لا",
-                        showCancelButton: true,
-                        showCloseButton: true
-                    });
-                }); //AJAX request example
-
-                $("#js-sweetalert2-example-13").on("click", function()
-                {
-                    Swal.fire(
-                    {
-                        title: "Submit your Github username",
-                        input: "text",
-                        inputAttributes:
-                        {
-                            autocapitalize: "off"
-                        },
-                        showCancelButton: true,
-                        confirmButtonText: "Look up",
-                        showLoaderOnConfirm: true,
-                        preConfirm: function preConfirm(login)
-                        {
-                            return fetch("//api.github.com/users/".concat(login))
-                                .then(function(response)
-                                {
-                                    if (!response.ok)
-                                    {
-                                        throw new Error(response.statusText);
-                                    }
-
-                                    return response.json();
-                                })
-                                .catch(function(error)
-                                {
-                                    Swal.showValidationMessage("Request failed: ".concat(error));
-                                });
-                        },
-                        allowOutsideClick: function allowOutsideClick()
-                        {
-                            return !Swal.isLoading();
-                        }
-                    }).then(function(result)
-                    {
-                        if (result.value)
-                        {
-                            Swal.fire(
-                            {
-                                title: "".concat(result.value.login, "'s avatar"),
-                                imageUrl: result.value.avatar_url
-                            });
-                        }
-                    });
-                }); //Dynamic queue example
-
-                $("#js-sweetalert2-example-14").on("click", function()
-                {
-                    var ipAPI = "https://api.ipify.org?format=json";
-                    Swal.queue([
-                    {
-                        title: "Your public IP",
-                        confirmButtonText: "Show my public IP",
-                        text: "Your public IP will be received " + "via AJAX request",
-                        showLoaderOnConfirm: true,
-                        preConfirm: function preConfirm()
-                        {
-                            return fetch(ipAPI)
-                                .then(function(response)
-                                {
-                                    return response.json();
-                                })
-                                .then(function(data)
-                                {
-                                    return Swal.insertQueueStep(data.ip);
-                                })
-                                .catch(function()
-                                {
-                                    Swal.insertQueueStep(
-                                    {
-                                        type: "error",
-                                        title: "Unable to get your public IP"
+                        swalWithBootstrapButtons.fire(
+                            "Excluido!",
+                            "Todos os dados foram apagados.",
+                            "success"
+                        ).then(function() {
+                                        window.location = "{% url 'clients:delet_all' %}";
                                     });
-                                });
-                        }
-                    }]);
-                }); //Timer functions example
-
-                $("#js-sweetalert2-example-15").on("click", function()
-                {
-                    Swal.mixin(
-                        {
-                            input: "text",
-                            confirmButtonText: 'Next <i class="fal fa-chevron-right"></i>',
-                            showCancelButton: true,
-                            progressSteps: ["1", "2", "3"]
-                        })
-                        .queue([
-                            {
-                                title: "Question 1",
-                                text: "Chaining swal2 modals is easy"
-                            },
-                            "Question 2",
-                            "Question 3"
-                        ])
-                        .then(function(result)
-                        {
-                            if (result.value)
-                            {
-                                Swal.fire(
-                                {
-                                    title: "All done!",
-                                    html: "Your answers: <pre><code>" +
-                                        JSON.stringify(result.value) +
-                                        "</code></pre>",
-                                    confirmButtonText: "Lovely!"
-                                });
-                            }
-                        });
-                }); //Chaining modals (queue) example
-
-                $("#js-sweetalert2-example-16").on("click", function()
-                {
-                    var timerInterval;
-                    Swal.fire(
+                    }
+                    else if (
+                        // Read more about handling dismissals
+                        result.dismiss === Swal.DismissReason.cancel
+                    )
                     {
-                        title: "Auto close alert!",
-                        html: "I will close in <strong></strong> seconds.<br/><br/>" +
-                            '<button id="increase" class="btn btn-warning">' +
-                            "I need 5 more seconds!" +
-                            "</button><br/>" +
-                            '<button id="stop" class="btn btn-danger">' +
-                            "Please stop the timer!!" +
-                            "</button><br/>" +
-                            '<button id="resume" class="btn btn-success" disabled>' +
-                            "Phew... you can restart now!" +
-                            "</button><br/>" +
-                            '<button id="toggle" class="btn btn-primary">' +
-                            "Toggle" +
-                            "</button>",
-                        timer: 10000,
-                        onBeforeOpen: function onBeforeOpen()
-                        {
-                            var content = Swal.getContent();
-                            var $ = content.querySelector.bind(content);
-                            var stop = $("#stop");
-                            var resume = $("#resume");
-                            var toggle = $("#toggle");
-                            var increase = $("#increase");
-                            Swal.showLoading();
-
-                            function toggleButtons()
-                            {
-                                stop.disabled = !Swal.isTimerRunning();
-                                resume.disabled = Swal.isTimerRunning();
-                            }
-
-                            stop.addEventListener("click", function()
-                            {
-                                Swal.stopTimer();
-                                toggleButtons();
-                            });
-                            resume.addEventListener("click", function()
-                            {
-                                Swal.resumeTimer();
-                                toggleButtons();
-                            });
-                            toggle.addEventListener("click", function()
-                            {
-                                Swal.toggleTimer();
-                                toggleButtons();
-                            });
-                            increase.addEventListener("click", function()
-                            {
-                                Swal.increaseTimer(5000);
-                            });
-                            timerInterval = setInterval(function()
-                            {
-                                Swal.getContent().querySelector("strong").textContent = (
-                                    Swal.getTimerLeft() / 1000
-                                ).toFixed(0);
-                            }, 100);
-                        },
-                        onClose: function onClose()
-                        {
-                            clearInterval(timerInterval);
-                        }
-                    });
+                        swalWithBootstrapButtons.fire(
+                            "Ok",
+                            "Os dados foram mantidos!",
+                            "error"
+                        );
+                    }
                 });
+        }); 
 
+        $(".thisButton").click(function(){
+            $(this).removeClass("btn-default");
+            $(this).addClass("btn-success");
+            $(this).html('<i class="fal fa-check"></i>');
+        });
 
+        $(".thisButtonToggle").click(function(){
+            if($(this).hasClass('btnFalse')){
+                $(this).removeClass("btn-default");
+                $(this).removeClass("btnFalse");
+                $(this).addClass("btn-success");
+                $(this).html('<i class="fal fa-check"></i>');
+            }else{
+                $(this).removeClass("btn-success");
+                $(this).addClass("btn-default");
+                $(this).addClass("btnFalse");
+                $(this).html('<i class="fal fa-times"></i>');
+            }
+        });
 
-    });
-
-    $(document).ready(function()
-    {
+        
         $('#dt-basic-example').dataTable(
         {
             responsive: true,
-            pageLength: 3000,
             order: [
                 [1, 'asc']
             ],
@@ -484,367 +139,37 @@
             dataSrc:"data",
         });
 
-
-        {% comment %} $('#dt-basic-exampleA').dataTable(
-        {
-            responsive: true,
-            pageLength: 50,
-            order: [
-                [1, 'asc']
-            ],
-            {#"columns": [null,{ "orderSequence": [ "asc" ] },]#}
-        }); {% endcomment %}
-
-        $('#dt-basic-example1').dataTable(
-        {
-           responsive: true,
-            pageLength: 50,
-            order: [
-                [1, 'asc']
-            ],
-            responsive: true,
-            {% comment %} stateSave: true, //remembers your table settings (filter, scroll point, sort, etc) {% endcomment %}
-            processing: true,
-            pageLength: false,
-            deferRender: true,
-            scrollY: 300,
-            scrollCollapse: true,
-            scroller: true,
-            sAjaxSource: '{% url "clients:get-my-clientes" %}',
-            processing: true,
-            dataSrc:"data",
-        });
-
-        $('#dt-basic-example2').dataTable(
-        {
-            responsive: true,
-            pageLength: 50,
-            order: [
-                [1, 'asc']
-            ],
-            {#"columns": [null,{ "orderSequence": [ "asc" ] },]#}
-        });
-
-        $('#dt-basic-example3').dataTable(
-        {
-            responsive: true,
-            pageLength: 50,
-            order: [
-                [1, 'asc']
-            ],
-            {#"columns": [null,{ "orderSequence": [ "asc" ] },]#}
-        });
-
-        $('#dt-basic-example9').dataTable(
-        {
-            order: [[ 2, "desc" ]],
-            paging: false,
-            responsive: {
-            breakpoints: [
-                { name: 'desktop', width: Infinity },
-                { name: 'tablet',  width: 1024 },
-                { name: 'fablet',  width: 768 },
-                { name: 'phone',   width: 480 }
-            ]
-        },
-            columnDefs: [
-
-            { details: true, targets: 0 },
-
-            ],
-        });
-
-        $('#dt-basic-example4').dataTable(
-        {
-            responsive: true,
-            pageLength: 50,
-            order: [
-                [1, 'asc']
-            ],
-            {#"columns": [null,{ "orderSequence": [ "asc" ] },]#}
-        });
-
-        $('.js-thead-colors a').on('click', function()
-        {
-            var theadColor = $(this).attr("data-bg");
-            console.log(theadColor);
-            $('#dt-basic-example thead').removeClassPrefix('bg-').addClass(theadColor);
-        });
-
-        $('.js-tbody-colors a').on('click', function()
-        {
-            var theadColor = $(this).attr("data-bg");
-            console.log(theadColor);
-            $('#dt-basic-example').removeClassPrefix('bg-').addClass(theadColor);
-        });
-
     });
 
-    function change_frequencia(val, valor){
-        var token = '{{ csrf_token }}';
-        var frequencia_contato = valor.value
-
-            $.ajax({
-                type: "POST",
-                url: '{% url 'clients:change-frequencia-contato' %}',
-                data: {
-                    csrfmiddlewaretoken: token,
-                    frequencia_contato: frequencia_contato,
-                    id: val,
-                },
-               success: function (response) {
-                toastr.success('Frequencia de contato alterada com sucesso!', frequencia_contato );
-                toastr.options.timeOut = 1500; // 3s
-               },
-
-            })
-    }
-
-
-    function change_contato(val, valor){
-
-        var token = '{{ csrf_token }}';
-        var zap_mail = valor.value
-        var id = val
-
-            $.ajax({
-                type: "POST",
-                url: '{% url 'clients:change-tipo-contato' %}',
-                data: {
-                    csrfmiddlewaretoken: token,
-                    zap_mail: zap_mail,
-                    id: id,
-                },
-               success: function (response) {
-                toastr.success('Tipo de contato alterado com sucesso!', zap_mail);
-                toastr.options.timeOut = 1500; // 3s
-               },
-
-            })
-    }
-
-    function checkAcomPerm(id, val){
-
-        if (val.checked) {
-            check = 'Sim'
-            {#alert(check)#}
-        }
-        else {
-            check = 'Não'
-            {#alert(check)#}
+    function updateOnbording(id, name, choice)
+    {
+        if (choice == '[object HTMLSelectElement]'){
+            choice = choice.value
+        }else{
+            choice = choice
         }
 
         var token = '{{ csrf_token }}';
-
-            $.ajax({
+        $.ajax({
                 type: "POST",
-                url: '{% url 'clients:acomp-perm' %}',
-                data: {
-                    csrfmiddlewaretoken: token,
-                    onbording_acomp_per: check,
-                    id: id,
-                },
-               success: function (response) {
-
-                     if( check == 'Sim'){
-                        toastr.success(' Adicionado!', 'Acompanhamento Permanente');
-                        toastr.options.timeOut = 1500; // 3s
-                    }else{
-                      toastr.error('Removido!', 'Acompanhamento Permanente');
-                        toastr.options.timeOut = 1500; // 3s
-                    }
-
-               },
-
-            })
-    }
-    function OptRf(id, val){
-
-        if (val.checked) {
-            check = 'Sim'
-            {#alert(check)#}
-        }
-        else {
-            check = 'Não'
-            {#alert(check)#}
-        }
-
-        var token = '{{ csrf_token }}';
-
-            $.ajax({
-                type: "POST",
-                url: '{% url 'clients:acomp-rf' %}',
-                data: {
-                    csrfmiddlewaretoken: token,
-                    onbording_acomp_rf: check,
-                    id: id,
-                },
-               success: function (response) {
-
-                    if( check == 'Sim'){
-                        toastr.success('Adicionado!', 'Oportunidade de RF');
-                        toastr.options.timeOut = 1500; // 3s
-                    }else{
-                      toastr.error('Removida!', 'Oportunidade de RF');
-                        toastr.options.timeOut = 1500; // 3s
-                    }
-
-
-
-               },
-
-            })
-    }
-    function OptAcoes(id, val){
-
-        if (val.checked) {
-            check = 'Sim'
-            {#alert(check)#}
-        }
-        else {
-            check = 'Não'
-            {#alert(check)#}
-        }
-
-        var token = '{{ csrf_token }}';
-
-            $.ajax({
-                type: "POST",
-                url: '{% url 'clients:acomp-acoes' %}',
-                data: {
-                    csrfmiddlewaretoken: token,
-                    onbording_acomp_acoes: check,
-                    id: id,
-                },
-               success: function (response) {
-
-                    if( check == 'Sim'){
-                        toastr.success('Adicionado!', 'Oportunidade Ações');
-                        toastr.options.timeOut = 1500; // 3s
-                    }else{
-                      toastr.error('Removida!', 'Oportunidade Ações');
-                        toastr.options.timeOut = 1500; // 3s
-                    }
-
-               },
-
-            })
-    }
-    function OptFii(id, val){
-
-        if (val.checked) {
-            check = 'Sim'
-            {#alert(check)#}
-        }
-        else {
-            check = 'Não'
-            {#alert(check)#}
-        }
-
-        var token = '{{ csrf_token }}';
-
-            $.ajax({
-                type: "POST",
-                url: '{% url 'clients:acomp-fii' %}',
-                data: {
-                    csrfmiddlewaretoken: token,
-                    onbording_acomp_fii: check,
-                    id: id,
-                },
-               success: function (response) {
-
-                    if( check == 'Sim'){
-                        toastr.success('Adicionado!', 'Oportunidade de Fii');
-                        toastr.options.timeOut = 1500; // 3s
-                    }else{
-                      toastr.error('Removida!', 'Oportunidade de Fii');
-                        toastr.options.timeOut = 1500; // 3s
-                    }
-
-               },
-
-            })
-    }
-    function OptFinvest(id, val){
-
-        if (val.checked) {
-            check = 'Sim'
-            {#alert(check)#}
-        }
-        else {
-            check = 'Não'
-            {#alert(check)#}
-        }
-
-        var token = '{{ csrf_token }}';
-
-            $.ajax({
-                type: "POST",
-                url: '{% url 'clients:acomp-fiinvest' %}',
-                data: {
-                    csrfmiddlewaretoken: token,
-                    onbording_acomp_fiinvest: check,
-                    id: id,
-                },
-               success: function (response) {
-
-                    if( check == 'Sim'){
-                        toastr.success('Adicionado!', 'Oportunidade Fundo de Investimento');
-                        toastr.options.timeOut = 1500; // 3s
-                    }else{
-                      toastr.error('Removida!', 'Oportunidade Fundo de Investimento');
-                        toastr.options.timeOut = 1500; // 3s
-                    }
-
-               },
-
-            })
-    }
-
-    function obsOpen(id, obs){
-        document.getElementById('pegaid').value = id
-        document.getElementById('modl_obs').value += obs
-    }
-
-    function enviarSugest(id){
-        var token = '{{ csrf_token }}';
-
-            $.ajax({
-                type: "POST",
-                url: '{% url 'clients:enviar-sugest' %}',
+                url: '{% url 'clients:update-onbord' %}',
                 data: {
                     csrfmiddlewaretoken: token,
                     id: id,
+                    name: name,
+                    choice: choice
                 },
-               success: function (response) {
+                success: function (response) {
 
-                   toastr.success('Enviado!', 'Envio Sujestão');
-                    toastr.options.timeOut = 1500; // 3s
-
-
-               },
+                    toastr.success(response);
+                    toastr.options.timeOut = 1500;
+                },
 
             })
     }
 
-    function enviarImplement(id){
-        var token = '{{ csrf_token }}';
-
-            $.ajax({
-                type: "POST",
-                url: '{% url 'clients:enviar-implement' %}',
-                data: {
-                    csrfmiddlewaretoken: token,
-                    id: id,
-                },
-               success: function (response) {
-
-                   toastr.success('Enviado!', 'Envio Implementação Sujestão');
-                    toastr.options.timeOut = 1500; // 3s
-
-               },
-
-            })
+    function copiei() {
+        $('#copiado').html('<span class="badge badge-success" style="float:right">Corpo do email copiado</span>').delay(2000).fadeOut('slow');
     }
 
     function salvarObs(){
@@ -865,26 +190,6 @@
 
                     toastr.success('Salvo!', 'Observação');
                     toastr.options.timeOut = 1500; // 3s
-
-               },
-
-            })
-    }
-
-    function perfilPreenchido(id){
-        var token = '{{ csrf_token }}';
-        $.ajax({
-                type: "POST",
-                url: '{% url 'clients:perfil-preenchido' %}',
-                data: {
-                    csrfmiddlewaretoken: token,
-                    id: id,
-                },
-               success: function (response) {
-
-                   toastr.success('Salvo!', 'Perfil Preenchido');
-                    toastr.options.timeOut = 1500; // 3s
-
 
                },
 
@@ -981,7 +286,7 @@
 
        }
 
-}
+    }
 
     function sendEmailQuestionario(id){
         var token = '{{ csrf_token }}';
@@ -1004,9 +309,6 @@
     }
 
 
-    {#$('#zap_mail').change(function () {#}
-    {#    #}
-    {#    });#}
 
 </script>
 

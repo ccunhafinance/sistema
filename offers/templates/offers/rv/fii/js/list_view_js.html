@@ -60,7 +60,6 @@
                 fileReader.onload = (event)=>{
                  let data = event.target.result;
                  let workbook = XLSX.read(data,{type:"binary"});
-                 console.log(workbook);
                  workbook.SheetNames.forEach(sheet => {
                       let rowObject = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet]);
                       {#console.log(rowObject);#}
@@ -69,6 +68,8 @@
                       let mydata = JSON.parse(t);
                        let tickrr_selected = document.getElementById('ticker').value
                        let converted_ticker = tickrr_selected.replace("11", "12");
+                      
+
                       if( mydata[0].CodNegociacao == converted_ticker){
 
                             this.enqueueFile(file)

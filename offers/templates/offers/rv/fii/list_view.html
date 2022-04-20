@@ -99,7 +99,9 @@
                     <span class="h5">Informações</span>
 
                     <p class="m-0">
-                        Aguardando: <i class ="fas fa-wifi-1 text-info fa-3x " > </i>  Último Dia: <i class ="fas fa-wifi-1 fa-3x" style="color:#e67e22; "> </i>  Liquidação: <i class ="fas fa-wifi-1 text-danger fa-3x " > </i> Disponível: <i class ="fas fa-wifi-1 text-success fa-3x " > </i>
+                        Liberado para envio: <i class ="fas fa-wifi-1  fa-3x text-info" > </i>  
+                        Último dia Liquidação: <i class ="fas fa-wifi-1  fa-3x text-danger" > </i>  
+                        {% comment %} Último Dia: <i class ="fas fa-wifi-1 fa-3x" style="color:#e67e22; "> </i>  Liquidação: <i class ="fas fa-wifi-1 text-danger fa-3x " > </i> Disponível: <i class ="fas fa-wifi-1 text-success fa-3x " > </i> {% endcomment %}
                     </p>
                 </div>
             </div>
@@ -257,250 +259,253 @@
 
 
                     <div class="panel-content">
-    {#                        <div class="panel-tag">#}
-    {#                            This example shows DataTables and the Responsive extension being used with the Bootstrap framework providing the styling. The DataTables / Bootstrap integration provides seamless integration for DataTables to be used in a Bootstrap page. <strong>Note</strong> that the <code>.dt-responsive</code> class is used to indicate to the extension that it should be enabled on this page, as responsive has special meaning in Bootstrap. The responsive option could also be used if required#}
-    {#                        </div>#}
-                        <!-- datatable start -->
-                        <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100 table-sm">
-                            <thead>
+
+                        <table  class="table  table-responsive table-hover table-bordered table-sm">
+                            <thead class="text-center">
                                 <tr>
-                                    <th>Detalhar</th>
-                                    <th>Email</th>
-                                    <th>Fundo</th>
-                                    <th>Preço</th>
-                                    <th>Cotação</th>
-                                    <th>Data-base</th>
-                                    <th>Pretíodo das Negociações</th>
-                                    <th>Preríodo de Preferência</th>
-                                    <th>Preríodo de Sobra</th>
-                                    <th>Período público</th>
-                                    <th>Editar</th>
-                                    <th>Upload</th>
-                                    <th class="phone">Etapa</th>
-                                    <th class="phone">Montante Adicional</th>
-                                    <th class="phone">Tipo de Oferta:	</th>
-                                    <th class="phone">Preço e Taxa:	</th>
-                                    <th class="phone">Data Encerramento:</th>
-                                    <th class="phone">Proporção de Preferência:</th>
-                                    <th class="phone">Proporção de Sobras:</th>
-                                    <th class="phone">Investimento Mínimo:</th>
-                                    <th class="phone">Captação Mínima:</th>
-                                    <th class="phone">Captação Máxima:</th>
-                                    <th class="phone">Coordenador Líder:</th>
-                                    <th class="phone">Data de Encerramento:</th>
-                                    <th class="phone">Método de Rateio:</th>
-                                    <th class="phone">Resultado do Rateio:</th>
-                                    <th class="phone">Observações:</th>
-                                    <th class="phone">Documentação:</th>
+                                    <th nowrap rowspan="2">Email</th>
+                                    <th nowrap rowspan="2">Ticker</th>
+                                    <th nowrap rowspan="2">ICVM</th>
+                                    <th nowrap rowspan="2">Total por Cota</th>
+                                    <th nowrap rowspan="2">Valor mínimo</th>
+                                    <th nowrap rowspan="2">Preço</th>
+                                    <th nowrap rowspan="2">Cotação</th>
+                                    <th nowrap colspan="3">Direitos dos Cotistas</th>
+                                    <th nowrap colspan="3">Fase Direito de Preferência</th>
+                                    <th nowrap colspan="3">Fase Sobras Dir. de Preferência</th>
+                                    <th nowrap colspan="3">Fase Pública</th>
+                                    
+                                   
+                                    
+                                  
                                 </tr>
+                                <tr>
+                                    
+                                    <th nowrap>Preferência</th>
+                                    <th nowrap>Negociável</th>
+                                    <th nowrap>Data Com</th>
+                                    <th nowrap>Início</th>
+                                    <th nowrap>Término</th>
+                                    <th nowrap>Liquidação</th>
+                                    <th nowrap>Início</th>
+                                    <th nowrap>Término</th>
+                                    <th nowrap>Liquidação</th>
+                                    <th nowrap>Início</th>
+                                    <th nowrap>Término</th>
+                                    <th nowrap>Liquidação</th>
+                                    {% if quem %}
+                                    <th nowrap>Arquivo</th>
+                                    {%endif%}
+                                   
+                                </tr>
+                               
                             </thead>
                             <tbody>
                                 {% for oferta in ofertas %}
-                                    <tr>
-                                        <td class="text-center"><i class="ni ni-list fa-2x"></i></td>
-                                        <td class="text-center">
+                                    {%if oferta.icvm != ''%}
+                                    <tr
+                                    
+                                    {%if oferta.icvm == 'Ofertas aguardando anúncio de início:'%} 
+                                        style="background:#f1c40f"
+                                    {%endif%}
 
-                                            {% include './allowed_mails.html' %}
-                                            {% include './group_colors.html' %}
+                                    {%if oferta.icvm == 'Ofertas Encerradas'%} 
+                                        style="background:#e74c3c"
+                                    {%endif%}
 
+                                    {%if oferta.icvm == 'Ofertas Canceladas'%} 
+                                        style="background:#c0392b;"
+                                    {%endif%} 
+                                    >
+
+
+                                        <td>
+                                            {% if  oferta.Dinicio|checkdatainicio:oferta.Dtermino == 'text-info'  %}   
+                                                {%if oferta.ticker|getjustnamefii|isfile_here == 'btn-success'%}
+                                                    <a href="{% url 'offers:send-mail-rv-fii' oferta.id oferta.ticker|getjustnamefii %}"><span class="ni ni-envelope fa-2x" style="z-index: 999999"></span></a>
+                                                {%else%}
+                                                    <span class="ni ni-envelope text-danger fa-2x" style="z-index: 999999"></span>
+                                                {%endif%}
+                                            {%endif%}
+
+                                            {% if '<span class="text-danger">' in oferta.Dliquidacao|checkdata %}
+                                                {%if oferta.ticker|getjustnamefii|isfile_here == 'btn-success'%}
+                                                    <a href="{% url 'offers:send-mail-rv-fii' oferta.id oferta.ticker|getjustnamefii %}"><span class="ni ni-envelope fa-2x" style="z-index: 999999"></span></a>
+                                                {%else%}
+                                                    <span class="ni ni-envelope text-danger fa-2x" style="z-index: 999999"></span>
+                                                {%endif%}
+                                            {%endif%}
+
+                                            {% if  oferta.Finicio|checkdatainicio:oferta.Ftermino == 'text-info'  %}   
+
+                                            {%if oferta.ticker|getjustnamefii|isfile_here == 'btn-success'%}
+                                            <a href="{% url 'offers:send-mail-rv-fii' oferta.id oferta.ticker|getjustnamefii %}"><span class="ni ni-envelope fa-2x" style="z-index: 999999"></span></a>
+                                        {%else%}
+                                            <span class="ni ni-envelope text-danger fa-2x" style="z-index: 999999"></span>
+                                        {%endif%}
+                                            {%endif%}
+
+                                            {% if '<span class="text-danger">' in oferta.Fliquidacao|checkdata %}
+                                                {%if oferta.ticker|getjustnamefii|isfile_here == 'btn-success'%}
+                                                    <a href="{% url 'offers:send-mail-rv-fii' oferta.id oferta.ticker|getjustnamefii %}"><span class="ni ni-envelope fa-2x" style="z-index: 999999"></span></a>
+                                                {%else%}
+                                                    <span class="ni ni-envelope text-danger fa-2x" style="z-index: 999999"></span>
+                                                {%endif%}
+                                            {%endif%}
+
+                                            {% if  oferta.Pinicio|checkdatainicio:oferta.Ptermino == 'text-info'  %}   
+
+                                            {%if oferta.ticker|getjustnamefii|isfile_here == 'btn-success'%}
+                                            <a href="{% url 'offers:send-mail-rv-fii' oferta.id oferta.ticker|getjustnamefii %}"><span class="ni ni-envelope fa-2x" style="z-index: 999999"></span></a>
+                                        {%else%}
+                                            <span class="ni ni-envelope text-danger fa-2x" style="z-index: 999999"></span>
+                                        {%endif%}
+                                            {%endif%}
+
+                                            {% if '<span class="text-danger">' in oferta.Pliquidacao|checkdata %}
+                                                {%if oferta.ticker|getjustnamefii|isfile_here == 'btn-success'%}
+                                                    <a href="{% url 'offers:send-mail-rv-fii' oferta.id oferta.ticker|getjustnamefii %}"><span class="ni ni-envelope fa-2x" style="z-index: 999999"></span></a>
+                                                {%else%}
+                                                    <span class="ni ni-envelope text-danger fa-2x" style="z-index: 999999"></span>
+                                                {%endif%}
+                                            {%endif%}  
                                         </td>
 
-                                        <td>
-                                            {{ oferta.Fundo }} ({{ oferta.Emissão }} emissão)<br>
-                                            <span style="font-size: 10px">{{ oferta.Fundo|takeoff11|grab_fii_name }}</span>
-                                       </td>
-                                        <td>{{ oferta.PreçoeCotação|split:"Cotação:"|first}}</td>
-                                        <td>
-                                            {% if oferta.PreçoeCotação|find_negative == 'nada'  %}
-                                            {% elif  oferta.PreçoeCotação|find_negative %}
-                                                {{ oferta.PreçoeCotação|split:"Cotação:"|last|split:"("|first }}<br>
-                                                 <span class="text-danger"> <i class="fal fa-long-arrow-down"></i>  {{ oferta.PreçoeCotação|split:"Cotação:"|last|split:"("|last|replace_close_parent }}</span>
-                                            {% else %}
-                                                {{ oferta.PreçoeCotação|split:"Cotação:"|last|split:"("|first }}<br>
-                                                  <span class="text-success"><i class="fal fa-long-arrow-up"></i>  {{ oferta.PreçoeCotação|split:"Cotação:"|last|split:"("|last|replace_close_parent }}</span>
-                                            {% endif %}
+                                        <td nowrap> {{ oferta.ticker|replace_documentacao|safe }}<br>
+                                            {%if oferta.ticker|getjustnamefii|takeoff11|grab_fii_name != "" %}
+                                            <small>{{oferta.ticker|getjustnamefii|takeoff11|grab_fii_name}}</small>
+                                            {%endif%}
                                         </td>
-                                        <td>
-                                            {% if oferta.Fundo|check_if_has_aedits:oferta.Emissão == 'ok' %}
+                                        <td 
+                                        
+                                        {%if oferta.icvm == 'Ofertas aguardando anúncio de início:'%} 
+                                            style="position:absolute; border:none;background:#f1c40f"
+                                        {%endif%}
 
-                                                {% if oferta.Fundo|check_if_has_aedits_database:oferta.Emissão != '' %}
-                                                    <span class="text-warning">{{ oferta.Fundo|check_if_has_aedits_database:oferta.Emissão|date:'d/m/Y' }}</span>
-                                                {% else %}
-                                                    {{ oferta.Database|dot_to_bar }}
-                                                {% endif %}
-                                            {% else %}
-                                                {{ oferta.Database|dot_to_bar }}
-                                            {% endif %}
+                                        {%if oferta.icvm == 'Ofertas Encerradas'%} 
+                                            style="position:absolute; border:none;background:#e74c3c"
+                                        {%endif%}
 
+                                        {%if oferta.icvm == 'Ofertas Canceladas'%} 
+                                            style="position:absolute; border:none;background:#c0392b"
+                                        {%endif%}
+                                        
+                                        >
+
+                                        {%if oferta.icvm == 'Ofertas aguardando anúncio de início:'%} 
+                                            <span style="color:#fff">{{oferta.icvm}}</span>
+                                        {%elif oferta.icvm == 'Ofertas Encerradas'%} 
+                                            <span style="color:#fff">{{oferta.icvm}}</span>
+                                        {%elif oferta.icvm == 'Ofertas Canceladas'%} 
+                                            <span style="color:#fff">{{oferta.icvm}}</span>
+                                        {%else%}
+                                            {{oferta.icvm}}<br>
+                                            
+
+                                        {%endif%}
+
+                                           
                                         </td>
-                                        <td>
-
-                                            {% if oferta.Fundo|check_if_has_aedits_pnegocia_inicio:oferta.Emissão != '' %}
-                                                <span class="text-warning">{{ oferta.Fundo|check_if_has_aedits_pnegocia_inicio:oferta.Emissão|date:'d/m/Y' }}</span>
-                                            {% else %}
-                                                {{ oferta.PeríododeNegociação|dot_to_bar|split:"até"|first }}
-                                            {% endif %}
-
-                                            <i class="fal fa-caret-right text-success"></i>
-
-                                            {% if oferta.Fundo|check_if_has_aedits_pnegocia_fim:oferta.Emissão != '' %}
-                                                <span class="text-warning">{{ oferta.Fundo|check_if_has_aedits_pnegocia_fim:oferta.Emissão|date:'d/m/Y' }}</span>
-                                            {% else %}
-                                                {{ oferta.PeríododeNegociação|dot_to_bar|split:"até"|last }}
-                                            {% endif %}
-
+                                        <td nowrap>{{oferta.totaldecotas}}</td>
+                                        <td nowrap>{{oferta.valorminimo}}</td>
+                                        <td nowrap>{{oferta.cotacao}}</td>
+                                        <td nowrap>{{oferta.cotacaooferta|tiraporcentagem|safe}}</td>
+                                        <td nowrap>{{oferta.preferencia}}</td>
+                                        <td nowrap>{{oferta.negociaveil}}</td>
+                                        <td nowrap>
+                                        <span class="text-muted">
+                                            {{oferta.datacom}}
+                                        </span>
                                         </td>
-
-                                        <td>
-
-                                            {% if oferta.Fundo|inicio_periodo_preferencia:oferta.Emissão != '' %}
-                                                <span class="text-warning">{{ oferta.Fundo|inicio_periodo_preferencia:oferta.Emissão|date:'d/m/Y' }}</span>
-                                            {% else %}
-                                                {{ oferta.PeríododePreferência|dot_to_bar|split:"até"|first }}
-                                            {% endif %}
-
-                                            <i class="fal fa-caret-right text-success"></i>
-
-                                            {% if oferta.Fundo|fim_periodo_preferencia:oferta.Emissão != '' %}
-                                                <span class="text-warning">{{ oferta.Fundo|fim_periodo_preferencia:oferta.Emissão|date:'d/m/Y' }}</span>
-                                            {% else %}
-                                                {{ oferta.PeríododePreferência|dot_to_bar|split:"até"|last|split:"Liquidação:"|first }}
-                                            {% endif %}
-
-                                            <br>
-                                            <span class="text-danger">Liquidação: </span>
-
-                                            {% if oferta.Fundo|liquidacao_periodo_preferencia:oferta.Emissão != '' %}
-                                                <span class="text-warning">{{ oferta.Fundo|liquidacao_periodo_preferencia:oferta.Emissão|date:'d/m/Y' }}</span>
-                                            {% else %}
-                                                {{ oferta.PeríododePreferência|dot_to_bar|split:"até"|last|split:"Liquidação:"|last }}
-                                            {% endif %}
-
-                                            {#  {{ oferta.PeríododePreferência|dot_to_bar|split:"até"|first }}<br>#}
-                                            {#  {{ oferta.PeríododePreferência|dot_to_bar|split:"até"|last|split:"Liquidação:"|first }}<br>#}
-                                            {#  {{ oferta.PeríododePreferência|dot_to_bar|split:"até"|last|split:"Liquidação:"|last }}#}
+                                       
+                                        <td nowrap>
+                                            <span class="{{  oferta.Dinicio|checkdatainicio:oferta.Dtermino }}">
+                                                {{oferta.Dinicio}}
+                                            </span>
                                         </td>
 
-                                        <td>
-
-                                            {% if oferta.Fundo|inicio_periodo_sobra:oferta.Emissão != '' %}
-                                                <span class="text-warning">{{ oferta.Fundo|inicio_periodo_sobra:oferta.Emissão|date:'d/m/Y' }}</span>
-                                            {% else %}
-                                                {{ oferta.PeríododeSobras|dot_to_bar|split:"até"|first }}
-                                            {% endif %}
-
-                                            <i class="fal fa-caret-right text-success"></i>
-
-                                            {% if oferta.Fundo|fim_periodo_sobra:oferta.Emissão != '' %}
-                                                <span class="text-warning">{{ oferta.Fundo|fim_periodo_sobra:oferta.Emissão|date:'d/m/Y' }}</span>
-                                            {% else %}
-                                                {{ oferta.PeríododeSobras|dot_to_bar|split:"até"|last|split:"Liquidação:"|first }}
-                                            {% endif %}
-
-                                            <br>
-                                            <span class="text-danger">Liquidação: </span>
-
-                                            {% if oferta.Fundo|liquidacao_periodo_sobra:oferta.Emissão != '' %}
-                                                <span class="text-warning">{{ oferta.Fundo|liquidacao_periodo_sobra:oferta.Emissão|date:'d/m/Y' }}</span>
-                                            {% else %}
-                                                {{ oferta.PeríododeSobras|dot_to_bar|split:"até"|last|split:"Liquidação:"|last }}
-                                            {% endif %}
-
-
-
-{#                                              {{ oferta.PeríododeSobras|dot_to_bar|split:"até"|first }}<br>#}
-{#                                              {{ oferta.PeríododeSobras|dot_to_bar|split:"até"|last|split:"Liquidação:"|first }}<br>#}
-{#                                              {{ oferta.PeríododeSobras|dot_to_bar|split:"até"|last|split:"Liquidação:"|last }}#}
-                                            {# {{ oferta.PeríododeSobras|dot_to_bar|ate_trace|liquidacao|safe }}#}
-
+                                        <td nowrap>
+                                            <span class="{{ oferta.Dinicio|checkdatainicio:oferta.Dtermino }}">
+                                                {{oferta.Dtermino}}
+                                            </span>
                                         </td>
-
-                                        <td>
-                                            {% if oferta.Fundo|inicio_periodo_publico:oferta.Emissão != '' %}
-                                                <span class="text-warning">{{ oferta.Fundo|inicio_periodo_publico:oferta.Emissão|date:'d/m/Y' }}</span>
-                                            {% else %}
-                                                {{ oferta.PeríodoPúblico|dot_to_bar|split:"até"|first }}
-                                            {% endif %}
-
-                                            <i class="fal fa-caret-right text-success"></i>
-
-                                            {% if oferta.Fundo|fim_periodo_publico:oferta.Emissão != '' %}
-                                                <span class="text-warning">{{ oferta.Fundo|fim_periodo_publico:oferta.Emissão|date:'d/m/Y' }}</span>
-                                            {% else %}
-                                                {{ oferta.PeríodoPúblico|dot_to_bar|split:"até"|last|split:"Liquidação:"|first }}
-                                            {% endif %}
-
-                                            <br>
-                                            <span class="text-danger">Liquidação: </span>
-
-                                            {% if oferta.Fundo|liquidacao_periodo_publico:oferta.Emissão != '' %}
-                                                <span class="text-warning">{{ oferta.Fundo|liquidacao_periodo_publico:oferta.Emissão|date:'d/m/Y' }}</span>
-                                            {% else %}
-                                                {{ oferta.PeríodoPúblico|dot_to_bar|split:"até"|last|split:"Liquidação:"|last }}
-                                            {% endif %}
-
-
-{#                                              {{ oferta.PeríodoPúblico|dot_to_bar|split:"até"|first }}<br>#}
-{#                                              {{ oferta.PeríodoPúblico|dot_to_bar|split:"até"|last|split:"Liquidação:"|first }}<br>#}
-{#                                              {{ oferta.PeríodoPúblico|dot_to_bar|split:"até"|last|split:"Liquidação:"|last }}#}
-                                            {#  {{ oferta.PeríodoPúblico|dot_to_bar|ate_trace|liquidacao|safe }}#}
+                                        <td nowrap>
+                                            {{oferta.Dliquidacao|checkdata|safe}}
                                         </td>
-
-                                        <td>
-
-                                            {% if oferta.Fundo|check_if_has_aedits:oferta.Emissão == 'ok' %}
-
-                                                <a href="{% url 'offers:edit-rv-fii-edit' oferta.Fundo|check_if_has_aedits_ok:oferta.Emissão %}" style="margin-left: 25px">
-                                                    <i class="fal fa-edit text-warning"></i>
-                                                </a>
-
-                                            {% else %}
-
-
-                                                <a href="{% url 'offers:create-rv-fii-edit' oferta.Fundo oferta.Emissão %}" style="margin-left: 25px">
-                                                    <i class="fal fa-edit"></i>
-                                                </a>
-
-                                            {% endif %}
-
-
+                                        <td nowrap>
+                                            <span class="{{ oferta.Finicio|checkdatainicio:oferta.Ftermino }}">
+                                                {{oferta.Finicio}}
+                                            </span>
                                         </td>
+                                        <td nowrap>
+                                            <span class="{{ oferta.Finicio|checkdatainicio:oferta.Ftermino }}">
+                                                {{oferta.Ftermino}}
+                                            </span>
+                                        </td>
+                                        <td nowrap>
+                                            {{oferta.Fliquidacao|checkdata|safe}}
+                                        </td>
+                                        <td nowrap>
+                                            <span class="{{  oferta.Pinicio|checkdatainicio:oferta.Ptermino }}">
+                                                {{oferta.Pinicio}}
+                                            </span>
+                                        </td>
+                                        <td nowrap>
+                                            <span class="{{  oferta.Pinicio|checkdatainicio:oferta.Ptermino }}">
+                                                {{oferta.Ptermino}}
+                                            </span>
+                                        </td>
+                                        <td nowrap>{{oferta.Pliquidacao|checkdata|safe}}</td>
+                                        {%if quem%}
                                         <td>
 
-                                            <a href="#" id="_id-{{ oferta.Fundo }}" onclick="get_ticker('{{ oferta.Fundo }}')" class="btn {{ oferta.Fundo|isfile_here }} btn-icon rounded-circle waves-effect waves-themed" data-toggle="modal" data-target="#default-example-modal-lg-center">
+                                            {% if  oferta.Dinicio|checkdatainicio:oferta.Dtermino == 'text-info'  %}   
+                                            <a href="#" id="_id-{{ oferta.ticker|getjustnamefii }}" onclick="get_ticker('{{ oferta.ticker|getjustnamefii }}')" class="btn {{ oferta.ticker|getjustnamefii|isfile_here }} btn-icon rounded-circle waves-effect waves-themed" data-toggle="modal" data-target="#default-example-modal-lg-center">
                                                 <i class="fal fa-cloud-upload"></i>
                                             </a>
-                                        </td>
+                                            {%endif%}
 
-                                        {# hidden fields #}
-                                        <td>{% include './fases.html' %}</td>
-                                        <td>
-                                            {% if oferta.Fundo|modalidade_adicional:oferta.Emissão != '' %}
-                                                {{ oferta.Fundo|modalidade_adicional:oferta.Emissão }}
-                                            {% else %}
-                                                -
-                                            {% endif %}
+                                            {% if '<span class="text-danger">' in oferta.Dliquidacao|checkdata %}
+                                                <a href="#" id="_id-{{ oferta.ticker|getjustnamefii }}" onclick="get_ticker('{{ oferta.ticker|getjustnamefii }}')" class="btn {{ oferta.ticker|getjustnamefii|isfile_here }} btn-icon rounded-circle waves-effect waves-themed" data-toggle="modal" data-target="#default-example-modal-lg-center">
+                                                    <i class="fal fa-cloud-upload"></i>
+                                                </a>
+                                            {%endif%}
+
+                                            {% if  oferta.Finicio|checkdatainicio:oferta.Ftermino == 'text-info'  %}   
+                                            <a href="#" id="_id-{{ oferta.ticker|getjustnamefii }}" onclick="get_ticker('{{ oferta.ticker|getjustnamefii }}')" class="btn {{ oferta.ticker|getjustnamefii|isfile_here }} btn-icon rounded-circle waves-effect waves-themed" data-toggle="modal" data-target="#default-example-modal-lg-center">
+                                                <i class="fal fa-cloud-upload"></i>
+                                            </a>
+                                                
+                                            {%endif%}
+
+                                            {% if '<span class="text-danger">' in oferta.Fliquidacao|checkdata %}
+                                                <a href="#" id="_id-{{ oferta.ticker|getjustnamefii }}" onclick="get_ticker('{{ oferta.ticker|getjustnamefii }}')" class="btn {{ oferta.ticker|getjustnamefii|isfile_here }} btn-icon rounded-circle waves-effect waves-themed" data-toggle="modal" data-target="#default-example-modal-lg-center">
+                                                    <i class="fal fa-cloud-upload"></i>
+                                                </a>
+                                            {%endif%}
+
+                                            {% if  oferta.Pinicio|checkdatainicio:oferta.Ptermino == 'text-info'  %}   
+                                            <a href="#" id="_id-{{ oferta.ticker|getjustnamefii }}" onclick="get_ticker('{{ oferta.ticker|getjustnamefii }}')" class="btn {{ oferta.ticker|getjustnamefii|isfile_here }} btn-icon rounded-circle waves-effect waves-themed" data-toggle="modal" data-target="#default-example-modal-lg-center">
+                                                <i class="fal fa-cloud-upload"></i>
+                                            </a>
+                                            {%endif%}
+
+                                            {% if '<span class="text-danger">' in oferta.Pliquidacao|checkdata %}
+                                                <a href="#" id="_id-{{ oferta.ticker|getjustnamefii }}" onclick="get_ticker('{{ oferta.ticker|getjustnamefii }}')" class="btn {{ oferta.ticker|getjustnamefii|isfile_here }} btn-icon rounded-circle waves-effect waves-themed" data-toggle="modal" data-target="#default-example-modal-lg-center">
+                                                    <i class="fal fa-cloud-upload"></i>
+                                                </a>
+                                            {%endif%}  
+
+                                         
                                         </td>
-                                        <td>{{ oferta.TipodeOferta }}</td>
-                                        <td>{{ oferta.PreçoeTaxa }}</td>
-                                        <td>{{ oferta.DataEncerramento }}</td>
-                                        <td>{{ oferta.ProporçãodePreferência }}</td>
-                                        <td>{{ oferta.ProporçãodeSobras }}</td>
-                                        <td>{{ oferta.InvestimentoMínimo }}</td>
-                                        <td>{{ oferta.CaptaçãoMínima }}</td>
-                                        <td>{{ oferta.CaptaçãoMáxima }}</td>
-                                        <td>{{ oferta.CoordenadorLíder }}</td>
-                                        <td>{{ oferta.DatadeEncerramento }}</td>
-                                        <td>{{ oferta.MétododeRateio }}</td>
-                                        <td>{{ oferta.ResultadodoRateio }}</td>
-                                        <td>{{ oferta.Observações }}</td>
-                                       <td> {{ oferta.Documentação|replace_documentacao|safe }}</td>
+                                        {%endif%}
+                                       
                                     </tr>
+                                    {%endif%}
                                 {% endfor %}
                             </tbody>
 
                         </table>
-                        <!-- datatable end -->
                     </div>
                 </div>
             </div>

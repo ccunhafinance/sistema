@@ -681,10 +681,12 @@ def ofertarvfiiview(request):
 
         the_ticker = []
         for ticker in ticker11:
-            if os.path.isfile('data/ofertas/fii/subscricao/' + str(ticker['Fundo']) + '.json'):
-                new_ticker = ticker['Fundo']
+            soup = bs(ticker['ticker'], 'lxml')
+            text = soup.get_text()
+            if os.path.isfile('data/ofertas/fii/subscricao/' + text + '.json'):
+                new_ticker = ticker['ticker']
 
-                with open('data/ofertas/fii/subscricao/'+new_ticker+'.json') as json_file:
+                with open('data/ofertas/fii/subscricao/'+text+'.json') as json_file:
                     subs = json.load(json_file)
 
                     teste = []
@@ -699,14 +701,17 @@ def ofertarvfiiview(request):
         # print(the_ticker)
 
         if CustomUser.objects.filter(pk=request.user.id, groups__name='Área de Alocação').exists():
-            filtered_offers_by_group = ticker11
+            filtered_offers_by_group = ticker11[:-10]
+            quem = True
         else:
             filtered_offers_by_group = the_ticker
+            quem = False
 
 
         context = {
             'ofertas': filtered_offers_by_group,
             'last_update': last_update,
+            'quem': quem,
             # Crumbs First Page Config
             'first_page_name': 'Ofertas',
             'first_page_link': '',
@@ -728,7 +733,7 @@ def ofertarvfiiview(request):
         return render(request, 'offers/rv/fii/list_view.html', context)
 
 @login_required(login_url='/')
-def sendemailrvfii(request, ticker, emissor):
+def sendemailrvfii(request, id, ticker):
 
     with open('data/ofertas/fii/ticker11_data.json') as json_file:
         ticker11 = json.load(json_file)
@@ -738,7 +743,7 @@ def sendemailrvfii(request, ticker, emissor):
 
     a_oferta = []
     for oferta in ticker11:
-        if oferta['Fundo'] == ticker and oferta['Emissão'] == emissor:
+        if str(oferta['id']) == str(id):
             a_oferta = oferta
 
     hora = datetime.now()
@@ -755,7 +760,6 @@ def sendemailrvfii(request, ticker, emissor):
         'saldacao': saldacao,
         'oferta': a_oferta,
         'ticker': ticker,
-        'emissor': emissor,
         'clientes': subs,
         # Crumbs First Page Config
         'first_page_name': 'Ofertas',
@@ -771,7 +775,7 @@ def sendemailrvfii(request, ticker, emissor):
         'page_name': 'Ofertas (RV)',
         'subtitle': 'Fii',
         'sticker': '',
-        'page_description': 'Formulário de envio de E-mail - Oferta: ' + a_oferta['Fundo'] + ' ' + a_oferta['Emissão'] +' Emissão'
+        'page_description': 'Formulário de envio de E-mail FII' 
     }
 
     return render(request, 'offers/rv/fii/email_view.html', context)
@@ -780,7 +784,7 @@ def sendemailrvfii(request, ticker, emissor):
 def envia_email_fii(request):
 
     ticker = request.POST['ticker']
-    emissor = request.POST['emissor']
+    id = request.POST['id']
 
     html_content = request.POST['corpo_email']
 
@@ -790,30 +794,38 @@ def envia_email_fii(request):
         html_content,
         'Inove Investimentos <web@inoveinvestimentos.com.br>',
         # [request.POST['email']],
-        ['isontheedgee@gmail.com'],
+        ['ccunhafinance@gmail.com'],
         # ['brunorochamartins@live.com'],
         # ['emaildocis@gmail.com'],
-        reply_to=['ccunhafinance@gmail.com.com.br'],
-        # reply_to=[request.POST['email_assessor'], 'ordens@inoveinvestimentos.com.br'],
+        # reply_to=['ccunhafinance@gmail.com.com.br'],
+        reply_to=[request.POST['email_assessor'], 'ordens@inoveinvestimentos.com.br'],
         headers={'Message-ID': 'foo'},
     )
     email.content_subtype = "html"
     email.send()
 
     # registro de oferta enviada
-    # dados = Registro_email_ofertas_rf(
-    #     code_assessor=request.POST['cod_assessor_mail'],
-    #     code_cliente=request.POST['codigo'],
-    #     code_oferta=pk,
-    #     oferta=request.POST['nome_oferta'],
-    #     valor_oferta=request.POST['valor'],
-    #     data_envio=datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
-    # )
-    #
-    # dados.save()
+    dados = EmailFii(
+        ticker=request.POST['ticker'],
+        id_sender=request.POST['enviado_por'],
+        nome_oferta=request.POST['assunto'],
+        remetente=request.POST['remetente'],
+        codigo_cliente=request.POST['cod_assessor_mail'],
+        nome_cliente=request.POST['cod_assessor_mail'],
+        assessor_responsavel=request.POST['responsavel'],
+        valor_da_cota=request.POST['cod_assessor_mail'],
+        valor_financeiro=request.POST['cod_assessor_mail'],
+        email_body=request.POST['corpo_email'],
+        email=request.POST['climail'],
+        assunto=request.POST['cod_assessor_mail'],
+        data_sent=datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+
+    )
+    
+    dados.save()
 
     # Redirect to same page after form submit
-    return redirect('/ofertas/rv/fii/enviar-email-rv-fii/'+ticker+'/'+emissor)
+    return redirect('/ofertas/rv/fii/enviar-email-rv-fii/'+id+'/'+ticker)
 
 # Scrape TICKER11
 @login_required(login_url='/')
@@ -822,7 +834,7 @@ def scrapy_ticker11(request):
     # US english
     LANGUAGE = "pt-br"
 
-    url ='https://ticker11.com.br/emissoes/'
+    url ='https://docs.google.com/spreadsheets/d/e/2PACX-1vTDOrguvv8Ng5o6YUK_oUR82u-K-qi5ZGD42punDkkssagSgeqIYpXKwOlXZce_pSWY06fUNUBLREsF/pubhtml?gid=0&single=true'
 
     def get_soup(url):
         """Constructs and returns a soup using the HTML content of `url` passed"""
@@ -844,14 +856,15 @@ def scrapy_ticker11(request):
 
     def get_table_headers(table):
         """Given a table soup, returns all the headers"""
-        headers = []
-        for th in table.find("tr").find_all("th"):
-            headers.append(th.text.strip())
+        headers = ["ticker",'id',"icvm","totaldecotas","valorminimo","cotacao","cotacaooferta","preferencia","negociaveil","datacom","Dinicio","Dtermino","Dliquidacao","Finicio","Ftermino","Fliquidacao","Pinicio","Ptermino","Pliquidacao"]
+        # for th in table.find("tr").find_all("th"):
+        #     headers.append(th.text.strip())
         return headers
 
     def get_table_rows(table):
         """Given a table, returns all its rows"""
         rows = []
+        a = 0
         for tr in table.find_all("tr")[1:]:
             cells = []
             # grab all td tags in this table row
@@ -863,14 +876,20 @@ def scrapy_ticker11(request):
                 for th in ths:
 
                     cells.append(th.text.strip())
+                    
             else:
                 # use regular td tags
                 for td in tds:
+                    
                     if td.find("a"):
+                        
                         cells.append(td)
                     else:
                         cells.append(td.text.strip())
             rows.append(cells)
+            a += 1
+
+        rows = rows[4:]
 
         return rows
 
@@ -887,10 +906,15 @@ def scrapy_ticker11(request):
             csvReader = csv.DictReader(csvf)
 
             # convert each csv row into python dict
+            a=0
             for row in csvReader:
+                if row['id'] == '':
+                    row['id'] = str(a)
+                
                 # add this python dict to json array
                 jsonArray.append(row)
-
+                a += 1
+        
         # convert python jsonArray to JSON String and write to file
         with open(jsonFilePath, 'w', encoding='utf-8') as jsonf:
             jsonString = json.dumps(jsonArray, indent=4)
@@ -905,9 +929,9 @@ def scrapy_ticker11(request):
     # iterate over all tables
     for i, table in enumerate(tables, start=1):
         # get the table headers
-        removetable = str.maketrans('', '', '@#%-?/()$ ')
+        # removetable = str.maketrans('', '', '@#%-?/()$ ')
         headers = get_table_headers(table)
-        headers = [s.translate(removetable) for s in headers]
+        # headers = [s.translate(removetable) for s in headers]
         # print(headers)
         # get all the rows of the table
         rows = get_table_rows(table)
@@ -933,6 +957,7 @@ def fii_files_upload(request):
 
         wb = xlrd.open_workbook('data/ofertas/fii/subscricao/'+str(request.POST['ticker']+'.xlsx'))
         sh = wb.sheet_by_index(0)
+
 
         data_list = []
 
