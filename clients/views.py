@@ -44,7 +44,7 @@ main_icon = 'ni ni-users'
 
 def getMyClients(request):
     clients = []
-    for cliente in Clientes.objects.filter(assessor=request.user.codigo):
+    for cliente in Clientes.objects.filter(assessor=str(request.user.codigo)):
         clients.append([cliente.nickname, cliente.nome,cliente.sexo,cliente.email,cliente.telefone,cliente.data_nascimento, cliente.rotina])
         
 

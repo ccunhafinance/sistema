@@ -126,12 +126,10 @@
         
         $('#dt-basic-example').dataTable(
         {
-            responsive: true,
             order: [
                 [1, 'asc']
             ],
             responsive: true,
-            stateSave: true, //remembers your table settings (filter, scroll point, sort, etc) 
             processing: true,
             deferRender: true,
             sAjaxSource: '{% url "clients:get-my-clientes" %}',

@@ -261,7 +261,7 @@
                                 <th>Telefone <i class="fab fa-whatsapp"></i></th>
                                 <th>Qtd. de Cotas</th>
                                 <th>Valor Financeiro</th>
-                                <th>Registro</th>
+                                <th>Status</th>
                                 <th class='phone'>Registro de emails Fii</th>
                             </tr>
                         </thead>
@@ -287,7 +287,11 @@
                                         <td>{{ cliente.QuantidadeDisponivel }}</td>
                                         <td>{{ oferta.cotacao|calc_val_financeiro:cliente.QuantidadeDisponivel|moeda }}</td>
                                         <td class="text-center">
+                                            {%if cliente.Status == "" %}
                                             <i class="fal fa-minus-circle text-danger text-center"></i>
+                                            {%else%}
+                                            {{cliente.Status}}
+                                            {%endif%}
                                         </td>
                                         <td>
 
