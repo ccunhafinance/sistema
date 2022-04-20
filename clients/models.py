@@ -5,7 +5,7 @@ from users.models import CustomUser
 
 class Clientes(models.Model):
     nickname = models.CharField("Código", max_length=100, blank=True, null=True)
-    nome = models.CharField("Nome", max_length=100, blank=True, null=True)
+    nome = models.CharField("Nome", max_length=255, blank=True, null=True)
     sexo = models.CharField("Sexo", max_length=100, blank=True, null=True)
     email = models.CharField("Telefone", max_length=100, blank=True, null=True)
     telefone = models.CharField("Telefone", max_length=100, blank=True, null=True)

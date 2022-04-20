@@ -20,20 +20,20 @@
 {#        Upload Clientes#}
 {#    </a>#}
 
-    <form method="post" enctype="multipart/form-data" action="{% url 'clients:upload_clientes' %}">
-        {% csrf_token %}
+        <form method="post" enctype="multipart/form-data" action="{% url 'clients:upload_clientes' %}">
+            {% csrf_token %}
 
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <button type="submit" class="btn btn-sm btn-success" id="inputGroupFileAddon01" disabled  onclick='timerActive()'>Upload Clientes</button>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <button type="submit" class="btn btn-sm btn-success" id="inputGroupFileAddon01" disabled  onclick='timerActive()'>Upload Clientes</button>
+                </div>
+                <div class="custom-file">
+                    <input name="myfile" type="file" class="custom-file-input" id="inputGroupFile01"  aria-describedby="inputGroupFileAddon01" required >
+                    <label class="custom-file-label" for="inputGroupFile01" >Selecione o arquivo</label>
+                </div>
             </div>
-            <div class="custom-file">
-                <input name="myfile" type="file" class="custom-file-input" id="inputGroupFile01"  aria-describedby="inputGroupFileAddon01" required >
-                <label class="custom-file-label" for="inputGroupFile01" >Selecione o arquivo</label>
-            </div>
-        </div>
 
-    </form>
+        </form>
 
 
     <br>
