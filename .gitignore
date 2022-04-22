@@ -143,5 +143,5 @@ ztests
 local_settings.py
 ssh
 data/clientes
-data/
+data
 .DS_Store
