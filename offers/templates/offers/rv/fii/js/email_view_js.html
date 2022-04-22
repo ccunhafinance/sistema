@@ -3,15 +3,11 @@
 <script src="{% static 'js/formplugins/validate/jquery.validate.min.js' %}"></script>
 <script src="{% static 'js/notifications/sweetalert2/sweetalert2.bundle.js' %}"></script>
 <script src="{% static 'js/datagrid/datatables/datatables.bundle.js' %}"></script>
-{#<script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>#}
 
 
 <script type="text/javascript">
 
-    function get_values(user_id,id_ass,nome,codigo,qtd,valFim, user_info, espelho_info)
-    {
-
-
+    function get_values(user_id,id_ass,nome,codigo,qtd,valFim, user_info, espelho_info, client_email){
         document.getElementById('text_nome').innerHTML = nome
         document.getElementById('text_code').innerHTML = codigo
         document.getElementById('text_quantidade').innerHTML = qtd
@@ -20,126 +16,51 @@
         document.getElementById('remete').value = user_id;
         document.getElementById('enviado_por').value = user_id;
         document.getElementById('responsavel').value = id_ass;
+        document.getElementById('emaildocliente').value = client_email;
+
+
+        document.getElementById('form_cod_cliente').value = codigo;
+        document.getElementById('qtd').value = qtd;
+
 
 
         $(document).ready(function(){
 
              if (id_ass === user_id){
-            {#document.getElementById('remetente').innerHTML = '<option value="'+id_ass+'" selected>cu</option>'#}
                 $( '#remetente' ).html('<option value="'+user_id+'" selected>'+user_info+'</option>');
             }else{
                 $('#remetente').html('<option value="'+user_id+'" selected>A'+user_info+'</option>'+'<option value="'+id_ass+'">'+espelho_info+'</option>');
             }
-
         });
 
     }
 
+    function formatCash(i) {
+        var v = i.value.replace(/\D/g,'');
+        v = (v/100).toFixed(2) + '';
+        v = v.replace(".", ",");
+        v = v.replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,");
+        v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
+        i.value = "R$ "+v;
+    }
 
-    /* Activate smart panels */
-    $('#js-page-content').smartPanel({
-        collapseButton: true,
-        closeButton: true,
-        positionKeyLabel: 'Reset position?',
-    });
+    function formatPercent(i) {
+        var v = i.value.replace(/\D/g,'');
+        v = (v/100).toFixed(2) + '';
+        v = v.replace(".", ",");
+        v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
+        i.value = v+'%';
+    }
 
     $(document).ready(function(){
+
         $("#filter").on("keyup", function() {
             var value = $(this).val().toLowerCase();
             $("#tablemail tr").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
-    });
 
-    $(document).ready(function()
-    {
-        // initialize datatable
-        $('#ceo').dataTable(
-        {
-            order: [[ 1, "asc" ]],
-            searching: false,
-            paging: false,
-            responsive: {
-            breakpoints: [
-                { name: 'desktop', width: Infinity },
-                { name: 'tablet',  width: 1024 },
-                { name: 'fablet',  width: 768 },
-                { name: 'phone',   width: 480 }
-            ]
-        },
-            columnDefs: [
-
-            { details: true, targets: 0,  },
-
-            ],
-        });
-
-        $('.js-thead-colors a').on('click', function()
-        {
-            var theadColor = $(this).attr("data-bg");
-            console.log(theadColor);
-            $('#dt-basic-example thead').removeClassPrefix('bg-').addClass(theadColor);
-        });
-
-        $('.js-tbody-colors a').on('click', function()
-        {
-            var theadColor = $(this).attr("data-bg");
-            console.log(theadColor);
-            $('#dt-basic-example').removeClassPrefix('bg-').addClass(theadColor);
-        });
-
-
-    });
-
-    $(document).ready(function()
-    {
-        // initialize datatable
-        $('#dt-basic-example').dataTable(
-        {
-            searching: false,
-            paging: false,
-            responsive: {
-            breakpoints: [
-                { name: 'desktop', width: Infinity },
-                { name: 'tablet',  width: 1024 },
-                { name: 'fablet',  width: 768 },
-                { name: 'phone',   width: 480 }
-            ]
-        },
-            columnDefs: [
-
-            { details: true, targets: 0,  },
-
-            ],
-        });
-
-        $('.js-thead-colors a').on('click', function()
-        {
-            var theadColor = $(this).attr("data-bg");
-            console.log(theadColor);
-            $('#dt-basic-example thead').removeClassPrefix('bg-').addClass(theadColor);
-        });
-
-        $('.js-tbody-colors a').on('click', function()
-        {
-            var theadColor = $(this).attr("data-bg");
-            console.log(theadColor);
-            $('#dt-basic-example').removeClassPrefix('bg-').addClass(theadColor);
-        });
-
-
-    });
-
-
-</script>
-
-<script>
-
-    {#get_emails_enviados()#}
-
-    {# CHNAGE REMETENTE #}
-    {#  -----------------------------------------------------------------------------  #}
         $('#remetente').on('change', function() {
             var infos = this.value.split('-', 2)
             {#document.getElementById('email_from').value = infos[2]#}
@@ -151,163 +72,17 @@
           {#alert( this.value );#}
         });
 
-    {# METHODS TO POPULATE EMAIL BODY #}
+    });
 
-    {#  -----------------------------------------------------------------------------  #}
+  
+  
+    
 
-    {# METHODS TO FORMAT FIELDS #}
-    {#  -----------------------------------------------------------------------------  #}
+    
 
-    {# FORMAT VALUE INTO CASH #}
-    function formatCash(i) {
-        var v = i.value.replace(/\D/g,'');
-        v = (v/100).toFixed(2) + '';
-        v = v.replace(".", ",");
-        v = v.replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,");
-        v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
-        i.value = "R$ "+v;
-    }
+  
 
-    {# FORMAT VALUE INTO PERCENTAGE #}
-    function formatPercent(i) {
-        var v = i.value.replace(/\D/g,'');
-        v = (v/100).toFixed(2) + '';
-        v = v.replace(".", ",");
-        v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
-        i.value = v+'%';
-    }
+   
 
-    {#  -----------------------------------------------------------------------------  #}
-
-    {# METHODS TO VALIDATE FORM #}
-    {#  -----------------------------------------------------------------------------  #}
-
-    {#  MAIL #}
-    {#  -----------------------------------------------------------------------------  #}
-
-    function get_emails_enviados(){
-        var token = '{{ csrf_token }}';
-        $.ajax({
-            type: 'Post',
-            url: '{% url 'ajax:get-mail-rf' %}',
-            data:
-                {
-                  pk:'{{ oferta.Fundo }} - {{ oferta.Emissor }}',
-                  csrfmiddlewaretoken: token
-                },
-
-
-            success: function (response) {
-
-                console.log(response)
-
-                $('#tablemail').html(response);
-
-           },
-       });
-    }
-
-    function sendmail(){
-
-        document.getElementById('emai_text').value = document.getElementById('email_body').innerHTML;
-        var oferta_info = document.getElementById('dados_da_oferta').innerHTML
-        var token = '{{ csrf_token }}';
-        var email_body = document.getElementById('emai_text').value
-        var assunto = document.getElementById('assunto').value
-        var email = document.getElementById('emeincliente').value
-
-        var remetente = document.getElementById('remetente').value
-        var codigo = document.getElementById('codigo').value
-        var nome = document.getElementById('nome').value
-
-        var quantidade = document.getElementById('quantidade').value
-        var valor_financeiro = document.getElementById('text_valor_financeiro').innerHTML
-
-        var assessor_responsavel = document.getElementById('assessor_responsavel').value
-
-        $.ajax({
-            type: 'POST',
-            dataType : 'html',
-            url: '{% url 'ajax:send-mail-rf' %}',
-            data: {
-                chave: '{{ oferta.Fundo }} - {{ oferta.Emissão }}',
-                nome_oferta:'{{ oferta.Fundo }} - {{ oferta.Emissão }}',
-                remetente: remetente,
-                oferta_info: oferta_info,
-                codigo: codigo,
-                assessor_responsavel: assessor_responsavel,
-                nome: nome,
-                quantidade: quantidade,
-                valor_financeiro: valor_financeiro,
-                valor_da_cota: '{{ oferta.PreçoeCotação|split:"Cotação:"|last|split:"("|first }}',
-                email_body: email_body,
-                email: email,
-                assunto: assunto,
-
-                csrfmiddlewaretoken: token
-            },
-            beforeSend : function () {
-                $('#sender').html(
-                    '<button class="btn btn-info" type="button" disabled>' +
-                        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'+
-                        ' Enviando...'+
-                    '</button>'
-                );
-
-            },
-            success: function (response) {
-
-                if(response != 'false'){
-
-                    {#var defaut = '{{ request.user.id|get_assessor_code_nome_email  }}'#}
-                    {#var selectobject = document.getElementById("remetente");#}
-                    {#    for (var i=0; i<selectobject.length; i++) {#}
-                    {#        if (selectobject.options[i].value != defaut)#}
-                    {#            selectobject.remove(i);#}
-                    {#            var infos = defaut.split('-', 2)#}
-                                {#document.getElementById('email_from').value = infos[2]#}
-                                {#document.getElementById('remetente_name').value = #}
-                    {#            $('#remetente_name').html(infos[1]);#}
-                    {#    }#}
-
-                    window.scrollTo({ bottom: 0, behavior: 'smooth' })
-                    document.getElementById("form").reset()
-                    $( '#unknow' ).html('');
-                    $( '#text_nome' ).html('<span class="text-danger b-1">[NOME DO CLIENTE]</span>');
-                    $( '#text_code' ).html('<span class="text-danger b-1">[CÓDIGO DO CLIENTE]</span>');
-                    $( '#serie_name' ).html('<span class="text-danger b-1">[SÉRIE]</span>');
-                    $( '#reserva' ).html('<span class="text-danger b-1">[VALOR]</span>');
-                    $( '#serie_ano' ).html('<span class="text-danger b-1">[NTNB ANO]</span>');
-                    $( '#serie_taxa' ).html('<span class="text-danger b-1">[TAXA]</span>');
-                    $( '#text_val_fin' ).html('<span class="text-danger b-1">[VALOR]</span>');
-                    $( '#serie_venvimento' ).html('<span class="text-danger b-1">[VENCIMENTO]</span>');
-                    get_emails_enviados()
-                    $(document).ready(function(){
-                        Swal.fire(
-                        {
-                            position: "top-end",
-                            type: "success",
-                            title: "<span class='text-success'><i class='fal fa-check-circle'></i> Email envidao com sucesso!</span>",
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-
-                    });
-
-                    $('#remetente_name').html('{{ request.user.first_name }} {{ request.user.last_name }}')
-
-                    $('#sender').html(
-                        '<button id="sendform"  class="btn btn-primary isDisable ladda-button" data-style="expand-right" onclick="sendmail()">Enviar E-mail</button><br>'+
-                        '<span id="notificacao"></span>'
-                    )
-
-                }else{
-                    $('#notificacao').html(response);
-                }
-           },
-       });
-    }
-
-    {#  -----------------------------------------------------------------------------  #}
 
 </script>

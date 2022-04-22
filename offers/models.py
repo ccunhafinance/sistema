@@ -206,21 +206,16 @@ class FiiEdit(models.Model):
     liquidacao_periodo_publico = models.DateField("Liquidação do Período Público" ,blank=True, null=True)
 
 
-# Fii
-class EmailFii(models.Model):
-    ticker = models.CharField(max_length=100)
-    # emissao = models.CharField(max_length=100)
-    id_sender = models.IntegerField(null=True, blank=True)
-    nome_oferta = models.CharField(max_length=100)
-    remetente = models.CharField(max_length=100)
-    codigo_cliente = models.CharField(max_length=100)
-    nome_cliente = models.CharField(max_length=100)
-    assessor_responsavel = models.CharField(max_length=100)
-    valor_da_cota = models.CharField(max_length=200)
-    valor_financeiro = models.CharField(max_length=200)
-
-    email_body = models.TextField(blank=True, null=True)
-    # email_body = models.TextField(blank=True, null=True)
-    email = models.CharField(max_length=200)
-    assunto = models.CharField(max_length=200)
-    data_sent = models.DateTimeField(default=datetime.now, blank=True)
+# Registro de email Fii
+class RegisttoEmailFii(models.Model):
+    ticker = models.CharField(max_length=100, null=True, blank=True)
+    cliente = models.IntegerField(null=True, blank=True)
+    enviado_por = models.IntegerField(null=True, blank=True)
+    remetente = models.IntegerField(null=True, blank=True)
+    preco_mercado = models.FloatField(max_length=100, null=True, blank=True)
+    data_prec_mercado = models.DateTimeField(max_length=100, null=True, blank=True)
+    preco_oferta = models.FloatField(max_length=100, null=True, blank=True)
+    quantidade = models.IntegerField(null=True, blank=True)
+    conteudo_email = models.TextField(null=True, blank=True)
+    data_envio = models.DateTimeField(auto_now_add=True)
+   

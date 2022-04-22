@@ -1,4 +1,5 @@
 import csv
+from dataclasses import replace
 from django.core.mail import EmailMessage
 from googlefinance import getQuotes
 import requests
@@ -735,6 +736,27 @@ def ofertarvfiiview(request):
 @login_required(login_url='/')
 def sendemailrvfii(request, id, ticker):
 
+    result = requests.get('https://www.google.com/finance/quote/'+ticker+':BVMF?hl=pt')
+    src = result.content
+    soup = bs(src, 'lxml')
+    price = soup.find('div', attrs={'class': 'YMlKec fxKbKc'})
+    data_site = soup.find('div', attrs={'class': 'ygUjEc'})
+    divide = data_site.text.split('.')
+    pega_data = divide[0]
+    pega_hora = divide[1].split('·')
+    hora_final = pega_hora[0].split(' ')
+
+    data_format = pega_data.split(' ')
+    dia = data_format[0]
+    mes = data_format[2]
+    ano = datetime.now().year
+
+    nova_data = str(mes) + ' '+ str(dia) + ' '+ str(ano)
+
+    locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+    conv=time.strptime(nova_data,"%b %d %Y")
+    data_convertida = time.strftime("%Y-%m-%d",conv)
+  
     with open('data/ofertas/fii/ticker11_data.json') as json_file:
         ticker11 = json.load(json_file)
 
@@ -755,12 +777,18 @@ def sendemailrvfii(request, id, ticker):
     else:
         saldacao = 'Boa noite'
 
+    data_convertida = datetime.strptime(data_convertida, '%Y-%m-%d')
+
     context = {
         'espelhamento': Espelhamento.objects.all(),
-        'saldacao': saldacao,
+        'preco_merc': price.text,
+        'data_merc': data_convertida,
+        'hora_merc': hora_final[1],
         'oferta': a_oferta,
+        'saldacao': saldacao,
         'ticker': ticker,
         'clientes': subs,
+        'registro_email' : RegisttoEmailFii.objects.filter(ticker=ticker),
         # Crumbs First Page Config
         'first_page_name': 'Ofertas',
         'first_page_link': '',
@@ -783,49 +811,59 @@ def sendemailrvfii(request, id, ticker):
 @login_required(login_url='/')
 def envia_email_fii(request):
 
+    id_oferta = request.POST['id_oferta']
     ticker = request.POST['ticker']
-    id = request.POST['id']
 
-    html_content = request.POST['corpo_email']
+    qtd = request.POST['qtd']
+    preco_oferta = request.POST['preco_oferta']
+    preco_mercado = request.POST['preco_merc']
+    data_preco_mercado = request.POST['data_merc']
+    remetente = request.POST['remetente']
+    codigo_cliente = request.POST['form_cod_cliente']
+
+    enviado_por = request.POST['enviado_por']
+    assunto = request.POST['assunto']
+    corpo_email = request.POST['corpo_email']
+    emaildocliente = request.POST['emaildocliente']
+
+    responder_a = CustomUser.objects.get(id=enviado_por).email
+    enviar_para = ['ccunhafinance@gmail.com']
+    # enviar_para = [emaildocliente]
 
     email = EmailMessage(
-        request.POST['assunto'] + ' - '+str(request.POST['remetente']),
-        # 'Renda Fixa',
-        html_content,
+        assunto,
+        corpo_email,
         'Inove Investimentos <web@inoveinvestimentos.com.br>',
-        # [request.POST['email']],
-        ['ccunhafinance@gmail.com'],
-        # ['brunorochamartins@live.com'],
-        # ['emaildocis@gmail.com'],
-        # reply_to=['ccunhafinance@gmail.com.com.br'],
-        reply_to=[request.POST['email_assessor'], 'ordens@inoveinvestimentos.com.br'],
+        enviar_para,
+        reply_to=[responder_a],
         headers={'Message-ID': 'foo'},
     )
     email.content_subtype = "html"
     email.send()
 
-    # registro de oferta enviada
-    dados = EmailFii(
-        ticker=request.POST['ticker'],
-        id_sender=request.POST['enviado_por'],
-        nome_oferta=request.POST['assunto'],
-        remetente=request.POST['remetente'],
-        codigo_cliente=request.POST['cod_assessor_mail'],
-        nome_cliente=request.POST['cod_assessor_mail'],
-        assessor_responsavel=request.POST['responsavel'],
-        valor_da_cota=request.POST['cod_assessor_mail'],
-        valor_financeiro=request.POST['cod_assessor_mail'],
-        email_body=request.POST['corpo_email'],
-        email=request.POST['climail'],
-        assunto=request.POST['cod_assessor_mail'],
-        data_sent=datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+    preco_oferta = preco_oferta.replace('R$','')
+    preco_oferta = preco_oferta.replace(',','.')
+    preco_mercado = preco_mercado.replace('R$','')
+    preco_mercado = preco_mercado.replace(',','.')
 
-    )
+    registro_email_fii = RegisttoEmailFii(
+        ticker=ticker ,
+        cliente=codigo_cliente,
+        enviado_por=enviado_por,
+        remetente=remetente,
+        preco_mercado= float(preco_mercado),
+        data_prec_mercado=datetime.strptime(data_preco_mercado, '%Y-%m-%d'),
+        preco_oferta=float(preco_oferta),
+        conteudo_email=corpo_email,
+        quantidade=qtd ,
+    ) 
+
+    registro_email_fii.save()
+
     
-    dados.save()
 
     # Redirect to same page after form submit
-    return redirect('/ofertas/rv/fii/enviar-email-rv-fii/'+id+'/'+ticker)
+    return redirect('/ofertas/rv/fii/enviar-email-rv-fii/'+id_oferta+'/'+ticker)
 
 # Scrape TICKER11
 @login_required(login_url='/')
