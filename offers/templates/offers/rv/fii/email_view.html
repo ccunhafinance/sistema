@@ -303,19 +303,12 @@
                                         <td class="text-center">
                                             {%if cliente.Status == "" %}
                                                 {%if cliente.CodigoCliente|check_email_sent:ticker|date:'d/m/Y H:i:s'%}
-                                                    {{cliente.CodigoCliente|check_email_sent:ticker|date:'d/m/Y H:i:s'}}
+                                                    <span class="text-success">Email Enviado</span>
                                                 {%else%}
                                                     <i class="fal fa-minus-circle text-danger text-center"></i>
                                                 {%endif%}
                                             {%else%}
-                                            {%if cliente.CodigoCliente|check_email_sent:ticker|date:'d/m/Y H:i:s'%}
-                                                    {{cliente.CodigoCliente|check_email_sent:ticker|date:'d/m/Y H:i:s'}}
-                                                {%else%}
-                                                {{cliente.Status}}
-                                                {%endif%}
-
-                                           
-                                                
+                                                <span class="text-info">{{cliente.Status}}</span>
                                             {%endif%}
                                             
                                         </td>
