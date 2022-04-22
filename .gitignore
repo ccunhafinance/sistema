@@ -145,3 +145,4 @@ ssh
 data/clientes
 data
 .DS_Store
+db.sqlite3

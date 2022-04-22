@@ -827,7 +827,7 @@ def envia_email_fii(request):
     emaildocliente = request.POST['emaildocliente']
 
     responder_a = CustomUser.objects.get(id=enviado_por).email
-    enviar_para = ['ccunhafinance@gmail.com']
+    enviar_para = ['ccunhafinance@gmail.com','bruno.martins@inoveinvestimentos.com.br']
     # enviar_para = [emaildocliente]
 
     email = EmailMessage(
