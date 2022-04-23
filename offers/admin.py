@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import EmailRf, OfferRf, SerieRf, OfferRvSubscription, OfferRvIpo, ModalidadeIpo
+from .models import EmailRf, OfferRf, RegisttoEmailFii, SerieRf, OfferRvSubscription, OfferRvIpo, ModalidadeIpo
 
 class OfferRFPropertyInline(admin.StackedInline):
     model = SerieRf
@@ -37,4 +37,5 @@ class OfferRvIpoAdmin(admin.ModelAdmin):
 admin.site.register(OfferRf, OfferRFAdmin)
 admin.site.register(OfferRvIpo, OfferRvIpoAdmin)
 admin.site.register(OfferRvSubscription)
+admin.site.register(RegisttoEmailFii)
 admin.site.register(EmailRf)
