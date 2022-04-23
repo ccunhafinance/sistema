@@ -346,6 +346,7 @@
                             <tr>
                                 {% comment %} <th>Ver</th> {% endcomment %}
                                 <th>Cliente</th>
+                                <th>Email</th>
                                 <th>Enviado Por</th>
                                 <th>Remetente</th>
                                 <th>Preço de Mercado</th>
@@ -360,6 +361,7 @@
                                 <tr>
                                     {% comment %} <td><i class="fa fa-eye text-success"></i></td> {% endcomment %}
                                     <td>{{registro.cliente}}<br><small>{{registro.cliente|get_cliente_first_nome}}</small></td>
+                                    <td>{{registro.email}}</td>
                                     <td>{{registro.enviado_por|get_user_code_name}}</td>
                                     <td>{{registro.remetente|get_user_code_name}}</td>
                                     <td>{{registro.preco_mercado|format_preco}}<br><small>{{registro.data_prec_mercado|date:'d/m/Y'}}</small></td>
