@@ -107,7 +107,6 @@ def segundo_upload(a, b):
         for cliente in clientes:
             if str(cliente.nickname) == str(item[0]) and str(cliente.assessor) != str(item[2]):
                 Clientes.objects.filter(nickname=cliente.nickname).update(
-                    nome=str(item[1]).title(),
                     assessor=item[2],
                     antigo_assessor=cliente.assessor,
                     d0=item[3],
@@ -126,7 +125,6 @@ def segundo_upload(a, b):
             for cliente in clientes:
                 if str(cliente.nickname) == str(item[0]):
                     Clientes.objects.filter(nickname=cliente.nickname).update(
-                    nome=str(item[1]).title(),
                     d0=item[3],
                     d1=item[4],
                     d2=item[5],
