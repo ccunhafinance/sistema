@@ -217,5 +217,6 @@ class RegisttoEmailFii(models.Model):
     preco_oferta = models.FloatField(max_length=100, null=True, blank=True)
     quantidade = models.IntegerField(null=True, blank=True)
     conteudo_email = models.TextField(null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
     data_envio = models.DateTimeField(auto_now_add=True)
    

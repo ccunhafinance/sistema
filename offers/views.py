@@ -824,7 +824,7 @@ def envia_email_fii(request):
     enviado_por = request.POST['enviado_por']
     assunto = request.POST['assunto']
     corpo_email = request.POST['corpo_email']
-    emaildocliente = request.POST['emaildocliente']
+    emaildocliente = [request.POST['emaildocliente']]
 
     responder_a = CustomUser.objects.get(id=enviado_por).email
     enviar_para = [request.POST['emailteste']]
@@ -851,6 +851,7 @@ def envia_email_fii(request):
         cliente=codigo_cliente,
         enviado_por=enviado_por,
         remetente=remetente,
+        email=request.POST['emaildocliente'],
         preco_mercado= float(preco_mercado),
         data_prec_mercado=datetime.strptime(data_preco_mercado, '%Y-%m-%d'),
         preco_oferta=float(preco_oferta),
