@@ -550,7 +550,7 @@ def check_email_sent(value, ticker):
          return a.data_envio
     except RegisttoEmailFii.DoesNotExist:
     # Passed value wasn't a date object
-        return 'oioiuiuyu'
+        return '-'
   
 
 
