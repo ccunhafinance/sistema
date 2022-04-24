@@ -23,7 +23,6 @@ from django.db import transaction
 from .tasks import *
 from django.http import JsonResponse
 import datetime
-
 import pandas as pd
 from .tasks import *
 import pytz

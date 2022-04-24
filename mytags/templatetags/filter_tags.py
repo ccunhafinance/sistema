@@ -539,7 +539,7 @@ def format_preco(value):
 @register.filter
 def val_fim_calc(val1, val2):
     result = val1*val2
-    return 'R$ '+str(result).replace('.',',')
+    return 'R$ '+str('%.2f' %result).replace('.',',')
 
 @register.filter
 def check_email_sent(value, ticker):

@@ -1,5 +1,4 @@
 from datetime import date
-
 from django.db import models
 from users.models import CustomUser
 
@@ -68,13 +67,16 @@ class NovoEmail(models.Model):
     manual = models.CharField(max_length=100, blank=True, null=True)
     data_manual = models.DateField(blank=True, null=True)
 
-
 class RegistroAtividades(models.Model):
     cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
     registro = models.CharField(max_length=100, blank=True, null=True)
     descricao = models.TextField(blank=True, null=True)
     assessor_responsavel = models.CharField(max_length=100, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
+
+class EnqueteOnbording(models.Model):
+    pass
+
 
 
 

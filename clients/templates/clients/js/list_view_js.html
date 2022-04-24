@@ -11,9 +11,79 @@
 
     {% comment %} document.getElementById("inputGroupFile01").addEventListener("change", checkFilebtn); {% endcomment %}
 
+
+    function getClientcode(code)
+    {
+        document.getElementById('codigoDeCliente').value = code;
+        $('#testeform').removeClass('escondido');
+
+    }
+
     
 
     $(document).ready(function(){
+
+        $('input:radio[name="possuiParticipacaoSocietariaEmAlgumaEmpresa"]').change(function(){
+
+            if ($(this).val() == 'Sim') {
+                $('#participacaoSocietariaSim').removeClass('escondido')
+            }
+            else {
+                $('#participacaoSocietariaSim').addClass('escondido')
+                document.getElementById('qualONomeDaEmpresa').value = ''
+                $('input:radio[name="qualFaturamentoMedioAnualDaEmpresa"]').prop('checked', false);
+                $('input:radio[name="empresaPossuiSeguroDeVidaEmGrupo"]').prop('checked', false);
+                $('input:radio[name="empresaPossuiPlanoDeSaudeParaFuncionarios"]').prop('checked', false);
+            }
+        });
+        
+
+        $('input:radio[name="oSeuPlanoDeSaudeEAtravesDe"]').change(function(){
+
+            if ($(this).val() == 'Pessoa Física' || $(this).val() == 'Pessoa Jurídica') {
+                $('#pessoaFisicaJuridica').removeClass('escondido')
+            }
+            else {
+                $('#pessoaFisicaJuridica').addClass('escondido')
+                document.getElementById('quantasVidasEstaoCobertasPeloSeuPlano').value = ''
+            }
+        });
+
+        $('.classCondition').change(function(){
+
+            if($(this).is(":checked")) {
+                document.getElementById('estrategiaProtecaoPatrimonialToGo').value += $(this).val()+' '
+                $('#nenhuma').prop( "checked", false );
+            } else {
+                document.getElementById('estrategiaProtecaoPatrimonialToGo').value = document.getElementById('estrategiaProtecaoPatrimonialToGo').value.replace($(this).val(),'')
+                
+            }
+        });
+
+       
+        $('input:checkbox[name="possuiAlgumaEstrategiaDeProtecaoPatrimonial"]').change(function(){
+
+            if ($(this).val() == 'Nenhuma') {
+                document.getElementById('estrategiaProtecaoPatrimonialToGo').value = '';
+                $('.classCondition').prop( "checked", false );
+                document.getElementById("protecaoPatrimonialOutro").style.display = "none";
+                document.getElementById("qualEstrategia").value= "";
+            }
+        });
+
+        $('#outro').change(function() {
+            $('#protecaoPatrimonialOutro').toggle();
+        });
+
+       
+
+        // $('input:checkbox').change(function(){
+           //  if($(this).is(":checked")) {
+              //   $('div.menuitem').addClass("menuitemshow");
+            // } else {
+               // $('div.menuitem').removeClass("menuitemshow");
+            //}
+        // });  
 
         $(":input").inputmask();
 
