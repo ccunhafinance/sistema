@@ -30,8 +30,8 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
             'icon': main_icon,
             'page_name': 'Dashboard',
             'subtitle': 'Painel de Controles',
-            'sticker': 'Novo',
-            'page_description': 'Área onde pode-se adicionar diferentes atalhos de aplicações.'
+            'sticker': '',
+            'page_description': ''
         }
 
         return context

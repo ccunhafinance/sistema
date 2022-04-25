@@ -1,0 +1,116 @@
+{% load static %}
+{% load filter_tags %}
+
+<div class="tab-pane fade" id="tab_default-9" role="tabpanel">
+
+  <table id="dt-basic-example9" class="table table-bordered table-hover table-striped w-100 table-sm" >
+
+      <thead>
+          <tr class="text-center">
+              <th style="white-space:nowrap;" rowspan="2">Código</th>
+              <th style="white-space:nowrap;" rowspan="2">Nome</th>
+              <th style="white-space:nowrap;" rowspan="2">Email <br> On Bording</th>
+              <th style="white-space:nowrap;" rowspan="2">Frequência <br> de Contato</th>
+              <th style="white-space:nowrap;" rowspan="2">Perfil <br> Preenchido</th>
+              <th style="white-space:nowrap;" rowspan="2">Meio <br> de Contato</th>
+              <th style="white-space:nowrap;" rowspan="2">Acomp. <br> Permanente</th>
+              <th >Questionário</th>
+              <th style="white-space:nowrap;" rowspan="2">Sugestão <br> Enviada </th>
+              <th style="white-space:nowrap;" rowspan="2">Sugestão <br> Alocada</th>
+              <th class="phone" rowspan="2">Observação</th>
+          </tr>
+          
+      </thead>
+
+      <tbody>
+
+        {% for cliente in onbording %}
+
+          <tr>
+              <td>{{ cliente.cliente_id|getCodeClient }}</td>
+              <td>{{ cliente.cliente_id|getNameClient|split:' '|first }}</td>
+
+              <td class='text-center'> 
+                  <a href="javascript:void(0);" class="btn btn-default btn-sm btn-icon waves-effect waves-themed thisButton" >
+                      <i class="fal fa-times"></i>
+                  </a>
+              </td>
+              
+
+              <td>
+                  <select class="form-control" id="frequencia_contato"  name="frequencia_contato"  onchange="updateOnbording('{{ cliente.cliente_id }}','frequenciaContato', this)">
+                      <option value="Não Definido" {%if cliente.frequencia_contato == "Não Definido"%} selected{%endif%}>Não Definido</option>
+                      <option value="1 mes" {%if cliente.frequencia_contato == "1 mes"%} selected{%endif%}>1 mes</option>
+                      <option value="3 meses" {%if cliente.frequencia_contato == "3 meses"%} selected{%endif%}>3 meses</option>
+                      <option value="6 meses" {%if cliente.frequencia_contato == "6 meses"%} selected{%endif%}>6 meses</option>
+                      <option value="12 meses" {%if cliente.frequencia_contato == "12 meses"%} selected{%endif%}>12 meses</option>
+                  </select>
+              </td>
+
+              <td class="text-center">
+                  <a href="javascript:void(0);" class="btn {%if cliente.id|check_preenchido == 'vazio'%} btn-default {%else%} btn-success {%endif%} btn-sm btn-icon waves-effect waves-themed thisButton" onclick="updateOnbording('{{ cliente.cliente_id }}','perfilPreenchido', 1)">
+                      {%if cliente.id|check_preenchido == 'vazio'%}
+                      <i class="fal fa-times"></i>
+                      {%else%}
+                      <i class="fal fa-check"></i>
+                      {%endif%}
+                  </a>
+              </td>
+
+              <td>
+                  <select id="zap_mail" class="form-control" name="zap_mail" required onchange="updateOnbording('{{ cliente.cliente_id }}','meioDeContato', this)">
+                      <option value="Não Definido" {% if cliente.meio_contato == 'Não Definido' %} selected {% endif %}>Não Definido</option>
+                      <option value="WhatsApp" {% if cliente.meio_contato == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
+                      <option value="Telefone" {% if cliente.meio_contato == 'Telefone' %} selected {% endif %}>Telefone</option>
+                      <option value="Email" {% if cliente.meio_contato == 'Email' %} selected {% endif %}>Email</option>
+                  </select>
+              </td>
+
+              <td class="text-center">
+                  <a href="javascript:void(0);" class="btn {%if cliente.acomp_permanente == False %}btn-default{%else%}btn-success{%endif%} btn-sm btn-icon waves-effect waves-themed thisButtonToggle btnFalse" onclick="updateOnbording('{{ cliente.cliente_id }}','acompanhamentoPermanente', 1)">
+                      {%if cliente.acomp_permanente == False %}
+                      <i class="fal fa-times"></i>
+                      {%else%}
+                      <i class="fal fa-check"></i>
+                      {%endif%}
+                  </a>
+                  </a>
+              </td>
+
+              <td class="text-center">
+                <a id='enquete' class="btn btn-small btn-default" onclick="getClientcode('{{ cliente.cliente_id|getCodeClient }}')">Responder</a>
+              </td>
+              
+              <td class="text-center">
+                  <a href="javascript:void(0);" class="btn {%if cliente.id|check_sugestao == 'vazio'%} btn-default{%else%} btn-success {%endif%} btn-sm btn-icon waves-effect waves-themed thisButton btnFalse" onclick="updateOnbording('{{ cliente.cliente_id }}','sugestao', 1)">
+                      {%if cliente.id|check_sugestao == 'vazio' %}
+                      <i class="fal fa-times"></i>
+                      {%else%}
+                      <i class="fal fa-check"></i>
+                      {%endif%}
+                  </a>
+              </td>
+
+              <td class="text-center">
+                  <a href="javascript:void(0);" class="btn {%if cliente.id|check_alocacao == 'vazio'%} btn-default{%else%} btn-success {%endif%} btn-sm btn-icon waves-effect waves-themed thisButton btnFalse" onclick="updateOnbording('{{ cliente.cliente_id }}','alocacao', 1)">
+                      {%if cliente.id|check_alocacao == 'vazio'%}
+                      <i class="fal fa-times"></i>
+                      {%else%}
+                      <i class="fal fa-check"></i>
+                      {%endif%}
+                  </a>
+              </td>
+
+              <td class="text-center"> 
+                  <button id="addobserva" class="btn btn-sm btn-default" data-toggle="modal" data-target="#default-example-modal" onclick="obsOpen('{{ cliente.id }}', '{{ cliente.onbording_obs }}')">Adicionar</button> &nbsp; {{ cliente.onbording_obs|default:'' }} 
+              </td>
+              
+          </tr>
+
+        {% endfor %}
+
+      </tbody>
+
+  </table>
+
+</div>

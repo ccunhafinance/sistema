@@ -1,0 +1,60 @@
+{% load static %}
+{% load filter_tags %}
+
+<div class="tab-pane fade show active" id="tab_default-2" role="tabpanel">
+  <table id="novos" class="table table-bordered table-hover table-striped w-100 table-sm">
+
+      <thead>
+          <tr>
+              <th>Código</th>
+              <th>Nome</th>
+              <th>Sexo</th>
+              <th>E-mail</th>
+              <th>Telefone</th>
+              <th>Nascimento</th>
+              <th>Rotina</th>
+              <th>Data</th>
+              <th>Atualizar</th>
+          </tr>
+      </thead>
+
+      <tbody>
+
+          {% for cliente in novos_clientes %}
+
+
+              <tr>
+                  <form method="post" action="{% url 'clients:update_cliente_novo' %}">
+                      {% csrf_token %}
+                      <input hidden name='assessor' value='{{cliente.assessor}}'>
+
+
+                      <td class="text-center"><span style="margin-top: 150px">{{ cliente.nickname }}</span> <input  hidden value="{{ cliente.id }}" name="id"></td>
+                      <td><input   type="text" class="form-control" name="nome" value="{{ cliente.nome}}" required></td>
+                      <td>
+                          <select class="form-control" name="sexo" required>
+                              <option value="">Definir</option>
+                              <option value="M" {% if cliente.sexo == 'M' %} selected {% endif %}>M</option>
+                              <option value="F" {% if cliente.sexo == 'F' %} selected {% endif %}>F</option>
+                          </select>
+                      </td>
+                      <td><input type="email" class="form-control" name="email" value="{{ cliente.email|default:'' }}" required></td>
+                      <td><input type="text" class="form-control" name="telefone" data-inputmask="'mask': '99 99999-9999'" value="{{ cliente.telefone|default:'' }}" required></td>
+                      <td>
+                      <input type="date" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento|format_aniversario}}" required>
+                      </td>
+                      <td class="text-center">
+                          <input type="checkbox" style="margin-top: 15px" name="rotina" value="1" checked>
+                      </td>
+                      <td>{{ cliente.data_registro|date:'d/m/Y H:s:i' }}</td>
+                      <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
+                  </form>
+              </tr>
+
+
+          {% endfor %}
+
+      </tbody>
+
+  </table>
+</div>

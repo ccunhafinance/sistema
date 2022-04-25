@@ -1,0 +1,159 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load filter_tags %}
+{% load crispy_forms_tags %}
+
+
+<!-- BEGIN page Style -->
+{% block style %}
+     {% include './css/css.html' %}
+    <style>
+        .escondido{
+            display:none
+        }
+    </style>
+{% endblock %}
+<!-- END page Style -->
+
+<!-- BEGIN Page Subheader -->
+{% block subheader %}
+{% endblock %}
+<!-- END page Subheader -->
+
+<!-- BEGIN page content -->
+{% block content %}
+
+
+
+    <div id="js-page-content-demopanels">
+        <div class="col-xl-12">
+
+            <div class="loader"></div>
+            <div id="panel-1" class="panel">
+
+                
+                <div class="panel-hdr">
+                    <h2>
+                        Lista de Clientes <span class="fw-300"><i></i></span>
+                        <a href="javascript:void(0);" class="btn btn-outline-danger" id="js-sweetalert2-example-8">
+                            <i class="fal fa-engine-warning"></i> Excluir todos os dados!
+                        </a>
+                    </h2>
+                   
+                </div>
+                  
+                <div class="panel-container show">
+                    <div class="panel-content">
+
+                        <div class="demo-v-spacing">
+                            <ul class="nav nav-tabs" role="tablist">
+                  
+                                <li class="nav-item justify-content-end" >
+                                    <a class="nav-link active fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-0" role="tab">
+                                        <i class="fal fa-user-friends"></i>
+                                        <span class="hidden-sm-down ml-1">Todos{% if n_clientes > 0 %} <span class="badge ml-2">{{ n_clientes }}</span> {% endif %}</span>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item justify-content-end" >
+                                    <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-4" role="tab">
+                                        <i class="fal fa-user-times text-danger"></i>
+                                        <span class="hidden-sm-down ml-1">Perdidos {% if n_inativo > 0 %} <span class="badge bg-danger-300 ml-2">{{ n_inativo }}</span> {% endif %}</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content p-3">
+
+                                <!-- Todos os clientes -->
+                                <div class="tab-pane fade show active" id="tab_default-0" role="tabpanel">
+                                    <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100 table-sm">
+
+                                        <thead>
+                                            <tr>
+                                                <th>Código</th>
+                                                <th>Nome</th>
+                                                <th>Sexo</th>
+                                                <th>E-mail</th>
+                                                <th>Telefone</th>
+                                                <th>Nascimento</th>
+                                                <th>Rotina</th>
+
+                                            </tr>
+                                        </thead>
+
+                                    </table>
+                                </div> 
+
+                                <!-- Clientes Inativos -->
+                                <div class="tab-pane fade" id="tab_default-4" role="tabpanel">
+                                    <table id="perdidos" class="table table-bordered table-hover table-striped w-100 table-sm">
+
+                                        <thead>
+                                            <tr>
+                                                <th>Código</th>
+                                                <th>Nome</th>
+                                                <th>Sexo</th>
+                                                <th>E-mail</th>
+                                                <th>Telefone</th>
+                                                <th>Assessor</th>
+                                                <th>Nascimento</th>
+                                                <th>Data</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            {% for cliente in inativo %}
+
+                                                <tr>
+                                                    <td>{{ cliente.nickname|default:'' }}</td>
+                                                    <td>{{ cliente.nome|default:'' }}</td>
+                                                    <td>{{ cliente.sexo|default:'' }}</td>
+                                                    <td>{{ cliente.email|default:'' }}</td>
+                                                    <td>{{ cliente.telefone|default:'' }}</td>
+                                                    <td>{{ cliente.assessor|default:'' }}</td>
+                                                    <td>{{ cliente.data_nascimento|default:'' }}</td>
+                                                    <td>{{ cliente.data_registro|default:'' }}</td>
+                                                </tr>
+
+                                            {% endfor %}
+                                        </tbody>
+
+                                    </table>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <textarea hidden id="foo">
+    {% for contato in contatos %}
+
+        <tr>
+            <td>{{ contato.nome|split:' '|first }} {{ contato.nome|split:' '|last }} {{ contato.nickname }}</td>
+            <td>{{ contato.telefone }}</td>
+        </tr>
+
+    {% endfor %}
+    </textarea>
+
+{% endblock %}
+<!-- END page content -->
+
+<!-- BEGIN page script -->
+{% block script %}
+
+    {% include './js/js.html' %}
+
+{% endblock %}
+<!-- END page script -->
+
+

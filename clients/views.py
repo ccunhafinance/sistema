@@ -564,159 +564,122 @@ def send_email_ondemand(request):
 
     return HttpResponse('ok')
 
-def save_by_client(request):
-    codigo = request.POST['codigo']
+# PAGINA MEUS CLIENTES
+def meusClientes(request):
+   
+    clientes = Clientes.objects.filter(assessor=request.user.codigo).exclude(status='Inativo')
+    n_clientes = len(clientes)
+    inativo = Clientes.objects.filter(status='Inativo',assessor=request.user.codigo)
+    n_inativo = len(inativo)
 
-    Clientes.objects.filter(nickname=codigo).update(
-        id=Clientes.objects.get(nickname=codigo).id,
+    context = {
+        'clientes': clientes,
+        'n_clientes': n_clientes,
+        'inativo': inativo,
+        'n_inativo': n_inativo,
+        # Crumbs First Page Config
+        'first_page_name': 'Clientes',
+        'first_page_link': '',
+        # Crumbs Second Page Config
+        'second_page_name': 'Meus Clientes',
+        'second_page_link': '',
+        # Crumbs Third Page Config
+        'third_page_name': '',
+        'third_page_link': '',
+        # Current Page
+        'icon': main_icon,
+        'page_name': 'Clientes',
+        'subtitle': 'Meus Clientes',
+        'sticker': 'Novo',
+        'page_description': 'Listagem de todos os meus clientes.'
+    }
 
-        zap_mail=request.POST['zap_mail'],
-        frequencia_contato=request.POST['frequencia_contato'],
+    return render(request, 'clients/meusclientes/list/base.html', context)
 
-        onbording_acomp_acoes=request.POST['onbording_acomp_acoes'],
-        onbording_acomp_fii=request.POST['onbording_acomp_fii'],
-        onbording_acomp_fiinvest=request.POST['onbording_acomp_fiinvest'],
-        onbording_acomp_per=request.POST['onbording_acomp_per'],
-        onbording_acomp_rf=request.POST['onbording_acomp_rf'],
+# PAGINA ONBOARDING
+def onBording(request):
+    onbording = ClientsOnbording.objects.filter(assessor=request.user.codigo).order_by('-id')
+    n_onboarding = len(onbording)
+    novos_clientes = Clientes.objects.filter(status='Novo',assessor=request.user.codigo).exclude(cliente_dia=True)
+    inativo = Clientes.objects.filter(status='Inativo',assessor=request.user.codigo)
+    google = Clientes.objects.filter(cliente_dia=True, assessor=request.user.codigo)
+    n_contatos = len(Clientes.objects.filter(cliente_dia=True, assessor=request.user.codigo))
+    n_inativo = len(inativo)
+    n_novos_clientes = len(novos_clientes)
+    i = Clientes.objects.filter(troca='interna',assessor=request.user.codigo).exclude(cliente_dia=True)
+    j = Clientes.objects.filter(troca='externa',assessor=request.user.codigo).exclude(cliente_dia=True)
+    troca_interna = len(i)
+    troca_externa = len(j)
 
-        onbording_obs=request.POST['onbording_obs'],
-        token='false'
+    context = {
+        'n_onboarding': n_onboarding,
+        'onbording': onbording,
+        'inativo': inativo,
+        'n_inativo': n_inativo,
+        'novos_clientes': novos_clientes,
+        'n_novos_clientes': n_novos_clientes,
+        'n_troca_assessor': troca_interna,
+        'n_troca_assessor_externa': troca_externa,
+        'troca_assessor': i,
+        'troca_assessor_externa': j,
+        'contatos': google,
+        'n_contatos': n_contatos,
+        # Crumbs First Page Config
+        'first_page_name': 'Clientes',
+        'first_page_link': '',
+        # Crumbs Second Page Config
+        'second_page_name': 'Onbording',
+        'second_page_link': '',
+        # Crumbs Third Page Config
+        'third_page_name': '',
+        'third_page_link': '',
+        # Current Page
+        'icon': main_icon,
+        'page_name': 'Onbording',
+        'subtitle': '',
+        'sticker': '',
+        'page_description': 'Configuraçao Onboarding'
+    }
 
-    )
+    return render(request, 'clients/onbording/main/base.html', context)
 
-
-    dados = ' - Meio de comunicação: '+request.POST['zap_mail']+'<br>'+ \
-            ' - Frenquência de contato: ' + request.POST['frequencia_contato'] + '<br>' + \
-            '- Acompanhamento Permanente: '+request.POST['onbording_acomp_per']+\
-            '<br>- Oportunidades de Renda Fixa: '+request.POST['onbording_acomp_rf']+\
-            '<br>- Oportunidades de Fundos de Investimentos: '+request.POST['onbording_acomp_fiinvest']+\
-            '<br>- Oportunidades de Ações: '+request.POST['onbording_acomp_acoes']+\
-            '<br>- Oportunidades de Fundos Imobiliários: '+request.POST['onbording_acomp_fii']+\
-            '<br>- Observações: <br>'+request.POST['onbording_obs']
-
-
-
-    data = RegistroAtividades(
-        cliente_id=Clientes.objects.get(nickname=codigo).id,
-        registro='Questionário respondido Pelo cliente',
-        descricao=dados,
-        assessor_responsavel=Clientes.objects.get(nickname=codigo).assessor
-    )
-    data.save()
-
-    email = EmailMessage(
-        'Questinário respondido',
-        # 'Renda Fixa',
-        'O Cliente '+codigo+' respondeu o questionário!',
-        'Questionário Respondido <web@inoveinvestimentos.com.br>',
-        # ['ccunhafinance@hotmail.com', ],
-        ['ccunhafinance@gmail.com', 'bruno.martins@inoveinvestimentos.com.BR'],
-        reply_to=['ondemand@inoveinvestimentos.com.br'],
-        headers={'Message-ID': 'foo'},
-    )
-
-    email.content_subtype = "html"
-    email.send()
-
-    return redirect(reverse('clients:obrigado-questionario'))
-
-class ListViewClients(LoginRequiredMixin, generic.TemplateView):
-    template_name = "clients/list_view.html"
-    login_url = '/'
-
-    def get_context_data(self, **kwargs):
-
-
-        onbording = ClientsOnbording.objects.filter(assessor=self.request.user.codigo).order_by('-id')
-        n_onboarding = len(onbording)
-
-        clientes = Clientes.objects.filter(assessor=self.request.user.codigo)
-        n_clientes = len(clientes)
-
-        novos_clientes = Clientes.objects.filter(status='Novo',assessor=self.request.user.codigo).exclude(cliente_dia=True)
-        inativo = Clientes.objects.filter(status='Inativo',assessor=self.request.user.codigo)
-        google = Clientes.objects.filter(cliente_dia=True, assessor=self.request.user.codigo)
-        n_contatos = len(Clientes.objects.filter(cliente_dia=True, assessor=self.request.user.codigo))
-        n_inativo = len(inativo)
-        n_novos_clientes = len(novos_clientes)
-
-        i = Clientes.objects.filter(troca='interna',assessor=self.request.user.codigo).exclude(cliente_dia=True)
-        j = Clientes.objects.filter(troca='externa',assessor=self.request.user.codigo).exclude(cliente_dia=True)
-
-    
-        num_clientes_ativos = int(len(clientes)) - int(len(inativo))
-
-        troca_interna = len(i)
-        troca_externa = len(j)
-
-
-        context = {
-            'n_onboarding': n_onboarding,
-            'onbording': onbording,
-            'clientes': clientes,
-            'n_clientes': n_clientes,
-            'inativo': inativo,
-            'n_inativo': n_inativo,
-            'novos_clientes': novos_clientes,
-            'n_novos_clientes': n_novos_clientes,
-            'n_troca_assessor': troca_interna,
-            'n_troca_assessor_externa': troca_externa,
-            'troca_assessor': i,
-            'troca_assessor_externa': j,
-            'contatos': google,
-            'n_contatos': n_contatos,
-            'num_clientes_ativos': num_clientes_ativos,
-            # Crumbs First Page Config
-            'first_page_name': 'Clientes',
-            'first_page_link': '',
-            # Crumbs Second Page Config
-            'second_page_name': 'Meus Clientes',
-            'second_page_link': '',
-            # Crumbs Third Page Config
-            'third_page_name': '',
-            'third_page_link': '',
-            # Current Page
-            'icon': main_icon,
-            'page_name': 'Clientes',
-            'subtitle': 'Meus Clientes',
-            'sticker': 'Novo',
-            'page_description': 'Listagem de todos os meus clientes.'
-        }
-
-        return context
-
+# PAGINA ESPELHAMENTO
 # ------------
 
-class ListMirrorView(LoginRequiredMixin, generic.TemplateView):
     template_name = "clients/mirror_view.html"
     login_url = '/'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data( **kwargs):
 
-        clientes = Clientes.objects.all()
-
-        context = {
-            'clientes': clientes,
-            'espelhamento': Espelhamento.objects.all(),
-            'usuarios': CustomUser.objects.filter(type='assessor'),
-            # Crumbs First Page Config
-            'first_page_name': 'Clientes',
-            'first_page_link': '',
-            # Crumbs Second Page Config
-            'second_page_name': 'Espelhamento',
-            'second_page_link': '',
-            # Crumbs Third Page Config
-            'third_page_name': '',
-            'third_page_link': '',
-            # Current Page
-            'icon': main_icon,
-            'page_name': 'Espelhamento',
-            'subtitle': '',
-            'sticker': 'Novo',
-            'page_description': 'Listagem de clientes espelhados.'
-        }
+        
 
         return context
+
+# PAGINA ESPELHAMENTO
+def espelhamento(request):
+    clientes = Clientes.objects.all()
+    context = {
+        'clientes': clientes,
+        'espelhamento': Espelhamento.objects.all(),
+        'usuarios': CustomUser.objects.filter(type='assessor'),
+        # Crumbs First Page Config
+        'first_page_name': 'Clientes',
+        'first_page_link': '',
+        # Crumbs Second Page Config
+        'second_page_name': 'Espelhamento',
+        'second_page_link': '',
+        # Crumbs Third Page Config
+        'third_page_name': '',
+        'third_page_link': '',
+        # Current Page
+        'icon': main_icon,
+        'page_name': 'Espelhamento',
+        'subtitle': '',
+        'sticker': 'Novo',
+        'page_description': 'Listagem de clientes espelhados.'
+    }
+
+    return render(request, 'clients/espelhamento/main/base.html', context)
 
 def rotina_emails(request, id):
 

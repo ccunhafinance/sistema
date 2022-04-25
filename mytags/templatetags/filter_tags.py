@@ -13,8 +13,16 @@ import locale
 import json
 import time
 import os
+from django.utils.formats import localize
+from django.db.models import Sum
 
 register = template.Library()
+
+def moedaConvert(my_value):
+    a = '{:,.2f}'.format(float(my_value))
+    b = a.replace(',','v')
+    c = b.replace('.',',')
+    return c.replace('v','.')
 
 # Get modalidades into Ofertas Ipo List View
 @register.filter
@@ -552,5 +560,73 @@ def check_email_sent(value, ticker):
     # Passed value wasn't a date object
         return '-'
   
+# MENU CLIENTE
+# numero de clientes ativos
+@register.filter
+def getUserNClients(value):
+    return len(Clientes.objects.filter(assessor=str(value)).exclude(status='Inativo'))
+
+# numero novos clientes
+@register.filter
+def getNovocClientes(value):
+     return len(Clientes.objects.filter(status='Novo',assessor=str(value)).exclude(cliente_dia=True))
+
+# numero troca de assessor (interno + externo)
+@register.filter
+def getTrocaDeAssessor(value):
+     interna = len(Clientes.objects.filter(troca='interna',assessor=str(value)).exclude(cliente_dia=True))
+     externa = len(Clientes.objects.filter(troca='externa',assessor=str(value)).exclude(cliente_dia=True))
+     result = interna + externa
+     return result
+
+# numero de rotinas
+@register.filter
+def getNRotinaOnbording(value):
+    interna = len(Clientes.objects.filter(troca='interna',assessor=str(value)).exclude(cliente_dia=True))
+    externa = len(Clientes.objects.filter(troca='externa',assessor=str(value)).exclude(cliente_dia=True))
+    novos = len(Clientes.objects.filter(status='Novo',assessor=str(value)).exclude(cliente_dia=True))
+    result = interna + externa + novos
+    return result
+
+# numero de clientes inativos
+@register.filter
+def getClientesInativos(value):
+     return len(Clientes.objects.filter(assessor=str(value), status='Inativo'))
+
+# numero de espelhamentos
+@register.filter
+def getNEspelhamento(value):
+     return len(Espelhamento.objects.filter(assessor_permited=value))
+
+# numero de espelhamentos
+@register.filter
+def getTotalCorretagemD0(value):
+     result =  Clientes.objects.filter(assessor=str(value)).aggregate(Sum('d0'))['d0__sum']
+     return 'R$ '+ moedaConvert(float(result))
+
+# D0
+@register.filter
+def getTotalCorretagemD1(value):
+     result =  Clientes.objects.filter(assessor=str(value)).aggregate(Sum('d1'))['d1__sum']
+     return 'R$ '+ moedaConvert(float(result))
+
+# D1
+@register.filter
+def getTotalCorretagemD2(value):
+     result =  Clientes.objects.filter(assessor=str(value)).aggregate(Sum('d2'))['d2__sum']
+     return 'R$ '+ moedaConvert(float(result))
+
+# D2
+@register.filter
+def getTotalCorretagemD3(value):
+     result =  Clientes.objects.filter(assessor=str(value)).aggregate(Sum('d3'))['d3__sum']
+     return 'R$ '+ moedaConvert(float(result))
+
+# D3
+@register.filter
+def getTotalCorretagemD4(value):
+     result =  Clientes.objects.filter(assessor=str(value)).aggregate(Sum('d4'))['d4__sum']
+     return 'R$ '+ moedaConvert(float(result))
+
 
 

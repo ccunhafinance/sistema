@@ -1,16 +1,132 @@
 {% extends 'index.html' %}
+{% load filter_tags %}
 <!-- BEGIN page style -->
 {% block style %}
+<style>
+    .cardhover:hover{
+        background-color: #34495e;
+
+    }
+</style>
 {% endblock %}
 <!-- END page style -->
 
 <!-- BEGIN Page Subheader -->
 {% block subheader %}
+
+<div class="subheader-block d-lg-flex align-items-center">
+
+    <div class="d-inline-flex flex-column justify-content-center mr-3">
+        <span class="fw-300 fs-xs d-block opacity-50">
+            <small>D0</small>
+        </span>
+        <span class="fw-500 fs-xl d-block color-primary-500">
+            {{request.user.codigo|getTotalCorretagemD0}}
+        </span>
+    </div>
+
+    <div class="d-inline-flex flex-column justify-content-center mr-3">
+        <span class="fw-300 fs-xs d-block opacity-50">
+            <small>D1</small>
+        </span>
+        <span class="fw-500 fs-xl d-block color-primary-500">
+            {{request.user.codigo|getTotalCorretagemD1}}
+        </span>
+    </div>
+
+    <div class="d-inline-flex flex-column justify-content-center mr-3">
+        <span class="fw-300 fs-xs d-block opacity-50">
+            <small>D2</small>
+        </span>
+        <span class="fw-500 fs-xl d-block color-primary-500">
+            {{request.user.codigo|getTotalCorretagemD2}}
+        </span>
+    </div>
+
+    <div class="d-inline-flex flex-column justify-content-center mr-3">
+        <span class="fw-300 fs-xs d-block opacity-50">
+            <small>D3</small>
+        </span>
+        <span class="fw-500 fs-xl d-block color-primary-500">
+            {{request.user.codigo|getTotalCorretagemD3}}
+        </span>
+    </div>
+
+    <div class="d-inline-flex flex-column justify-content-center mr-3">
+        <span class="fw-300 fs-xs d-block opacity-50">
+            <small>D4</small>
+        </span>
+        <span class="fw-500 fs-xl d-block color-primary-500">
+            {{request.user.codigo|getTotalCorretagemD4}}
+        </span>
+    </div>
+
+    
+    
+</div>
 {% endblock %}
 <!-- END page Subheader -->
 
 <!-- BEGIN page content -->
 {% block content %}
+  <div class="row">
+    <div class="col-sm-6 col-xl-3">
+        <a href="{% url 'clients:clients-list' %}" >
+            <div class="p-3 bg-success-300 rounded overflow-hidden position-relative text-white mb-g cardhover">
+                <div class="">
+                    <h3 class="display-4 d-block l-h-n m-0 fw-500">
+                    {{request.user.codigo|getUserNClients}}
+                        <small class="m-0 l-h-n">Clientes Ativos</small>
+                    </h3>
+                </div>
+                <i class="fal fa-users position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n1" style="font-size:6rem"></i>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+        <a href="{% url 'clients:clients-list' %}" >
+            <div class="p-3 bg-danger-200 rounded overflow-hidden position-relative text-white mb-g cardhover">
+                <div class="">
+                    <h3 class="display-4 d-block l-h-n m-0 fw-500">
+                        {{request.user.codigo|getClientesInativos}}
+                        <small class="m-0 l-h-n">Clientes Inativos</small>
+                    </h3>
+                </div>
+                <i class="fal fa-users-slash position-absolute pos-right pos-bottom opacity-15 mb-n5 mr-n8" style="font-size: 8rem;"></i>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+        <a href="{% url 'clients:clients-onboarding' %}" >
+            <div class="p-3 bg-primary-400 rounded overflow-hidden position-relative text-white mb-g cardhover">
+                <div class="">
+                    <h3 class="display-4 d-block l-h-n m-0 fw-500">
+                    {%if request.user.codigo|getNRotinaOnbording > 0%} +{%endif%} {{request.user.codigo|getNRotinaOnbording}}
+                        <small class="m-0 l-h-n">Onboarding</small>
+                    </h3>
+                </div>
+                <i class="fal fa-clipboard-user position-absolute pos-right pos-bottom opacity-15  mb-n1 mr-n12" style="font-size: 6rem;"></i>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+        <a href="{% url 'clients:mirror-list' %}" >
+            <div class="p-3 bg-info-200 rounded overflow-hidden position-relative text-white mb-g cardhover">
+                <div class="">
+                    <h3 class="display-4 d-block l-h-n m-0 fw-500">
+                        {{request.user.id|getNEspelhamento}}
+                        <small class="m-0 l-h-n">Espelhamento</small>
+                    </h3>
+                </div>
+                <i class="fal fa-user-friends position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n12" style="font-size: 6rem;"></i>
+            </div>
+        </a>
+    </div>
+
+  </div>
 {% endblock %}
 <!-- END page content -->
 

@@ -1,0 +1,60 @@
+{% load static %}
+{% load filter_tags %}
+
+<div class="tab-pane fade" id="tab_default-3" role="tabpanel">
+
+  <table id="dt-basic-example3" class="table table-bordered table-hover table-striped w-100 table-sm">
+
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Nome</th>
+            <th>Sexo</th>
+            <th>Assessor</th>
+            <th>Antigo Assessor</th>
+            <th>Rotina</th>
+            <th>Data</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for troca in troca_assessor %}
+
+            <tr>
+                <td>{{ troca.nickname }}</td>
+
+                <form method="post" action="{% url 'clients:update_troca_assessor' %}">
+
+                    {% csrf_token %}
+
+                    <input hidden name='assessor' value='{{troca.assessor}}'>
+
+                    <td><input name="nome" class="form-control" value="{{ troca.nome|lower|capfirst }}"></td>
+
+                    <td>{{ troca.sexo }}</td>
+
+                    <td>{{ troca.assessor }}</td>
+
+                    <td>{{ troca.antigo_assessor }}</td>
+
+                    <td class="text-center">
+                        <input name="id" hidden value="{{ troca.id }}">
+                        <input type="checkbox" style="margin-top: 15px" name="rotina" value="1" checked >
+                    </td>
+
+                    <td>{{ troca.data_registro|date:'d/m/Y H:s:i' }} </td>
+
+                    <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
+
+                </form>
+            </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+  </table>
+
+</div>

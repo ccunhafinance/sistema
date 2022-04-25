@@ -60,12 +60,40 @@
                 <ul>
                     <li class="{% if second_page_name == 'Meus Clientes'  %}active{% endif %}">
                         <a href="{% url 'clients:clients-list' %}" title="Meus Clientes" data-filter-tags="meus clientes">
-                            <span class="nav-link-text" data-i18n="nav.blankpage">Meus Clientes</span>
+                            <span class="nav-link-text" data-i18n="nav.blankpage">
+                                Meus Clientes 
+                                <span class="badge bg-dark-300 ml-2">
+                                    {%if request.user.codigo|getUserNClients > 0%}
+                                        ({{request.user.codigo|getUserNClients}})
+                                    {%endif%}
+                                </span>
+                            </span>
                         </a>
                     </li>
+                    
+                    <li class="{% if second_page_name == 'Onbording'  %}active{% endif %}">
+                        <a href="{% url 'clients:clients-onboarding' %}" title="Onbording" data-filter-tags="onbording Onbording">
+                            <span class="nav-link-text" data-i18n="nav.blankpage">
+                                Onbording
+                                {%if request.user.codigo|getNRotinaOnbording > 0%}
+                                <span class="badge bg-danger-300 ml-2" style="color:#fff">
+                                    
+                                        {{request.user.codigo|getNRotinaOnbording}}
+                                    
+                                </span>
+                                {%endif%}
+                            </span>
+                        </a>
+                    </li>
+
                     <li class="{% if second_page_name == 'Espelhamento'  %}active{% endif %}">
                         <a href="{% url 'clients:mirror-list' %}" title="Espelhamento" data-filter-tags="espelhamento">
-                            <span class="nav-link-text" data-i18n="nav.blankpage">Espelhamento</span>
+                            <span class="nav-link-text" data-i18n="nav.blankpage">Espelhamento
+                                {%if request.user.id|getNEspelhamento > 0%}
+                                    ({{request.user.id|getNEspelhamento}})
+                                {%endif%}
+                            </span>
+                            
                         </a>
                     </li>
                 </ul>
@@ -191,14 +219,14 @@
 {#                </a>#}
 {#            </li>#}
 
-{#            <li class="nav-title">Área Administrativa</li>#}
-{##}
-{#            <li class="{% if page_name == 'Assessores'  %}active{% endif %}">#}
-{#                <a href="{% url 'assessores:assessores-list' %}" title="Área Administrativa" data-filter-tags="area administrativa">#}
-{#                    <i class="fal fa-address-card"></i>#}
-{#                    <span class="nav-link-text" data-i18n="nav.blankpage">Assessores</span>#}
-{#                </a>#}
-{#            </li>#}
+            <li class="nav-title">Área Administrativa</li>
+
+            <li class="{% if page_name == 'Assessores'  %}active{% endif %}">
+                <a href="{% url 'assessores:assessores-list' %}" title="Área Administrativa" data-filter-tags="area administrativa">
+                    <i class="fal fa-address-card"></i>
+                    <span class="nav-link-text" data-i18n="nav.blankpage">Assessores</span>
+                </a>
+            </li>
 {##}
 {#            <li class="{% if page_name == 'Links'  %}active{% endif %}">#}
 {#                <a href="{% url 'dashboard:dashboard' %}" title="links" data-filter-tags="links">#}
