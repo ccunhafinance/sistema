@@ -71,10 +71,10 @@
                         </a>
                     </li>
                     
-                    <li class="{% if second_page_name == 'Onbording'  %}active{% endif %}">
-                        <a href="{% url 'clients:clients-onboarding' %}" title="Onbording" data-filter-tags="onbording Onbording">
+                    <li class="{% if second_page_name == 'Onboarding'  %}active{% endif %}">
+                        <a href="{% url 'clients:clients-onboarding' %}" title="OnborOnboardingding" data-filter-tags="onbording Onbording">
                             <span class="nav-link-text" data-i18n="nav.blankpage">
-                                Onbording
+                                Onboarding
                                 {%if request.user.codigo|getNRotinaOnbording > 0%}
                                 <span class="badge bg-danger-300 ml-2" style="color:#fff">
                                     

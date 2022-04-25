@@ -628,14 +628,14 @@ def onBording(request):
         'first_page_name': 'Clientes',
         'first_page_link': '',
         # Crumbs Second Page Config
-        'second_page_name': 'Onbording',
+        'second_page_name': 'Onboarding',
         'second_page_link': '',
         # Crumbs Third Page Config
         'third_page_name': '',
         'third_page_link': '',
         # Current Page
         'icon': main_icon,
-        'page_name': 'Onbording',
+        'page_name': 'Onboarding',
         'subtitle': '',
         'sticker': '',
         'page_description': 'Configuraçao Onboarding'
