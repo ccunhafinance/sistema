@@ -638,7 +638,7 @@ def onBording(request):
         'page_name': 'Onboarding',
         'subtitle': '',
         'sticker': '',
-        'page_description': 'Configuraçao Onboarding'
+        'page_description': 'Configuração Onboarding'
     }
 
     return render(request, 'clients/onbording/main/base.html', context)
