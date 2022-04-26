@@ -15,6 +15,9 @@ import time
 import os
 from django.utils.formats import localize
 from django.db.models import Sum
+import re
+import json
+from urllib.request import urlopen
 
 register = template.Library()
 
@@ -625,8 +628,18 @@ def getTotalCorretagemD3(value):
 # D3
 @register.filter
 def getTotalCorretagemD4(value):
-     result =  Clientes.objects.filter(assessor=str(value)).aggregate(Sum('d4'))['d4__sum']
+     result =  Clientes.objects.filter(assessor=str(value)).exclude(status='Inativo').aggregate(Sum('d4'))['d4__sum']
      return 'R$ '+ moedaConvert(float(result))
+
+# GET USER LOCATION
+@register.filter
+def getUserLocation(value):
+    url = 'http://ipinfo.io/json'
+    response = urlopen(url)
+    data = json.load(response)
+    return data['city']
+
+
 
 
 
