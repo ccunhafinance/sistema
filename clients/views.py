@@ -35,7 +35,7 @@ import xlrd
 
 
 # FUNCAO PARA INSERIR NOVOS CLIENTES (INTERNO, EXTERNO)
-def googleSheetsINEX(codigo,sexo,nome,email):
+def googleSheetsINEX(table, codigo,sexo,nome,email):
     scope = [
     'https://www.googleapis.com/auth/drive',
     'https://www.googleapis.com/auth/drive.file'
@@ -48,8 +48,8 @@ def googleSheetsINEX(codigo,sexo,nome,email):
 
     creds = ServiceAccountCredentials.from_json_keyfile_name('data/apis_google/client_key.json', scope)
     client = gspread.authorize(creds)
-    sheet = client.open("teste externo interno").sheet1
-    row = [codigo,tratamento,nome.split().pop(0),email]
+    sheet = client.open(table).sheet1
+    row = [codigo,tratamento,nome.split().pop(0),'bruno.martins@inoveinvestimentos.com.br']
     index = 1
     sheet.insert_row(row, index)
 # ----------------------------------------------------------------
@@ -123,7 +123,7 @@ def update_troca_assessor_externo(request):
         alldone=True,
     )
 
-    googleSheetsINEX(Clientes.objects.get(id=id).nickname, request.POST['sexo'],request.POST['nome'],request.POST['email'])
+    googleSheetsINEX('Indicação Cliente Onboarding',Clientes.objects.get(id=id).nickname, request.POST['sexo'],request.POST['nome'],request.POST['email'])
 
     if rotina == True:
 
@@ -161,7 +161,7 @@ def update_troca_assessor(request):
         alldone=True,
     )
 
-    googleSheetsINEX(Clientes.objects.get(id=id).nickname, Clientes.objects.get(id=id).sexo, request.POST['nome'],Clientes.objects.get(id=id).email)
+    googleSheetsINEX('Indicação Cliente Onboarding',Clientes.objects.get(id=id).nickname, Clientes.objects.get(id=id).sexo, request.POST['nome'],Clientes.objects.get(id=id).email)
 
     if rotina == True:
 
@@ -219,7 +219,7 @@ def update_new_cliente(request):
         alldone=True,
     )
 
-    googleSheetsINEX(Clientes.objects.get(id=id).nickname, request.POST['sexo'],request.POST['nome'],request.POST['email'])
+    googleSheetsINEX('Novos Clientes Onboarding',Clientes.objects.get(id=id).nickname, request.POST['sexo'],request.POST['nome'],request.POST['email'])
     
     if rotina == True:
 
