@@ -1,3 +1,65 @@
 <div class="tab-pane fade" id="vencimentorf" role="tabpanel">
-  <h1 class="text-center">Sem dados</h1>
+  
+  <div id="js-page-content-demopanels">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr">
+                <h2>
+                    Lista de Vencimentos de Renda Fixa <span class="fw-300"><i></i></span>
+                </h2>
+               
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+
+                    <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100 table-sm">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Assessor</th>
+                                <th>AC</th>
+                                <th>Ativo</th>
+                                <th>Emissor</th>
+                                <th>Indexador</th>
+                                <th>Dt_Aplicacao</th>
+                                <th>Vencimento</th>
+                                <th>Carencia</th>
+                                <th>Qtd</th>
+                                <th>PU_Atual</th>
+                                <th>Financeiro</th>
+                              
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for ven in vencimento %}
+                            <tr>
+                              
+
+                                <td>{{ ven.Cliente }}</td>
+                                <td>{{ ven.Assessor }}</td>
+                                <td>{{ ven.AC }}</td>
+                                <td>{{ ven.Ativo }}</td>
+                                <td>{{ ven.Emissor }}</td>
+                                <td>{{ ven.Indexador }}</td>
+                                <td>{{ ven.Dt_Aplicacao }}</td>
+                                <td>{{ ven.Vencimento }}</td>
+                                <td>{{ ven.Carencia }}</td>
+                                <td>{{ ven.Qtd }}</td>
+                                <td>{{ ven.PU_Atual }}</td>
+                                <td>{{ ven.Financeiro }}</td>
+                               
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+                    <!-- datatable end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </div>
