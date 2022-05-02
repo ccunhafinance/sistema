@@ -50,7 +50,7 @@ def googleSheetsINEX(table, codigo,sexo,nome,email):
     client = gspread.authorize(creds)
     sheet = client.open(table).sheet1
     row = [codigo,tratamento,nome.split().pop(0),'bcfinance@gmail.com']
-    index = 1
+    index = 2
     sheet.insert_row(row, index)
 # ----------------------------------------------------------------
 
