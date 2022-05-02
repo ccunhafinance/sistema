@@ -19,7 +19,6 @@ def pageUploadArquivos(request):
     
     context = {
         # files path
-        'saldo': os.listdir('data/files/saldoTransfer')[::-1],
         'vencimentorf': os.listdir('data/files/vencimentoRF')[::-1],
         'destaquerf': os.listdir('data/files/destaqueRF')[::-1],
         'custodiafii': os.listdir('data/files/custodiaFII')[::-1],
@@ -42,22 +41,6 @@ def pageUploadArquivos(request):
     }
 
     return render(request, 'configuracoes/uploadarquivos/base.html', context)
-
-
-def uploadSaldo(request):
-
-    now = datetime.now()
-    nome = now.strftime("%Y%m%d-%H%M%S")
-
-    if request.method == 'POST':
-        f=request.FILES['file']
-        fs = FileSystemStorage(location='data/files/saldoTransfer')
-        fs.save(str(nome)+'.xlsx', f)
-
-        return HttpResponse('uploaded')
-    else:
-        return HttpResponse('error')
-
 
 def uploadVencimentoRF(request):
     now = datetime.now()

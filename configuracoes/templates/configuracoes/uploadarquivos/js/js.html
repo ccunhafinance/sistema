@@ -98,51 +98,49 @@
     }); 
 
 
-    const MyDropzone = new Dropzone('#saldoemconta',{
-      url: "{% url 'configuracoes:upload-saldo' %}",
-      maxFiles: 1,
-      maxFilesize: 5,
-      addRemoveLinks: true,
-      acceptedFiles: '.xlsx, .xls',
-      path: 'data/files/saldoTransfer',
-  },'#vencimentorf',{
-    url: "{% url 'configuracoes:upload-vencimentorf' %}",
-    maxFiles: 1,
-    maxFilesize: 5,
-    addRemoveLinks: true,
-    acceptedFiles: '.xlsx, .xls',
-    path: 'data/files/vencimentoRF',
-   
+    Dropzone.autoDiscover = false
+    const VencimentoRf = new Dropzone(
+        '#vencimentorf',{
+            url: "{% url 'configuracoes:upload-vencimentorf' %}",
+            maxFiles: 1,
+            maxFilesize: 5,
+            addRemoveLinks: true,
+            acceptedFiles: '.xlsx',
+            path: 'data/files/vencimentoRF',
+        },
+    );
 
-  },'#destaquerf',{
-    url: "{% url 'configuracoes:upload-destaquerf' %}",
-    maxFiles: 1,
-    maxFilesize: 5,
-    addRemoveLinks: true,
-    acceptedFiles: '.xlsx, .xls',
-    path: 'data/files/destaqueRF',
-   
+    const DestaqueRF = new Dropzone(
+        '#destaquerf',{
+            url: "{% url 'configuracoes:upload-destaquerf' %}",
+            maxFiles: 1,
+            maxFilesize: 5,
+            addRemoveLinks: true,
+            acceptedFiles: '.xlsx',
+            path: 'data/files/destaqueRF',
+        },
+    );
 
-  },'#custodiafii',{
-    url: "{% url 'configuracoes:upload-custodiafii' %}",
-    maxFiles: 1,
-    maxFilesize: 5,
-    addRemoveLinks: true,
-    acceptedFiles: '.xlsx, .xls',
-    path: 'data/files/custodiaFII',
-   
-
-  },'#custodiarv',{
-    url: "{% url 'configuracoes:upload-custodiarv' %}",
-    maxFiles: 1,
-    maxFilesize: 5,
-    addRemoveLinks: true,
-    acceptedFiles: '.xlsx, .xls',
-    path: 'data/files/custodiaRV',
-   
-
-  })
-
+    const CustodiaFii = new Dropzone(
+        '#custodiafii',{
+            url: "{% url 'configuracoes:upload-custodiafii' %}",
+            maxFiles: 1,
+            maxFilesize: 5,
+            addRemoveLinks: true,
+            acceptedFiles: '.xlsx',
+            path: 'data/files/custodiaFII',
+        },
+    );
     
+    const CustodiaRV = new Dropzone(
+        '#custodiarv',{
+            url: "{% url 'configuracoes:upload-custodiarv' %}",
+            maxFiles: 1,
+            maxFilesize: 5,
+            addRemoveLinks: true,
+            acceptedFiles: '.xlsx',
+            path: 'data/files/custodiaRV',
+        }
+    );
 
 </script>

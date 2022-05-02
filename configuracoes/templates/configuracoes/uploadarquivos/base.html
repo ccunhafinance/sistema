@@ -38,7 +38,7 @@
                 
                 <div class="panel-hdr">
                     <h2>
-                        Lista de Tarefas <span class="fw-300"><i></i></span>
+                        Lista de Arquivos <span class="fw-300"><i></i></span>
                     </h2>
                 </div>
                   
@@ -50,65 +50,20 @@
                         <div class="demo-v-spacing">
 
                             <ul class="nav nav-tabs" role="tablist">
-                    
+     
                                 <li class="nav-item">
-                                    <a class="nav-link active fs-xs py-1 px-2" data-toggle="tab" href="#saldo-transfer" role="tab">
+                                    <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#arquivos" role="tab">
                                         <i class="fal fa-file-spreadsheet text-success"></i>
-                                        <span class="hidden-sm-down ml-1">Saldo em Conta/Transfer  </span>
+                                        <span class="hidden-sm-down ml-1">Arquivos </span>
                                     </a>
                                 </li>
-                                
-                                <li class="nav-item">
-                                    <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#venRF" role="tab">
-                                        <i class="fal fa-file-spreadsheet text-success"></i>
-                                        <span class="hidden-sm-down ml-1">Vencimento de RF </span>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#desRF" role="tab">
-                                        <i class="fal fa-file-spreadsheet text-success"></i>
-                                        <span class="hidden-sm-down ml-1">Destaques RF </span>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#cusFII" role="tab">
-                                        <i class="fal fa-file-spreadsheet text-success"></i>
-                                        <span class="hidden-sm-down ml-1">Custódia FII </span>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#cusRF" role="tab">
-                                        <i class="fal fa-file-spreadsheet text-success"></i>
-                                        <span class="hidden-sm-down ml-1">Custódia RV </span>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#uploadclientes" role="tab">
-                                        <i class="fal fa-users text-danger"></i>
-                                        <span class="hidden-sm-down ml-1">Upload Clientes </span>
-                                    </a>
-                                </li>
-
-                                
-
 
                             </ul>
 
                             <div class="tab-content p-3">
 
-                                {% include './tabs/custodiafii.html' %}
-                                {% include './tabs/custodiarv.html' %}
-                                {% include './tabs/destaquerf.html' %}
-                                {% include './tabs/saldocontatranfer.html' %}
-                                {% include './tabs/vencimentorf.html' %}
-                                {% include './tabs/clientesupload.html' %}
-
+                                {% include './tabs/arquivos.html' %}
                             
-
                             </div>
 
                         </div>

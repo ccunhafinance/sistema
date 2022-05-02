@@ -49,7 +49,7 @@ def googleSheetsINEX(table, codigo,sexo,nome,email):
     creds = ServiceAccountCredentials.from_json_keyfile_name('data/apis_google/client_key.json', scope)
     client = gspread.authorize(creds)
     sheet = client.open(table).sheet1
-    row = [codigo,tratamento,nome.split().pop(0),'bcfinance@gmail.com']
+    row = [codigo,tratamento,nome.split().pop(0),'emaildocis@gmail.com']
     index = 2
     sheet.insert_row(row, index)
 # ----------------------------------------------------------------
@@ -123,7 +123,7 @@ def update_troca_assessor_externo(request):
         alldone=True,
     )
 
-    googleSheetsINEX('Novos Clientes Onboarding',Clientes.objects.get(id=id).nickname, request.POST['sexo'],request.POST['nome'],request.POST['email'])
+    googleSheetsINEX('Indicação Cliente Onboarding',Clientes.objects.get(id=id).nickname, request.POST['sexo'],request.POST['nome'],request.POST['email'])
 
     if rotina == True:
 

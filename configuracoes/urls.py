@@ -8,7 +8,6 @@ urlpatterns = [
     # PAGINA principal
     path('arquivos/', views.pageUploadArquivos, name="upload-arquivos"),
 
-    path('upload-saldo/', views.uploadSaldo, name="upload-saldo"),
     path('upload-vencimentorf/', views.uploadVencimentoRF, name="upload-vencimentorf"),
     path('upload-destaquerf/', views.uploadDestaqueRF, name="upload-destaquerf"),
     path('upload-custodiafii/', views.uploadCustodiaFII, name="upload-custodiafii"),

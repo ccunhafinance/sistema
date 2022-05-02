@@ -1,0 +1,112 @@
+{% load static %}
+{% load filter_tags %}
+
+<div class="tab-pane fade" id="arquivos" role="tabpanel">
+
+  <div class="panel-content">
+    
+    <div class="mb-g">
+
+      <div class="row">
+        
+
+        <div class="col-sm-6 col-xl-6">
+
+          <form method="post" enctype="multipart/form-data" action="{% url 'clients:upload_clientes' %}">
+              {% csrf_token %}
+      
+              <div class="input-group">
+                  <div class="input-group-prepend">
+                      <button type="submit" class="btn btn-sm btn-success" id="inputGroupFileAddon01" disabled  onclick='timerActive()'>Saldo em Conta/Transfer</button>
+                  </div>
+                  <div class="custom-file">
+                      <input name="myfile" type="file" class="custom-file-input" id="inputGroupFile01"  aria-describedby="inputGroupFileAddon01" required >
+                      <label class="custom-file-label" for="inputGroupFile01" >Selecione o arquivo</label>
+                  </div>
+              </div>
+              
+          </form>
+      
+        </div>
+        <div class="col-sm-6 col-xl-6">
+            <h2 class="text-center">
+                <a href="javascript:void(0);" class="btn btn-outline-danger" id="js-sweetalert2-example-8">
+                    <i class="fal fa-engine-warning"></i> 
+                    Excluir todos os dados!
+                </a>
+            </h2>
+        </div>
+
+
+        
+
+      </div>
+      
+      <hr>
+
+      <div class="row">
+          <div class="col-sm-6 col-xl-6">
+
+            <form action="{% url 'configuracoes:upload-vencimentorf' %}" class="dropzone" style="min-height: 7rem;" id="vencimentorf">
+              {% csrf_token %}
+              <div class="dz-message needsclick">
+                  <i class="fal fa-cloud-upload text-muted mb-3"></i> <br>
+                  <span class="text-uppercase">Vencimento RF</span>
+                  <br>
+                  <span class="fs-sm text-muted">Arquivo permitido (.xlsx)</span>
+              </div>
+            </form>
+
+          </div>
+
+          <div class="col-sm-6 col-xl-6">
+
+            <form action="{% url 'configuracoes:upload-destaquerf' %}" class="dropzone" style="min-height: 7rem;" id="destaquerf">
+              {% csrf_token %}
+              <div class="dz-message needsclick">
+                  <i class="fal fa-cloud-upload text-muted mb-3"></i> <br>
+                  <span class="text-uppercase">Destaque RF</span>
+                  <br>
+                  <span class="fs-sm text-muted">Arquivo permitido (.xlsx)</span>
+              </div>
+            </form>
+
+          </div>
+
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="col-sm-6 col-xl-6">
+          <form action="{% url 'configuracoes:upload-custodiafii' %}" class="dropzone" style="min-height: 7rem;" id="custodiafii">
+            {% csrf_token %}
+            <div class="dz-message needsclick">
+                <i class="fal fa-cloud-upload text-muted mb-3"></i> <br>
+                <span class="text-uppercase">Custódia FII</span>
+                <br>
+                <span class="fs-sm text-muted">Arquivo permitido (.xlsx)</span>
+            </div>
+          </form>
+
+        </div>
+
+        <div class="col-sm-6 col-xl-6">
+          <form action="{% url 'configuracoes:upload-custodiarv' %}" class="dropzone" style="min-height: 7rem;" id="custodiarv">
+            {% csrf_token %}
+            <div class="dz-message needsclick">
+                <i class="fal fa-cloud-upload text-muted mb-3"></i> <br>
+                <span class="text-uppercase">Custódia RV</span>
+                <br>
+                <span class="fs-sm text-muted">Arquivo permitido (.xlsx)</span>
+            </div>
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+    
+  </div>
+
+</div>

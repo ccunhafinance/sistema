@@ -19,7 +19,68 @@
 <!-- BEGIN page content -->
 {% block content %}
 
-Destaques de Renda Fixa
+<div id="js-page-content-demopanels">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr">
+                <h2>
+                    Lista de Clientes <span class="fw-300"><i></i></span>
+                </h2>
+               
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+
+                    <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100 table-sm">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Assessor</th>
+                                <th>AC</th>
+                                <th>Ativo</th>
+                                <th>Emissor</th>
+                                <th>Indexador</th>
+                                <th>Dt_Aplicacao</th>
+                                <th>Vencimento</th>
+                                <th>Carencia</th>
+                                <th>Qtd</th>
+                                <th>PU_Atual</th>
+                                <th>Financeiro</th>
+                              
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for destaque in destaques %}
+                            <tr>
+                              
+
+                                <td>{{ destaque.Cliente }}</td>
+                                <td>{{ destaque.Assessor }}</td>
+                                <td>{{ destaque.AC }}</td>
+                                <td>{{ destaque.Ativo }}</td>
+                                <td>{{ destaque.Emissor }}</td>
+                                <td>{{ destaque.Indexador }}</td>
+                                <td>{{ destaque.Dt_Aplicacao }}</td>
+                                <td>{{ destaque.Vencimento }}</td>
+                                <td>{{ destaque.Carencia }}</td>
+                                <td>{{ destaque.Qtd }}</td>
+                                <td>{{ destaque.PU_Atual }}</td>
+                                <td>{{ destaque.Financeiro }}</td>
+                               
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+                    <!-- datatable end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}
 <!-- END page content -->
 
