@@ -29,7 +29,30 @@ import pytz
 import datetime
 import time
 from django.conf import settings
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+import xlrd
 
+
+# FUNCAO PARA INSERIR NOVOS CLIENTES (INTERNO, EXTERNO)
+def googleSheetsINEX(codigo,sexo,nome,email):
+    scope = [
+    'https://www.googleapis.com/auth/drive',
+    'https://www.googleapis.com/auth/drive.file'
+    ]
+
+    if sexo == 'F':
+        tratamento = 'bem-vinda'
+    else:
+        tratamento = 'bem-vindo'
+
+    creds = ServiceAccountCredentials.from_json_keyfile_name('data/apis_google/client_key.json', scope)
+    client = gspread.authorize(creds)
+    sheet = client.open("teste externo interno").sheet1
+    row = [codigo,tratamento,nome.split().pop(0),email]
+    index = 1
+    sheet.insert_row(row, index)
+# ----------------------------------------------------------------
 
 def ctodatetime(ctimeinput):
     # etime = time.ctime(int(ctimeinput))
@@ -44,7 +67,19 @@ main_icon = 'ni ni-users'
 def getMyClients(request):
     clients = []
     for cliente in Clientes.objects.filter(assessor=str(request.user.codigo)):
-        clients.append([cliente.nickname, cliente.nome,cliente.sexo,cliente.email,cliente.telefone,cliente.data_nascimento, cliente.rotina])
+
+        if cliente.data_nascimento:
+            nascimento = cliente.data_nascimento.strftime('%d/%m/%Y')
+        else:
+            nascimento = '0'
+
+        if cliente.rotina:
+            rotina = cliente.rotina
+        else:
+            rotina = '-'
+
+
+        clients.append([cliente.nickname, cliente.nome,cliente.sexo,cliente.email,cliente.telefone,nascimento, rotina])
         
 
     return JsonResponse({"data": clients})
@@ -57,7 +92,7 @@ def google_sheets(request):
         google_sheets=request.POST['google_sheets']
     )
 
-    return redirect(reverse('clients:clients-list'))
+    return redirect(reverse('clients:clients-onboarding'))
 
 def delet_all(request):
     clientes = Clientes.objects.all()
@@ -85,7 +120,10 @@ def update_troca_assessor_externo(request):
         data_nascimento=request.POST['data_nascimento'],
         rotina=rotina,
         cliente_dia=True,
+        alldone=True,
     )
+
+    googleSheetsINEX(Clientes.objects.get(id=id).nickname, request.POST['sexo'],request.POST['nome'],request.POST['email'])
 
     if rotina == True:
 
@@ -106,7 +144,7 @@ def update_troca_assessor_externo(request):
                 obs=''
             ).save()
 
-    return redirect(reverse('clients:clients-list'))
+    return redirect(reverse('clients:clients-onboarding'))
     
 def update_troca_assessor(request):
     rotina = request.POST.get('rotina', False)
@@ -120,7 +158,10 @@ def update_troca_assessor(request):
         nome=request.POST['nome'],
         rotina=rotina,
         cliente_dia=True,
+        alldone=True,
     )
+
+    googleSheetsINEX(Clientes.objects.get(id=id).nickname, Clientes.objects.get(id=id).sexo, request.POST['nome'],Clientes.objects.get(id=id).email)
 
     if rotina == True:
 
@@ -141,23 +182,23 @@ def update_troca_assessor(request):
                 obs=''
             ).save()
 
-    id_categ = Categoria.objects.first()
-    emailCateg = EmailCategoria.objects.filter(EmailCategoria_id=id_categ)
-    dias = date.today() + timedelta(days=0)
-    for a in emailCateg:
-        value = NovoEmail(
-            cliente_id=request.POST['id'],
-            id_email=a.id,
-            categ_email_id=id_categ.id,
-            data_futuro=dias,
-            status='n'
+    # id_categ = Categoria.objects.first()
+    # emailCateg = EmailCategoria.objects.filter(EmailCategoria_id=id_categ)
+    # dias = date.today() + timedelta(days=0)
+    # for a in emailCateg:
+    #     value = NovoEmail(
+    #         cliente_id=request.POST['id'],
+    #         id_email=a.id,
+    #         categ_email_id=id_categ.id,
+    #         data_futuro=dias,
+    #         status='n'
 
-        )
-        value.save()
+    #     )
+    #     value.save()
 
-        dias = dias + timedelta(days=7)
+    #     dias = dias + timedelta(days=7)
 
-    return redirect(reverse('clients:clients-list'))
+    return redirect(reverse('clients:clients-onboarding'))
 
 def update_new_cliente(request):
     rotina = request.POST.get('rotina', False)
@@ -175,7 +216,10 @@ def update_new_cliente(request):
         data_nascimento=request.POST['data_nascimento'],
         rotina=rotina,
         cliente_dia=True,
+        alldone=True,
     )
+
+    googleSheetsINEX(Clientes.objects.get(id=id).nickname, request.POST['sexo'],request.POST['nome'],request.POST['email'])
     
     if rotina == True:
 
@@ -184,7 +228,7 @@ def update_new_cliente(request):
                 email=False,
                 frequencia_contato='Não Definido',
                 meio_contato='Não Definido',
-                assessor=request.POST['assessor'],
+                assessor=request.user.codigo,
                 perfil_preenchido=None,
                 acomp_permanente=False,
                 oportunidade_rf=False,
@@ -198,7 +242,7 @@ def update_new_cliente(request):
 
     
 
-    return redirect(reverse('clients:clients-list'))
+    return redirect(reverse('clients:clients-onboarding'))
 
 @transaction.atomic
 def upload_clientes(request):
@@ -233,6 +277,11 @@ def upload_clientes(request):
 
 
             # print(birth)
+            xl_date = data[6]
+
+            datetime_date = xlrd.xldate_as_datetime(xl_date, 0)
+            date_object = datetime_date.date()
+            string_date = date_object.isoformat()
 
             value = Clientes(
                     nickname=data[0],
@@ -241,7 +290,7 @@ def upload_clientes(request):
                     sexo=data[3],
                     email=data[4],
                     telefone=data[5],
-                    data_nascimento=data[6],
+                    data_nascimento=string_date
                 )
             clients_first_upload.append(value)
         Clientes.objects.bulk_create(clients_first_upload)
@@ -359,102 +408,6 @@ def updateOnbording(request):
 
         response = 'Acompanhamento Permanente alterado para : <br>'+str(choice)
 
-    # OPORTUNIDADE RF ---------------------------------------------------------
-    if name == 'opRF':
-        check = ClientsOnbording.objects.get(cliente_id=id).oportunidade_rf
-
-        print(check)
-
-        if check == True:
-            choice = False
-        else:
-            choice = True
-
-        ClientsOnbording.objects.filter(cliente_id=id).update(
-            oportunidade_rf=choice,
-        )
-
-        RegistroAtividades(
-            cliente_id=Clientes.objects.get(id=id).id,
-            registro='Oportunidade RF alterada!',
-            descricao=choice,
-            assessor_responsavel=request.user.id
-        ).save()
-
-        response = 'Oportunidade RF alterada para : <br>'+str(choice)
-
-    # OPORTUNIDADE ACOES ---------------------------------------------------------
-    if name == 'opAcoes':
-        check = ClientsOnbording.objects.get(cliente_id=id).oportunidade_acoes
-
-        print(check)
-
-        if check == True:
-            choice = False
-        else:
-            choice = True
-
-        ClientsOnbording.objects.filter(cliente_id=id).update(
-            oportunidade_acoes=choice,
-        )
-
-        RegistroAtividades(
-            cliente_id=Clientes.objects.get(id=id).id,
-            registro='Oportunidade Ações alterada!',
-            descricao=choice,
-            assessor_responsavel=request.user.id
-        ).save()
-
-        response = 'Oportunidade Ações alterada para : <br>'+str(choice)
-
-    # OPORTUNIDADE FII ---------------------------------------------------------
-    if name == 'opFII':
-        check = ClientsOnbording.objects.get(cliente_id=id).oportunidade_fii
-
-        print(check)
-
-        if check == True:
-            choice = False
-        else:
-            choice = True
-
-        ClientsOnbording.objects.filter(cliente_id=id).update(
-            oportunidade_fii=choice,
-        )
-
-        RegistroAtividades(
-            cliente_id=Clientes.objects.get(id=id).id,
-            registro='Oportunidade FII alterada!',
-            descricao=choice,
-            assessor_responsavel=request.user.id
-        ).save()
-
-        response = 'Oportunidade FII alterada para : <br>'+str(choice)
-
-    # OPORTUNIDADE FUNDOS ---------------------------------------------------------
-    if name == 'opFundos':
-        check = ClientsOnbording.objects.get(cliente_id=id).oportunidade_fundos
-
-        print(check)
-
-        if check == True:
-            choice = False
-        else:
-            choice = True
-
-        ClientsOnbording.objects.filter(cliente_id=id).update(
-            oportunidade_fundos=choice,
-        )
-
-        RegistroAtividades(
-            cliente_id=Clientes.objects.get(id=id).id,
-            registro='Oportunidade Fundos alterada!',
-            descricao=choice,
-            assessor_responsavel=request.user.id
-        ).save()
-
-        response = 'Oportunidade Fundos alterada para : <br>'+str(choice)
-
     # SUJESTAO ENVIADA ---------------------------------------------------------
     if name == 'sugestao':
         ClientsOnbording.objects.filter(cliente_id=id).update(
@@ -506,17 +459,6 @@ def update_observacao(request):
 
     return HttpResponse(response)
 
-def cliente_responde(request, id, token):
-
-    cliente = Clientes.objects.get(nickname=id)
-
-    context = {
-        'token': token,
-        'cliente': cliente
-    }
-
-    return render(request, 'clients/questinario.html', context)
-
 def obrigado_questionario(request):
 
     return render(request, 'clients/obrigado.html')
@@ -564,6 +506,59 @@ def send_email_ondemand(request):
 
     return HttpResponse('ok')
 
+def rotinaDone(request):
+    id = request.POST['id']
+    ClientsOnbording.objects.filter(cliente_id=id).update(
+        is_done=True,
+    )
+
+    RegistroAtividades(
+        cliente_id=Clientes.objects.get(id=id).id,
+        registro='Rotina Onbording Concluida!',
+        descricao=str(datetime.datetime.now()),
+        assessor_responsavel=request.user.id
+    ).save()
+
+    return HttpResponse('ok')
+
+def registroQuestionario(request):
+
+    data = EnqueteOnbording(
+        codigoDeCliente = request.POST['codigoDeCliente'],
+        possuiParticipacaoSocietariaEmAlgumaEmpresa = request.POST['possuiParticipacaoSocietariaEmAlgumaEmpresa'],
+        qualONomeDaEmpresa = request.POST['qualONomeDaEmpresa'],
+        qualFaturamentoMedioAnualDaEmpresa = request.POST['qualFaturamentoMedioAnualDaEmpresa'],
+        empresaPossuiSeguroDeVidaEmGrupo = request.POST['empresaPossuiSeguroDeVidaEmGrupo'],
+        empresaPossuiPlanoDeSaudeParaFuncionarios = request.POST['empresaPossuiPlanoDeSaudeParaFuncionarios'],
+        oSeuPlanoDeSaudeEAtravesDe = request.POST['oSeuPlanoDeSaudeEAtravesDe'],
+        quantasVidasEstaoCobertasPeloSeuPlano = request.POST['quantasVidasEstaoCobertasPeloSeuPlano'],
+        possuiAlgumaEstrategiaDeProtecaoPatrimonial = request.POST['possuiAlgumaEstrategiaDeProtecaoPatrimonial'],
+        qualEstrategia = request.POST['qualEstrategia'],
+        comQueFrequenciaRealizaOperacoesDeCambio = request.POST['comQueFrequenciaRealizaOperacoesDeCambio'],
+        estrategiaProtecaoPatrimonialToGo = request.POST['estrategiaProtecaoPatrimonialToGo'],
+        acompanhamentoPermanente = request.POST['acompanhamentoPermanente'],
+        oportunidadesDeRendaFixa = request.POST['oportunidadesDeRendaFixa'],
+        oportunidadesDeFundosDeInvestimentos = request.POST['oportunidadesDeFundosDeInvestimentos'],
+        oportunidadesDeAcoes = request.POST['oportunidadesDeAcoes'],
+        oportunidadesDeFundosImobiliarios = request.POST['oportunidadesDeFundosImobiliarios'],
+        sujestao = request.POST['sujestao'],
+    )
+
+    data.save()
+
+    return HttpResponse('Questionário salvo com sucesso!')
+
+@transaction.atomic
+def cleanGoogleNames(request):
+    google = Clientes.objects.filter(cliente_dia=True, assessor=request.user.codigo).exclude(alldone=False)
+
+    with transaction.atomic():
+        for go in google:
+            Clientes.objects.filter(id=int(go.id)).update(alldone=False)
+  
+
+    return redirect(reverse('clients:clients-onboarding'))
+
 # PAGINA MEUS CLIENTES
 def meusClientes(request):
    
@@ -598,12 +593,12 @@ def meusClientes(request):
 
 # PAGINA ONBOARDING
 def onBording(request):
-    onbording = ClientsOnbording.objects.filter(assessor=request.user.codigo).order_by('-id')
+    onbording = ClientsOnbording.objects.filter(assessor=request.user.codigo).exclude(is_done=True).order_by('-id')
     n_onboarding = len(onbording)
     novos_clientes = Clientes.objects.filter(status='Novo',assessor=request.user.codigo).exclude(cliente_dia=True)
     inativo = Clientes.objects.filter(status='Inativo',assessor=request.user.codigo)
-    google = Clientes.objects.filter(cliente_dia=True, assessor=request.user.codigo)
-    n_contatos = len(Clientes.objects.filter(cliente_dia=True, assessor=request.user.codigo))
+    google = Clientes.objects.filter(cliente_dia=True, assessor=request.user.codigo).exclude(alldone=False)
+    n_contatos = len(Clientes.objects.filter(cliente_dia=True, assessor=request.user.codigo).exclude(alldone=False))
     n_inativo = len(inativo)
     n_novos_clientes = len(novos_clientes)
     i = Clientes.objects.filter(troca='interna',assessor=request.user.codigo).exclude(cliente_dia=True)
@@ -680,6 +675,30 @@ def espelhamento(request):
     }
 
     return render(request, 'clients/espelhamento/main/base.html', context)
+
+# PAGINA SALDO EM CONTA
+def saldoConta(request):
+    clientes = Clientes.objects.all()
+    context = {
+        'clientes': clientes,
+        # Crumbs First Page Config
+        'first_page_name': 'Clientes',
+        'first_page_link': '',
+        # Crumbs Second Page Config
+        'second_page_name': 'Saldo em Conta',
+        'second_page_link': '',
+        # Crumbs Third Page Config
+        'third_page_name': '',
+        'third_page_link': '',
+        # Current Page
+        'icon': main_icon,
+        'page_name': 'Saldo em Conta',
+        'subtitle': '',
+        'sticker': 'Novo',
+        'page_description': ''
+    }
+
+    return render(request, 'clients/saldoemconta/main/base.html', context)
 
 def rotina_emails(request, id):
 

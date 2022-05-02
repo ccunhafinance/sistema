@@ -15,6 +15,10 @@ urlpatterns = [
     path('assessores/', include('assessores.urls', namespace="assessores")),
     path('usuarios/', include('users.urls', namespace="users")),
     path('ajax/', include('ajax.urls', namespace="ajax")),
+    path('tarefas/', include('tarefas.urls', namespace="tarefas")),
+    path('seguro/', include('seguros.urls', namespace="seguros")),
+    path('destaques/', include('destaques.urls', namespace="destaques")),
+    path('configuracoes/', include('configuracoes.urls', namespace="configuracoes")),
     path('summernote/', include('django_summernote.urls')),
 
 ]

@@ -18,6 +18,8 @@ from django.db.models import Sum
 import re
 import json
 from urllib.request import urlopen
+from datetime import datetime, timezone
+
 
 register = template.Library()
 
@@ -604,30 +606,46 @@ def getNEspelhamento(value):
 # numero de espelhamentos
 @register.filter
 def getTotalCorretagemD0(value):
-     result =  Clientes.objects.filter(assessor=str(value)).aggregate(Sum('d0'))['d0__sum']
-     return 'R$ '+ moedaConvert(float(result))
+    if value is not None:
+        return '-'
+    else:
+
+        result =  Clientes.objects.filter(assessor=str(value)).aggregate(Sum('d0'))['d0__sum']
+        return 'R$ '+ moedaConvert(float(result))
 
 # D0
 @register.filter
 def getTotalCorretagemD1(value):
+    if value is not None:
+        return '-'
+    else:
      result =  Clientes.objects.filter(assessor=str(value)).aggregate(Sum('d1'))['d1__sum']
      return 'R$ '+ moedaConvert(float(result))
 
 # D1
 @register.filter
 def getTotalCorretagemD2(value):
+    if value is not None:
+        return '-'
+    else:
      result =  Clientes.objects.filter(assessor=str(value)).aggregate(Sum('d2'))['d2__sum']
      return 'R$ '+ moedaConvert(float(result))
 
 # D2
 @register.filter
 def getTotalCorretagemD3(value):
+    if value is not None:
+        return '-'
+    else:
      result =  Clientes.objects.filter(assessor=str(value)).aggregate(Sum('d3'))['d3__sum']
      return 'R$ '+ moedaConvert(float(result))
 
 # D3
 @register.filter
 def getTotalCorretagemD4(value):
+    if value is not None:
+        return '-'
+    else:
      result =  Clientes.objects.filter(assessor=str(value)).exclude(status='Inativo').aggregate(Sum('d4'))['d4__sum']
      return 'R$ '+ moedaConvert(float(result))
 
@@ -639,7 +657,84 @@ def getUserLocation(value):
     data = json.load(response)
     return data['city']
 
+# CALCULA IDADE
+@register.filter
+def calcIdade(born):
+    today = date.today()
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
+# ANIVERSARIANTES DO DIA
+@register.filter
+def niverDay(user):
+    hj = date.today()
+    clientes = Clientes.objects.filter(assessor=user, data_nascimento__month=hj.month,data_nascimento__day=hj.day)
+    return len(clientes)
+
+# cCONFIRM NIVER TODAY
+@register.filter
+def isNiverToday(value):
+    today = date.today()
+
+    if today.month  ==  value.month and today.day == value.day:
+        return True
+    else:
+        return False
+    
+# CHECA NIVER MAIOR QUE HJ
+@register.filter
+def checkNiverPassou(born):
+    today = date.today()
+    return ((today.month, today.day) == (born.month, born.day))
+
+# Cash
+@register.filter
+def CashConvert(my_value):
+    a = '{:,.2f}'.format(float(my_value))
+    b = a.replace(',','v')
+    c = b.replace('.',',')
+    return c.replace('v','.')
+
+@register.filter
+def getAddDate(path):
+    a = os.stat('data/files/saldoTransfer/'+path)
+    modified = datetime.fromtimestamp(a.st_mtime).strftime('%d/%m/%Y %H:%M:%S')
+
+    return modified
+
+@register.filter
+def getAddDateRF(path):
+    a = os.stat('data/files/vencimentoRF/'+path)
+    modified = datetime.fromtimestamp(a.st_mtime).strftime('%d/%m/%Y %H:%M:%S')
+
+    return modified
+
+@register.filter
+def getAddDateDestaqueRF(path):
+    a = os.stat('data/files/destaqueRF/'+path)
+    modified = datetime.fromtimestamp(a.st_mtime).strftime('%d/%m/%Y %H:%M:%S')
+
+    return modified
+
+@register.filter
+def getAddDateCustodiaFii(path):
+    a = os.stat('data/files/custodiaFII/'+path)
+    modified = datetime.fromtimestamp(a.st_mtime).strftime('%d/%m/%Y %H:%M:%S')
+
+    return modified
+
+@register.filter
+def getAddDateCustodiaRV(path):
+    a = os.stat('data/files/custodiaRV/'+path)
+    modified = datetime.fromtimestamp(a.st_mtime).strftime('%d/%m/%Y %H:%M:%S')
+
+    return modified
+
+
+    
 
 
 
+
+
+    
 

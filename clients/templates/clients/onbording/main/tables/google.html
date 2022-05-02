@@ -9,12 +9,11 @@
         Cadastre o link do google Sheets para transferir seus contatos!
       </button>
 
-      
-
-
+    
   {% else %}
       <a style="color:#fff; margin-bottom: 20px" data-clipboard-target=".foo" onclick="copiei(), liberaBtnEnviarEAssunto()" href="{{ request.user.id|url_google_sheets }}" target="_blank" class="btn btn-sm btn-success pull-right bt-copy" >Transferir Contatos</a>
   {% endif %}
+
 
   <table id="dt-basic-example3" class="table table-bordered table-hover table-striped w-100 table-sm foo">
 
@@ -30,6 +29,8 @@
       </tbody>
 
   </table>
+
+  <a  class="btn btn-danger btn-sm text-right" href="{% url 'clients:clean-google-contacts' %}">Limpar Contatos</a>
 
 </div>
 

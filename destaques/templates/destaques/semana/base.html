@@ -1,0 +1,34 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load filter_tags %}
+{% load crispy_forms_tags %}
+
+
+<!-- BEGIN page Style -->
+{% block style %}
+     {% include './css/css.html' %}
+
+{% endblock %}
+<!-- END page Style -->
+
+<!-- BEGIN Page Subheader -->
+{% block subheader %}
+{% endblock %}
+<!-- END page Subheader -->
+
+<!-- BEGIN page content -->
+{% block content %}
+
+Destaques da Semana
+{% endblock %}
+<!-- END page content -->
+
+<!-- BEGIN page script -->
+{% block script %}
+
+    {% include './js/js.html' %}
+
+{% endblock %}
+<!-- END page script -->
+
+

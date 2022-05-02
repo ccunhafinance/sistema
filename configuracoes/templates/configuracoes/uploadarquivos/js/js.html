@@ -1,0 +1,164 @@
+{% load static %}
+<script src="{% static 'js/formplugins/dropzone/dropzone.js' %}"></script>
+<script src="{% static 'js/notifications/sweetalert2/sweetalert2.bundle.js' %}"></script>
+<script src="{% static 'js/notifications/toastr/toastr.js' %}"></script>
+
+<script>
+
+
+    $('input[name=myfile]').change(function(ev){
+      document.getElementById('inputGroupFileAddon01').removeAttribute('disabled')
+    });
+
+    // CONFIRMATION BUTTONS
+    $(".thisButton").click(function(){
+      $(this).removeClass("btn-default");
+      $(this).addClass("btn-success");
+      $(this).html('<i class="fal fa-check"></i>');
+    });
+
+    $("#inputGroupFileAddon01").on("click", function(){
+        var timerInterval;
+        Swal.fire(
+        {
+            title: "Fazendo Upload do arquivo",
+            html: "Carregando <strong></strong> ...",
+            timer: 50000,
+            onBeforeOpen: function onBeforeOpen()
+            {
+                Swal.showLoading();
+                timerInterval = setInterval(function()
+                {
+                    Swal.getContent().querySelector(
+                        "strong"
+                    ).textContent = Swal.getTimerLeft();
+                }, 100);
+            },
+            onClose: function onClose()
+            {
+                clearInterval(timerInterval);
+            }
+        }).then(function(result)
+        {
+            if (
+                // Read more about handling dismissals
+                result.dismiss === Swal.DismissReason.timer
+            )
+            {
+                console.log("I was closed by the timer");
+            }
+        });
+    });
+
+    $("#js-sweetalert2-example-8").on("click", function(){
+        var swalWithBootstrapButtons = Swal.mixin(
+        {
+            customClass:
+            {
+                confirmButton: "btn btn-primary",
+                cancelButton: "btn btn-danger mr-2"
+            },
+            buttonsStyling: false
+        });
+        swalWithBootstrapButtons
+            .fire(
+            {
+                title: "Tem certeza que deseja excluir toda a base de dados?",
+                text: "Você não será capaz de reverter este processo!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sim, excluir!",
+                cancelButtonText: "Não, cancelar!",
+                reverseButtons: true
+            })
+            .then(function(result)
+            {
+                if (result.value)
+                {
+                    swalWithBootstrapButtons.fire(
+                        "Excluido!",
+                        "Todos os dados foram apagados.",
+                        "success"
+                    ).then(function() {
+                                    window.location = "{% url 'clients:delet_all' %}";
+                                });
+                }
+                else if (
+                    // Read more about handling dismissals
+                    result.dismiss === Swal.DismissReason.cancel
+                )
+                {
+                    swalWithBootstrapButtons.fire(
+                        "Ok",
+                        "Os dados foram mantidos!",
+                        "error"
+                    );
+                }
+            });
+    }); 
+
+
+    const MyDropzone = new Dropzone('#saldoemconta',{
+      url: "{% url 'configuracoes:upload-saldo' %}",
+      maxFiles: 1,
+      maxFilesize: 5,
+      addRemoveLinks: true,
+      acceptedFiles: '.xlsx, .xls',
+      path: 'data/files/saldoTransfer',
+  })
+
+  const MyDropzone = new Dropzone('#vencimentorf',{
+    url: "{% url 'configuracoes:upload-vencimentorf' %}",
+    maxFiles: 1,
+    maxFilesize: 5,
+    addRemoveLinks: true,
+    acceptedFiles: '.xlsx, .xls',
+    path: 'data/files/vencimentoRF',
+   
+
+  })
+
+  const MyDropzone = new Dropzone('#destaquerf',{
+    url: "{% url 'configuracoes:upload-destaquerf' %}",
+    maxFiles: 1,
+    maxFilesize: 5,
+    addRemoveLinks: true,
+    acceptedFiles: '.xlsx, .xls',
+    path: 'data/files/destaqueRF',
+   
+
+  })
+
+
+  const MyDropzone = new Dropzone('#custodiafii',{
+    url: "{% url 'configuracoes:upload-custodiafii' %}",
+    maxFiles: 1,
+    maxFilesize: 5,
+    addRemoveLinks: true,
+    acceptedFiles: '.xlsx, .xls',
+    path: 'data/files/custodiaFII',
+   
+
+  })
+
+  const MyDropzone = new Dropzone('#custodiarv',{
+    url: "{% url 'configuracoes:upload-custodiarv' %}",
+    maxFiles: 1,
+    maxFilesize: 5,
+    addRemoveLinks: true,
+    acceptedFiles: '.xlsx, .xls',
+    path: 'data/files/custodiaRV',
+   
+
+  })
+ 
+
+   
+
+   
+
+    
+  
+    
+
+</script>

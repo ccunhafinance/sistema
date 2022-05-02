@@ -190,7 +190,6 @@ def segundo_upload(a, b):
     
     with transaction.atomic():
         for t_x in tran_externa:
-            print(Clientes.objects.filter(nickname=str(t_x[0])))
             Clientes.objects.filter(nickname=t_x[0]).update(
                     troca='externa',
                     status='Novo',

@@ -10,17 +10,18 @@ class Clientes(models.Model):
     telefone = models.CharField("Telefone", max_length=100, blank=True, null=True)
     assessor = models.CharField("Assessor", max_length=100, blank=True, null=True)
     antigo_assessor = models.CharField("Antigo Assessor", max_length=100, blank=True, null=True)
-    data_nascimento =models.CharField("Nascimento", max_length=100, blank=True, null=True)
+    data_nascimento =models.DateField(blank=True, null=True)
 
-    d0 = models.CharField("Saldo em D0", max_length=100, blank=True, null=True)
-    d1 = models.CharField("Saldo em D1", max_length=100, blank=True, null=True)
-    d2 = models.CharField("Saldo em D2", max_length=100, blank=True, null=True)
-    d3 = models.CharField("Saldo em D3", max_length=100, blank=True, null=True)
-    d4 = models.CharField("Saldo em D4", max_length=100, blank=True, null=True)
+    d0 = models.FloatField("Saldo em D0", blank=True, null=True)
+    d1 = models.FloatField("Saldo em D1", blank=True, null=True)
+    d2 = models.FloatField("Saldo em D2", blank=True, null=True)
+    d3 = models.FloatField("Saldo em D3", blank=True, null=True)
+    d4 = models.FloatField("Saldo em D4", blank=True, null=True)
 
     status = models.CharField("Status", max_length=100, blank=True, null=True)
     troca = models.CharField("Troca", max_length=100, blank=True, null=True)
     rotina = models.BooleanField(default=False)
+    alldone = models.BooleanField(default=False)
     cliente_dia = models.BooleanField(default=False)
     data_registro = models.DateTimeField(auto_now_add=True, blank=True)
     last_update = models.DateTimeField(auto_now=True, blank=True, null=True)
@@ -48,6 +49,7 @@ class ClientsOnbording(models.Model):
     alocacao = models.DateTimeField(blank=True, null=True)
 
     obs = models.TextField(blank=True, null=True)
+    is_done = models.BooleanField(default=False)
 
 class Espelhamento(models.Model):
     assessor = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -75,7 +77,28 @@ class RegistroAtividades(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
 class EnqueteOnbording(models.Model):
-    pass
+    
+    codigoDeCliente = models.CharField(max_length=50, blank=True, null=True)
+    possuiParticipacaoSocietariaEmAlgumaEmpresa = models.BooleanField(blank=True, null=True)
+    qualONomeDaEmpresa = models.CharField(max_length=100, blank=True, null=True)
+    qualFaturamentoMedioAnualDaEmpresa = models.IntegerField(blank=True, null=True)
+    empresaPossuiSeguroDeVidaEmGrupo = models.BooleanField( blank=True, null=True)
+    empresaPossuiPlanoDeSaudeParaFuncionarios = models.BooleanField( blank=True, null=True)
+    oSeuPlanoDeSaudeEAtravesDe = models.IntegerField(blank=True, null=True, default=0)
+    quantasVidasEstaoCobertasPeloSeuPlano = models.IntegerField(blank=True, null=True, default=0)
+    possuiAlgumaEstrategiaDeProtecaoPatrimonial = models.CharField(max_length=255,blank=True, null=True)
+    qualEstrategia = models.CharField(max_length=255,blank=True, null=True)
+    comQueFrequenciaRealizaOperacoesDeCambio = models.IntegerField(blank=True, null=True, default=0)
+    estrategiaProtecaoPatrimonialToGo = models.CharField(max_length=255, blank=True, null=True)
+    acompanhamentoPermanente = models.BooleanField(blank=True, null=True)
+    oportunidadesDeRendaFixa = models.BooleanField(blank=True, null=True)
+    oportunidadesDeFundosDeInvestimentos = models.BooleanField(blank=True, null=True)
+    oportunidadesDeAcoes = models.BooleanField(blank=True, null=True)
+    oportunidadesDeFundosImobiliarios = models.BooleanField(blank=True, null=True)
+    sujestao = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+    teste = models.BooleanField(blank=True, null=True)
 
 
 

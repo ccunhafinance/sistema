@@ -9,12 +9,9 @@
 
 <script>
 
-    function getClientcode(code)
-    {
-        document.getElementById('codigoDeCliente').value = code;
-        $('#testeform').removeClass('escondido');
 
-    }
+    
+
 
     $(document).ready(function(){
 
@@ -25,7 +22,7 @@
         // FROM QUESTIONARIO CONFIGURATIONS
         $('input:radio[name="possuiParticipacaoSocietariaEmAlgumaEmpresa"]').change(function(){
 
-            if ($(this).val() == 'Sim') {
+            if ($(this).val() == '1') {
                 $('#participacaoSocietariaSim').removeClass('escondido')
             }
             else {
@@ -39,7 +36,7 @@
         
         $('input:radio[name="oSeuPlanoDeSaudeEAtravesDe"]').change(function(){
 
-            if ($(this).val() == 'Pessoa Física' || $(this).val() == 'Pessoa Jurídica') {
+            if ($(this).val() != '0') {
                 $('#pessoaFisicaJuridica').removeClass('escondido')
             }
             else {
@@ -51,7 +48,7 @@
         $('.classCondition').change(function(){
 
             if($(this).is(":checked")) {
-                document.getElementById('estrategiaProtecaoPatrimonialToGo').value += $(this).val()+' '
+                document.getElementById('estrategiaProtecaoPatrimonialToGo').value += $(this).val()+', '
                 $('#nenhuma').prop( "checked", false );
             } else {
                 document.getElementById('estrategiaProtecaoPatrimonialToGo').value = document.getElementById('estrategiaProtecaoPatrimonialToGo').value.replace($(this).val(),'')
@@ -192,7 +189,44 @@
 
         });
 
+        // CLEAN MODAL QUEN CLOSE
+        $('#questionario-modal').on('hidden.bs.modal', function (e) {
+
+            if ($('#outro').is(':checked')) {
+                $('#protecaoPatrimonialOutro').toggle(); 
+            }
+            document.getElementById("formQuest").reset(); 
+            $('#participacaoSocietariaSim').addClass('escondido');   
+            $('#pessoaFisicaJuridica').addClass('escondido')  
+          });
+
+          $("#formQuest").submit(function (e) { 
+            e.preventDefault();
+            var serializedData = $(this).serialize();
+            $.ajax({
+                type: "POST",
+                url: '{% url 'clients:save-questionario' %}',
+                data: serializedData,
+                success: function (response) {
+    
+                    toastr.success(response);
+                    toastr.options.timeOut = 1500;
+                },
+    
+            });
+          });
+
+         
+
     });
+
+    function getClientcode(code)
+    {
+        document.getElementById('codigoDeCliente').value = code;
+        document.getElementById('fakecode').value = code;
+        $('#testeform').removeClass('escondido');
+
+    }
 
     function updateOnbording(id, name, choice)
     {
@@ -360,6 +394,49 @@
 
             })
     }
+
+    function rotinaDone(id){
+        Swal.fire(
+        {
+            title: "Concluir rotina!",
+            text: "Tem certerza que desenha concluir a a cotina prar o cliente " + id + "?" ,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sim",
+            cancelButtonText: "Não",
+        }).then(function(result)
+        {
+            if (result.value)
+            {
+               
+                var token = '{{ csrf_token }}';
+
+                $.ajax({
+                        type: "POST",
+                        url: '{% url 'clients:rotina-onbording-done' %}',
+                        data: {
+                            csrfmiddlewaretoken: token,
+                            id: id,
+                        },
+                    success: function (response) {
+
+                        toastr.success('Rotina Ondemand!', 'Rotina Finalizada!');
+                        toastr.options.timeOut = 1500; // 3s
+                        $('#row_id_'+id).addClass('escondido');
+                        var  lessone = document.getElementById('nrotina').innerHTML - 1 
+                        document.getElementById('nrotina').innerHTML = lessone
+                        
+                    },
+
+                    });
+               
+            }else{
+                
+            }
+        });
+    }
+
+
 
 
 

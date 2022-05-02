@@ -1,0 +1,47 @@
+{% load static %}
+{% load filter_tags %}
+
+<div class="tab-pane fade" id="uploadclientes" role="tabpanel">
+
+  <div class="panel-content">
+    
+    <!-- demo controls -->
+    <div class="mb-g">
+        <div class="row">
+            <div class="col-sm-6 col-xl-6">
+
+              <form method="post" enctype="multipart/form-data" action="{% url 'clients:upload_clientes' %}">
+                  {% csrf_token %}
+          
+                  <div class="input-group">
+                      <div class="input-group-prepend">
+                          <button type="submit" class="btn btn-sm btn-success" id="inputGroupFileAddon01" disabled  onclick='timerActive()'>Upload Clientes</button>
+                      </div>
+                      <div class="custom-file">
+                          <input name="myfile" type="file" class="custom-file-input" id="inputGroupFile01"  aria-describedby="inputGroupFileAddon01" required >
+                          <label class="custom-file-label" for="inputGroupFile01" >Selecione o arquivo</label>
+                      </div>
+                  </div>
+                  
+              </form>
+          
+            </div>
+            <div class="col-sm-6 col-xl-6">
+                <h2 class="text-center">
+                    <a href="javascript:void(0);" class="btn btn-outline-danger" id="js-sweetalert2-example-8">
+                        <i class="fal fa-engine-warning"></i> 
+                        Excluir todos os dados!
+                    </a>
+                </h2>
+            </div>
+
+
+            
+
+        </div>
+    </div>
+    
+  </div>
+
+</div>
+

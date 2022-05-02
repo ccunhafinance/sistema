@@ -25,7 +25,9 @@
 
               <tr>
                   <form method="post" action="{% url 'clients:update_cliente_novo' %}">
+
                       {% csrf_token %}
+                      
                       <input hidden name='assessor' value='{{cliente.assessor}}'>
 
 

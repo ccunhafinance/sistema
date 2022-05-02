@@ -58,6 +58,10 @@ INSTALLED_APPS = [
     'clients',
     'assessores',
     'mail',
+    'tarefas',
+    'seguros',
+    'destaques',
+    'configuracoes',
 
 ]
 

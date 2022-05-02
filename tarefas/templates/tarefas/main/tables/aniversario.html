@@ -1,0 +1,54 @@
+{% load static %}
+{% load filter_tags %}
+
+<div class="tab-pane fade show active" id="aniversario" role="tabpanel">
+  <table id="novos" class="table table-bordered table-hover table-striped w-100 table-sm">
+
+      <thead>
+          <tr>
+              <th>Código</th>
+              <th>Nome</th>
+              <th>Data Aniversário</th>
+              <th>Idade</th>
+              <th>WhatsApp</th>
+              <th>Primeiro Contato</th>
+              <th>Contato Padrão</th>
+              <th>Confirmar Envio</th>
+             
+          </tr>
+      </thead>
+
+      <tbody>
+
+          {% for cliente in clientes %}
+
+            {%if cliente.data_nascimento|checkNiverPassou%}
+              <tr>
+                <td>{{cliente.nickname}}</td>
+                <td>{{cliente.nome}} </td>
+                <td >{{cliente.data_nascimento|date:'d/m'}}
+                    {% if cliente.data_nascimento|isNiverToday %}
+                    <i class="fal fa-gift text-primary"></i>
+                    {%endif%}
+                </td>
+                <td class="text-center">{{cliente.data_nascimento|calcIdade}}</td>
+                <td>
+                    
+
+                    <a style="color:#25D366; text-decoration: none" href="https://api.whatsapp.com/send?phone={{cliente.nickname|getzapClean}}&amp;text={{ saldacao }}, {{ cliente.nickname|get_cliente_first_nome|split:' '|first  }}" target="_blank" rel="noopener">{{cliente.nickname|getzap}}</a>
+                    
+
+                </td>
+                <td></td>
+                <td></td>
+                <td></td> 
+              </tr>
+              {%endif%}
+
+
+          {% endfor %}
+
+      </tbody>
+
+  </table>
+</div>

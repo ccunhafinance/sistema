@@ -19,7 +19,7 @@
 {% block subheader %}
 
 
-    <form method="post" enctype="multipart/form-data" action="{% url 'clients:upload_clientes' %}">
+    {% comment %} <form method="post" enctype="multipart/form-data" action="{% url 'clients:upload_clientes' %}">
         {% csrf_token %}
 
         <div class="input-group">
@@ -32,7 +32,7 @@
             </div>
         </div>
         
-    </form>
+    </form> {% endcomment %}
 
     <br>
 
@@ -56,10 +56,7 @@
                 <div class="panel-hdr">
                     <h2>
                         Lista de Clientes <span class="fw-300"><i></i></span>
-                        <a href="javascript:void(0);" class="btn btn-outline-danger" id="js-sweetalert2-example-8">
-                            <i class="fal fa-engine-warning"></i> 
-                            Excluir todos os dados!
-                        </a>
+                      
                     </h2>
                 </div>
                   
@@ -107,13 +104,14 @@
                                 <li class="nav-item">
                                     <a class="nav-link fs-xs py-1 px-2" data-toggle="tab" href="#tab_default-9" role="tab">
                                         <i class="fal fa-check-double"></i>
-                                        <span class="hidden-sm-down ml-1">Rotina Onbording {% if n_onboarding > 0 %} <span class="badge bg-success-300 ml-2">{{ n_onboarding }}</span> {% endif %}</span>
+                                        <span class="hidden-sm-down ml-1">Rotina Onbording {% if n_onboarding > 0 %} <span id="nrotina" class="badge bg-success-300 ml-2">{{ n_onboarding }}</span> {% endif %}</span>
                                     </a>
                                 </li>
 
                             </ul>
 
                             <div class="tab-content p-3">
+
 
                                 <!-- Novos clientes -->
                                 {% include './tables/novosclientes.html' %}
@@ -185,276 +183,6 @@
         </div>
     </div>
 
-    <div class="escondido" id="testeform">
-        <div class="row">
-            <div class="panel-container show">
-                <div class="panel-content">
-                    
-                    <div class="card-columns">
-    
-                        <div class="card">
-    
-                            {% comment %} --------MOSTRA PRA TODOS-------- {% endcomment %}
-                            <div class="container px-5 my-5">
-                                <div class="mb-3">
-                                    <label class="form-label" for="codigoDeCliente">Código de cliente</label>
-                                    <input class="form-control" id="codigoDeCliente" type="text" placeholder="Código de cliente" data-sb-validations="required" />
-                                    <div class="invalid-feedback" data-sb-feedback="codigoDeCliente:required">Código de cliente is required.</div>
-                                </div>
-    
-                                <div class="mb-3">
-                                    <label class="form-label d-block">Possui participação societária em alguma empresa?</label>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" id="partSociedadeSim" type="radio" name="possuiParticipacaoSocietariaEmAlgumaEmpresa" value='Sim'/>
-                                        <label class="form-check-label" for="partSociedadeSim">Sim</label>
-                                    </div>
-    
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" id="partSociedadeNao" type="radio" name="possuiParticipacaoSocietariaEmAlgumaEmpresa" value="Não"/>
-                                        <label class="form-check-label" for="partSociedadeNao">Não</label>
-                                    </div>
-                                </div>
-                            </div>
-    
-                            {% comment %} mostrar caso seja SIM {% endcomment %}
-                            <div id="participacaoSocietariaSim" style="border:1px solid #2c3e50; padding:20px" class="container px-5 my-5 escondido">
-    
-                                <div class="mb-3">
-                                    <label class="form-label" for="qualONomeDaEmpresa">Qual o nome da empresa?</label>
-                                    <input class="form-control" id="qualONomeDaEmpresa" type="text" placeholder="Qual o nome da empresa?" />
-                                </div>
-    
-                                <div class="mb-3">
-                                    <label class="form-label d-block">Qual faturamento médio anual da empresa?</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="acimaDe100MilhoesR" type="radio" name="qualFaturamentoMedioAnualDaEmpresa" />
-                                        <label class="form-check-label" for="acimaDe100MilhoesR">Acima de 100 milhões (R$)</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="de50A100MilhoesR" type="radio" name="qualFaturamentoMedioAnualDaEmpresa" />
-                                        <label class="form-check-label" for="de50A100MilhoesR">De 50 a 100 milhões (R$)</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="de10A50MilhoesR" type="radio" name="qualFaturamentoMedioAnualDaEmpresa" />
-                                        <label class="form-check-label" for="de10A50MilhoesR">De 10 a 50 milhões (R$)</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="de5A10MilhoesR" type="radio" name="qualFaturamentoMedioAnualDaEmpresa" />
-                                        <label class="form-check-label" for="de5A10MilhoesR">De 5 a 10 milhões (R$)</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="ate5MilhoesR" type="radio" name="qualFaturamentoMedioAnualDaEmpresa" />
-                                        <label class="form-check-label" for="ate5MilhoesR">Até 5 milhões (R$)</label>
-                                    </div>
-                                </div>
-    
-                                <div class="mb-3">
-                                    <label class="form-label d-block">Empresa possui seguro de vida em grupo?</label>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" id="SeguroSim" type="radio" name="empresaPossuiSeguroDeVidaEmGrupo" />
-                                        <label class="form-check-label" for="SeguroSim">Sim</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" id="SeguroNao" type="radio" name="empresaPossuiSeguroDeVidaEmGrupo" />
-                                        <label class="form-check-label" for="SeguroNao">Não</label>
-                                    </div>
-                                </div>
-    
-                                <div class="mb-3">
-                                    <label class="form-label d-block">Empresa possui plano de saúde para funcionários?</label>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" id="planoSim" type="radio" name="empresaPossuiPlanoDeSaudeParaFuncionarios" />
-                                        <label class="form-check-label" for="planoSim">Sim</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" id="planoNao" type="radio" name="empresaPossuiPlanoDeSaudeParaFuncionarios" />
-                                        <label class="form-check-label" for="planoNao">Não</label>
-                                    </div>
-                                </div>
-                                
-                       
-                            </div>
-    
-                            {% comment %} --------MOSTRA PRA TODOS-------- {% endcomment %}
-                            <div class="container px-5 my-5">
-                                <div class="mb-3">
-                                    <label class="form-label d-block">O SEU plano de saúde é através de?</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="pessoaFisica" type="radio" name="oSeuPlanoDeSaudeEAtravesDe" value="Pessoa Física"/>
-                                        <label class="form-check-label" for="pessoaFisica">Pessoa Física</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="pessoaJuridica" type="radio" name="oSeuPlanoDeSaudeEAtravesDe" value="Pessoa Jurídica"/>
-                                        <label class="form-check-label" for="pessoaJuridica">Pessoa Jurídica</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="naoPossui" type="radio" name="oSeuPlanoDeSaudeEAtravesDe" value="Não possui"/>
-                                        <label class="form-check-label" for="naoPossui">Não possui</label>
-                                    </div>
-                                </div> 
-                            </div>
-    
-                            {% comment %} Mostrar caso seja PESSOA FISICA - JURIDICA {% endcomment %}
-                            <div id="pessoaFisicaJuridica" style="border:1px solid #2c3e50; padding:20px" class="container px-5 my-5 escondido">
-                                <div class="mb-3">
-                                    <label class="form-label" for="quantasVidasEstaoCobertasPeloSeuPlano">Quantas vidas estão cobertas pelo seu plano?</label>
-                                    <input class="form-control" id="quantasVidasEstaoCobertasPeloSeuPlano" type="text" placeholder="Quantas vidas estão cobertas pelo seu plano?" />
-                                </div>
-                                  
-                            </div>
-    
-                            {% comment %} --------MOSTRA PRA TODOS-------- {% endcomment %}
-                            <div class="container px-5 my-5">
-                                <div class="mb-3">
-                                    <label class="form-label d-block">Possui alguma estratégia de proteção patrimonial?</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input classCondition" id="holdingPatrimonial" type="checkbox" name="possuiAlgumaEstrategiaDeProtecaoPatrimonial" value="Holding Patrimonial" />
-                                        <label class="form-check-label" for="holdingPatrimonial">Holding Patrimonial</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input classCondition" id="holdingImobiliaria" type="checkbox" name="possuiAlgumaEstrategiaDeProtecaoPatrimonial" value="Holding Imobiliária" />
-                                        <label class="form-check-label" for="holdingImobiliaria">Holding Imobiliária</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input classCondition" id="previdencia" type="checkbox" name="possuiAlgumaEstrategiaDeProtecaoPatrimonial" value="Previdência" />
-                                        <label class="form-check-label" for="previdencia">Previdência</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input classCondition" id="seguroDeVida" type="checkbox" name="possuiAlgumaEstrategiaDeProtecaoPatrimonial" value="Seguro de Vida" />
-                                        <label class="form-check-label" for="seguroDeVida">Seguro de Vida</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input classCondition" id="offshore" type="checkbox" name="possuiAlgumaEstrategiaDeProtecaoPatrimonial" value="Offshore" />
-                                        <label class="form-check-label" for="offshore">Offshore</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="nenhuma" type="checkbox" name="possuiAlgumaEstrategiaDeProtecaoPatrimonial" value="Nenhuma" />
-                                        <label class="form-check-label" for="nenhuma">Nenhuma</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input classCondition" id="outro" type="checkbox" name="possuiAlgumaEstrategiaDeProtecaoPatrimonial" value="Outro" />
-                                        <label class="form-check-label" for="outro">Outro</label>
-                                    </div>
-                                    <input id="estrategiaProtecaoPatrimonialToGo" name="estrategiaProtecaoPatrimonialToGo" class="form-control">
-                                </div>
-                            </div>
-    
-                            {% comment %} mostrar caso seja OUTRO {% endcomment %}
-                            <div id="protecaoPatrimonialOutro" style="border:1px solid #2c3e50; padding:20px;display:none"  class="container px-5 my-5">
-                                
-                                <div class="mb-3">
-                                    <label class="form-label" for="qualEstrategia">Qual estratégia?</label>
-                                    <input class="form-control" id="qualEstrategia" type="text" placeholder="Qual estratégia?" />
-                                </div>
-                                   
-                            </div>
-    
-                            {% comment %} --------MOSTRA PRA TODOS-------- {% endcomment %}
-                            <div class="container px-5 my-5">
-                               
-                                <div class="mb-3">
-                                    <label class="form-label d-block">Com que frequência realiza operações de câmbio?</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="naoRealiza" type="radio" name="comQueFrequenciaRealizaOperacoesDeCambio" />
-                                        <label class="form-check-label" for="naoRealiza">Não realiza</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="semanalmente" type="radio" name="comQueFrequenciaRealizaOperacoesDeCambio" />
-                                        <label class="form-check-label" for="semanalmente">Semanalmente</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="quinzenalmente" type="radio" name="comQueFrequenciaRealizaOperacoesDeCambio" />
-                                        <label class="form-check-label" for="quinzenalmente">Quinzenalmente</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="mensalmente" type="radio" name="comQueFrequenciaRealizaOperacoesDeCambio" />
-                                        <label class="form-check-label" for="mensalmente">Mensalmente</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="esporadicamente" type="radio" name="comQueFrequenciaRealizaOperacoesDeCambio" />
-                                        <label class="form-check-label" for="esporadicamente">Esporadicamente</label>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label d-block">Possui ou está pensando em contratar crédito imobiliário?</label>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" id="creditoSim" type="radio" name="possuiOuEstaPensandoEmContratarCreditoImobiliario" />
-                                        <label class="form-check-label" for="creditoSim">Sim</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" id="creditoNao" type="radio" name="possuiOuEstaPensandoEmContratarCreditoImobiliario" />
-                                        <label class="form-check-label" for="creditoNao">Não</label>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label d-block">Acompanhamento Permanente</label>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" id="permaneSim" type="radio" name="acompanhamentoPermanente" />
-                                        <label class="form-check-label" for="permaneSim">Sim</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" id="permaneNao" type="radio" name="acompanhamentoPermanente" />
-                                        <label class="form-check-label" for="permaneNao">Não</label>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label d-block">Oportunidades de Renda Fixa</label>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input"  id="rfSim" type="radio" name="oportunidadesDeRendaFixa" />
-                                        <label class="form-check-label" for="rfSim">Sim</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" id="rfNao"  type="radio" name="oportunidadesDeRendaFixa" />
-                                        <label class="form-check-label" for="rfNao">Não</label>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label d-block">Oportunidades de Fundos de Investimentos</label>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" id="investSim" type="radio" name="oportunidadesDeFundosDeInvestimentos" />
-                                        <label class="form-check-label" for="investSim">Sim</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" id="investNao" type="radio" name="oportunidadesDeFundosDeInvestimentos" />
-                                        <label class="form-check-label" for="investNao">Não</label>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label d-block">Oportunidades de Ações</label>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" id="acoesSim" type="radio" name="oportunidadesDeAcoes" />
-                                        <label class="form-check-label" for="acoesSim">Sim</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" id="acoesNao" type="radio" name="oportunidadesDeAcoes" />
-                                        <label class="form-check-label" for="acoesNao">Não</label>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label d-block">Oportunidades de Fundos Imobiliários</label>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" id="fiiSim" type="radio" name="oportunidadesDeFundosImobiliarios" />
-                                        <label class="form-check-label" for="fiiSim">Sim</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" id="fiiNao" type="radio" name="oportunidadesDeFundosImobiliarios" />
-                                        <label class="form-check-label" for="fiiNao">Não</label>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="sintaSeAVontadeParaDeixarAbaixoSuasCriticasESugestoesDigaNosComoPodemosMelhorarONossoContatoComVoce">Sinta-se à vontade para deixar abaixo suas críticas e sugestões. Diga-nos como podemos melhorar o nosso contato com você.</label>
-                                    <textarea class="form-control" id="sintaSeAVontadeParaDeixarAbaixoSuasCriticasESugestoesDigaNosComoPodemosMelhorarONossoContatoComVoce" type="text" placeholder="Sinta-se à vontade para deixar abaixo suas críticas e sugestões.  Diga-nos como podemos melhorar o nosso contato com você." style="height: 10rem;" data-sb-validations=""></textarea>
-                                </div>
-                              
-                        
-                            </div>
-    
-                    </div>  
-    
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 

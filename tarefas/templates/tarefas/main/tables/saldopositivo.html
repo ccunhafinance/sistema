@@ -1,0 +1,86 @@
+{% load static %}
+{% load filter_tags %}
+
+<div class="tab-pane fade" id="saldo-positivo" role="tabpanel">
+  <table id="novos" class="table table-bordered table-hover table-striped w-100 table-sm">
+
+      <thead>
+          <tr>
+              <th>Código</th>
+              <th>Nome</th>
+              <th>D0</th>
+              <th>D1</th>
+              <th>D2</th>
+              <th>D3</th>
+              <th>D4</th>
+             
+          </tr>
+      </thead>
+
+      <tbody>
+
+          {% for cliente in saldo_positivo %}
+
+              <tr>
+                <td>{{cliente.nickname}}</td>
+                <td>{{cliente.nome}} </td>
+                <td>
+                  {%if cliente.d0 > 0%}
+                    <span class="text-info">R$ {{cliente.d0|CashConvert}} </span>
+                  {%elif cliente.d0 < 0%}
+                    <span class="text-danger">R$ {{cliente.d0|CashConvert}} </span>
+                  {%else%}
+                    R$ {{cliente.d0|CashConvert}} 
+                  {%endif%}
+                </td>
+                <td>
+                  {%if cliente.d1 > 0%}
+                    <span class="text-info">R$ {{cliente.d1|CashConvert}} </span>
+                  {%elif cliente.d1 < 0%}
+                    <span class="text-danger">R$ {{cliente.d1|CashConvert}} </span>
+                  {%else%}
+                    R$ {{cliente.d1|CashConvert}} 
+                  {%endif%}
+
+                  
+                </td>
+                <td>
+                  {%if cliente.d2 > 0%}
+                    <span class="text-info">R$ {{cliente.d2|CashConvert}} </span>
+                  {%elif cliente.d2 < 0%}
+                    <span class="text-danger">R$ {{cliente.d2|CashConvert}} </span>
+                    {%else%}
+                    R$ {{cliente.d2|CashConvert}} 
+                  {%endif%}
+                 
+                </td>
+                <td>
+                  {%if cliente.d3 > 0%}
+                    <span class="text-info">R$ {{cliente.d3|CashConvert}} </span>
+                  {%elif cliente.d3 < 0%}
+                    <span class="text-danger">R$ {{cliente.d3|CashConvert}} </span>
+                    {%else%}
+                    R$ {{cliente.d3|CashConvert}} 
+                  {%endif%}
+                 
+                 </td>
+                <td>
+                  {%if cliente.d4 > 0%}
+                    <span class="text-info">R$ {{cliente.d4|CashConvert}} </span>
+                  {%elif cliente.d4 < 0%}
+                    <span class="text-danger">R$ {{cliente.d4|CashConvert}} </span>
+                    {%else%}
+                    R$ {{cliente.d4|CashConvert}} 
+                  {%endif%}
+                 
+                 </td>
+                 
+              </tr>
+
+
+          {% endfor %}
+
+      </tbody>
+
+  </table>
+</div>
