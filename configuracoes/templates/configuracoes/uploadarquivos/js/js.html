@@ -105,9 +105,7 @@
       addRemoveLinks: true,
       acceptedFiles: '.xlsx, .xls',
       path: 'data/files/saldoTransfer',
-  })
-
-  const MyDropzone = new Dropzone('#vencimentorf',{
+  },'#vencimentorf',{
     url: "{% url 'configuracoes:upload-vencimentorf' %}",
     maxFiles: 1,
     maxFilesize: 5,
@@ -116,9 +114,7 @@
     path: 'data/files/vencimentoRF',
    
 
-  })
-
-  const MyDropzone = new Dropzone('#destaquerf',{
+  },'#destaquerf',{
     url: "{% url 'configuracoes:upload-destaquerf' %}",
     maxFiles: 1,
     maxFilesize: 5,
@@ -127,10 +123,7 @@
     path: 'data/files/destaqueRF',
    
 
-  })
-
-
-  const MyDropzone = new Dropzone('#custodiafii',{
+  },'#custodiafii',{
     url: "{% url 'configuracoes:upload-custodiafii' %}",
     maxFiles: 1,
     maxFilesize: 5,
@@ -139,9 +132,7 @@
     path: 'data/files/custodiaFII',
    
 
-  })
-
-  const MyDropzone = new Dropzone('#custodiarv',{
+  },'#custodiarv',{
     url: "{% url 'configuracoes:upload-custodiarv' %}",
     maxFiles: 1,
     maxFilesize: 5,
@@ -151,14 +142,7 @@
    
 
   })
- 
 
-   
-
-   
-
-    
-  
     
 
 </script>
