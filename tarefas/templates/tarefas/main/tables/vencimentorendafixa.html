@@ -1,65 +1,54 @@
+{% load static %}
+{% load filter_tags %}
 <div class="tab-pane fade" id="vencimentorf" role="tabpanel">
   
-  <div id="js-page-content-demopanels">
-    <div class="col-xl-12">
-        <div id="panel-1" class="panel">
-            <div class="panel-hdr">
-                <h2>
-                    Lista de Vencimentos de Renda Fixa <span class="fw-300"><i></i></span>
-                </h2>
-               
-            </div>
-            <div class="panel-container show">
-                <div class="panel-content">
+  <table id="dt-basic-example" class="table table-sm table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1545px;">
+    <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Nome</th>
+            <th>Ativo</th>
+            <th>Vencimento</th>   
+            <th>Financeiro</th>
+            <th>Dt_Aplicacao</th>
+            <th>Qtd</th>
+            <th>PU_Atual</th>
+            <th>WhatsApp</th>
+            <th >Primeiro Contato</th>
+            <th >Contato Padrão</th>
+            <th >Contato Email</th>
+            <th >Confirmar Contato</th>
+            <th >count</th>
+           
+          
 
-                    <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100 table-sm">
-                        <thead>
-                            <tr>
-                                <th>Cliente</th>
-                                <th>Assessor</th>
-                                <th>AC</th>
-                                <th>Ativo</th>
-                                <th>Emissor</th>
-                                <th>Indexador</th>
-                                <th>Dt_Aplicacao</th>
-                                <th>Vencimento</th>
-                                <th>Carencia</th>
-                                <th>Qtd</th>
-                                <th>PU_Atual</th>
-                                <th>Financeiro</th>
-                              
+        </tr>
+    </thead>
+    <tbody>
+    {% for ven in vencimento %}
+      {%if ven.Cliente != ''%}
+        <tr>
+            <td>{{ven.Cliente}}</td>
+            <td>{{ven.Cliente|get_cliente_nomeTesteOne}}</td>
+            <td nowrap>{{ven.Ativo}}</td>
+            <td>{{ven.Vencimento}}</td>
+            <td>{{ven.Financeiro|CashConvert}}</td>
+            <td>{{ven.Dt_Aplicacao}}</td>
+            <td>{{ven.Qtd}}</td>
+            <td>{{ven.PU_Atual|CashConvert}}</td>
+            <td>{{ven.Ativo}}<br>Vencimento: {{ven.Vencimento}} - {{ven.Financeiro|CashConvert}}<br></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{ven.Cliente|getTelefoneCliente}}</td>
+           
+        </tr>
+        {%endif%}
+    {% endfor %}
+    </tbody>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for ven in vencimento %}
-                            <tr>
-                              
-
-                                <td>{{ ven.Cliente }}</td>
-                                <td>{{ ven.Assessor }}</td>
-                                <td>{{ ven.AC }}</td>
-                                <td>{{ ven.Ativo }}</td>
-                                <td>{{ ven.Emissor }}</td>
-                                <td>{{ ven.Indexador }}</td>
-                                <td>{{ ven.Dt_Aplicacao }}</td>
-                                <td>{{ ven.Vencimento }}</td>
-                                <td>{{ ven.Carencia }}</td>
-                                <td>{{ ven.Qtd }}</td>
-                                <td>{{ ven.PU_Atual }}</td>
-                                <td>{{ ven.Financeiro }}</td>
-                               
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-
-                    </table>
-                    <!-- datatable end -->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+</table>
 
 
 </div>

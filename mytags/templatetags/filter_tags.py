@@ -21,6 +21,7 @@ from urllib.request import urlopen
 from datetime import datetime, timezone
 
 
+
 register = template.Library()
 
 def moedaConvert(my_value):
@@ -360,12 +361,39 @@ def check_alocacao(value):
 
 @register.filter
 def getNameClient(value):
-    return Clientes.objects.get(id=value).nome
+    try:
+        return Clientes.objects.get(id=value).nome
+    except:
+        return 'CLeinte não encontrado!'
+
+@register.filter
+def getTelefoneCliente(value):
+    try:
+        telefone =  Clientes.objects.get(nickname=str(value)).telefone
+        telefone = telefone.replace(' ','')
+        telefone = telefone.replace('-','')
+        return '55'+telefone
+    except:
+        return 'CLeinte não encontrado!'
 
 @register.filter
 def get_cliente_nome(value):
+    try:
+        return Clientes.objects.get(nickname=str(value)).nome
+    except:
+        return 'CLeinte não encontrado!'
 
-    return Clientes.objects.get(nickname=str(value)).nome
+@register.filter
+def get_cliente_nomeTesteOne(value):
+    try:
+        nome =  Clientes.objects.get(nickname=str(value)).nome
+        nome  = nome.split(' ')
+        return nome[0]
+
+    except:
+        return 'CLeinte não encontrado!'
+
+    
 
 @register.filter
 def get_cliente_first_nome(value):
@@ -689,10 +717,14 @@ def checkNiverPassou(born):
 # Cash
 @register.filter
 def CashConvert(my_value):
-    a = '{:,.2f}'.format(float(my_value))
-    b = a.replace(',','v')
-    c = b.replace('.',',')
-    return c.replace('v','.')
+    try:
+        a = '{:,.2f}'.format(float(my_value))
+        b = a.replace(',','v')
+        c = b.replace('.',',')
+        return 'R$ '+ c.replace('v','.')
+    except:
+        return ("Valor Inválido")
+   
 
 @register.filter
 def getAddDate(path):

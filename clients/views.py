@@ -49,7 +49,7 @@ def googleSheetsINEX(table, codigo,sexo,nome,email):
     creds = ServiceAccountCredentials.from_json_keyfile_name('data/apis_google/client_key.json', scope)
     client = gspread.authorize(creds)
     sheet = client.open(table).sheet1
-    row = [codigo,tratamento,nome.split().pop(0),'emaildocis@gmail.com']
+    row = [codigo,tratamento,nome.split().pop(0),'brunorochamartins@live.com']
     index = 2
     sheet.insert_row(row, index)
 # ----------------------------------------------------------------
