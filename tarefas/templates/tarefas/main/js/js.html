@@ -10,54 +10,8 @@
             order: [
                 [3, 'asc']
             ],
-            rowGroup:
-            {
-              endRender: function ( rows, group ) {
-                var avg = rows
-                    .data()
-                    .pluck(8)
-                    .reduce( function (a, b) {
-                        return a+'\n'+b ;
-                    },);
-
-                    var nome = rows
-                    .data()
-                    .pluck(1)
-                    .reduce( function (a) {
-                        return a ;
-                    },);
-
-                    var telefone = rows
-                    .data()
-                    .pluck(13)
-                    .reduce( function (a) {
-                        return a ;
-                    },);
-
-                  
-                  if(rows.count() == 1){
-
-                        var text = 'Boa Tarde, '+ nome + '\n\nMeu nome é Lucas Thompson, trabalho aqui na Inove Investimentos | XP e, em conjunto com o Bruno Martins, sou responsável pela sua assessoria.\n\nAinda não tivemos a oportunidade de conversar, mas estava realizando o acompanhamento da sua conta e identifiquei que hoje tivemos o vencimento de ativo de renda fixa e o valor está em saldo.\n\nVocê já sabe como alocar os recursos ou gostaria de uma assessoria.\n\nSegue abaixo o ativo e o valor bruto.\n\nFico à disposição.\n\n'+avg.replace(/<br>/g, "\n")
-
-                        texto = window.encodeURIComponent(text);
-
-                        return '<a style="color:#25D366; text-decoration: none" href="https://api.whatsapp.com/send?phone=553299642777&amp;text='+texto+'" target="_blank" rel="noopener">WhatsApp</a>'
-
-                      }else{
-
-                        var text = 'Boa Tarde, '+ nome + '\n\nMeu nome é Lucas Thompson, trabalho aqui na Inove Investimentos | XP e, em conjunto com o Bruno Martins, sou responsável pela sua   assessoria.\n\nAinda não tivemos a oportunidade de conversar, mas estava realizando o acompanhamento da sua conta e identifiquei que hoje tivemos o vencimento de ativos de renda fixa e o valores estão em saldo.\n\nVocê já sabe como alocar os recursos ou gostaria de uma assessoria.\n\n Seguem abaixo os ativos e os valores brutos.\n\nFico à disposição.\n\n'+avg.replace(/<br>/g, "\n")
-
-                        texto = window.encodeURIComponent(text);
-
-                        return '<a style="color:#25D366; text-decoration: none" href="https://api.whatsapp.com/send?phone=553299642777&amp;text='+texto+'" target="_blank" rel="noopener">WhatsApp</a>'
-                      }
-            },
-                dataSrc: 1
-            },
-            columnDefs: [ {
-              targets: [1,8,13],
-              visible: false
-          } ]
+          
+          
         });
     });
 

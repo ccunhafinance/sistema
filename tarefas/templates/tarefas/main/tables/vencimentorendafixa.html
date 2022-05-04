@@ -2,7 +2,7 @@
 {% load filter_tags %}
 <div class="tab-pane fade" id="vencimentorf" role="tabpanel">
   
-  <table id="dt-basic-example" class="table table-sm table-bordered table-hover table-striped w-100 dataTable dtr-inline" role="grid" aria-describedby="dt-basic-example_info" style="width: 1545px;">
+  <table id='dt-basic-example' class='table table-bordered m-0'>
     <thead>
         <tr>
             <th>Cliente</th>
@@ -18,7 +18,6 @@
             <th >Contato Padrão</th>
             <th >Contato Email</th>
             <th >Confirmar Contato</th>
-            <th >count</th>
            
           
 
@@ -30,18 +29,18 @@
         <tr>
             <td>{{ven.Cliente}}</td>
             <td>{{ven.Cliente|get_cliente_nomeTesteOne}}</td>
-            <td nowrap>{{ven.Ativo}}</td>
-            <td>{{ven.Vencimento}}</td>
-            <td>{{ven.Financeiro|CashConvert}}</td>
-            <td>{{ven.Dt_Aplicacao}}</td>
-            <td>{{ven.Qtd}}</td>
-            <td>{{ven.PU_Atual|CashConvert}}</td>
-            <td>{{ven.Ativo}}<br>Vencimento: {{ven.Vencimento}} - {{ven.Financeiro|CashConvert}}<br></td>
+            <td nowrap >{{ven.Ativo|splitVencimento|safe}}</td>
+            <td nowrap>{{ven.Vencimento|splitVencimento|safe}}</td>
+            <td nowrap>{{ven.Financeiro|splitVencimentoCash|safe}}</td>
+            <td>{{ven.Dt_Aplicacao|splitVencimento|safe}}</td>
+            <td>{{ven.Qtd|splitVencimento|safe}}</td>
+            <td nowrap>{{ven.PU_Atual|splitVencimentoCash|safe}}</td>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
-            <td>{{ven.Cliente|getTelefoneCliente}}</td>
+            <td></td>
+            {% comment %} <td>{{ven.Cliente|getTelefoneCliente}}</td> {% endcomment %}
            
         </tr>
         {%endif%}

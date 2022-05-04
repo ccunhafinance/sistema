@@ -1,3 +1,4 @@
+from ntpath import join
 from clients.models import Espelhamento, Clientes, ClientsOnbording
 from yaml import SafeDumper, safe_dump, safe_dump_all, safe_load
 from mail.models import EmailCategoria, Categoria
@@ -762,10 +763,39 @@ def getAddDateCustodiaRV(path):
     return modified
 
 
+# Vencimento renda fixa
+@register.filter
+def splitVencimento(value):
+    val = value.split(';')
     
+    result = []
+    for va in val:
+        result.append(va)
+    
+    final = '<br>'.join([str(item) for item in result])
+
+    return final
 
 
+@register.filter
+def splitVencimentoCash(value):
+    val = value.split(';')
+    
+    result = []
+    for va in val:
+        result.append(va)
+    
+    final = '<br>'.join([str(moedaConvert2(item)) for item in result])
 
+    return final
+
+
+def moedaConvert2(my_value):
+    my_value = my_value.replace(',','.')
+    a = '{:,.2f}'.format(float(my_value))
+    b = a.replace(',','v')
+    c = b.replace('.',',')
+    return 'R$ '+c.replace('v','.')
 
 
     
