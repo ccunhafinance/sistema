@@ -21,6 +21,8 @@ def mainPageTarefas(request):
     sh = wb.sheet_by_name('Planilha1')
 
     data_list = []
+
+   
 											
     for rownum in range(1, sh.nrows):
         data = OrderedDict()
@@ -32,7 +34,9 @@ def mainPageTarefas(request):
         data['Financeiro'] = row_values[3]
         data['Dt_Aplicacao'] = row_values[4]
         data['Qtd'] = str(row_values[5]).replace('.0','')
-        data['PU_Atual'] = row_values[6] 
+        data['PU_Atual'] = row_values[6], 
+        data['mens'] = row_values[7], 
+        data['mensformat'] = row_values[8],
         data_list.append(data)
 
     hj = date.today()
@@ -49,6 +53,7 @@ def mainPageTarefas(request):
     clientes = Clientes.objects.filter(assessor=request.user.codigo, data_nascimento__month=hj.month).order_by('data_nascimento__day')
     saldo_positivo = Clientes.objects.filter(assessor=request.user.codigo, d4__gt=0).order_by('-d4')
     saldo_negativo = Clientes.objects.filter(assessor=request.user.codigo, d0__lt=0).order_by('d0')
+
 
     context = {
         'vencimento': data_list,

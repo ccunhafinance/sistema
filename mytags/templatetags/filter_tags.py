@@ -1,4 +1,6 @@
 from ntpath import join
+
+import numpy
 from clients.models import Espelhamento, Clientes, ClientsOnbording
 from yaml import SafeDumper, safe_dump, safe_dump_all, safe_load
 from mail.models import EmailCategoria, Categoria
@@ -776,18 +778,74 @@ def splitVencimento(value):
 
     return final
 
-
 @register.filter
-def splitVencimentoCash(value):
+def splitVencimentoTEXT(value):
     val = value.split(';')
     
     result = []
     for va in val:
         result.append(va)
     
-    final = '<br>'.join([str(moedaConvert2(item)) for item in result])
+    final = '%0D%0D'.join([str(item) for item in result])
 
     return final
+
+@register.filter
+def splitVencimentoCashTEXT(value):
+
+    if type(value) == str:
+
+        val = value.split(';')
+        
+        result = []
+        for va in val:
+            result.append(va)
+        
+        final = '%0D%0D'.join([str(moedaConvert2(item)) for item in result])
+
+        return final
+
+    elif type(value) == tuple:
+
+         val = '{0}'.format(value)
+         val = val.split(';')
+        
+         result = []
+         for va in val:
+                result.append(va)
+
+         final = '%0D%0D'.join([str(moedaConvert2(item)) for item in value])
+
+         return final
+
+
+@register.filter
+def splitVencimentoCash(value):
+
+    if type(value) == str:
+
+        val = value.split(';')
+        
+        result = []
+        for va in val:
+            result.append(va)
+        
+        final = '<br>'.join([str(moedaConvert2(item)) for item in result])
+
+        return final
+
+    elif type(value) == tuple:
+
+         val = '{0}'.format(value)
+         val = val.split(';')
+        
+         result = []
+         for va in val:
+                result.append(va)
+
+         final = '<br>'.join([str(moedaConvert2(item)) for item in value])
+
+         return final
 
 
 def moedaConvert2(my_value):
@@ -796,6 +854,72 @@ def moedaConvert2(my_value):
     b = a.replace(',','v')
     c = b.replace('.',',')
     return 'R$ '+c.replace('v','.')
+
+
+@register.filter
+def testetuple(value):
+    return '{0[0]}'.format(value)
+
+@register.filter
+def primeiroContato(value):
+    val = '{0[0]}'.format(value)
+
+    if val == '1':
+        text = '%0DMeu nome é Lucas Thompson, sou assessor de investimentos aqui na Inove | XP e, em conjunto com o Bruno Martins, sou um dos responsáveis pela sua assessoria.%0D%0DAinda não tivemos a oportunidade de conversar, mas estava realizando o acompanhamento da sua conta e identifiquei que hoje tivemos o vencimento de um ativo de renda fixa.%0D%0D Você já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0D Segue abaixo o ativo e o valor bruto.%0D%0D Fico à disposição.'
+
+        return text
+
+    if val == '2':
+        text = '%0DMeu nome é Lucas Thompson, sou assessor de investimentos aqui na Inove | XP e, em conjunto com o Bruno Martins, sou um dos responsáveis pela sua assessoria.%0D%0DAinda não tivemos a oportunidade de conversar, mas estava realizando o acompanhamento da sua conta e identifiquei que hoje tivemos o vencimento de ativos de renda fixa.%0D%0D Você já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0D Seguem abaixo os ativos e os valores brutos.%0D%0D Fico à disposição.'
+
+        return text
+
+    if val == '3':
+        text = '%0DMeu nome é Lucas Thompson, sou assessor de investimentos aqui na Inove | XP e, em conjunto com o Bruno Martins, sou um dos responsáveis pela sua assessoria.%0D%0DAinda não tivemos a oportunidade de conversar, mas estava realizando o acompanhamento da sua conta e identifiquei que em breve teremos o vencimento de um ativo de renda fixa.%0D%0D Você já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0D Segue abaixo o ativo e o valor bruto.%0D%0D Fico à disposição.'
+
+        return text
+
+    if val == '4':
+        text = '%0DMeu nome é Lucas Thompson, sou assessor de investimentos aqui na Inove | XP e, em conjunto com o Bruno Martins, sou um dos responsáveis pela sua assessoria.%0D%0DAinda não tivemos a oportunidade de conversar, mas estava realizando o acompanhamento da sua conta e identifiquei que em breve teremos o vencimento de ativos de renda fixa.%0D%0D Você já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0D Segu em abaixo os ativos e os valores brutos.%0D%0D Fico à disposição.'
+
+        return text
+
+    if val == '5':
+        text = '%0DMeu nome é Lucas Thompson, sou assessor de investimentos aqui na Inove | XP e, em conjunto com o Bruno Martins, sou um dos responsáveis pela sua assessoria.%0D%0DAinda não tivemos a oportunidade de conversar, mas estava realizando o acompanhamento da sua conta e identifiquei que hoje tivemos um vencimento e que em breve teremos o vencimento de outros ativos de renda fixa.%0D%0D Você já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0D Seguem abaixo os ativos e os valores brutos.%0D%0D Fico à disposição.'
+
+        return text
+
+@register.simple_tag
+def formatAtivos(value, vencimento, financeiro):
+    val = value.split(';')
+    
+    result = []
+    for va in val:
+        result.append(va)
+
+    
+    val2 = vencimento.split(';')
+    
+    result2 = []
+    for va in val2:
+        result2.append(va)
+
+    val3 = financeiro.split(';')
+    
+    result3 = []
+    for va in val3:
+        result3.append(va)
+
+  
+   
+
+    final = ''.join([str(item) for item  in result ] + [' Venciento: ' + str(item2) for item2  in result2 ] + ['  ' + str(moedaConvert2(item3)) for item3 in result3]  ) 
+    
+    
+    # final = '%0D%0D'.join([str(item) for item , item2 in result and result2 and result3])  
+
+    return final
+    
 
 
     
