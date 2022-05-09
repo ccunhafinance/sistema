@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from clients.models import Clientes
 from users.models import *
@@ -8,6 +9,9 @@ import xlrd
 from collections import OrderedDict
 import glob
 import os
+from . models import *
+
+from clients.models import RegistroAtividades
 
 
 main_icon = 'fal fa-tasks'
@@ -79,3 +83,21 @@ def mainPageTarefas(request):
     }
 
     return render(request, 'tarefas/main/base.html', context)
+
+def regitroVencimentoRF(request):
+    data = RegitroVencimentoRF(
+        codigo_cliente = request.POST['codigo_cliente'],
+        status =  request.POST['status']
+    )
+
+    data.save()
+
+    data2 = RegistroAtividades(
+        cliente_id=Clientes.objects.get(nickname=request.POST['codigo_cliente']).id,
+        registro='Registro de Atividade Vencimento Renda Fixa',
+        descricao=request.POST['status'],
+        assessor_responsavel=request.user.id
+    )
+    data2.save()
+
+    return HttpResponse('ok')

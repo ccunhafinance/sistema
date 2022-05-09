@@ -19,7 +19,46 @@
 <!-- BEGIN page content -->
 {% block content %}
 
-Destaques da Semana
+<div id="js-page-content-demopanels">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr">
+                <h2>
+                    Lista de Destaques da Semana <span class="fw-300"><i></i></span>
+                </h2>
+               
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+
+                    <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100 table-sm">
+                        <thead>
+                            <tr>
+                                <th>Construção</th>
+                           
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% comment %} {% for destaque in destaques %} {% endcomment %}
+                            <tr>
+                              
+
+                                <td>...</td>
+                             
+                               
+                            </tr>
+                        {% comment %} {% endfor %} {% endcomment %}
+                        </tbody>
+
+                    </table>
+                    <!-- datatable end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}
 <!-- END page content -->
 

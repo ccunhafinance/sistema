@@ -22,6 +22,7 @@ import re
 import json
 from urllib.request import urlopen
 from datetime import datetime, timezone
+from tarefas.models import RegitroVencimentoRF
 
 
 
@@ -889,6 +890,58 @@ def primeiroContato(value):
 
         return text
 
+
+@register.filter
+def contatoPadrao(value):
+    val = '{0[0]}'.format(value)
+
+  
+
+    if val == '1':
+        text = '%0DIdentifiquei que hoje tivemos o vencimento de um ativo de renda fixa na sua conta.%0D%0D Você já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0DSegue abaixo o ativo e o valor bruto.%0D%0DFico à disposição.'
+
+        return text
+
+    if val == '2':
+        text = '%0DIdentifiquei que hoje tivemos o vencimento de ativos de renda fixa na sua conta.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0DSeguem abaixo os ativos e os valores brutos.%0D%0DFico à disposição.'
+
+        return text
+
+    if val == '3':
+        text = '%0DIdentifiquei que em breve teremos o vencimento de um ativo de renda fixa na sua conta.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0DSegue abaixo o ativo e o valor bruto.%0D%0DFico à disposição.'
+
+        return text
+
+    if val == '4':
+        text = '%0DIdentifiquei que em breve teremos o vencimento de ativos de renda fixa na sua conta.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0DSeguem abaixo os ativos e os valores brutos.%0D%0DFico à disposição.'
+
+        return text
+
+    if val == '5':
+        text = '%0DIdentifiquei que hoje tivemos um vencimento e que em breve teremos o vencimento de outros ativos de renda fixa na sua conta.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0DSeguem abaixo os ativos e os valores brutos.%0D%0DFico à disposição.'
+
+        return text
+
+
+@register.filter
+def checkAlertVenRF(value):
+    hj = date.today()
+    clientes = Clientes.objects.filter(nickname=value, data_nascimento__month=hj.month).order_by('data_nascimento__day')
+    saldo_positivo = Clientes.objects.filter(nickname=value, d4__gt=0).order_by('-d4')
+    saldo_negativo = Clientes.objects.filter(nickname=value, d0__lt=0).order_by('d0')
+
+    result = ''
+    if len(clientes) == 1:
+        result = 'Aniversario '
+
+    if len(saldo_negativo) == 1:
+        result += 'Saldo Negativo '
+
+    if len(saldo_positivo) == 1:
+        result += ' Saldo Positivo'
+
+    return result
+
 @register.simple_tag
 def formatAtivos(value, vencimento, financeiro):
     val = value.split(';')
@@ -920,7 +973,17 @@ def formatAtivos(value, vencimento, financeiro):
 
     return final
     
+@register.filter
+def lastAction(value):
+
+    try:
+        tarefa = RegitroVencimentoRF.objects.filter(codigo_cliente=value).last()
+
+        result = tarefa.status + '<br>' +tarefa.data.strftime("%d/%m/%Y")
+
+        return result
+    except:
+        return '--'
 
 
     
-

@@ -1,18 +1,50 @@
 {% load static %}
 <script src="{% static 'js/datagrid/datatables/datatables.bundle.js' %}"></script>
+<script src="{% static 'js/notifications/sweetalert2/sweetalert2.bundle.js' %}"></script>
+<script src="{% static 'js/notifications/toastr/toastr.js' %}"></script>
+
   <script>
+    function regitraAtividadeVenRF(status, cliente){
+      var token = '{{ csrf_token }}';
+        $.ajax({
+                type: "POST",
+                url: '{% url 'tarefas:registra-tarefa' %}',
+                data: {
+                    csrfmiddlewaretoken: token,
+                    status: status,
+                    codigo_cliente: cliente,
+                },
+               success: function (response) {
+
+                   toastr.success('Tarefa Registrada', status);
+                    toastr.options.timeOut = 1500; // 3s
+
+                    document.getElementById('tdID_'+cliente).innerHTML = status+'<br>'+Date.now()
+                    document.location.reload(true);
+
+
+               },
+
+            })
+    }
+
+
     $(document).ready(function()
     {
+
+        $(".Mypopover").popover({ trigger: "hover" });
         $('#dt-basic-example').dataTable(
         {
             responsive: true,
             pageLength: 15,
             order: [
-                [3, 'asc']
+                [4, 'asc']
             ],
           
           
         });
     });
+
+   
 
 </script>

@@ -24,7 +24,7 @@
         <div id="panel-1" class="panel">
             <div class="panel-hdr">
                 <h2>
-                    Lista de Destaques <span class="fw-300"><i></i></span>
+                    Lista de Destaques de Renda Fixa<span class="fw-300"><i></i></span>
                 </h2>
                
             </div>
@@ -34,42 +34,20 @@
                     <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100 table-sm">
                         <thead>
                             <tr>
-                                <th>Cliente</th>
-                                <th>Assessor</th>
-                                <th>AC</th>
-                                <th>Ativo</th>
-                                <th>Emissor</th>
-                                <th>Indexador</th>
-                                <th>Dt_Aplicacao</th>
-                                <th>Vencimento</th>
-                                <th>Carencia</th>
-                                <th>Qtd</th>
-                                <th>PU_Atual</th>
-                                <th>Financeiro</th>
-                              
-
+                                <th>Construção</th>
+                           
                             </tr>
                         </thead>
                         <tbody>
-                        {% for destaque in destaques %}
+                        {% comment %} {% for destaque in destaques %} {% endcomment %}
                             <tr>
                               
 
-                                <td>{{ destaque.Cliente }}</td>
-                                <td>{{ destaque.Assessor }}</td>
-                                <td>{{ destaque.AC }}</td>
-                                <td>{{ destaque.Ativo }}</td>
-                                <td>{{ destaque.Emissor }}</td>
-                                <td>{{ destaque.Indexador }}</td>
-                                <td>{{ destaque.Dt_Aplicacao }}</td>
-                                <td>{{ destaque.Vencimento }}</td>
-                                <td>{{ destaque.Carencia }}</td>
-                                <td>{{ destaque.Qtd }}</td>
-                                <td>{{ destaque.PU_Atual }}</td>
-                                <td>{{ destaque.Financeiro }}</td>
+                                <td>...</td>
+                             
                                
                             </tr>
-                        {% endfor %}
+                        {% comment %} {% endfor %} {% endcomment %}
                         </tbody>
 
                     </table>
