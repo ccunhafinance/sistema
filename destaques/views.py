@@ -36,6 +36,7 @@ def pageDestaqueRendaFixa(request):
         data['Qtd'] = row_values[9]
         data['PU_Atual'] = row_values[10]
         data['Financeiro'] = row_values[11]
+        data['assessor'] = row_values[12]
         data_list.append(data)
   
 

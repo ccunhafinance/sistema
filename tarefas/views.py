@@ -41,7 +41,8 @@ def mainPageTarefas(request):
         data['PU_Atual'] = row_values[6], 
         data['mens'] = row_values[7], 
         data['mensformat'] = row_values[8],
-        data_list.append(data)
+        if request.user.codigo == row_values[9]:
+            data_list.append(data)
 
     hj = date.today()
 
