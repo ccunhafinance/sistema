@@ -1,8 +1,9 @@
 {% load static %}
 {% load filter_tags %}
-<div class="tab-pane fade" id="vencimentorf" role="tabpanel">
+<div class="tab-pane fade table-responsive" id="vencimentorf" role="tabpanel">
+
   
-  <table id='dt-basic-example' class='table table-bordered m-0'>
+  <table id='example' class="table table-bordered table-hover table-striped w-100 table-sm allTables ">
     <thead>
         <tr>
             <th>Alerta</th>
@@ -15,85 +16,74 @@
             <th>Qtd</th>
             <th>PU_Atual</th>
             <th>WhatsApp</th>
-            <th >Primeiro Contato</th>
-            <th >Contato Padrão</th>
-            <th >Contato Email</th>
-            <th >Status</th>
-            <th >Confirmar Contato</th>
+            <th>Primeiro Contato</th>
+            <th>Contato Padrão </th>
+            <th>Contato Email </th>
+            <th>Status </th>
+            <th>Observação </th>
+            <th>Confirmar Contato </th>
            
         </tr>
+
     </thead>
     <tbody>
-    {% for ven in vencimento %}
-      {%if ven.Cliente != ''%}
+
+        {%for value in vencimento%}
         <tr>
-            <td>
-              
+            <td class="text-center">{{value.alerta|safe}}</td>
+            <td class="tableFiltered">{{value.codeCliente}}</td>
+            <td class="tableFiltered">{{value.nome}}</td>
+            <td class="tableFiltered" nowrap>{{value.ativo|safe}}</td>
+            <td class="tableFiltered">{{value.vencimento|safe}}</td>
+            <td class="tableFiltered">{{value.financeiro|safe}}</td>
+            <td class="tableFiltered">{{value.Dt_Aplicacao|safe}}</td>
+            <td class="tableFiltered">{{value.Qtd|safe}}</td>
+            <td class="tableFiltered">{{value.PU_Atual|safe}}</td>
+            <td class="tableFiltered">{{value.WhatsApp|safe}}</td>
+            <td class="text-center">
+                <a onclick="regitraAtividadeVenRF('Primeiro Contato', '{{value.codeCliente}}')" style="color:#25D366; text-decoration: none" class="btn btn-dark btn-sm btn-icon waves-effect waves-themed" href="https://api.whatsapp.com/send?phone=5532991818998&amp;text={{saldacao}}, {{value.nome}}.%0D{{value.primeiroContato}}%0D%0D{{value.todosAtivos|replacePontoVirgula}}" target="_blank" rel="noopener">
+                    <i class="fal fa-paper-plane"></i>
+                </a>
 
-             {%if ven.Cliente|checkAlertVenRF != ''%}
-              
-              <a data-original-title="Outras Tarefas" data-content="{{ven.Cliente|checkAlertVenRF|safe}}" href="javascript:void(0);" data-trigger="hover" data-placement="top" data-animation="true" class="btn btn-warning btn-sm btn-icon waves-effect waves-themed Mypopover">
-                <i class="fal fa-exclamation-triangle"></i>
-              </a>
-              {%endif%}
             </td>
-            <td>{{ven.Cliente}}</td>
-            <td>{{ven.Cliente|get_cliente_nomeTesteOne}}</td>
-            <td nowrap >{{ven.Ativo|splitVencimento|safe}}</td>
-            <td nowrap>{{ven.Vencimento|splitVencimento|safe}}</td>
-            <td nowrap>{{ven.Financeiro|splitVencimento|safe}}</td>
-            <td>{{ven.Dt_Aplicacao|splitVencimento|safe}}</td>
-            <td>{{ven.Qtd|splitVencimento|safe}}</td>
-            <td nowrap>{{ven.PU_Atual|testetuple|splitVencimentoCash|safe}}</td>
-            <td>
-              {% if ven.Cliente|getzap  == '0' %}
-                <span class="text-danger" style="font-size:10px">Contato sem telefone registrado</span>
-              {%else%}
-              <a style="color:#25D366; text-decoration: none;font-size:10px" href="https://api.whatsapp.com/send?phone={{ven.Cliente|getTelefoneCliente}}" target="_blank" rel="noopener">{{ven.Cliente|getzap}}</a>
-              {%endif%}
-            </td>
-            <td class="text-center">
-              {% if ven.Cliente|getzap  == '0' %}
-                <span class="text-danger" style="font-size:10px"> -------- </span>
-              {%else%}
+            <td class="text-center tableFiltered">
 
-              <a onclick="regitraAtividadeVenRF('Primeiro Contato', '{{ven.Cliente}}')" style="color:#25D366; text-decoration: none" class="btn btn-dark btn-sm btn-icon waves-effect waves-themed" href="https://api.whatsapp.com/send?phone=5532991818998&amp;text={{saldacao}}, {{ven.Cliente|get_cliente_nomeTesteOne}}. Como vai?%0D {{ ven.mens|primeiroContato }}%0D%0D{{ven.mensformat|testetuple|splitVencimentoTEXT}}" target="_blank" rel="noopener">
-                <i class="fal fa-paper-plane"></i>
-              </a>
-              {%endif%}
+                <a onclick="regitraAtividadeVenRF('Contato Padrão', '{{value.codeCliente}}')" style="color:#25D366; text-decoration: none" class="btn btn-dark btn-sm btn-icon waves-effect waves-themed" href="https://api.whatsapp.com/send?phone=5532991818998&amp;text={{saldacao}}, {{value.nome}}.%0D{{value.contatoPadrao}}%0D%0D{{value.todosAtivos|replacePontoVirgula}}" target="_blank" rel="noopener">
+                    <i class="fal fa-paper-plane"></i>
+                </a>
+
             </td>
-             
-            <td class="text-center">
-              {% if ven.Cliente|getzap  == '0' %}
-                <span class="text-danger" style="font-size:10px"> -------- </span>
-              {%else%}
-              <a onclick="regitraAtividadeVenRF('Contato Padrão', '{{ven.Cliente}}')" style="color:#25D366; text-decoration: none" class="btn btn-dark btn-sm btn-icon waves-effect waves-themed" href="https://api.whatsapp.com/send?phone=5532991818998&amp;text={{saldacao}}, {{ven.Cliente|get_cliente_nomeTesteOne}}. Como vai?%0D {{ ven.mens|contatoPadrao }}%0D%0D{{ven.mensformat|testetuple|splitVencimentoTEXT}}" target="_blank" rel="noopener">
-                <i class="fal fa-paper-plane"></i>
-              </a>
-              {%endif%}
-              
+
+            <td class="text-center tableFiltered">
+                <a href="javascript:void(0);" class="btn btn-info btn-sm btn-icon waves-effect waves-themed">
+                    <i class="fal fa-envelope"></i>
+                </a>
             </td>
-            <td class="text-center">
-              <a href="javascript:void(0);" class="btn btn-info btn-sm btn-icon waves-effect waves-themed">
-                <i class="fal fa-envelope"></i>
-            </a>
+
+            <td id="tdID_{{value.codeCliente}}" class="text-center tableFiltered">
+                {{value.codeCliente|lastAction|safe}}
             </td>
-            <td id='tdID_{{ven.Cliente}}'>
-              {{ven.Cliente|lastAction|safe}}
+
+            <td>
             </td>
-            <td class="text-center">
-              <a href="javascript:void(0);" class="btn btn-success btn-sm btn-icon waves-effect waves-themed">
-                <i class="fal fa-check"></i>
-            </a>
+
+            <td class="text-center tableFiltered">
+                <a href="javascript:void(0);" class="btn btn-success btn-sm btn-icon waves-effect waves-themed">
+                    <i class="fal fa-check"></i>
+                </a>
             </td>
-            {% comment %} <td>{{ven.Cliente|getTelefoneCliente}}</td> {% endcomment %}
-           
+   
+
         </tr>
-        {%endif%}
-    {% endfor %}
+        {%endfor%}
     </tbody>
+   
 
 </table>
 
 
 </div>
+
+
+
+ 

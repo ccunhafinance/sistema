@@ -1,19 +1,23 @@
 {% load static %}
 {% load filter_tags %}
 
-<div class="tab-pane fade show active" id="aniversario" role="tabpanel">
-  <table id="sds" class="table table-bordered table-hover table-striped w-100 table-sm">
+<div class="tab-pane fade show active table-responsive" id="aniversario" role="tabpanel">
+  <table id="niver" class="table table-bordered table-hover table-striped w-100 table-sm allTables">
 
       <thead>
           <tr>
+              <th>Alertas</th>
               <th>Código</th>
               <th>Nome</th>
               <th>Data Aniversário</th>
               <th>Idade</th>
               <th>WhatsApp</th>
               <th>Primeiro Contato</th>
-              <th>Contato Padrão</th>
-              <th>Confirmar Envio</th>
+              <th>Contato Padrão </th>
+              <th>Contato Email </th>
+              <th>Status </th>
+              <th>Observação </th>
+              <th>Confirmar Contato </th>
              
           </tr>
       </thead>
@@ -24,8 +28,12 @@
 
             {%if cliente.data_nascimento|checkNiverPassou%}
               <tr>
+                <td class="text-center">
+        
+                   {{cliente.nickname|checkValusForNiver|safe}}
+                </td>
                 <td>{{cliente.nickname}}</td>
-                <td>{{cliente.nome}} </td>
+                <td>{{cliente.nickname|get_cliente_nomeTesteOne}} </td>
                 <td >{{cliente.data_nascimento|date:'d/m'}}
                     {% if cliente.data_nascimento|isNiverToday %}
                     <i class="fal fa-gift text-primary"></i>
@@ -42,6 +50,10 @@
                 <td></td>
                 <td></td>
                 <td></td> 
+                <td></td> 
+                <td></td> 
+                <td></td> 
+               
               </tr>
               {%endif%}
 

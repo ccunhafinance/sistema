@@ -1032,57 +1032,9 @@ def fii_files_upload(request):
         with open('data/ofertas/fii/subscricao/'+str(request.POST['ticker']+'.json'), "w", encoding="utf-8") as writeJsonfile:
             json.dump(data_list, writeJsonfile, indent=4, default=str)
 
-        # excel_data_df = pd.read_excel('data/ofertas/fii/subscricao/'+str(request.POST['ticker']+'.xlsx'), )
-        # json_str = excel_data_df.to_json()
-        #
-        # with open('data/ofertas/fii/subscricao/'+str(request.POST['ticker']+'.json'), "w") as writeJSON:
-        #     json.dump(json_str, writeJSON, indent=4, default=str)
 
         fs.delete(str(request.POST['ticker'] + '.xlsx'))
-        #
-        # wb = xlrd.open_workbook('data/ofertas/fii/subscricao/' + str(request.POST['ticker'] + '.xlsx'))
-        # sh = wb.sheet_by_index(0)
-        #
-        # data_list = []
-        #
-        # for rownum in range(1, sh.nrows):
-        #     data = OrderedDict()
-        #
-        # row_values = sh.row_values(rownum)
-        #
-        # data['CodigoCliente'] = row_values[0]
-        # data['IdEvento'] = row_values[1]
-        # data['DataDebito'] = row_values[3]
-        # data['DataEx'] = row_values[4]
-        # data['DataUltimoDiaNegociacao'] = row_values[5]
-        # data['Proporcao'] = row_values[6]
-        # data['QuantidadeExercida'] = row_values[7]
-        # data['AEfetivar'] = row_values[8]
-        # data['QuantidadeRequerida'] = row_values[9]
-        # data['IdSolicitacao'] = row_values[10]
-        # data['DataSolicitacao'] = row_values[11]
-        # data['UsuarioSolicitante'] = row_values[12]
-        # data['Status'] = row_values[13]
-        # data['QuantidadeSolicitada'] = row_values[14]
-        # data['ErroBolsa'] = row_values[15]
-        # data['QuantidadeDisponivel'] = row_values[16]
-        # data['QuantidadeAdicionalExercida'] = row_values[17]
-        # data['ValorDireito'] = row_values[18]
-        # data['CodNegociacao'] = row_values[19]
-        # data['Marca'] = row_values[20]
-        # data['NomeFilial'] = row_values[21]
-        # data['CodAssessor'] = row_values[22]
-        # data_list.append(data)
-        #
-        # with open('data/ofertas/fii/subscricao/' + str(request.POST['ticker'] + '.json'), "w",
-        #           encoding="utf-8") as writeJsonfile:
-        #     json.dump(data_list, writeJsonfile, indent=4, default=str)
-        #
-        # fs.delete(str(request.POST['ticker'] + '.xlsx'))
-
-
-
-
+        
         return HttpResponse('s')
     else:
         return HttpResponse('uploaded')

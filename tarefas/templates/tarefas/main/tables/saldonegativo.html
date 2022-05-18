@@ -1,31 +1,39 @@
 {% load static %}
 {% load filter_tags %}
 
-<div class="tab-pane fade" id="saldo-negativo" role="tabpanel">
-  <table id="s" class="table table-bordered table-hover table-striped w-100 table-sm">
+<div class="tab-pane fade table-responsive" id="saldo-negativo" role="tabpanel">
+  <table id="negativos" class="table table-bordered table-hover table-striped w-100 table-sm allTables ">
 
-      <thead>
-          <tr>
-              <th>Código</th>
-              <th>Nome</th>
-              <th>D0</th>
-              <th>D1</th>
-              <th>D2</th>
-              <th>D3</th>
-              <th>D4</th>
-             
-          </tr>
-      </thead>
+    <thead>
+        <tr>
+            <th>Alerta</th>
+            <th>Código</th>
+            <th>Nome</th>
+            <th>D0</th>
+            <th>D1</th>
+            <th>D2</th>
+            <th>D3</th>
+            <th>D4</th>
+            <th>WhatsApp</th>
+            <th>Primeiro Contato</th>
+            <th>Contato Padrão </th>
+            <th>Contato Email </th>
+            <th>Status </th>
+            <th>Observação </th>
+            <th>Confirmar Contato </th>
+            
 
-      <tbody>
-
-          {% for cliente in saldo_negativo %}
-
-              <tr>
-                <td>{{cliente.nickname}}</td>
-                <td>{{cliente.nome}} </td>
-                <td class='text-danger'>R$ {{cliente.d0|CashConvert}} </td>
-                <td>
+        </tr>
+    </thead>
+    <tbody>
+        {%for cliente in negativos%}
+        <tr>
+            <td nowrap class="text-center">{{cliente.alerta|safe}}</td>
+            <td nowrap>{{cliente.codigo}}</td>
+            <td nowrap>{{cliente.codigo|get_cliente_nomeTesteOne}} </td>
+            
+            <td class='text-danger tableFiltered' nowrap>R$ {{cliente.d0|CashConvert}} </td>
+            <td nowrap>
                   {%if cliente.d1 > 0%}
                     <span class="text-info">R$ {{cliente.d1|CashConvert}} </span>
                   {%elif cliente.d1 < 0%}
@@ -33,20 +41,17 @@
                   {%else%}
                     R$ {{cliente.d1|CashConvert}} 
                   {%endif%}
-
-                  
-                </td>
-                <td>
-                  {%if cliente.d2 > 0%}
-                    <span class="text-info">R$ {{cliente.d2|CashConvert}} </span>
-                  {%elif cliente.d2 < 0%}
-                    <span class="text-danger">R$ {{cliente.d2|CashConvert}} </span>
-                    {%else%}
-                    R$ {{cliente.d2|CashConvert}} 
-                  {%endif%}
-                 
-                </td>
-                <td>
+            </td>
+            <td  nowrap>
+                {%if cliente.d2 > 0%}
+                <span class="text-info">R$ {{cliente.d2|CashConvert}} </span>
+                {%elif cliente.d2 < 0%}
+                <span class="text-danger">R$ {{cliente.d2|CashConvert}} </span>
+                {%else%}
+                R$ {{cliente.d2|CashConvert}} 
+                {%endif%}
+            </td>
+            <td  nowrap>
                   {%if cliente.d3 > 0%}
                     <span class="text-info">R$ {{cliente.d3|CashConvert}} </span>
                   {%elif cliente.d3 < 0%}
@@ -55,8 +60,8 @@
                     R$ {{cliente.d3|CashConvert}} 
                   {%endif%}
                  
-                 </td>
-                <td>
+            </td>
+            <td  nowrap>
                   {%if cliente.d4 > 0%}
                     <span class="text-info">R$ {{cliente.d4|CashConvert}} </span>
                   {%elif cliente.d4 < 0%}
@@ -65,14 +70,18 @@
                     R$ {{cliente.d4|CashConvert}} 
                   {%endif%}
                  
-                 </td>
-                 
-              </tr>
+            </td>
+            <td>{{cliente.WhatsApp|safe}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          
+        </tr>
+        {%endfor%}
+    </tbody>
 
-
-          {% endfor %}
-
-      </tbody>
-
-  </table>
+</table>
 </div>

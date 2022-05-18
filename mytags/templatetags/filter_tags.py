@@ -985,5 +985,45 @@ def lastAction(value):
     except:
         return '--'
 
+@register.filter
+def replacePontoVirgula(value):
+    return str(value).replace(';','%0D%0D')
 
+@register.filter
+def checkValusForNiver(value):
+    with open('data/files/vencimentoRF/vencimento.json') as json_file:
+        vencimento = json.load(json_file)
+
+    with open('data/files/vencimentoRF/saldoNegativo.json') as json_file:
+        negativo = json.load(json_file)
+
+    with open('data/files/vencimentoRF/saldoPositivo.json') as json_file:
+        positivo = json.load(json_file)
+
+    result = ''
+    for ven in vencimento:
+        if ven['codeCliente'] == value:
+            result += 'Vencimento RF'
+
+    for ven in negativo:
+        if ven['codigo'] == value:
+            result += 'Saldo Negativo'
+
+    for ven in positivo:
+        if ven['codigo'] == value:
+            result += 'Saldo Positivo'
+
+    if result == '':
+        resp = ''
+    else:
+        resp = result
+
+    ans = '<a onclick="getalertAll('"'"+value+"'"')" data-original-title="Outras Tarefas" data-content="'+resp+'" href="javascript:void(0);" data-trigger="hover" data-placement="top" data-animation="true" class="btn btn-warning btn-sm btn-icon waves-effect waves-themed Mypopover"><i class="fal fa-exclamation-triangle"></i></a>'
+
+    if resp == '':
+        final = ''
+    else:
+        final = ans
+
+    return final
     
