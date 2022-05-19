@@ -32,7 +32,7 @@
         <tr>
             <td class="text-center">{{value.alerta|safe}}</td>
             <td class="tableFiltered">
-                <a href="{% url 'clients:nw-update-client' value.id %}?next={{ request.path|urlencode }}" >{{value.codeCliente}}</a>
+                <a href="{% url 'clients:nw-update-client' value.id %}?next=/clientes/meus-clientes" >{{value.codeCliente}}</a>
                 
             </td>
             <td class="tableFiltered">{{value.codeCliente|get_cliente_nomeTesteOne}}</td>

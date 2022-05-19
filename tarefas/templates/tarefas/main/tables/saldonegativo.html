@@ -30,7 +30,7 @@
         <tr>
             <td nowrap class="text-center">{{cliente.alerta|safe}}</td>
             <td nowrap>
-              <a href="{% url 'clients:nw-update-client' cliente.id %}?next={{ request.path|urlencode }}" >{{cliente.codigo}}</a>
+              <a href="{% url 'clients:nw-update-client' cliente.id %}?next=/clientes/meus-clientes" >{{cliente.codigo}}</a>
             </td>
             <td nowrap>{{cliente.codigo|get_cliente_nomeTesteOne}} </td>
             
