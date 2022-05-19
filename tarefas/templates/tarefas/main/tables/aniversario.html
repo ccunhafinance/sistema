@@ -33,7 +33,7 @@
         
                    {{cliente.nickname|checkValusForNiver|safe}}
                 </td>
-                <td><a href="{% url 'clients:nw-update-client' cliente.id %}?next=/clientes/meus-clientes" >{{cliente.nickname}}</a></td>
+                <td><a href="/clientes/atualizar-cliente/{{cliente.id}}?next=/clientes/meus-clientes" >{{cliente.nickname}}</a></td>
                 <td>{{cliente.nickname|get_cliente_nomeTesteOne}} </td>
                 <td >{{cliente.data_nascimento|date:'d/m'}}
                     {% if cliente.data_nascimento|isNiverToday %}
