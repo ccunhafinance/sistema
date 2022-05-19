@@ -27,7 +27,7 @@ class Clientes(models.Model):
     last_update = models.DateTimeField(auto_now=True, blank=True, null=True)
     token = models.TextField(blank=True, null=True)
     jaContactei = models.BooleanField(default=False)
-    testando = models.BooleanField(default=False)
+    testanddo = models.BooleanField(default=False)
 
 class ClientsOnbording(models.Model):
     choiceFreqContato = (("Não Definido", "Não Definido"),("1 mes", "1 mes"),("3 meses", "3 meses"),("6 meses", "6 meses"),("12 meses", "12 meses"))
