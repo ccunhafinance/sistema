@@ -23,6 +23,7 @@ urlpatterns = [
   path('delete-all/', views.delet_all, name="delet_all"),
   path('save-quest/', views.registroQuestionario, name="save-questionario"),
   path('clean-google-contacts/', views.cleanGoogleNames, name="clean-google-contacts"),
+  path('atualizar-cliente/<int:pk>/', views.nw_update_client, name="nw-update-client"),
 
 
   path('update_cliente_novo/', views.update_new_cliente, name="update_cliente_novo"),

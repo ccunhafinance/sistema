@@ -103,27 +103,27 @@ def uploadVencimentoRF(request):
             val = str(value)
 
             if val == '1':
-                text = '%0DMeu nome é Lucas Thompson, sou assessor de investimentos aqui na Inove | XP e, em conjunto com o Bruno Martins, sou um dos responsáveis pela sua assessoria.%0D%0DAinda não tivemos a oportunidade de conversar, mas estava realizando o acompanhamento da sua conta e identifiquei que hoje tivemos o vencimento de um ativo de renda fixa.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0DSegue abaixo o ativo e o valor bruto.%0D%0DFico à disposição.'
+                text = '%0DMeu nome é Lucas Thompson, sou assessor de investimentos aqui na Inove | XP e, em conjunto com o Bruno Martins, sou um dos responsáveis pela sua assessoria.%0D%0DAinda não tivemos a oportunidade de conversar, mas estava realizando o acompanhamento da sua conta e identifiquei que hoje tivemos o vencimento de um ativo de renda fixa.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria?%0D%0DSegue abaixo o ativo e o valor bruto.%0D%0DFico à disposição.'
 
                 return text
 
             if val == '2':
-                text = '%0DMeu nome é Lucas Thompson, sou assessor de investimentos aqui na Inove | XP e, em conjunto com o Bruno Martins, sou um dos responsáveis pela sua assessoria.%0D%0DAinda não tivemos a oportunidade de conversar, mas estava realizando o acompanhamento da sua conta e identifiquei que hoje tivemos o vencimento de ativos de renda fixa.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0DSeguem abaixo os ativos e os valores brutos.%0D%0DFico à disposição.'
+                text = '%0DMeu nome é Lucas Thompson, sou assessor de investimentos aqui na Inove | XP e, em conjunto com o Bruno Martins, sou um dos responsáveis pela sua assessoria.%0D%0DAinda não tivemos a oportunidade de conversar, mas estava realizando o acompanhamento da sua conta e identifiquei que hoje tivemos o vencimento de ativos de renda fixa.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria?%0D%0DSeguem abaixo os ativos e os valores brutos.%0D%0DFico à disposição.'
 
                 return text
 
             if val == '3':
-                text = '%0DMeu nome é Lucas Thompson, sou assessor de investimentos aqui na Inove | XP e, em conjunto com o Bruno Martins, sou um dos responsáveis pela sua assessoria.%0D%0DAinda não tivemos a oportunidade de conversar, mas estava realizando o acompanhamento da sua conta e identifiquei que em breve teremos o vencimento de um ativo de renda fixa.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0D Segue abaixo o ativo e o valor bruto.%0D%0DFico à disposição.'
+                text = '%0DMeu nome é Lucas Thompson, sou assessor de investimentos aqui na Inove | XP e, em conjunto com o Bruno Martins, sou um dos responsáveis pela sua assessoria.%0D%0DAinda não tivemos a oportunidade de conversar, mas estava realizando o acompanhamento da sua conta e identifiquei que em breve teremos o vencimento de um ativo de renda fixa.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria?%0D%0D Segue abaixo o ativo e o valor bruto.%0D%0DFico à disposição.'
 
                 return text
 
             if val == '4':
-                text = '%0DMeu nome é Lucas Thompson, sou assessor de investimentos aqui na Inove | XP e, em conjunto com o Bruno Martins, sou um dos responsáveis pela sua assessoria.%0D%0DAinda não tivemos a oportunidade de conversar, mas estava realizando o acompanhamento da sua conta e identifiquei que em breve teremos o vencimento de ativos de renda fixa.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0D Segu em abaixo os ativos e os valores brutos.%0D%0DFico à disposição.'
+                text = '%0DMeu nome é Lucas Thompson, sou assessor de investimentos aqui na Inove | XP e, em conjunto com o Bruno Martins, sou um dos responsáveis pela sua assessoria.%0D%0DAinda não tivemos a oportunidade de conversar, mas estava realizando o acompanhamento da sua conta e identifiquei que em breve teremos o vencimento de ativos de renda fixa.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria?%0D%0D Segu em abaixo os ativos e os valores brutos.%0D%0DFico à disposição.'
 
                 return text
 
             if val == '5':
-                text = '%0DMeu nome é Lucas Thompson, sou assessor de investimentos aqui na Inove | XP e, em conjunto com o Bruno Martins, sou um dos responsáveis pela sua assessoria.%0D%0DAinda não tivemos a oportunidade de conversar, mas estava realizando o acompanhamento da sua conta e identifiquei que hoje tivemos um vencimento e que em breve teremos o vencimento de outros ativos de renda fixa.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0DSeguem abaixo os ativos e os valores brutos.%0D%0DFico à disposição.'
+                text = '%0DMeu nome é Lucas Thompson, sou assessor de investimentos aqui na Inove | XP e, em conjunto com o Bruno Martins, sou um dos responsáveis pela sua assessoria.%0D%0DAinda não tivemos a oportunidade de conversar, mas estava realizando o acompanhamento da sua conta e identifiquei que hoje tivemos um vencimento e que em breve teremos o vencimento de outros ativos de renda fixa.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria?%0D%0DSeguem abaixo os ativos e os valores brutos.%0D%0DFico à disposição.'
 
                 return text
         
@@ -141,27 +141,27 @@ def uploadVencimentoRF(request):
             val = str(value)
 
             if val == '1':
-                text = '%0DIdentifiquei que hoje tivemos o vencimento de um ativo de renda fixa na sua conta.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0DSegue abaixo o ativo e o valor bruto.%0D%0DFico à disposição.'
+                text = '%0DIdentifiquei que hoje tivemos o vencimento de um ativo de renda fixa na sua conta.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria?%0D%0DSegue abaixo o ativo e o valor bruto.%0D%0DFico à disposição.'
 
                 return text
             
             if val == '2':
-                text = '%0DIdentifiquei que hoje tivemos o vencimento de ativos de renda fixa na sua conta.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0DSeguem abaixo os ativos e os valores brutos.%0D%0DFico à disposição.'
+                text = '%0DIdentifiquei que hoje tivemos o vencimento de ativos de renda fixa na sua conta.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria?%0D%0DSeguem abaixo os ativos e os valores brutos.%0D%0DFico à disposição.'
 
                 return text
 
             if val == '3':
-                text = '%0DIdentifiquei que em breve teremos o vencimento de um ativo de renda fixa na sua conta.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0DSegue abaixo o ativo e o valor bruto.%0D%0DFico à disposição.'
+                text = '%0DIdentifiquei que em breve teremos o vencimento de um ativo de renda fixa na sua conta.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria?%0D%0DSegue abaixo o ativo e o valor bruto.%0D%0DFico à disposição.'
 
                 return text
 
             if val == '4':
-                text = '%0DIdentifiquei que em breve teremos o vencimento de ativos de renda fixa na sua conta.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0DSeguem abaixo os ativos e os valores brutos.%0D%0DFico à disposição.'
+                text = '%0DIdentifiquei que em breve teremos o vencimento de ativos de renda fixa na sua conta.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria?%0D%0DSeguem abaixo os ativos e os valores brutos.%0D%0DFico à disposição.'
 
                 return text
 
             if val == '5':
-                text = '%0DIdentifiquei que hoje tivemos um vencimento e que em breve teremos o vencimento de outros ativos de renda fixa na sua conta.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria.%0D%0DSeguem abaixo os ativos e os valores brutos.%0D%0DFico à disposição.'
+                text = '%0DIdentifiquei que hoje tivemos um vencimento e que em breve teremos o vencimento de outros ativos de renda fixa na sua conta.%0D%0DVocê já sabe como alocar os recursos ou gostaria de uma assessoria?%0D%0DSeguem abaixo os ativos e os valores brutos.%0D%0DFico à disposição.'
 
                 return text
         
@@ -196,6 +196,7 @@ def uploadVencimentoRF(request):
             return final
 
         if row_values[0] != '':
+            data['id'] = Clientes.objects.get(nickname=int(row_values[0])).id
             data['alerta'] = checkTarefas(row_values[0])
             data['assessor'] = row_values[9]
             data['codeCliente'] = row_values[0]
@@ -244,7 +245,7 @@ def uploadVencimentoRF(request):
             alerta = ' <a onclick="getalertAll('"'"+cliente.nickname+"'"')" data-original-title="Outras Tarefas" data-content="'+mens+'" href="javascript:void(0);" data-trigger="hover" data-placement="top" data-animation="true" class="btn btn-warning btn-sm btn-icon waves-effect waves-themed Mypopover"><i class="fal fa-exclamation-triangle"></i></onclick=>'
         else:
             alerta = ''
-
+        data['id'] = cliente.id
         data['alerta'] = alerta
         data['codigo'] = cliente.nickname
         data['WhatsApp'] = getzap(cliente.nickname)
@@ -283,6 +284,7 @@ def uploadVencimentoRF(request):
         else:
             alerta = ''
 
+        data['id'] = cliente.id
         data['alerta'] = alerta
         data['codigo'] = cliente.nickname
         data['WhatsApp'] = getzap(cliente.nickname)

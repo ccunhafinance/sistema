@@ -1,5 +1,6 @@
 {% load static %}
 {% load filter_tags %}
+{% load crispy_forms_tags %}
 
 <div class="tab-pane fade show active table-responsive" id="aniversario" role="tabpanel">
   <table id="niver" class="table table-bordered table-hover table-striped w-100 table-sm allTables">
@@ -32,7 +33,7 @@
         
                    {{cliente.nickname|checkValusForNiver|safe}}
                 </td>
-                <td>{{cliente.nickname}}</td>
+                <td><a href="{% url 'clients:nw-update-client' cliente.id %}?next={{ request.path|urlencode }}" >{{cliente.nickname}}</a></td>
                 <td>{{cliente.nickname|get_cliente_nomeTesteOne}} </td>
                 <td >{{cliente.data_nascimento|date:'d/m'}}
                     {% if cliente.data_nascimento|isNiverToday %}
@@ -64,3 +65,4 @@
 
   </table>
 </div>
+

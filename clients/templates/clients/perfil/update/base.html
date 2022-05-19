@@ -1,0 +1,81 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load filter_tags %}
+{% load crispy_forms_tags %}
+
+
+<!-- BEGIN page Style -->
+{% block style %}
+     {% include './css/css.html' %}
+    <style>
+        .escondido{
+            display:none
+        }
+    </style>
+{% endblock %}
+<!-- END page Style -->
+
+<!-- BEGIN Page Subheader -->
+{% block subheader %}
+{% endblock %}
+<!-- END page Subheader -->
+
+<!-- BEGIN page content -->
+{% block content %}
+
+<br>
+
+    <div id="js-page-content-demopanels">
+        <div class="col-xl-4  offset-md-4">
+
+            <div class="loader"></div>
+            <div id="panel-1" class="panel">
+
+                
+                <div class="panel-hdr">
+                    <h2>
+                        Formulário de atualização de cliente</span>
+                      
+                    </h2>
+                   
+                </div>
+                  
+                <div class="panel-container show">
+                    <div class="panel-content">
+
+                      <form method="POST">
+                        <div class="modal-body">
+                          {% csrf_token %}
+                          <input type="hidden" name="next" value="{{ request.GET.next }}">
+                          {{form|crispy}}
+            
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                            <button type="submit" class="btn btn-warning">Atualizar</button>
+                        </div>
+                    </form>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+ 
+
+{% endblock %}
+<!-- END page content -->
+
+<!-- BEGIN page script -->
+{% block script %}
+
+    {% include './js/js.html' %}
+
+{% endblock %}
+<!-- END page script -->
+
+

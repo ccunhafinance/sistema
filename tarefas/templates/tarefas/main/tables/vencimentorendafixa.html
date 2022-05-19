@@ -31,8 +31,11 @@
         {%for value in vencimento%}
         <tr>
             <td class="text-center">{{value.alerta|safe}}</td>
-            <td class="tableFiltered">{{value.codeCliente}}</td>
-            <td class="tableFiltered">{{value.nome}}</td>
+            <td class="tableFiltered">
+                <a href="{% url 'clients:nw-update-client' value.id %}?next={{ request.path|urlencode }}" >{{value.codeCliente}}</a>
+                
+            </td>
+            <td class="tableFiltered">{{value.codeCliente|get_cliente_nomeTesteOne}}</td>
             <td class="tableFiltered" nowrap>{{value.ativo|safe}}</td>
             <td class="tableFiltered">{{value.vencimento|safe}}</td>
             <td class="tableFiltered">{{value.financeiro|safe}}</td>

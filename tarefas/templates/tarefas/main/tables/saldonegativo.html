@@ -29,7 +29,9 @@
         {%for cliente in negativos%}
         <tr>
             <td nowrap class="text-center">{{cliente.alerta|safe}}</td>
-            <td nowrap>{{cliente.codigo}}</td>
+            <td nowrap>
+              <a href="{% url 'clients:nw-update-client' cliente.id %}?next={{ request.path|urlencode }}" >{{cliente.codigo}}</a>
+            </td>
             <td nowrap>{{cliente.codigo|get_cliente_nomeTesteOne}} </td>
             
             <td class='text-danger tableFiltered' nowrap>R$ {{cliente.d0|CashConvert}} </td>

@@ -1,0 +1,29 @@
+{% load static %}
+{% load filter_tags %}
+{% load crispy_forms_tags %}
+
+<!-- Modal Large -->
+<div class="modal fade" id="default-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">Atualizar Cliente</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true"><i class="fal fa-times"></i></span>
+              </button>
+          </div>
+          <form method="POST">
+            <div class="modal-body">
+              {% csrf_token %}
+              {{modalform|crispy}}
+
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="submit" class="btn btn-warning">Atualizar</button>
+            </div>
+        </form>
+      </div>
+  </div>
+</div>

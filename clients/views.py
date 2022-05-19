@@ -2,7 +2,7 @@
 import json
 
 from django.core.mail import EmailMessage
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import generic
@@ -32,6 +32,7 @@ from django.conf import settings
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import xlrd
+from . forms import ModalForm
 
 
 # FUNCAO PARA INSERIR NOVOS CLIENTES (INTERNO, EXTERNO)
@@ -64,6 +65,38 @@ def ctodatetime(ctimeinput):
 main_icon = 'ni ni-users'
 # ---------------------
 
+def nw_update_client(request, pk):
+    cliente = Clientes.objects.get(id=pk)
+    form = ModalForm(instance=cliente)
+
+    if request.method == 'POST':
+        form = ModalForm(request.POST, instance=cliente)
+        if form.is_valid():
+            form.save()
+            next = request.POST.get('next', '/')
+            return HttpResponseRedirect(next)
+
+    context = {
+        'form': form,
+        # Crumbs First Page Config
+        'first_page_name': 'Clientes',
+        'first_page_link': '',
+        # Crumbs Second Page Config
+        'second_page_name': 'Meus Clientes',
+        'second_page_link': '',
+        # Crumbs Third Page Config
+        'third_page_name': '',
+        'third_page_link': '',
+        # Current Page
+        'icon': main_icon,
+        'page_name': 'Clientes',
+        'subtitle': 'Atualizar Cliente',
+        'sticker': '',
+        'page_description': 'Atualizar informações basicas'
+    }
+
+    return render(request, 'clients/perfil/update/base.html', context)
+
 def getMyClients(request):
     clients = []
     for cliente in Clientes.objects.filter(assessor=str(request.user.codigo)):
@@ -79,8 +112,8 @@ def getMyClients(request):
             rotina = '-'
 
 
-        clients.append([cliente.nickname, cliente.nome,cliente.sexo,cliente.email,cliente.telefone,nascimento, rotina])
-        
+        clients.append(["<a href='/clientes/atualizar-cliente/"+str(cliente.id)+"?next=/clientes/meus-clientes'/>"+cliente.nickname+"</a>", cliente.nome,cliente.sexo,cliente.email,cliente.telefone,nascimento, rotina])
+       
 
     return JsonResponse({"data": clients})
 

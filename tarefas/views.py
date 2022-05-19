@@ -12,6 +12,7 @@ import os
 from . models import *
 from django.http import JsonResponse
 from clients.models import RegistroAtividades
+from clients.forms import ModalForm
 
 
 main_icon = 'fal fa-tasks'
@@ -53,6 +54,7 @@ def mainPageTarefas(request):
         'vencimento': vencimento,
         'negativos': negativo,
         'positivos': positivo,
+        'modalform': ModalForm,
         # Crumbs First Page Config
         'first_page_name': 'Tarefas',
         'first_page_link': '',
