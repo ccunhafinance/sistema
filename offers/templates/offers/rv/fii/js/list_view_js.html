@@ -4,7 +4,18 @@
 <script src="{% static 'js/notifications/sweetalert2/sweetalert2.bundle.js' %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
 
+
 <script>
+
+    {# FORMAT VALUE INTO CASH #}
+    function formatCash(i) {
+        var v = i.value.replace(/\D/g,'');
+        v = (v/100).toFixed(2) + '';
+        v = v.replace(".", ",");
+        v = v.replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,");
+        v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
+        i.value = 'R$ '+v;
+    }
 
      $("#js-sweetalert2-example-16").on("click", function()
     {
@@ -122,15 +133,13 @@
 
 
 
-</script>
 
-<script>
     $(document).ready(function()
     {
         // initialize datatable
         $('#dt-basic-example').dataTable(
         {
-            order: [[ 2, "desc" ]],
+            order: [[ 2, "asc" ]],
             paging: false,
             responsive: {
             breakpoints: [

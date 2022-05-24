@@ -24,6 +24,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 import time
 import locale
+import gspread
+import pandas as pd
+from oauth2client.service_account import ServiceAccountCredentials
+
 
 # Gbobal Variables
 main_icon = 'ni ni-tag'
@@ -671,48 +675,63 @@ def ofertarvfiiview(request):
         #     print()
 
 
-        diretorio = Path('data/ofertas/fii/')
-        arquivo = diretorio / 'ticker11_data.json'
+        # diretorio = Path('data/ofertas/fii/')
+        # arquivo = diretorio / 'ticker11_data.json'
 
-        stat_result = arquivo.stat()
-        last_update = datetime.fromtimestamp(stat_result.st_mtime, tz=None)
+        # stat_result = arquivo.stat()
+        # last_update = datetime.fromtimestamp(stat_result.st_mtime, tz=None)
 
-        with open('data/ofertas/fii/ticker11_data.json') as json_file:
-            ticker11 = json.load(json_file)
+        # with open('data/ofertas/fii/ticker11_data.json') as json_file:
+        #     ticker11 = json.load(json_file)
 
-        the_ticker = []
-        for ticker in ticker11:
-            soup = bs(ticker['ticker'], 'lxml')
-            text = soup.get_text()
-            if os.path.isfile('data/ofertas/fii/subscricao/' + text + '.json'):
-                new_ticker = ticker['ticker']
+        # the_ticker = []
+        # for ticker in ticker11:
+        #     soup = bs(ticker['ticker'], 'lxml')
+        #     text = soup.get_text()
+        #     if os.path.isfile('data/ofertas/fii/subscricao/' + text + '.json'):
+        #         new_ticker = ticker['ticker']
 
-                with open('data/ofertas/fii/subscricao/'+text+'.json') as json_file:
-                    subs = json.load(json_file)
+        #         with open('data/ofertas/fii/subscricao/'+text+'.json') as json_file:
+        #             subs = json.load(json_file)
 
-                    teste = []
+        #             teste = []
 
-                    for sub in subs:
-                        if str(request.user.codigo) == str(sub['CodAssessor'].replace('A', '')):
-                            teste.append(sub['CodigoCliente'])
+        #             for sub in subs:
+        #                 if str(request.user.codigo) == str(sub['CodAssessor'].replace('A', '')):
+        #                     teste.append(sub['CodigoCliente'])
 
-                    if len(teste) > 0:
-                        the_ticker.append(ticker)
+        #             if len(teste) > 0:
+        #                 the_ticker.append(ticker)
 
-        # print(the_ticker)
+        # # print(the_ticker)
 
-        if CustomUser.objects.filter(pk=request.user.id, groups__name='Área de Alocação').exists():
-            filtered_offers_by_group = ticker11[:-10]
-            quem = True
-        else:
-            filtered_offers_by_group = the_ticker
-            quem = False
+        # if CustomUser.objects.filter(pk=request.user.id, groups__name='Área de Alocação').exists():
+        #     filtered_offers_by_group = ticker11[:-10]
+        #     quem = True
+        # else:
+        #     filtered_offers_by_group = the_ticker
+        #     quem = False
+
+        scope = [
+        'https://www.googleapis.com/auth/drive',
+        'https://www.googleapis.com/auth/drive.file'
+        ]
+        creds = ServiceAccountCredentials.from_json_keyfile_name('data/apis_google/client_key.json', scope)
+        client = gspread.authorize(creds)
+
+        sheet = client.open('Emissão FII')
+
+        sheet_instance = sheet.get_worksheet(0)
+       
+        records_data = sheet_instance.get_all_records()
 
 
         context = {
-            'ofertas': filtered_offers_by_group,
-            'last_update': last_update,
-            'quem': quem,
+            # 'ofertas': filtered_offers_by_group,
+            # 'last_update': last_update,
+            'googleForm': FiiForm,
+            'ofertas': records_data,
+            # 'quem': quem,
             # Crumbs First Page Config
             'first_page_name': 'Ofertas',
             'first_page_link': '',
@@ -732,6 +751,47 @@ def ofertarvfiiview(request):
 
 
         return render(request, 'offers/rv/fii/list_view.html', context)
+# ADD FII GOOOGLE SHETS
+def addFii(request):
+    scope = [
+        'https://www.googleapis.com/auth/drive',
+        'https://www.googleapis.com/auth/drive.file'
+        ]
+    creds = ServiceAccountCredentials.from_json_keyfile_name('data/apis_google/client_key.json', scope)
+    client = gspread.authorize(creds)
+
+    sheetadd = client.open('Emissão FII').sheet1
+    row = [
+            
+            request.POST['etapa'],
+            request.POST['fundo'],
+            request.POST['emissao'],
+            request.POST['preco'],
+            request.POST['cotacao'],
+            request.POST['data_base'],
+            request.POST['periodo_de_negociacao'],
+            request.POST['periodo_de_preferencia'],
+            request.POST['periodo_de_sobras'],
+            request.POST['perio_do_publico'],
+            request.POST['prospecto'],
+            request.POST['tipo_de_oferta'],
+            request.POST['preco_e_taxa'],
+            request.POST['data_encerramento'],
+            request.POST['proporcao_de_preferencia'],
+            request.POST['proporcaode_sobras'],
+            request.POST['investimento_minimo'],
+            request.POST['captacao_minima'],
+            request.POST['captacao_maxima'],
+            request.POST['coordenador_lider'],
+            request.POST['data_de_encerramento'],
+            request.POST['metodo_de_rateio'],
+            request.POST['resultado_do_rateio'],
+            
+    ]
+    index = 2
+    sheetadd.insert_row(row, index)
+
+    return redirect('/ofertas/rv/fii/listar/')
 
 @login_required(login_url='/')
 def sendemailrvfii(request, id, ticker):

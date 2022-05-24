@@ -143,3 +143,30 @@ class FiiEditForm(forms.ModelForm):
             'fim_periodo_publico': forms.DateInput(attrs={'type': 'date'}),
             'liquidacao_periodo_publico': forms.DateInput(attrs={'type': 'date'}),
         }
+
+class FiiForm(forms.Form):
+   
+
+    etapa = forms.CharField(label="Etapa", max_length=20, required=False)
+    fundo = forms.CharField(label="Fundo", max_length=20, widget=forms.TextInput(attrs={'onchange':'get_ticker_price(this)'}), required=False)
+    emissao = forms.CharField(label="Emissão", max_length=20, required=False)
+    preco = forms.CharField(label="Preço", max_length=20, widget=forms.TextInput(attrs={'onkeyup':'formatCash(this)'}), required=False)
+    cotacao = forms.CharField(label="Cotação", max_length=20, widget=forms.TextInput(attrs={'onkeyup':'formatCash(this)'}), required=False)
+    data_base = forms.DateField(label="Data-base", widget=forms.TextInput(attrs={'type':'date'}), required=False)
+    periodo_de_negociacao = forms.DateField(label="Período de Negociação", widget=forms.TextInput(attrs={'type':'date'}), required=False)
+    periodo_de_preferencia = forms.DateField(label="Período de Preferência", widget=forms.TextInput(attrs={'type':'date'}), required=False)
+    periodo_de_sobras = forms.DateField(label="Período de Sobras", widget=forms.TextInput(attrs={'type':'date'}), required=False)
+    perio_do_publico = forms.DateField(label="Período Público", widget=forms.TextInput(attrs={'type':'date'}), required=False)
+    prospecto = forms.URLField(label="Prospecto", widget=forms.TextInput(attrs={'placeholder':'http://urldoprospecto.com.br'}), required=False)
+    tipo_de_oferta = forms.CharField(label="Tipo de Oferta", max_length=20, required=False)
+    preco_e_taxa = forms.CharField(label="Preço e Taxa", max_length=20, widget=forms.TextInput(attrs={'onkeyup':'formatCash(this)'}), required=False)
+    data_encerramento = forms.CharField(label="Data Encerramento", max_length=20, widget=forms.TextInput(attrs={'type':'date'}), required=False)
+    proporcao_de_preferencia = forms.CharField(label="Proporção de Preferência", max_length=20, required=False)
+    proporcaode_sobras = forms.CharField(label="Proporção de Sobras", max_length=20, required=False)
+    investimento_minimo = forms.CharField(label="Investimento Mínimo", max_length=20, widget=forms.TextInput(attrs={'onkeyup':'formatCash(this)'}), required=False)
+    captacao_minima = forms.CharField(label="Captação Mínima", max_length=20, widget=forms.TextInput(attrs={'onkeyup':'formatCash(this)'}), required=False)
+    captacao_maxima = forms.CharField(label="Captação Máxima", max_length=20, widget=forms.TextInput(attrs={'onkeyup':'formatCash(this)'}), required=False)
+    coordenador_lider = forms.CharField(label="Coordenador Líder", max_length=20, required=False)
+    data_de_encerramento = forms.DateField(label="Data de Encerramento", widget=forms.TextInput(attrs={'type':'date'}), required=False)
+    metodo_de_rateio = forms.CharField(label="Método de Rateio", max_length=20, required=False)
+    resultado_do_rateio = forms.CharField(label="Resultado do Rateio", max_length=20, required=False)

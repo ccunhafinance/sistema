@@ -66,6 +66,8 @@ urlpatterns = [
 
     #EDIT FII
 
+    # Adicionar TESTE
+    path('adicionarFII', views.addFii, name="add-fii"),
     # Adicionar
     path('rv/fii/adicionar/<str:ticker>/<str:emissor>/', OfferRvFiiCreateView.as_view(), name="create-rv-fii-edit"),
     # Editar
