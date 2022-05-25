@@ -763,7 +763,7 @@ def addFii(request):
     sheetadd = client.open('Emissão FII').sheet1
     row = [
             
-            '',
+            '-',
             request.POST['fundo'],
             request.POST['emissao'],
             request.POST['preco'],
