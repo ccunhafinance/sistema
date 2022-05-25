@@ -10,12 +10,12 @@ from .tasks import *
 main_icon = 'ni ni-grid'
 
 # Load Views
-class DashboardView(LoginRequiredMixin, generic.TemplateView):
-    template_name = "dashboard/base.html"
-    login_url = '/'
+def dashboardView(request):
+ 
+    if request.user.type == 'outros':
+        return redirect('/ofertas/rv/fii/listar/')
+    else:
 
-
-    def get_context_data(self, **kwargs):
         context = {
             # Crumbs First Page Config
             'first_page_name': 'Dashaboard',
@@ -34,7 +34,7 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
             'page_description': ''
         }
 
-        return context
+        return render(request, 'dashboard/base.html', context)
 
 
 def teste(request):

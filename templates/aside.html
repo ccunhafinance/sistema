@@ -55,6 +55,16 @@
         -->
         <ul id="js-nav-menu" class="nav-menu">
 
+            {%if request.user.type == 'outros' %}
+
+            <li class="{% if subtitle == 'Fundos Imobiliários (Fii)' %}active{% endif %}">
+                <a href="{% url 'offers:listar-rv-fii' %}" title="Fundos Imobiliários" data-filter-tags="fundos imobiliários fii">
+                    <span class="nav-link-text" data-i18n="nav.font_icons_nextgen_icons">FII</span>
+                </a>
+            </li>
+
+            {% else %}
+
             <li class="nav-title">Assessores</li>
 
             <li class="{% if page_name == 'Dashboard'  %}active{% endif %}">
@@ -330,12 +340,14 @@
 {#            </li>#}
 
         </ul>
+        {%endif%}
         <div class="filter-message js-filter-message bg-success-600"></div>
+
     </nav>
     <!-- END PRIMARY NAVIGATION -->
 
     <!-- NAV FOOTER -->
-    <div class="nav-footer shadow-top">
+    {% comment %} <div class="nav-footer shadow-top">
         <a href="#" onclick="return false;" data-action="toggle" data-class="nav-function-minify" class="hidden-md-down">
             <i class="ni ni-chevron-right"></i>
             <i class="ni ni-chevron-right"></i>
@@ -357,6 +369,6 @@
                 </a>
             </li>
         </ul>
-    </div>
+    </div> {% endcomment %}
     <!-- END NAV FOOTER -->
 </aside>

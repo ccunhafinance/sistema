@@ -17,6 +17,15 @@
         i.value = 'R$ '+v;
     }
 
+      {# FORMAT VALUE INTO PERCENTAGE #}
+      function formatPercent(i) {
+        var v = i.value.replace(/\D/g,'');
+        v = (v/100).toFixed(2) + '';
+        v = v.replace(".", ",");
+        v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
+        i.value = v+'%';
+    }
+
      $("#js-sweetalert2-example-16").on("click", function()
     {
         var timerInterval;
