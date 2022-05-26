@@ -6,7 +6,7 @@
   <thead>
       <tr>
           <th>Detalhar</th>
-          <th data-toggle="true">E-mail </th>
+          {% comment %} <th data-toggle="true">E-mail </th> {% endcomment %}
           <th>Etapa</th>
           <th>Fundo</th>
           <th>Emissão</th>
@@ -27,7 +27,6 @@
           <th class="phone">Captação Mínima</th>
           <th class="phone">Captação Máxima</th>
           <th class="phone">Coordenador Líder</th>
-          <th class="phone">Data de Encerramento</th>
           <th class="phone">Método de Rateio</th>
           <th class="phone">Resultado do Rateio</th>
           
@@ -40,8 +39,8 @@
     {%for of in ofertas %}
       <tr>
         <td class="text-center"><i class="ni ni-list fa-2x"></i></td>
-        <td nowrap></td>
-        <td nowrap>{{of.etapa}}</td>
+        {% comment %} <td nowrap></td> {% endcomment %}
+        <td >{{of.etapa}}</td>
         <td nowrap>{{of.fundo}}</td>
         <td nowrap>{{of.emissao}}</td>
         <td nowrap>{{of.preco}}</td>
@@ -61,7 +60,6 @@
         <td nowrap>{{of.captacao_minima}}</td>
         <td nowrap>{{of.captacao_maxima}}</td>
         <td nowrap>{{of.coordenador_lider}}</td>
-        <td nowrap>{{of.data_de_encerramento}}</td>
         <td nowrap>{{of.metodo_de_rateio}}</td>
         <td nowrap>{{of.resultado_do_rateio}}</td>
         

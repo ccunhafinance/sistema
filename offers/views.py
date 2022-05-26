@@ -721,7 +721,7 @@ def ofertarvfiiview(request):
 
         sheet = client.open('Emissão FII')
 
-        sheet_instance = sheet.get_worksheet(0)
+        sheet_instance = sheet.get_worksheet(1)
        
         records_data = sheet_instance.get_all_records()
 
@@ -763,7 +763,7 @@ def addFii(request):
     sheetadd = client.open('Emissão FII').sheet1
     row = [
             
-            '-',
+            str(request.POST.get('fundo', False))+str(request.POST.get('emissao', False)),
             request.POST.get('fundo', False),
             request.POST.get('emissao', False),
             request.POST.get('preco', False),
@@ -787,7 +787,7 @@ def addFii(request):
             request.POST.get('captacao_minima', False),
             request.POST.get('captacao_maxima', False),
             request.POST.get('coordenador_lider', False),
-            request.POST.get('data_de_encerramento', False),
+            '-',
             request.POST.get('metodo_de_rateio', False),
             request.POST.get('resultado_do_rateio', False),
             
