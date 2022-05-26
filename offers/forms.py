@@ -170,6 +170,6 @@ class FiiForm(forms.Form):
     captacao_minima = forms.CharField(label="Captação Mínima", max_length=20, widget=forms.TextInput(attrs={'onkeyup':'formatCash(this)'}), required=False)
     captacao_maxima = forms.CharField(label="Captação Máxima", max_length=20, widget=forms.TextInput(attrs={'onkeyup':'formatCash(this)'}), required=False)
     coordenador_lider = forms.CharField(label="Coordenador Líder", max_length=20, required=False)
-    data_de_encerramento = forms.DateField(label="Data de Encerramento", widget=forms.TextInput(attrs={'type':'date'}), required=False)
+    # data_de_encerramento = forms.DateField(label="Data de Encerramento", widget=forms.TextInput(attrs={'type':'date'}), required=False)
     metodo_de_rateio = forms.CharField(label="Método de Rateio", max_length=20, required=False)
     resultado_do_rateio = forms.CharField(label="Resultado do Rateio", max_length=20, widget=forms.TextInput(attrs={'onkeyup':'formatPercent(this)'}), required=False)
