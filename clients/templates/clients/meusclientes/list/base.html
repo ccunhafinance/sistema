@@ -80,6 +80,23 @@
 
                                             </tr>
                                         </thead>
+                                        <tbody>
+                                            {% for cliente in clientes %}
+                                            {%if request.user.codigo|str_val == cliente.assessor|str_val and cliente.status|str_val == '1'%}
+                                                <tr>
+                                                    <td><a href="{% url "clients:cliente-data"  cliente.cod_cliente %}">{{ cliente.cod_cliente }}</a></td>
+                                                    <td>{{ cliente.nome_completo }}</td>
+                                                    <td>{{ cliente.sexo|default:'' }}</td>
+                                                    <td>{{ cliente.email|default:'' }}</td>
+                                                    <td>{{ cliente.telefone|default:'' }}</td>
+                                                    <td>{{ cliente.data_nascimento|default:'' }}</td>
+                                                    <td>{{ cliente.data_registro|default:'' }}</td>
+                                                </tr>
+                                                {%endif%}
+
+                                            {% endfor %}
+                                        </tbody>
+
 
                                     </table>
                                 </div> 
@@ -102,11 +119,13 @@
                                         </thead>
 
                                         <tbody>
-                                            {% for cliente in inativo %}
+                                            {% for cliente in clientes %}
+
+                                            {%if request.user.codigo|str_val == cliente.assessor|str_val and cliente.status|str_val == '0'%}
 
                                                 <tr>
-                                                    <td>{{ cliente.nickname|default:'' }}</td>
-                                                    <td>{{ cliente.nome|default:'' }}</td>
+                                                    <td>{{ cliente.codigo }}</td>
+                                                    <td></td>
                                                     <td>{{ cliente.sexo|default:'' }}</td>
                                                     <td>{{ cliente.email|default:'' }}</td>
                                                     <td>{{ cliente.telefone|default:'' }}</td>
@@ -114,6 +133,8 @@
                                                     <td>{{ cliente.data_nascimento|default:'' }}</td>
                                                     <td>{{ cliente.data_registro|default:'' }}</td>
                                                 </tr>
+
+                                                {% endif %}
 
                                             {% endfor %}
                                         </tbody>

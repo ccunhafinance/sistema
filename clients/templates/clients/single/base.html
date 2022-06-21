@@ -1,0 +1,231 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load filter_tags %}
+{% load crispy_forms_tags %}
+
+
+<!-- BEGIN page Style -->
+{% block style %}
+     {% include './css/css.html' %}
+    <style>
+        .escondido{
+            display:none
+        }
+    </style>
+{% endblock %}
+<!-- END page Style -->
+
+<!-- BEGIN Page Subheader -->
+{% block subheader %}
+{% endblock %}
+<!-- END page Subheader -->
+
+<!-- BEGIN page content -->
+{% block content %}
+
+
+  <div class="row">
+    
+
+    <div class="col-lg-6 col-xl-6 order-lg-1 order-xl-1">
+        <!-- profile summary -->
+        <div class="card mb-g rounded-top">
+            <div class="row no-gutters row-grid">
+                <div class="col-12">
+                    <div class="d-flex flex-column align-items-center justify-content-center p-4">
+                        <h5 class="mb-0 fw-700 text-center mt-3">
+                          Status: {%if cliente.status == 1%}
+                          <span class="text-success">Ativo</span>
+                          {%else%}
+                          <span class="text-danger">Inativo</span>
+                          {%endif%}
+                          <br>
+                          <br>
+                          {{cliente.nome_completo}}
+                            <small class="text-muted mb-0">{{cliente.primeiro_nome}}</small>
+                            <small class="text-muted mb-0">Sexo: {{cliente.sexo}}</small>
+                        </h5>
+                        <div class="mt-4 text-center demo">
+                          Antigo Assessor<br>
+                          {{cliente.antigo_assessor}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="text-center py-3">
+                        <h5 class="mb-0 fw-700">
+                          {%if cliente.telefone == ''%}
+                          <small>-</small>
+                          {%else%}
+                          <small>{{cliente.telefone}}</small>
+                          {%endif%}
+                          
+                            <small class="text-muted mb-0">Telefone</small>
+                        </h5>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="text-center py-3">
+                        <h5 class="mb-0 fw-700">
+                          <small>{{cliente.email}}</small>
+                            <small class="text-muted mb-0">Email</small>
+                        </h5>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="p-3 text-center">
+                        <a href="javascript:void(0);" class="btn-link font-weight-bold" data-toggle="modal" data-target="#default-example-modal-lg">Editar</a> 
+                       
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <!-- photos -->
+      
+        <!-- contacts -->
+        
+    </div>
+    <div class="col-lg-12 col-xl-6 order-lg-3 order-xl-2">
+
+      <div class="card mb-g">
+        <div class="row row-grid no-gutters">
+            <div class="col-12">
+                <div class="p-3">
+                    <h2 class="mb-0 fs-xl">
+                        R$ (Dias)
+                    </h2>
+                </div>
+            </div>
+            <div class="col-4">
+                <a href="javascript:void(0);" class="text-center p-3 d-flex flex-column hover-highlight">
+                    <span class="profile-image rounded-circle d-block m-auto" style="background-image:url('img/demo/avatars/avatar-b.png'); background-size: cover;">
+                     {%if cliente.d0 == ''%}
+                     R$ 00,00
+                     {%else%}
+                     {{cliente.d0}}
+                     {%endif%}
+                    </span>
+                    <span class="d-block text-truncate text-muted fs-xs mt-1">D0</span>
+                </a>
+            </div>
+            <div class="col-4">
+                <a href="javascript:void(0);" class="text-center p-3 d-flex flex-column hover-highlight">
+                    <span class="profile-image rounded-circle d-block m-auto" style="background-image:url('img/demo/avatars/avatar-c.png'); background-size: cover;">
+                      {%if cliente.d1 == ''%}
+                     R$ 00,00
+                     {%else%}
+                     {{cliente.d1}}
+                     {%endif%}
+                    </span>
+                    <span class="d-block text-truncate text-muted fs-xs mt-1">D1</span>
+                </a>
+            </div>
+            <div class="col-4">
+                <a href="javascript:void(0);" class="text-center p-3 d-flex flex-column hover-highlight">
+                    <span class="profile-image rounded-circle d-block m-auto" style="background-image:url('img/demo/avatars/avatar-a.png'); background-size: cover;">
+                      {%if cliente.d2 == ''%}
+                     R$ 00,00
+                     {%else%}
+                     {{cliente.d2}}
+                     {%endif%}
+                    </span>
+                    <span class="d-block text-truncate text-muted fs-xs mt-1">D2</span>
+                </a>
+            </div>
+            <div class="col-6">
+                <a href="javascript:void(0);" class="text-center p-3 d-flex flex-column hover-highlight">
+                    <span class="profile-image rounded-circle d-block m-auto" style="background-image:url('img/demo/avatars/avatar-e.png'); background-size: cover;">
+                      {%if cliente.d3 == ''%}
+                     R$ 00,00
+                     {%else%}
+                     {{cliente.d3}}
+                     {%endif%}
+                    </span>
+                    <span class="d-block text-truncate text-muted fs-xs mt-1">D3</span>
+                </a>
+            </div>
+            <div class="col-6">
+              <a href="javascript:void(0);" class="text-center p-3 d-flex flex-column hover-highlight">
+                  <span class="profile-image rounded-circle d-block m-auto" style="background-image:url('img/demo/avatars/avatar-e.png'); background-size: cover;">
+                    {%if cliente.d4 == ''%}
+                     R$ 00,00
+                     {%else%}
+                     {{cliente.d4}}
+                     {%endif%}
+                  </span>
+                  <span class="d-block text-truncate text-muted fs-xs mt-1">D4</span>
+              </a>
+          </div>
+            
+        </div>
+    </div>
+
+
+    
+    </div>
+    
+  </div>
+
+
+  <!-- Modal Large -->
+  <div class="modal fade" id="default-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Cliente</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                </button>
+            </div>
+            <form method="POST" action="{% url "clients:cliente-update-sheet" codigo %}">
+              {% csrf_token %}
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Primeiro Nome</label>
+                <input type="text" name="primeiro_nome" class="form-control" value="{{cliente.primeiro_nome}}">
+              </div>
+              <div class="form-group">
+                <label>Nome Completo</label>
+                <input type="text" name="nome_completo" class="form-control" value="{{cliente.nome_completo}}">
+              </div>
+              <div class="form-group">
+                <label>Sexo</label>
+                <select name="sexo" class="form-control">
+                  <option value="">Selecione</option>
+                  <option value="M" {%if cliente.sexo == 'M'%} selected{%endif%}>Masculino</option>
+                  <option value="M" {%if cliente.sexo == 'F'%} selected{%endif%}>Feminino</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Telefone</label>
+                <input type="text" name="telefone" class="form-control" value="{{cliente.telefone}}">
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control" value="{{cliente.email}}">
+              </div>
+              <div class="form-group">
+                <label for="rotina">Rotina</label>
+                <input id="rotina" name="rotina" type="checkbox"  {%if cliente.rotina == '1'%}checked{%endif%}>
+              </div>
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+          </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+<!-- END page content -->
+
+<!-- BEGIN page script -->
+{% block script %}
+
+    {% include './js/js.html' %}
+
+{% endblock %}
+<!-- END page script -->

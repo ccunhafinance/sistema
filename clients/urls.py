@@ -25,6 +25,10 @@ urlpatterns = [
   path('clean-google-contacts/', views.cleanGoogleNames, name="clean-google-contacts"),
   path('atualizar-cliente/<int:pk>/', views.nw_update_client, name="nw-update-client"),
 
+  path('cliente-data/<int:codigo>/', views.cliente, name="cliente-data"),
+  path('cliente-update-sheet/<int:codigo>/', views.edit_sheets_client, name="cliente-update-sheet"),
+
+
 
   path('update_cliente_novo/', views.update_new_cliente, name="update_cliente_novo"),
   path('update_troca_assessor/', views.update_troca_assessor, name="update_troca_assessor"),

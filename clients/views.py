@@ -1,5 +1,6 @@
 # from asyncio.windows_events import NULL
 import json
+import re
 
 from django.core.mail import EmailMessage
 from django.http import HttpResponse, HttpResponseRedirect
@@ -234,48 +235,40 @@ def update_troca_assessor(request):
     return redirect(reverse('clients:clients-onboarding'))
 
 def update_new_cliente(request):
-    rotina = request.POST.get('rotina', False)
-    id = request.POST['id']
+    scope = [
+        'https://www.googleapis.com/auth/drive',
+        'https://www.googleapis.com/auth/drive.file'
+        ]
+    creds = ServiceAccountCredentials.from_json_keyfile_name('data/apis_google/client_key.json', scope)
+    client = gspread.authorize(creds)
 
-    if rotina != False:
-        rotina = True
+    sheetadd = client.open('Geral Online')
+    wks = sheetadd.worksheet('BD Clientes')
+    row = [
+        request.POST.get('codigo', ''),
+        request.POST.get('primeiro_nome', ''),
+        request.POST.get('nome_completo', ''),
+        request.POST.get('sexo', ''),
+        request.POST.get('email', ''),
+        request.POST.get('telefone', ''),
+        request.POST.get('rotina', ''),
+        1,
+        request.user.codigo,
+        '',
+        request.POST.get('data_nascimento', ''),
+        '',
+        '',
+        '',
+        '',
+        '',
+        1,
+        request.POST.get('novo', ''),
+        request.POST.get('troca', ''),
+    ]
+    index = 2
+    wks.insert_row(row, index)
 
-    Clientes.objects.filter(id=id).update(
-        id=id,
-        nome=request.POST['nome'],
-        sexo=request.POST['sexo'],
-        email=request.POST['email'],
-        telefone=request.POST['telefone'],
-        data_nascimento=request.POST['data_nascimento'],
-        rotina=rotina,
-        cliente_dia=True,
-        alldone=True,
-    )
-
-    googleSheetsINEX('Novos Clientes Onboarding',Clientes.objects.get(id=id).nickname, request.POST['sexo'],request.POST['nome'],request.POST['email'])
-    
-    if rotina == True:
-
-        ClientsOnbording(
-                cliente=Clientes.objects.get(id=id),
-                email=False,
-                frequencia_contato='Não Definido',
-                meio_contato='Não Definido',
-                assessor=request.user.codigo,
-                perfil_preenchido=None,
-                acomp_permanente=False,
-                oportunidade_rf=False,
-                oportunidade_acoes=False,
-                oportunidade_fii=False,
-                oportunidade_fundos=False,
-                sujestao=None,
-                alocacao=None,
-                obs=''
-            ).save()
-
-    
-
-    return redirect(reverse('clients:clients-onboarding'))
+    return redirect('/clientes/onboarding/')
 
 @transaction.atomic
 def upload_clientes(request):
@@ -600,9 +593,23 @@ def meusClientes(request):
     inativo = Clientes.objects.filter(status='Inativo',assessor=request.user.codigo)
     n_inativo = len(inativo)
 
+    scope = [
+        'https://www.googleapis.com/auth/drive',
+        'https://www.googleapis.com/auth/drive.file'
+        ]
+    creds = ServiceAccountCredentials.from_json_keyfile_name('data/apis_google/client_key.json', scope)
+    client = gspread.authorize(creds)
+
+    sheet = client.open('Geral Online')
+
+    sheet_instance = sheet.get_worksheet(6)
+    
+    records_data = sheet_instance.get_all_records()
+
+
     context = {
-        'clientes': clientes,
-        'n_clientes': n_clientes,
+        'clientes': records_data,
+        # 'n_clientes': records_data,
         'inativo': inativo,
         'n_inativo': n_inativo,
         # Crumbs First Page Config
@@ -624,34 +631,117 @@ def meusClientes(request):
 
     return render(request, 'clients/meusclientes/list/base.html', context)
 
-# PAGINA ONBOARDING
-def onBording(request):
-    onbording = ClientsOnbording.objects.filter(assessor=request.user.codigo).exclude(is_done=True).order_by('-id')
-    n_onboarding = len(onbording)
-    novos_clientes = Clientes.objects.filter(status='Novo',assessor=request.user.codigo).exclude(cliente_dia=True)
-    inativo = Clientes.objects.filter(status='Inativo',assessor=request.user.codigo)
-    google = Clientes.objects.filter(cliente_dia=True, assessor=request.user.codigo).exclude(alldone=False)
-    n_contatos = len(Clientes.objects.filter(cliente_dia=True, assessor=request.user.codigo).exclude(alldone=False))
-    n_inativo = len(inativo)
-    n_novos_clientes = len(novos_clientes)
-    i = Clientes.objects.filter(troca='interna',assessor=request.user.codigo).exclude(cliente_dia=True)
-    j = Clientes.objects.filter(troca='externa',assessor=request.user.codigo).exclude(cliente_dia=True)
-    troca_interna = len(i)
-    troca_externa = len(j)
+# PAGINA DE UM CLIENTE
+def cliente(request, codigo):
+
+    scope = [
+        'https://www.googleapis.com/auth/drive',
+        'https://www.googleapis.com/auth/drive.file'
+        ]
+    creds = ServiceAccountCredentials.from_json_keyfile_name('data/apis_google/client_key.json', scope)
+    client = gspread.authorize(creds)
+
+    sheet = client.open('Geral Online')
+
+    sheet_instance = sheet.get_worksheet(6)
+    
+    records_data = sheet_instance.get_all_records()
+
+    teste = []
+    for i in records_data:
+        if i['cod_cliente'] == codigo:
+            teste.append(i)
+
+
 
     context = {
-        'n_onboarding': n_onboarding,
-        'onbording': onbording,
-        'inativo': inativo,
-        'n_inativo': n_inativo,
-        'novos_clientes': novos_clientes,
-        'n_novos_clientes': n_novos_clientes,
-        'n_troca_assessor': troca_interna,
-        'n_troca_assessor_externa': troca_externa,
-        'troca_assessor': i,
-        'troca_assessor_externa': j,
-        'contatos': google,
-        'n_contatos': n_contatos,
+        'cliente': teste[0],
+        'codigo':codigo,
+        # Crumbs First Page Config
+        'first_page_name': 'Clientes',
+        'first_page_link': '',
+        # Crumbs Second Page Config
+        'second_page_name': 'Cliente',
+        'second_page_link': '',
+        # Crumbs Third Page Config
+        'third_page_name': '',
+        'third_page_link': '',
+        # Current Page
+        'icon': main_icon,
+        'page_name': 'Cliente',
+        'subtitle': 'Cliente',
+        'sticker': 'Novo',
+        'page_description': 'Dados do Cliente'
+    }
+
+    return render(request, 'clients/single/base.html', context)
+
+
+def edit_sheets_client(request, codigo):
+    scope = [
+        'https://www.googleapis.com/auth/drive',
+        'https://www.googleapis.com/auth/drive.file'
+        ]
+    creds = ServiceAccountCredentials.from_json_keyfile_name('data/apis_google/client_key.json', scope)
+    client = gspread.authorize(creds)
+
+    sheetadd = client.open('Geral Online')
+    wks = sheetadd.worksheet('BD Clientes')
+    row = [
+        codigo,
+        request.POST.get('primeiro_nome', ''),
+        request.POST.get('nome_completo', ''),
+        request.POST.get('sexo', ''),
+        request.POST.get('email', ''),
+        request.POST.get('telefone', ''),
+        request.POST.get('rotina', ''),
+        request.user.codigo
+    ]
+    index = 2
+    wks.insert_row(row, index)
+
+    return redirect('/clientes/cliente-data/'+str(codigo))
+
+# PAGINA ONBOARDING
+def onBording(request):
+    # onbording = ClientsOnbording.objects.filter(assessor=request.user.codigo).exclude(is_done=True).order_by('-id')
+    # n_onboarding = len(onbording)
+    # novos_clientes = Clientes.objects.filter(status='Novo',assessor=request.user.codigo).exclude(cliente_dia=True)
+    # inativo = Clientes.objects.filter(status='Inativo',assessor=request.user.codigo)
+    # google = Clientes.objects.filter(cliente_dia=True, assessor=request.user.codigo).exclude(alldone=False)
+    # n_contatos = len(Clientes.objects.filter(cliente_dia=True, assessor=request.user.codigo).exclude(alldone=False))
+    # n_inativo = len(inativo)
+    # n_novos_clientes = len(novos_clientes)
+    # i = Clientes.objects.filter(troca='interna',assessor=request.user.codigo).exclude(cliente_dia=True)
+    # j = Clientes.objects.filter(troca='externa',assessor=request.user.codigo).exclude(cliente_dia=True)
+    # troca_interna = len(i)
+    # troca_externa = len(j)
+
+    clientes = Clientes.objects.filter(assessor=request.user.codigo).exclude(status='Inativo')
+    n_clientes = len(clientes)
+    inativo = Clientes.objects.filter(status='Inativo',assessor=request.user.codigo)
+    n_inativo = len(inativo)
+
+    scope = [
+        'https://www.googleapis.com/auth/drive',
+        'https://www.googleapis.com/auth/drive.file'
+        ]
+    creds = ServiceAccountCredentials.from_json_keyfile_name('data/apis_google/client_key.json', scope)
+    client = gspread.authorize(creds)
+
+    sheet = client.open('Geral Online')
+
+    sheet_instance = sheet.get_worksheet(9)
+    
+    records_data = sheet_instance.get_all_records()
+
+    sheet_instance_rotina = sheet.get_worksheet(6)
+    
+    rotina = sheet_instance_rotina.get_all_records()
+
+    context = {
+        'clientes': records_data,
+        'rotina': rotina,
         # Crumbs First Page Config
         'first_page_name': 'Clientes',
         'first_page_link': '',

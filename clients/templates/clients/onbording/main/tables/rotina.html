@@ -25,11 +25,13 @@
 
       <tbody>
 
-        {% for cliente in onbording %}
+        {% for cliente in rotina %}
 
-          <tr id="row_id_{{ cliente.cliente_id }}">
-              <td>{{ cliente.cliente_id|getCodeClient }}</td>
-              <td>{{ cliente.cliente_id|getNameClient|split:' '|first }}</td>
+      {% if cliente.rotina == 1 %}
+
+          <tr id="row_id_{{ cliente.cod_cliente }}">
+              <td>{{ cliente.cod_cliente }}</td>
+              <td>{{ cliente.primeiro_nome }}</td>
 
               <td class='text-center'> 
                   <a href="javascript:void(0);" class="btn btn-default btn-sm btn-icon waves-effect waves-themed thisButton" >
@@ -39,7 +41,7 @@
               
 
               <td>
-                  <select class="form-control" id="frequencia_contato"  name="frequencia_contato"  onchange="updateOnbording('{{ cliente.cliente_id }}','frequenciaContato', this)">
+                  <select class="form-control" id="frequencia_contato"  name="frequencia_contato"  onchange="updateOnbording('{{ cliente.cod_cliente }}','frequenciaContato', this)">
                       <option value="Não Definido" {%if cliente.frequencia_contato == "Não Definido"%} selected{%endif%}>Não Definido</option>
                       <option value="1 mes" {%if cliente.frequencia_contato == "1 mes"%} selected{%endif%}>1 mes</option>
                       <option value="3 meses" {%if cliente.frequencia_contato == "3 meses"%} selected{%endif%}>3 meses</option>
@@ -49,7 +51,7 @@
               </td>
 
               <td class="text-center">
-                  <a href="javascript:void(0);" class="btn {%if cliente.id|check_preenchido == 'vazio'%} btn-default {%else%} btn-success {%endif%} btn-sm btn-icon waves-effect waves-themed thisButton" onclick="updateOnbording('{{ cliente.cliente_id }}','perfilPreenchido', 1)">
+                  <a href="javascript:void(0);" class="btn {%if cliente.id|check_preenchido == 'vazio'%} btn-default {%else%} btn-success {%endif%} btn-sm btn-icon waves-effect waves-themed thisButton" onclick="updateOnbording('{{ cliente.cod_cliente }}','perfilPreenchido', 1)">
                       {%if cliente.id|check_preenchido == 'vazio'%}
                       <i class="fal fa-times"></i>
                       {%else%}
@@ -59,7 +61,7 @@
               </td>
 
               <td>
-                  <select id="zap_mail" class="form-control" name="zap_mail" required onchange="updateOnbording('{{ cliente.cliente_id }}','meioDeContato', this)">
+                  <select id="zap_mail" class="form-control" name="zap_mail" required onchange="updateOnbording('{{ cliente.cod_cliente }}','meioDeContato', this)">
                       <option value="Não Definido" {% if cliente.meio_contato == 'Não Definido' %} selected {% endif %}>Não Definido</option>
                       <option value="WhatsApp" {% if cliente.meio_contato == 'WhatsApp' %} selected {% endif %}>WhatsApp</option>
                       <option value="Telefone" {% if cliente.meio_contato == 'Telefone' %} selected {% endif %}>Telefone</option>
@@ -68,7 +70,7 @@
               </td>
 
               <td class="text-center">
-                  <a href="javascript:void(0);" class="btn {%if cliente.acomp_permanente == False %}btn-default{%else%}btn-success{%endif%} btn-sm btn-icon waves-effect waves-themed thisButtonToggle btnFalse" onclick="updateOnbording('{{ cliente.cliente_id }}','acompanhamentoPermanente', 1)">
+                  <a href="javascript:void(0);" class="btn {%if cliente.acomp_permanente == False %}btn-default{%else%}btn-success{%endif%} btn-sm btn-icon waves-effect waves-themed thisButtonToggle btnFalse" onclick="updateOnbording('{{ cliente.cod_cliente }}','acompanhamentoPermanente', 1)">
                       {%if cliente.acomp_permanente == False %}
                       <i class="fal fa-times"></i>
                       {%else%}
@@ -79,11 +81,11 @@
               </td>
 
               <td class="text-center">
-                <button onclick="getClientcode('{{ cliente.cliente_id|getCodeClient }}')" type="button" class="btn btn-default" data-toggle="modal" data-target="#questionario-modal">Questionário</button>
+                <button onclick="getClientcode('{{ cliente.cod_cliente }}')" type="button" class="btn btn-default" data-toggle="modal" data-target="#questionario-modal">Questionário</button>
               </td>
               
               <td class="text-center">
-                  <a href="javascript:void(0);" class="btn {%if cliente.id|check_sugestao == 'vazio'%} btn-default{%else%} btn-success {%endif%} btn-sm btn-icon waves-effect waves-themed thisButton btnFalse" onclick="updateOnbording('{{ cliente.cliente_id }}','sugestao', 1)">
+                  <a href="javascript:void(0);" class="btn {%if cliente.id|check_sugestao == 'vazio'%} btn-default{%else%} btn-success {%endif%} btn-sm btn-icon waves-effect waves-themed thisButton btnFalse" onclick="updateOnbording('{{ cliente.cod_cliente }}','sugestao', 1)">
                       {%if cliente.id|check_sugestao == 'vazio' %}
                       <i class="fal fa-times"></i>
                       {%else%}
@@ -93,7 +95,7 @@
               </td>
 
               <td class="text-center">
-                  <a href="javascript:void(0);" class="btn {%if cliente.id|check_alocacao == 'vazio'%} btn-default{%else%} btn-success {%endif%} btn-sm btn-icon waves-effect waves-themed thisButton btnFalse" onclick="updateOnbording('{{ cliente.cliente_id }}','alocacao', 1)">
+                  <a href="javascript:void(0);" class="btn {%if cliente.id|check_alocacao == 'vazio'%} btn-default{%else%} btn-success {%endif%} btn-sm btn-icon waves-effect waves-themed thisButton btnFalse" onclick="updateOnbording('{{ cliente.cod_cliente }}','alocacao', 1)">
                       {%if cliente.id|check_alocacao == 'vazio'%}
                       <i class="fal fa-times"></i>
                       {%else%}
@@ -107,10 +109,12 @@
               </td>
 
               <td>
-                    <button class="btn btn-success btn-sm js-sweetalert2-example-7" onclick="rotinaDone('{{cliente.cliente_id}}')">Concluir</button>
+                    <button class="btn btn-success btn-sm js-sweetalert2-example-7" onclick="rotinaDone('{{cliente.cod_cliente}}')">Concluir</button>
               </td>
               
           </tr>
+
+          {%endif%}
 
         {% endfor %}
 
