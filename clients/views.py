@@ -245,7 +245,7 @@ def update_new_cliente(request):
     sheetadd = client.open('Geral Online')
     wks = sheetadd.worksheet('BD Clientes')
     row = [
-        request.POST.get('codigo', ''),
+        int(request.POST.get('codigo', '')),
         request.POST.get('primeiro_nome', ''),
         request.POST.get('nome_completo', ''),
         request.POST.get('sexo', ''),
