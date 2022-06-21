@@ -264,6 +264,10 @@ def update_new_cliente(request):
         1,
         request.POST.get('novo', ''),
         request.POST.get('troca', ''),
+        date.today(),
+        date.today(),
+        'sim'
+        
     ]
     index = 2
     wks.insert_row(row, index)
@@ -695,7 +699,21 @@ def edit_sheets_client(request, codigo):
         request.POST.get('email', ''),
         request.POST.get('telefone', ''),
         request.POST.get('rotina', ''),
-        request.user.codigo
+        1,
+        request.user.codigo,
+        '',
+        request.POST.get('data_nascimento', ''),
+        '',
+        '',
+        '',
+        '',
+        '',
+        1,
+        request.POST.get('novo', ''),
+        request.POST.get('troca', ''),
+        date.today(),
+        date.today(),
+        'sim'
     ]
     index = 2
     wks.insert_row(row, index)
