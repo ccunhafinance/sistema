@@ -246,7 +246,7 @@ def update_new_cliente(request):
     wks = sheetadd.worksheet('BD Clientes')
     data_atual = date.today()
     data_em_texto = '{}/{}/{}'.format(data_atual.day, data_atual.month,data_atual.year)
-    dnasce = request.POST.get('data_nascimento', '')
+    dnasce = str(request.POST['data_nascimento'])
     nascimento = '{}/{}/{}'.format(dnasce.day, data_atual.month,data_atual.year)
     row = [
         int(request.POST['codigo']),
