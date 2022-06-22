@@ -246,6 +246,8 @@ def update_new_cliente(request):
     wks = sheetadd.worksheet('BD Clientes')
     data_atual = date.today()
     data_em_texto = '{}/{}/{}'.format(data_atual.day, data_atual.month,data_atual.year)
+    dnasce = request.POST.get('data_nascimento', '')
+    nascimento = '{}/{}/{}'.format(dnasce.day, data_atual.month,data_atual.year)
     row = [
         int(request.POST['codigo']),
         request.POST.get('primeiro_nome', ''),
@@ -257,7 +259,7 @@ def update_new_cliente(request):
         1,
         request.user.codigo,
         '',
-        request.POST.get('data_nascimento', ''),
+        nascimento,
         '',
         '',
         '',
@@ -696,6 +698,8 @@ def edit_sheets_client(request, codigo):
 
     data_atual = date.today()
     data_em_texto = '{}/{}/{}'.format(data_atual.day, data_atual.month,data_atual.year)
+    dnasce = request.POST.get('data_nascimento', '')
+    nascimento = '{}/{}/{}'.format(dnasce.day, data_atual.month,data_atual.year)
     row = [
         codigo,
         request.POST.get('primeiro_nome', ''),
@@ -707,7 +711,7 @@ def edit_sheets_client(request, codigo):
         1,
         request.user.codigo,
         '',
-        request.POST.get('data_nascimento', ''),
+        nascimento,
         '',
         '',
         '',
