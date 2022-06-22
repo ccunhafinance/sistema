@@ -244,6 +244,8 @@ def update_new_cliente(request):
 
     sheetadd = client.open('Geral Online')
     wks = sheetadd.worksheet('BD Clientes')
+    data_atual = date.today()
+    data_em_texto = '{}/{}/{}'.format(data_atual.day, data_atual.month,data_atual.year)
     row = [
         int(request.POST['codigo']),
         request.POST.get('primeiro_nome', ''),
@@ -264,8 +266,8 @@ def update_new_cliente(request):
         1,
         request.POST.get('novo', ''),
         request.POST.get('troca', ''),
-        date.today(),
-        date.today(),
+        request.POST.get('data_registro', ''),
+        data_em_texto,
         'sim'
         
     ]
@@ -691,6 +693,9 @@ def edit_sheets_client(request, codigo):
 
     sheetadd = client.open('Geral Online')
     wks = sheetadd.worksheet('BD Clientes')
+
+    data_atual = date.today()
+    data_em_texto = '{}/{}/{}'.format(data_atual.day, data_atual.month,data_atual.year)
     row = [
         codigo,
         request.POST.get('primeiro_nome', ''),
@@ -711,8 +716,8 @@ def edit_sheets_client(request, codigo):
         1,
         request.POST.get('novo', ''),
         request.POST.get('troca', ''),
-        date.today(),
-        date.today(),
+        data_em_texto,
+        data_em_texto,
         'sim'
     ]
     index = 2
