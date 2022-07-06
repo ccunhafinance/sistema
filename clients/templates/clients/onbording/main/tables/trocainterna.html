@@ -8,30 +8,28 @@
     <thead>
         <tr>
             <th>Código</th>
-            <th>Primeiro Nome</th>
-            <th>Nome Completo</th>
+            <th>Nome</th>
             <th>Sexo</th>
             <th>Assessor</th>
             <th>Antigo Assessor</th>
             <th>Rotina</th>
+            <th>Data</th>
             <th>Ações</th>
         </tr>
     </thead>
 
     <tbody>
 
-        {% for troca in clientes %}
-        {% if cliente.assessor|str_val == request.user.codigo|str_val and cliente.transferencia == 'Interna'  %}
+        {% for troca in troca_assessor %}
+
             <tr>
-                <td>{{ troca.codigo }}</td>
-                
+                <td>{{ troca.nickname }}</td>
 
                 <form method="post" action="{% url 'clients:update_troca_assessor' %}">
 
                     {% csrf_token %}
-                    <input  hidden value="0" name="novo">
-                    <input  hidden value="Interna" name="troca">
-                   
+
+                    <input hidden name='assessor' value='{{troca.assessor}}'>
 
                     <td><input name="nome" class="form-control" value="{{ troca.nome|lower|capfirst }}"></td>
 
@@ -42,15 +40,17 @@
                     <td>{{ troca.antigo_assessor }}</td>
 
                     <td class="text-center">
+                        <input name="id" hidden value="{{ troca.id }}">
                         <input type="checkbox" style="margin-top: 15px" name="rotina" value="1" checked >
                     </td>
 
+                    <td>{{ troca.data_registro|date:'d/m/Y H:s:i' }} </td>
 
                     <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
 
                 </form>
             </tr>
-        {%endif%}
+
         {% endfor %}
 
     </tbody>

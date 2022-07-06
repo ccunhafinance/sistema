@@ -1,0 +1,62 @@
+{% extends 'index.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+<!-- BEGIN page style -->
+{% block style %}
+{% endblock %}
+<!-- END page style -->
+
+<!-- BEGIN Page Subheader -->
+{% block subheader %}
+{% endblock %}
+<!-- END page Subheader -->
+
+<!-- BEGIN page content -->
+{% block content %}
+
+    <div id="js-page-content-demopanels">
+        <div class="col-xl-12">
+            <div id="panel-1" class="panel">
+                <div class="panel-hdr">
+                    <h2>
+                        Formulário de Edição de Ofertas Rv Direito de Subscrição <span class="fw-300"><i></i></span>
+                        {{ context }}
+                    </h2>
+
+                </div>
+
+                <div class="panel-container show">
+                    <div class="panel-content">
+                        <form method="post">
+                            <div class="row">
+
+                                <div class="col-xl-4">
+                                    <H1>Ofertas</H1>
+                                    <hr>
+
+                                    <div class="shadow p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4 ">
+                                        {% csrf_token %}
+                                        {{ form|crispy }}
+                                        <button type="submit" class="btn btn-sm btn-warning waves-effect waves-themed">Atualizar</button>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+<!-- END page content -->
+
+<!-- BEGIN page script -->
+{% block script %}
+{#    {% include './js/edit_view_js.html' %}#}
+{% endblock %}
+<!-- END page script -->

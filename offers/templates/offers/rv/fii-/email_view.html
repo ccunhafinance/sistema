@@ -1,0 +1,514 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load filter_tags %}
+<!-- BEGIN page style -->
+{% block style %}
+    {% include './css/email_view_css.html' %}
+
+    <style>
+    .error{
+        color:#ce2323;
+    }
+    .isDisable {
+          {#color: currentColor;#}
+          cursor: not-allowed;
+          opacity: 0.5;
+          text-decoration: none;
+          pointer-events: none;
+        }
+    </style>
+{% endblock %}
+<!-- END page style -->
+
+<!-- BEGIN Page Subheader -->
+{% block subheader %}
+{% endblock %}
+<!-- END page Subheader -->
+
+<!-- BEGIN page content -->
+{% block content %}
+{#<div class="ml-auto">#}
+{#    <a href="javascript:void(0);" class="btn btn-sm btn-outline-primary mr-2" id="deletesettingskey-options">Clear settings key</a>#}
+{#    <a href="javascript:void(0);" class="btn btn-sm btn-outline-primary mr-2" id="deletepositionkey-options">Clear position key</a>#}
+{#    <a href="javascript:void(0);" class="btn btn-sm btn-outline-danger mr-2" data-action="factory-reset">Clear all storage keys</a>#}
+{#</div>#}
+
+<div class="row">
+
+{#<button type="button" class="btn btn-" onclick="get_emails_enviados()">tetse</button>#}
+    {#  DADOS DA OFERTA  #}
+    <div class="col-md-12">
+        <div id="panel-1" class="panel panel-locked" data-panel-lock="false" data-panel-close="false"    data-panel-locked="false" data-panel-refresh="false" >
+            <div class="panel-hdr">
+                <h2>
+                    Dados da Oferta <span class="fw-300"><i></i></span>
+                </h2>
+
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content" id="dados_da_oferta">
+                    <table  class="table  table-responsive table-hover table-bordered table-sm">
+                        <thead class="text-center">
+                            <tr>
+                                <th nowrap rowspan="2">Ticker</th>
+                                <th nowrap rowspan="2">ICVM</th>
+                                <th nowrap rowspan="2">Total por Cota</th>
+                                <th nowrap rowspan="2">Valor mínimo</th>
+                                <th nowrap rowspan="2">Preço</th>
+                                <th nowrap rowspan="2">Cotação</th>
+                                <th nowrap colspan="3">Direitos dos Cotistas</th>
+                                <th nowrap colspan="3">Fase Direito de Preferência</th>
+                                <th nowrap colspan="3">Fase Sobras Dir. de Preferência</th>
+                                <th nowrap colspan="3">Fase Pública</th>
+                                
+                               
+                                
+                              
+                            </tr>
+                            <tr>
+                                
+                                <th nowrap>Preferência</th>
+                                <th nowrap>Negociável</th>
+                                <th nowrap>Data Com</th>
+                                <th nowrap>Início</th>
+                                <th nowrap>Término</th>
+                                <th nowrap>Liquidação</th>
+                                <th nowrap>Início</th>
+                                <th nowrap>Término</th>
+                                <th nowrap>Liquidação</th>
+                                <th nowrap>Início</th>
+                                <th nowrap>Término</th>
+                                <th nowrap>Liquidação</th>
+                               
+                            </tr>
+                           
+                        </thead>
+                        <tbody>
+                        
+
+                                    <td nowrap> {{ oferta.ticker|replace_documentacao|safe }}<br>
+                                        {%if oferta.ticker|getjustnamefii|takeoff11|grab_fii_name != "" %}
+                                        <small>{{oferta.ticker|getjustnamefii|takeoff11|grab_fii_name}}</small>
+                                        {%endif%}
+                                    </td>
+                                    <td 
+                                    
+                                    {%if oferta.icvm == 'Ofertas aguardando anúncio de início:'%} 
+                                        style="position:absolute; border:none;background:#f1c40f"
+                                    {%endif%}
+
+                                    {%if oferta.icvm == 'Ofertas Encerradas'%} 
+                                        style="position:absolute; border:none;background:#e74c3c"
+                                    {%endif%}
+
+                                    {%if oferta.icvm == 'Ofertas Canceladas'%} 
+                                        style="position:absolute; border:none;background:#c0392b"
+                                    {%endif%}
+                                    
+                                    >
+
+                                    {%if oferta.icvm == 'Ofertas aguardando anúncio de início:'%} 
+                                        <span style="color:#fff">{{oferta.icvm}}</span>
+                                    {%elif oferta.icvm == 'Ofertas Encerradas'%} 
+                                        <span style="color:#fff">{{oferta.icvm}}</span>
+                                    {%elif oferta.icvm == 'Ofertas Canceladas'%} 
+                                        <span style="color:#fff">{{oferta.icvm}}</span>
+                                    {%else%}
+                                        {{oferta.icvm}}<br>
+                                        
+
+                                    {%endif%}
+
+                                       
+                                    </td>
+                                    <td nowrap>{{oferta.totaldecotas}}</td>
+                                    <td nowrap>{{oferta.valorminimo}}</td>
+                                    <td nowrap>{{oferta.cotacao}}</td>
+                                    <td nowrap>{{oferta.cotacaooferta|tiraporcentagem|safe}}</td>
+                                    <td nowrap>{{oferta.preferencia}}</td>
+                                    <td nowrap>{{oferta.negociaveil}}</td>
+                                    <td nowrap>
+                                    <span class="text-muted">
+                                        {{oferta.datacom}}
+                                    </span>
+                                    </td>
+                                   
+                                    <td nowrap>
+                                        <span class="{{  oferta.Dinicio|checkdatainicio:oferta.Dtermino }}">
+                                            {{oferta.Dinicio}}
+                                        </span>
+                                    </td>
+
+                                    <td nowrap>
+                                        <span class="{{ oferta.Dinicio|checkdatainicio:oferta.Dtermino }}">
+                                            {{oferta.Dtermino}}
+                                        </span>
+                                    </td>
+                                    <td nowrap>
+                                        {{oferta.Dliquidacao|checkdata|safe}}
+                                    </td>
+                                    <td nowrap>
+                                        <span class="{{ oferta.Finicio|checkdatainicio:oferta.Ftermino }}">
+                                            {{oferta.Finicio}}
+                                        </span>
+                                    </td>
+                                    <td nowrap>
+                                        <span class="{{ oferta.Finicio|checkdatainicio:oferta.Ftermino }}">
+                                            {{oferta.Ftermino}}
+                                        </span>
+                                    </td>
+                                    <td nowrap>
+                                        {{oferta.Fliquidacao|checkdata|safe}}
+                                    </td>
+                                    <td nowrap>
+                                        <span class="{{  oferta.Pinicio|checkdatainicio:oferta.Ptermino }}">
+                                            {{oferta.Pinicio}}
+                                        </span>
+                                    </td>
+                                    <td nowrap>
+                                        <span class="{{  oferta.Pinicio|checkdatainicio:oferta.Ptermino }}">
+                                            {{oferta.Ptermino}}
+                                        </span>
+                                    </td>
+                                    <td nowrap>{{oferta.Pliquidacao|checkdata|safe}}</td>
+
+                                   
+                                    
+                                   
+                                </tr>
+                         
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# MENSAGEM  #}
+    <div class="col-md-12">
+        <div id="panel-1" class="panel panel-locked" data-panel-lock="false" data-panel-close="false"    data-panel-locked="false" data-panel-refresh="false" >
+            <div class="panel-hdr">
+                <h2>
+                    Mensagem <span class="fw-300"><i></i></span>
+                </h2>
+
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content" id="dados_da_oferta">
+                    <b>Etapa:</b> 
+
+                        {%if oferta.Dinicio|checkdatainicio:oferta.Dtermino == 'text-info'%}
+                            Fase Direito de Preferência
+                        {%endif%}
+                        
+                        {% if '<span class="text-danger">' in oferta.Dliquidacao|checkdata %}
+                            Fase Direito de Preferência (Liquidação)
+                        {%endif%}
+
+                        {%if oferta.Finicio|checkdatainicio:oferta.Ftermino == 'text-info'%}
+                            Fase Sobras Dir. de Preferência
+                        {%endif%}
+                        {% if '<span class="text-danger">' in oferta.Fliquidacao|checkdata %}
+                            Fase Sobras Dir. de Preferência (Liquidação)
+                        {%endif%}
+
+                        {%if oferta.Pinicio|checkdatainicio:oferta.Ptermino == 'text-info'%}
+                            Fase Pública
+                        {%endif%}
+                        {% if '<span class="text-danger">' in oferta.Pliquidacao|checkdata %}
+                            Fase Pública (Liquidação)
+                        {%endif%}
+
+
+                     <br><br>
+                    <b>Mensagem:</b>
+
+                        <p id='display' onClick='copyText(this)'></p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# LISTA DE CLIENTES  #}
+    <div class="col-md-12">
+        <div id="panel-4" class="panel panel-locked" data-panel-lock="false" data-panel-close="false"    data-panel-locked="false" data-panel-refresh="false" >
+            <div class="panel-hdr">
+                <h2>
+                    Lista de clientes vinculados a esta oferta <span class="fw-300"><i></i></span>
+                </h2>
+
+            </div>
+            <div class="panel-container show">
+
+
+                <div class="panel-content">
+
+                    <input type="text" class="form-control form-control-sm m-b-xs" id="filter" placeholder="Procurar...">
+                    <p class="m-0">
+                        Clientes espelhados com você: <i class="fas fa-wifi-1 text-danger fa-3x "> </i><br>
+                        Última atualização do preço de mercado: <b>{{preco_merc}} {{data_merc|date:'d/m/Y'}} as {{hora_merc}}</b>
+                        
+                        
+                    </p>
+
+                    <br>
+                    <table id="ceo" class="sortable table table-bordered table-hover table-striped w-100 table-sm" data-s>
+                        <thead>
+                            <tr>
+                                <th>E-mail</th>
+                                <th>Assessor</th>
+                                <th>Cod. Cliente</th>
+                                <th>Nome Cliente</th>
+                                <th>Telefone <i class="fab fa-whatsapp"></i></th>
+                                <th>Qtd. de Cotas</th>
+                                <th>Valor Financeiro</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="tablemail">
+                            {% for cliente in clientes %}
+
+                                {% if request.user.id|str_val == cliente.CodAssessor|get_assessor_id|str_val or cliente.CodAssessor|get_assessor_id|check_espelhamento_fii:request.user.id == 'True' %}
+                                    <tr class="item">
+                                        <td class="text-center">
+                                            <a href="" onclick="get_values(
+                                                    '{{ request.user.id }}',
+                                                    '{{ cliente.CodAssessor|get_assessor_id }}',
+                                                    '{{ cliente.CodigoCliente|get_cliente_first_nome|split:' '|first  }}',
+                                                    '{{ cliente.CodigoCliente }}', 
+                                                    '{{ cliente.QuantidadeDisponivel }}', 
+                                                    '{{ oferta.totaldecotas|calc_val_financeiro:cliente.QuantidadeDisponivel|moeda }}',
+                                                    '{{ request.user.id|get_user_fii_data }}',
+                                                    '{{ cliente.CodAssessor }} - {{ cliente.CodAssessor|get_assessor_fii_data }}'
+                                                    ,'{{cliente.CodigoCliente|get_client_email}}'
+                                                )" 
+                                                
+                                                data-toggle="modal" data-target=".default-example-modal-left-lg"><span class="ni ni-envelope fa-2x" style="z-index: 999999"></span></a>
+                                        </td>
+                                        <td>
+                                            {% if cliente.CodAssessor|get_assessor_id != request.user.id|str_val %}
+                                                <span class="text-danger">{{ cliente.CodAssessor }} - <small>{{ cliente.CodAssessor|get_assessor_fii_data }}</small></span>
+                                            {% else %}
+                                                {{ cliente.CodAssessor }} - <small>{{ cliente.CodAssessor|get_assessor_fii_data }}</small>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ cliente.CodigoCliente }}</td>
+                                        <td>{{ cliente.CodigoCliente|get_cliente_nome|title }}</td>
+                                        <td><a style="color:#25D366; text-decoration: none" href="https://api.whatsapp.com/send?phone={{cliente.CodigoCliente|getzapClean}}&amp;text={{ saldacao }}, {{ cliente.CodigoCliente|get_cliente_first_nome|split:' '|first  }}" target="_blank" rel="noopener">{{cliente.CodigoCliente|getzap}}</a></td>
+                                        <td>{{ cliente.QuantidadeDisponivel }}</td>
+                                        <td>{{ oferta.totaldecotas|calc_val_financeiro:cliente.QuantidadeDisponivel|moeda }}</td>
+                                        <td class="text-center">
+                                            {%if cliente.Status == "" %}
+                                                {%if cliente.CodigoCliente|check_email_sent:ticker|date:'d/m/Y H:i:s'%}
+                                                    <span class="text-success">Email Enviado</span>
+                                                {%else%}
+                                                    <i class="fal fa-minus-circle text-danger text-center"></i>
+                                                {%endif%}
+                                            {%else%}
+                                                <span class="text-info">{{cliente.Status}}</span>
+                                            {%endif%}
+                                            
+                                        </td>
+                                       
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div id="panel-4" class="panel panel-locked" data-panel-lock="false" data-panel-close="false"    data-panel-locked="false" data-panel-refresh="false" >
+            <div class="panel-hdr">
+                <h2>
+                    Registro de e-mails enviados <span class="fw-300"><i></i></span>
+                </h2>
+
+            </div>
+            <div class="panel-container show">
+
+
+                <div class="panel-content">
+
+                    <input type="text" class="form-control form-control-sm m-b-xs" id="filter" placeholder="Procurar...">
+                    <br>
+
+
+                    <table id="tabela_enviados" class="table table-bordered table-hover table-striped w-100 table-sm">
+                        <thead>
+                            <tr>
+                                {% comment %} <th>Ver</th> {% endcomment %}
+                                <th>Cliente</th>
+                                <th>Enviado Por</th>
+                                <th>Remetente</th>
+                                <th>Preço de Mercado</th>
+                                <th>Preço da Oferta</th>
+                                <th>Qtd.</th>
+                                <th>Valor Financeiro</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {%for registro in registro_email%}
+                                <tr>
+                                    {% comment %} <td><i class="fa fa-eye text-success"></i></td> {% endcomment %}
+                                    <td>{{registro.cliente}} - <small>{{registro.cliente|get_cliente_first_nome}}</small><br><small>{{registro.email}}</small></td>
+                                    <td>{{registro.enviado_por|get_user_code_name}}</td>
+                                    <td>{{registro.remetente|get_user_code_name}}</td>
+                                    <td>{{registro.preco_mercado|format_preco}}<br><small>{{registro.data_prec_mercado|date:'d/m/Y'}}</small></td>
+                                    <td>{{registro.preco_oferta|format_preco}}</td>
+                                    <td>{{registro.quantidade}}</td>
+                                    <td>{{registro.preco_oferta|val_fim_calc:registro.quantidade}}</td>
+                                    <td>{{registro.data_envio|date:'d/m/Y'}}<br>{{registro.data_envio|date:'H:i:s'}}</td>
+                                </tr>
+                            {%endfor%}
+                        </tbody>
+
+                       
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade default-example-modal-left-lg" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-left modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title h4">Pré Visualização do E-mail </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+
+                    </button>
+
+                </div>
+
+
+                <div class="modal-body">
+                    {#  PRÉ VIZUALIZAÇÃO DO EMAIL   #}
+                    <div class="form-group">
+
+                    
+                        <form method="POST" action="{% url 'offers:envia-email-fii' %}">
+                            {% csrf_token %}
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                            <button type="submit" class="btn btn-success">Enviar</button>
+
+                            <hr>
+                            <div class="form-group">
+                                <label><b>Remetente</b></label>
+                                <select id="remetente" class="form-control especial_form" name="remetente" onchange="">
+                                    <div id="opcoes">
+                                    </div>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label><b>Digite um email</b></label>
+                                <input type="email" class="form-control" name="emailteste">
+                            </div>
+                            <input hidden  class="form-control" type="text"  id="remete">
+                            <input hidden  class="form-control" type="text" name="id_oferta" id="id_oferta" value='{{oferta.id}}'>
+                            <input hidden  class="form-control" type="text" name="enviado_por" id="enviado_por" value='{{request.user.id}}'>
+                            <input hidden  class="form-control" type="text" id="ticker" name="ticker" value="{{ oferta.ticker|getjustnamefii }}">
+                            <input hidden  class="form-control" type="text" id="assunto" name="assunto" value="Confirmação de reserva da Oferta Pública {{ oferta.ticker|getjustnamefii }} - {{ oferta.ticker|getjustnamefii|takeoff11|grab_fii_name }} ">
+                            <textarea hidden  class="form-control" id="emai_text" name="corpo_email"></textarea>
+                            <input hidden  class="form-control" type="text" id="emaildocliente" name="emaildocliente" >
+                            <input hidden  class="form-control" type="text" name="responsavel" id="responsavel">
+                            <input hidden type="text" name="preco_merc" value="{{preco_merc}}">
+                            <input hidden type="text" name="data_merc" value="{{data_merc|date:'Y-m-d'}}">
+                            <input hidden type="text" name="preco_oferta" value="{{oferta.totaldecotas}}">
+                            <input hidden type="text" name="form_cod_cliente" id="form_cod_cliente" >
+                            <input hidden type="text" name="qtd" id="qtd" >
+                        </form>
+                    </div>
+
+                    <div class="panel-container show">
+                        <div class="panel-content" id="email_body">
+
+                            {{ saldacao }},
+
+                            <span id='text_nome'> <span class="text-danger b-1">[NOME DO CLIENTE]</span> </span>.
+                            <br><br>
+
+                            Gostaria de confirmar a reserva de compra no seu código <span id='text_code'> <span class="text-danger b-1">[CÓDIGO DO CLIENTE]</span> </span> na XP:
+                            <br><br>
+                            Oferta: {{ oferta.ticker|getjustnamefii }} - {{ oferta.ticker|getjustnamefii|takeoff11|grab_fii_name }}
+                            <br><br>
+                            Quantidade de cotas: <span id='text_quantidade'> <span class="text-danger b-1">[QUANTIDADE]</span> </span>
+                            <br><br>
+                            Valor da cota: {{ oferta.totaldecotas}}
+                            <br><br>
+                            Valor Financeiro: <span id='text_valor_financeiro'> <span class="text-danger b-1">[VALOR FINANCEIRO]</span> </span>
+                            <br><br>
+                            Observações importantes: Para adesão à reserva é expressamente recomendada a leitura integral do Prospecto da Oferta Pública, onde constam todas as demais informações sobre a Oferta, incluindo os riscos envolvidos na operação. Para consultar o prospecto clique 
+                            <a href='{{oferta.ticker|getcliqueaqui}}' target="_blank">aqui</a>
+                            <br><br>
+                            Aguardo a sua confirmação para realizar a reserva.
+
+                            <br>
+                            <br>
+
+                            {% include '../../assinaturaemail.html' %}
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+    </div>
+</div>
+
+
+
+
+
+</div>
+
+{% endblock %}
+<!-- END page content -->
+
+<!-- BEGIN page script -->
+{% block script %}
+    {% include './js/email_view_js.html' %}
+
+  <script>
+function copyText(element) {
+  var range, selection, worked;
+
+  if (document.body.createTextRange) {
+    range = document.body.createTextRange();
+    range.moveToElementText(element);
+    range.select();
+  } else if (window.getSelection) {
+    selection = window.getSelection();
+    range = document.createRange();
+    range.selectNodeContents(element);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+
+  try {
+    document.execCommand('copy');
+    alert('Mensagem Copiada!');
+  }
+  catch (err) {
+    alert('unable to copy text');
+  }
+}
+</script>
+
+{% endblock %}
+<!-- END page script -->

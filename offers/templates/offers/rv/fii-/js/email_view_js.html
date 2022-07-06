@@ -1,0 +1,88 @@
+{% load static %}
+{% load filter_tags %}
+<script src="{% static 'js/formplugins/validate/jquery.validate.min.js' %}"></script>
+<script src="{% static 'js/notifications/sweetalert2/sweetalert2.bundle.js' %}"></script>
+<script src="{% static 'js/datagrid/datatables/datatables.bundle.js' %}"></script>
+
+
+<script type="text/javascript">
+
+    function get_values(user_id,id_ass,nome,codigo,qtd,valFim, user_info, espelho_info, client_email){
+        document.getElementById('text_nome').innerHTML = nome
+        document.getElementById('text_code').innerHTML = codigo
+        document.getElementById('text_quantidade').innerHTML = qtd
+        document.getElementById('text_valor_financeiro').innerHTML = valFim
+        document.getElementById('emai_text').value = document.getElementById('email_body').innerHTML;
+        document.getElementById('remete').value = user_id;
+        document.getElementById('enviado_por').value = user_id;
+        document.getElementById('responsavel').value = id_ass;
+        document.getElementById('emaildocliente').value = client_email;
+
+
+        document.getElementById('form_cod_cliente').value = codigo;
+        document.getElementById('qtd').value = qtd;
+
+
+
+        $(document).ready(function(){
+
+             if (id_ass === user_id){
+                $( '#remetente' ).html('<option value="'+user_id+'" selected>'+user_info+'</option>');
+            }else{
+                $('#remetente').html('<option value="'+user_id+'" selected>A'+user_info+'</option>'+'<option value="'+id_ass+'">'+espelho_info+'</option>');
+            }
+        });
+
+    }
+
+    function formatCash(i) {
+        var v = i.value.replace(/\D/g,'');
+        v = (v/100).toFixed(2) + '';
+        v = v.replace(".", ",");
+        v = v.replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,");
+        v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
+        i.value = "R$ "+v;
+    }
+
+    function formatPercent(i) {
+        var v = i.value.replace(/\D/g,'');
+        v = (v/100).toFixed(2) + '';
+        v = v.replace(".", ",");
+        v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
+        i.value = v+'%';
+    }
+
+    $(document).ready(function(){
+
+        $("#filter").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#tablemail tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+
+        $('#remetente').on('change', function() {
+            var infos = this.value.split('-', 2)
+            {#document.getElementById('email_from').value = infos[2]#}
+            {#document.getElementById('remetente_name').value = #}
+            $('#remetente_name').html(infos[1]);
+            document.getElementById('emai_text').value = document.getElementById('email_body').innerHTML;
+            document.getElementById('remete').value = this.value;
+
+          {#alert( this.value );#}
+        });
+
+    });
+
+  
+  
+    
+
+    
+
+  
+
+   
+
+
+</script>

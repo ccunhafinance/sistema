@@ -721,7 +721,7 @@ def ofertarvfiiview(request):
 
         sheet = client.open('Emissão FII')
 
-        sheet_instance = sheet.get_worksheet(1)
+        sheet_instance = sheet.get_worksheet(0)
        
         records_data = sheet_instance.get_all_records()
 
@@ -763,32 +763,29 @@ def addFii(request):
     sheetadd = client.open('Emissão FII').sheet1
     row = [
             
-            str(request.POST.get('fundo', ''))+str(request.POST.get('emissao', '')),
-            request.POST.get('fundo', ''),
-            request.POST.get('emissao', ''),
-            request.POST.get('preco', ''),
-            request.POST.get('cotacao', ''),
-            request.POST.get('data_base', ''),
-            request.POST.get('periodo_de_negociacao_inicial', ''),
-            request.POST.get('periodo_de_negociacao_final', ''),
-            request.POST.get('periodo_de_preferencia_inicial', ''),
-            request.POST.get('periodo_de_preferencia_final', ''),
-            request.POST.get('periodo_de_sobras_inicial', ''),
-            request.POST.get('periodo_de_sobras_final', ''),
-            request.POST.get('perio_do_publico_inicial', ''),
-            request.POST.get('perio_do_publico_final', ''),
-            request.POST.get('prospecto', ''),
-            request.POST.get('tipo_de_oferta', ''),
-            request.POST.get('preco_e_taxa', ''),
-            request.POST.get('data_encerramento', ''),
-            request.POST.get('proporcao_de_preferencia', ''),
-            request.POST.get('proporcaode_sobras', ''),
-            request.POST.get('investimento_minimo', ''),
-            request.POST.get('captacao_minima', ''),
-            request.POST.get('captacao_maxima', ''),
-            request.POST.get('coordenador_lider', ''),
-            request.POST.get('metodo_de_rateio', ''),
-            request.POST.get('resultado_do_rateio', ''),
+            request.POST['etapa'],
+            request.POST['fundo'],
+            request.POST['emissao'],
+            request.POST['preco'],
+            request.POST['cotacao'],
+            request.POST['data_base'],
+            request.POST['periodo_de_negociacao'],
+            request.POST['periodo_de_preferencia'],
+            request.POST['periodo_de_sobras'],
+            request.POST['perio_do_publico'],
+            request.POST['prospecto'],
+            request.POST['tipo_de_oferta'],
+            request.POST['preco_e_taxa'],
+            request.POST['data_encerramento'],
+            request.POST['proporcao_de_preferencia'],
+            request.POST['proporcaode_sobras'],
+            request.POST['investimento_minimo'],
+            request.POST['captacao_minima'],
+            request.POST['captacao_maxima'],
+            request.POST['coordenador_lider'],
+            request.POST['data_de_encerramento'],
+            request.POST['metodo_de_rateio'],
+            request.POST['resultado_do_rateio'],
             
     ]
     index = 2

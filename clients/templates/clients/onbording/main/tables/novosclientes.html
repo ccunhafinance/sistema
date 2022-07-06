@@ -7,34 +7,32 @@
       <thead>
           <tr>
               <th>Código</th>
-              <th>Primeiro Nome</th>
-              <th>Completo Nome</th>
+              <th>Nome</th>
               <th>Sexo</th>
               <th>E-mail</th>
               <th>Telefone</th>
               <th>Nascimento</th>
               <th>Rotina</th>
+              <th>Data</th>
               <th>Atualizar</th>
           </tr>
       </thead>
 
       <tbody>
 
-          {% for cliente in clientes %}
+          {% for cliente in novos_clientes %}
 
-            {% if cliente.assessor|str_val == request.user.codigo|str_val and cliente.novo == 1  %}
+
               <tr>
                   <form method="post" action="{% url 'clients:update_cliente_novo' %}">
 
                       {% csrf_token %}
                       
-                      
-                      <input  hidden value="1" name="novo">
-                      <input  hidden value="0" name="troca">
+                      <input hidden name='assessor' value='{{cliente.assessor}}'>
 
-                      <td class="text-center"><span style="margin-top: 150px">{{ cliente.codigo }}</span> <input  hidden value="{{ cliente.codigo }}" name="codigo"></td>
-                      <td><input   type="text" class="form-control" name="primeiro_nome" value="{{ cliente.primeiro_nome}}" required></td>
-                      <td><input   type="text" class="form-control" name="nome_completo" value="{{ cliente.nome_completo}}" required></td>
+
+                      <td class="text-center"><span style="margin-top: 150px">{{ cliente.nickname }}</span> <input  hidden value="{{ cliente.id }}" name="id"></td>
+                      <td><input   type="text" class="form-control" name="nome" value="{{ cliente.nome}}" required></td>
                       <td>
                           <select class="form-control" name="sexo" required>
                               <option value="">Definir</option>
@@ -43,17 +41,18 @@
                           </select>
                       </td>
                       <td><input type="email" class="form-control" name="email" value="{{ cliente.email|default:'' }}" required></td>
-                      <td><input type="text" class="form-control" name="telefone"  value="{{ cliente.telefone|default:'' }}" required></td>
+                      <td><input type="text" class="form-control" name="telefone" data-inputmask="'mask': '99 99999-9999'" value="{{ cliente.telefone|default:'' }}" required></td>
                       <td>
-                      <input type="date" class="form-control" name="data_nascimento"  required>
+                      <input type="date" class="form-control" name="data_nascimento" value="{{ cliente.data_nascimento|format_aniversario}}" required>
                       </td>
                       <td class="text-center">
                           <input type="checkbox" style="margin-top: 15px" name="rotina" value="1" checked>
                       </td>
+                      <td>{{ cliente.data_registro|date:'d/m/Y H:s:i' }}</td>
                       <td><button type="submit" class="btn btn-sm btn-warning" value="">Atualizar</button></td>
                   </form>
               </tr>
-            {%endif%}
+
 
           {% endfor %}
 

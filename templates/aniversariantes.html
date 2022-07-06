@@ -1,11 +1,7 @@
 {% load static %}
 {% load filter_tags %}
 
-{%if request.user.type != 'outros'%}
-
 <a href="{% url 'tarefas:tarefas-main' %}" class="header-icon bounceIn" >
     <i class="fal fa-gift"></i>
     <span class="badge badge-icon">{{request.user.codigo|niverDay}}</span>
 </a>
-
-{%endif%}

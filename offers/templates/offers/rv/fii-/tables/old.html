@@ -1,0 +1,75 @@
+{% load static %}
+{% load filter_tags %}
+{% load crispy_forms_tags %}
+
+<table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100 table-sm">
+  <thead>
+      <tr>
+          <th>Detalhar</th>
+          <th data-toggle="true">E-mail </th>
+          <th>Etapa</th>
+          <th>Fundo</th>
+          <th>Emissão</th>
+          <th>Preço</th>
+          <th>Cotação</th>
+          <th>Data-base</th>
+          <th>Período de Negociação</th>
+          <th>Período de Preferência</th>
+          <th>Período de Sobras</th>
+          <th>Período Público</th>
+          <th>Prospecto</th>
+          <th class="phone">Tipo de Oferta</th>
+          <th class="phone">Preço e Taxa</th>
+          <th class="phone">Data Encerramento</th>
+          <th class="phone">Proporção de Preferência</th>
+          <th class="phone">Proporção de Sobras</th>
+          <th class="phone">Investimento Mínimo</th>
+          <th class="phone">Captação Mínima</th>
+          <th class="phone">Captação Máxima</th>
+          <th class="phone">Coordenador Líder</th>
+          <th class="phone">Data de Encerramento</th>
+          <th class="phone">Método de Rateio</th>
+          <th class="phone">Resultado do Rateio</th>
+          
+
+      </tr>
+  </thead>
+
+  <tbody>
+
+    {%for of in ofertas %}
+      <tr>
+        <td class="text-center"><i class="ni ni-list fa-2x"></i></td>
+        <td nowrap></td>
+        <td nowrap>{{of.etapa}}</td>
+        <td nowrap>{{of.fundo}}</td>
+        <td nowrap>{{of.emissao}}</td>
+        <td nowrap>{{of.preco}}</td>
+        <td nowrap>{{of.cotacao}}</td>
+        <td nowrap>{{of.data_base}}</td>
+        <td nowrap>{{of.periodo_de_negociacao}}</td>
+        <td nowrap>{{of.periodo_de_preferencia}}</td>
+        <td nowrap>{{of.periodo_de_sobras}}</td>
+        <td nowrap>{{of.perio_do_publico}}</td>
+        <td nowrap>{{of.prospecto}}</td>
+        <td nowrap>{{of.tipo_de_oferta}}</td>
+        <td nowrap>{{of.preco_e_taxa}}</td>
+        <td nowrap>{{of.data_encerramento}}</td>
+        <td nowrap>{{of.proporcao_de_preferencia}}</td>
+        <td nowrap>{{of.proporcaode_sobras}}</td>
+        <td nowrap>{{of.investimento_minimo}}</td>
+        <td nowrap>{{of.captacao_minima}}</td>
+        <td nowrap>{{of.captacao_maxima}}</td>
+        <td nowrap>{{of.coordenador_lider}}</td>
+        <td nowrap>{{of.data_de_encerramento}}</td>
+        <td nowrap>{{of.metodo_de_rateio}}</td>
+        <td nowrap>{{of.resultado_do_rateio}}</td>
+        
+
+      </tr>
+      {%endfor%}
+  </tbody>
+
+</table>
+
+

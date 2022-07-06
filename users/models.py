@@ -59,7 +59,6 @@ class CustomUser(AbstractUser, PermissionsMixin):
         developer = "developer", "Developer"
         assessor = "assessor", "Assessor"
         admin = "admin", "Admin"
-        outros = "outros", "Outros"
 
     class Sex(models.TextChoices):
         masculino = "M", "Masculino"
