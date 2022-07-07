@@ -1,0 +1,31 @@
+<ul class="nav nav-tabs" role="tablist">
+                    
+  <li class="nav-item">
+      <a href="{% url 'tarefas:aniversarios' %}" class="nav-link {% if pageAt == 'aniversarios' %} active {%endif%} fs-xs py-1 px-2"  >
+          <i class="fal fa-gift text-primary"></i>
+          <span class="hidden-sm-down ml-1">Aniversário  </span>
+      </a>
+  </li>
+  
+  <li class="nav-item">
+      <a href="{% url 'tarefas:vencimentorf' %}" class="nav-link {% if pageAt == 'vencimentorf' %} active {%endif%} fs-xs py-1 px-2"  >
+          <i class="fal fa-engine-warning text-warning"></i>
+          <span class="hidden-sm-down ml-1">Vencimento Renda Fixa </span>
+      </a>
+  </li>
+
+  <li class="nav-item">
+      <a href="{% url 'tarefas:saldonegativo' %}" class="nav-link {% if pageAt == 'saldonegativo' %} active {%endif%} fs-xs py-1 px-2"  >
+          <i class="fal fa-minus-circle text-danger"></i>
+          <span class="hidden-sm-down ml-1">Saldo Negativo </span>
+      </a>
+  </li>
+
+  <li class="nav-item">
+      <a href="{% url 'tarefas:saldopositivo' %}" class="nav-link {% if pageAt == 'saldopositivo' %} active {%endif%} fs-xs py-1 px-2" >
+          <i class="fal fa-plus-circle text-success"></i>
+          <span class="hidden-sm-down ml-1">Saldo Positivo </span>
+      </a>
+  </li>
+
+</ul>

@@ -17,7 +17,7 @@ from clients.forms import ModalForm
 
 main_icon = 'fal fa-tasks'
 
-def mainPageTarefas(request):
+def aniversarios(request):
     hj = date.today()
 
     hora = datetime.now()
@@ -47,7 +47,6 @@ def mainPageTarefas(request):
     # print(len(vencimento))
 
    
-
     context = {
         'saldacao': saldacao,
         'clientes': clientes,
@@ -55,6 +54,7 @@ def mainPageTarefas(request):
         'negativos': negativo,
         'positivos': positivo,
         'modalform': ModalForm,
+        'pageAt': 'aniversarios',
         # Crumbs First Page Config
         'first_page_name': 'Tarefas',
         'first_page_link': '',
@@ -72,7 +72,178 @@ def mainPageTarefas(request):
         'page_description': ''
     }
 
-    return render(request, 'tarefas/main/base.html', context)
+    return render(request, 'tarefas/main/aniversarios.html', context)
+
+def vencimentorf(request):
+    hj = date.today()
+
+    hora = datetime.now()
+
+    if hora.hour >= 6 and hora.hour < 12:
+        saldacao = 'Bom dia'
+    elif hora.hour > 12 and hora.hour < 18:
+        saldacao = 'Boa tarde'
+    else:
+        saldacao = 'Boa noite'
+
+    clientes = Clientes.objects.filter(assessor=request.user.codigo, data_nascimento__month=hj.month).order_by('data_nascimento__day')
+
+    list_of_files = glob.glob('data/files/vencimentoRF/*')
+    xls = max(list_of_files, key=os.path.getctime)
+
+    with open('data/files/vencimentoRF/vencimento.json') as json_file:
+        vencimento = json.load(json_file)
+
+    with open('data/files/vencimentoRF/saldoNegativo.json') as json_file:
+        negativo = json.load(json_file)
+
+    with open('data/files/vencimentoRF/saldoPositivo.json') as json_file:
+        positivo = json.load(json_file)
+
+
+    # print(len(vencimento))
+
+   
+    context = {
+        'saldacao': saldacao,
+        'clientes': clientes,
+        'vencimento': vencimento,
+        'negativos': negativo,
+        'positivos': positivo,
+        'modalform': ModalForm,
+        'pageAt': 'vencimentorf',
+        # Crumbs First Page Config
+        'first_page_name': 'Tarefas',
+        'first_page_link': '',
+        # Crumbs Second Page Config
+        'second_page_name': 'Tarefas',
+        'second_page_link': '',
+        # Crumbs Third Page Config
+        'third_page_name': '',
+        'third_page_link': '',
+        # Current Page
+        'icon': main_icon,
+        'page_name': 'Tarefas',
+        'subtitle': '',
+        'sticker': '',
+        'page_description': ''
+    }
+
+    return render(request, 'tarefas/main/vencimentorf.html', context)
+
+def saldonegativo(request):
+    hj = date.today()
+
+    hora = datetime.now()
+
+    if hora.hour >= 6 and hora.hour < 12:
+        saldacao = 'Bom dia'
+    elif hora.hour > 12 and hora.hour < 18:
+        saldacao = 'Boa tarde'
+    else:
+        saldacao = 'Boa noite'
+
+    clientes = Clientes.objects.filter(assessor=request.user.codigo, data_nascimento__month=hj.month).order_by('data_nascimento__day')
+
+    list_of_files = glob.glob('data/files/vencimentoRF/*')
+    xls = max(list_of_files, key=os.path.getctime)
+
+    with open('data/files/vencimentoRF/vencimento.json') as json_file:
+        vencimento = json.load(json_file)
+
+    with open('data/files/vencimentoRF/saldoNegativo.json') as json_file:
+        negativo = json.load(json_file)
+
+    with open('data/files/vencimentoRF/saldoPositivo.json') as json_file:
+        positivo = json.load(json_file)
+
+
+    # print(len(vencimento))
+
+   
+    context = {
+        'saldacao': saldacao,
+        'clientes': clientes,
+        'vencimento': vencimento,
+        'negativos': negativo,
+        'positivos': positivo,
+        'modalform': ModalForm,
+        'pageAt': 'saldonegativo',
+        # Crumbs First Page Config
+        'first_page_name': 'Tarefas',
+        'first_page_link': '',
+        # Crumbs Second Page Config
+        'second_page_name': 'Tarefas',
+        'second_page_link': '',
+        # Crumbs Third Page Config
+        'third_page_name': '',
+        'third_page_link': '',
+        # Current Page
+        'icon': main_icon,
+        'page_name': 'Tarefas',
+        'subtitle': '',
+        'sticker': '',
+        'page_description': ''
+    }
+
+    return render(request, 'tarefas/main/saldonegativo.html', context)
+
+def saldopositivo(request):
+    hj = date.today()
+
+    hora = datetime.now()
+
+    if hora.hour >= 6 and hora.hour < 12:
+        saldacao = 'Bom dia'
+    elif hora.hour > 12 and hora.hour < 18:
+        saldacao = 'Boa tarde'
+    else:
+        saldacao = 'Boa noite'
+
+    clientes = Clientes.objects.filter(assessor=request.user.codigo, data_nascimento__month=hj.month).order_by('data_nascimento__day')
+
+    list_of_files = glob.glob('data/files/vencimentoRF/*')
+    xls = max(list_of_files, key=os.path.getctime)
+
+    with open('data/files/vencimentoRF/vencimento.json') as json_file:
+        vencimento = json.load(json_file)
+
+    with open('data/files/vencimentoRF/saldoNegativo.json') as json_file:
+        negativo = json.load(json_file)
+
+    with open('data/files/vencimentoRF/saldoPositivo.json') as json_file:
+        positivo = json.load(json_file)
+
+
+    # print(len(vencimento))
+
+   
+    context = {
+        'saldacao': saldacao,
+        'clientes': clientes,
+        'vencimento': vencimento,
+        'negativos': negativo,
+        'positivos': positivo,
+        'modalform': ModalForm,
+        'pageAt': 'saldopositivo',
+        # Crumbs First Page Config
+        'first_page_name': 'Tarefas',
+        'first_page_link': '',
+        # Crumbs Second Page Config
+        'second_page_name': 'Tarefas',
+        'second_page_link': '',
+        # Crumbs Third Page Config
+        'third_page_name': '',
+        'third_page_link': '',
+        # Current Page
+        'icon': main_icon,
+        'page_name': 'Tarefas',
+        'subtitle': '',
+        'sticker': '',
+        'page_description': ''
+    }
+
+    return render(request, 'tarefas/main/saldopositivo.html', context)
 
 def regitroVencimentoRF(request):
     data = RegitroVencimentoRF(
@@ -139,7 +310,6 @@ def clientesPositivos(request):
             ])
 
     return JsonResponse({"data": positivos})
-
 
 def clientesNegativos(request):
     hj = date.today()

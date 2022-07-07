@@ -1,0 +1,132 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load filter_tags %}
+{% load crispy_forms_tags %}
+
+
+<!-- BEGIN page Style -->
+{% block style %}
+     {% include './css/css.html' %}
+    <style>
+        .escondido{
+            display:none
+        }
+    </style>
+{% endblock %}
+<!-- END page Style -->
+
+<!-- BEGIN Page Subheader -->
+{% block subheader %}
+
+
+   
+
+{% endblock %}
+<!-- END page Subheader -->
+
+<!-- BEGIN page content -->
+{% block content %}
+
+
+
+    <div id="js-page-content-demopanels">
+        <div class="col-xl-12">
+
+            <div class="loader"></div>
+            <div id="panel-1" class="panel">
+
+                
+                <div class="panel-hdr">
+                    <h2>
+                        Lista de Tarefas <span class="fw-300"><i></i></span>
+                    </h2>
+                </div>
+
+              
+                  
+                <div class="panel-container show">
+                    <div class="panel-content">
+                       
+                        <!-- datatable start -->
+
+                        
+                        <div class="demo-v-spacing">
+
+                            
+
+                            {% include './menu.html' %}
+
+
+
+                               
+                                 {% include './tables/saldonegativo.html' %} 
+
+                              
+
+                              
+
+                          
+
+                        </div>
+
+                        <!-- datatable end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <textarea hidden id="foo">
+    {% for contato in contatos %}
+
+        <tr>
+            <td>{{ contato.nome|split:' '|first }} {{ contato.nome|split:' '|last }} {{ contato.nickname }}</td>
+            <td>{{ contato.telefone }}</td>
+        </tr>
+
+    {% endfor %}
+    </textarea>
+
+    {# modal observacoes#}
+    <div class="modal fade" id="default-example-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        Adicionar Observaçao ao usuário
+                        {# <small class="m-0 text-muted">#}
+                                {# Below is a static modal example#}
+                                {#</small>#}
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" hidden id="pegaid">
+                    <textarea class="form-control" rows="4" cols="50" id="modl_obs"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary"  data-dismiss="modal" onclick="salvarObs()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'clients/perfil/update_modal/base.html' %}
+
+
+{% endblock %}
+<!-- END page content -->
+
+<!-- BEGIN page script -->
+{% block script %}
+
+    {% include './js/js.html' %}
+
+{% endblock %}
+<!-- END page script -->
+
+
