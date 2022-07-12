@@ -76,8 +76,14 @@ def nw_update_client(request, pk):
             next = request.POST.get('next', '/')
             return HttpResponseRedirect(next)
 
+    atividades = RegistroAtividades.objects.filter(cliente_id=pk)
+    rotinas = ClientsOnbording.objects.filter(cliente_id=pk)
+
     context = {
         'form': form,
+        'cliente': cliente,
+        'atividades': atividades,
+        'rotinas': rotinas,
         # Crumbs First Page Config
         'first_page_name': 'Clientes',
         'first_page_link': '',
